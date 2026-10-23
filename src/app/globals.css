@@ -1,0 +1,178 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --color-apsen-blue: #0a13b6;
+  --color-apsen-blue-d: #070d81;
+  --color-apsen-blue-bg: #eef1fc;
+  --color-apsen-blue-light: #ccdaf2;
+  --color-apsen-teal: #0077be;
+  --color-apsen-teal-bg: #e6f2fa;
+  --color-apsen-teal-light: #99cde8;
+  --color-apsen-slate: #141414;
+  --color-apsen-slate-2: #1d1d1d;
+  --color-apsen-slate-3: #404040;
+  --color-apsen-muted: #6f6f6f;
+  --color-apsen-muted-2: #8a8a8a;
+  --color-apsen-border: #e1e1e1;
+  --color-apsen-bg: #fafafa;
+  --color-apsen-white: #ffffff;
+  --color-apsen-green: #18a957;
+  --color-apsen-green-bg: #e7f1ea;
+  --color-apsen-green-b: #81c17e;
+  --color-apsen-yellow: #f4cf3d;
+  --color-apsen-yellow-bg: #fdf4de;
+  --color-apsen-yellow-b: #f4cf3d;
+  --color-apsen-red: #d63434;
+  --color-apsen-red-bg: #fae9e9;
+  --color-apsen-red-b: #d63434;
+  --color-apsen-orange: #dd7443;
+  --color-apsen-orange-bg: #fff1ea;
+  --color-apsen-orange-soft: #fff7ed;
+  --color-apsen-orange-b: #fed7aa;
+  --color-apsen-purple: #7c3aed;
+  --color-apsen-purple-bg: #f5f3ff;
+  --color-apsen-purple-b: #c4b5fd;
+
+  --color-apsen-hover: #f8fafc;
+  --color-apsen-row-hover: #fafbfc;
+  --color-apsen-cyan: #0891b2;
+  --color-apsen-teal-hover: #0d6b63;
+  --color-apsen-purple-hover: #6d28d9;
+  --color-apsen-overlay: rgba(15, 23, 42, 0.42);
+  --color-apsen-warning-fg: #92400e;
+  --color-apsen-success-fg: #14532d;
+  --color-apsen-danger-fg: #991b1b;
+
+  --color-apsen-kpi-blue: #eef3ff;
+  --color-apsen-kpi-red: #fef2f2;
+  --color-apsen-kpi-green: #f0fdf4;
+  --color-apsen-kpi-orange: #fff7ed;
+
+  --color-apsen-ch-google: #3b82f6;
+  --color-apsen-ch-meta: #6366f1;
+  --color-apsen-ch-linkedin: #8b5cf6;
+  --color-apsen-ch-email: #f59e0b;
+  --color-apsen-ch-tiktok: #10b981;
+  --color-apsen-ch-extra: #ef4444;
+
+  --spacing-sidebar: 252px;
+  --spacing-topbar: 64px;
+
+  --radius-apsen: 8px;
+  --radius-apsen-lg: 16px;
+  --radius-apsen-pill: 24px;
+
+  --shadow-apsen-sm: 0 2px 4px 0 rgba(20, 20, 20, 0.08);
+  --shadow-apsen: 0 4px 4px 0 rgba(20, 20, 20, 0.08);
+  --shadow-apsen-md: 0 6px 10px 0 rgba(20, 20, 20, 0.08);
+  --shadow-apsen-hover: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-apsen-tab: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-apsen-focus: 0 0 0 3px rgba(27, 78, 201, 0.1);
+  --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.12);
+  --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.18);
+
+  --default-transition-duration: 140ms;
+  --default-transition-timing-function: ease;
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+  --color-apsen-blue: #7c87f5;
+  --color-apsen-blue-d: #5a66e8;
+  --color-apsen-blue-bg: #1b2050;
+  --color-apsen-blue-light: #2e3680;
+  --color-apsen-teal: #4fb3e8;
+  --color-apsen-teal-bg: #0e2a3b;
+  --color-apsen-teal-light: #1f5675;
+  --color-apsen-slate: #f2f2f2;
+  --color-apsen-slate-2: #e6e6e6;
+  --color-apsen-slate-3: #c7c7c7;
+  --color-apsen-muted: #a3a3a3;
+  --color-apsen-muted-2: #8a8a8a;
+  --color-apsen-border: #2c2e33;
+  --color-apsen-bg: #111214;
+  --color-apsen-white: #1a1b1f;
+  --color-apsen-green: #3dd68c;
+  --color-apsen-green-bg: #12301f;
+  --color-apsen-green-b: #2e7d4f;
+  --color-apsen-yellow: #f4cf3d;
+  --color-apsen-yellow-bg: #3a3115;
+  --color-apsen-yellow-b: #8a7420;
+  --color-apsen-red: #f06565;
+  --color-apsen-red-bg: #3a1717;
+  --color-apsen-red-b: #a33a3a;
+  --color-apsen-orange: #f08f5e;
+  --color-apsen-orange-bg: #3a2216;
+  --color-apsen-orange-soft: #2e1c12;
+  --color-apsen-orange-b: #7a4426;
+  --color-apsen-purple: #a78bfa;
+  --color-apsen-purple-bg: #2a1f4a;
+  --color-apsen-purple-b: #5b45a8;
+  --color-apsen-hover: #22242a;
+  --color-apsen-row-hover: #202126;
+  --color-apsen-cyan: #22b8d6;
+  --color-apsen-teal-hover: #3a9bcf;
+  --color-apsen-purple-hover: #8f6ef5;
+  --color-apsen-overlay: rgba(0, 0, 0, 0.6);
+  --color-apsen-warning-fg: #fcd34d;
+  --color-apsen-success-fg: #86efac;
+  --color-apsen-danger-fg: #fca5a5;
+  --color-apsen-kpi-blue: #1b2050;
+  --color-apsen-kpi-red: #3a1717;
+  --color-apsen-kpi-green: #12301f;
+  --color-apsen-kpi-orange: #3a2216;
+  --shadow-apsen-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-apsen: 0 4px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-apsen-md: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
+  --shadow-apsen-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
+  --shadow-apsen-tab: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
+}
+
+@layer base {
+  body {
+    @apply h-screen overflow-hidden bg-apsen-bg font-sans text-[14px] text-apsen-slate;
+    line-height: normal;
+  }
+
+  svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+@utility focus-ring {
+  @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-apsen-blue;
+}
+
+@utility surface {
+  @apply mb-[16px] rounded-apsen-lg border border-apsen-border bg-apsen-white px-[22px] py-[20px] shadow-apsen-sm;
+}
+
+@utility field-focus {
+  @apply outline-none focus:border-apsen-blue focus:shadow-apsen-focus;
+}
+
+@utility page-title {
+  @apply text-[18px] font-bold leading-[1.2] text-apsen-slate;
+}
+
+@utility page-sub {
+  @apply mt-[3px] text-[12.5px] text-apsen-muted;
+}
+
+@utility kpi-grid {
+  @apply mb-[20px] grid grid-cols-4 gap-[14px] max-[800px]:grid-cols-2 max-[560px]:grid-cols-1;
+}
+
+@utility state-block {
+  @apply px-[24px] py-[48px] text-center text-apsen-muted;
+}

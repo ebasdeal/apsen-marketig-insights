@@ -1,0 +1,46 @@
+import { themeInitScript } from '@presentation/theme/themeInitScript';
+import { renderToStaticMarkup } from 'react-dom/server';
+import RootLayout, { metadata } from '../layout';
+
+const interCalls = vi.hoisted((): unknown[] => []);
+
+vi.mock('next/font/google', () => ({
+  Inter: (options: unknown) => {
+    interCalls.push(options);
+    return { variable: 'font-inter-test', className: 'inter' };
+  },
+}));
+
+describe('app/layout', () => {
+  it('renderiza html pt-BR com script de tema, shell e conteúdo', () => {
+    const html = renderToStaticMarkup(
+      <RootLayout>
+        <p>página</p>
+      </RootLayout>,
+    );
+    expect(html).toContain('<html lang="pt-BR" class="font-inter-test">');
+    expect(html).toContain(themeInitScript.slice(0, 40));
+    expect(html).toContain('Marketing Insights');
+    expect(html).toContain('Navegação principal');
+    expect(html).toContain('<body class="font-sans">');
+    expect(html).toContain('aria-label="Menu lateral"');
+    expect(html).toContain('Dashboard');
+    expect(html).toMatch(/<main[^>]*><p>página<\/p><\/main>/);
+  });
+
+  it('carrega a Inter com os pesos exatos do protótipo', () => {
+    expect(interCalls).toContainEqual({
+      subsets: ['latin'],
+      weight: ['400', '500', '600', '700'],
+      variable: '--font-inter',
+      display: 'swap',
+    });
+  });
+
+  it('define metadados da aplicação', () => {
+    expect(metadata.title).toEqual({
+      default: 'Marketing Insights',
+      template: '%s · Marketing Insights',
+    });
+  });
+});
