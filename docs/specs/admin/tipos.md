@@ -1,5 +1,5 @@
 ---
-status: IN_PROGRESS
+status: REVIEW
 fase: 33
 area: admin
 feature: tipos

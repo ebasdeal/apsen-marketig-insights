@@ -109,6 +109,9 @@
   /* drivers */
   --color-apsen-star: #f59e0b;
   /* /drivers */
+  /* admin-tipos */
+  --color-apsen-inline-border: #f1f5f9;
+  /* /admin-tipos */
 
   --spacing-sidebar: 252px;
   --spacing-topbar: 64px;
@@ -231,6 +234,9 @@ html.dark {
   /* drivers */
   --color-apsen-star: #f59e0b;
   /* /drivers */
+  /* admin-tipos */
+  --color-apsen-inline-border: #262b33;
+  /* /admin-tipos */
   --shadow-apsen-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen: 0 4px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen-md: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
