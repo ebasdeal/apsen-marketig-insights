@@ -1,5 +1,5 @@
 ---
-status: READY
+status: IN_PROGRESS
 fase: 33
 area: admin
 feature: tipos

@@ -16,6 +16,9 @@ import { createRestricoesModule } from './modules/restricoes';
 import { createUsuariosModule } from './modules/usuarios';
 import { createPermissoesModule } from './modules/permissoes';
 import { createAgentesModule } from './modules/agentes';
+import { createAprovacoesModule } from './modules/aprovacoes';
+import { createIngeridosModule } from './modules/ingeridos';
+import { createTiposModule } from './modules/tipos';
 
 export interface Container {
   useCases: UseCases;
@@ -52,6 +55,9 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       agentes: createAgentesModule(http),
       drivers: createDriversModule(http),
       catalogo: createCatalogoModule(http),
+      tipos: createTiposModule(http),
+      aprovacoes: createAprovacoesModule(http),
+      ingeridos: createIngeridosModule(http),
     },
   };
 }

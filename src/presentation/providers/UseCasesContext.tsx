@@ -19,6 +19,9 @@ import type { RestricoesUseCases } from '@application/restricoes/restricoesUseCa
 import type { UsuariosUseCases } from '@application/usuarios/usuariosUseCases';
 import type { PermissoesUseCases } from '@application/permissoes/permissoesUseCases';
 import type { AgentesUseCases } from '@application/agentes/agentesUseCases';
+import type { AprovacoesUseCases } from '@application/aprovacoes/aprovacoesUseCases';
+import type { IngeridosUseCases } from '@application/ingeridos/ingeridosUseCases';
+import type { TiposUseCases } from '@application/tipos/tiposUseCases';
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface UseCases {
@@ -41,6 +44,9 @@ export interface UseCases {
   agentes: AgentesUseCases;
   drivers: DriversUseCases;
   catalogo: CatalogoUseCases;
+  tipos: TiposUseCases;
+  aprovacoes: AprovacoesUseCases;
+  ingeridos: IngeridosUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

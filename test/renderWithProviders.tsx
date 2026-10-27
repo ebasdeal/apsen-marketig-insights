@@ -11,6 +11,9 @@ import { createFakePlanosUseCases } from './fakes/planos';
 import { createFakeRestricoesUseCases } from './fakes/restricoes';
 import { createFakeCatalogoUseCases } from './fakes/catalogo';
 import { createFakeDriversUseCases } from './fakes/drivers';
+import { createFakeAprovacoesUseCases } from './fakes/aprovacoes';
+import { createFakeIngeridosUseCases } from './fakes/ingeridos';
+import { createFakeTiposUseCases } from './fakes/tipos';
 import { NAV_BADGES_FIXTURE } from './fixtures/navBadges';
 import { PERFIS_FIXTURE } from './fixtures/perfis';
 import { SESSAO_ADMIN } from './fixtures/sessao';
@@ -55,6 +58,9 @@ export function createFakeUseCases(overrides: FakeUseCasesOverrides = {}): UseCa
     agentes: createFakeAgentesUseCases(overrides.agentes),
     drivers: { ...createFakeDriversUseCases(), ...overrides.drivers },
     catalogo: { ...createFakeCatalogoUseCases(), ...overrides.catalogo },
+    tipos: createFakeTiposUseCases(overrides.tipos),
+    aprovacoes: createFakeAprovacoesUseCases(overrides.aprovacoes),
+    ingeridos: createFakeIngeridosUseCases(overrides.ingeridos),
   };
 }
 

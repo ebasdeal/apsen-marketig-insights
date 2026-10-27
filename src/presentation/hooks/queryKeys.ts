@@ -7,6 +7,9 @@ import { permissoesKeys, usuariosKeys } from './usuarios/usuariosKeys';
 import { agentesKeys } from './agentes/agentesKeys';
 import { catalogoKeys } from './catalogo/catalogoKeys';
 import { driversKeys } from './drivers/driversKeys';
+import { aprovacoesKeys } from './aprovacoes/aprovacoesKeys';
+import { ingeridosKeys } from './ingeridos/ingeridosKeys';
+import { tiposKeys } from './tipos/tiposKeys';
 
 export const queryKeys = {
   auth: {
@@ -29,4 +32,7 @@ export const queryKeys = {
   agentes: agentesKeys,
   drivers: driversKeys,
   catalogo: catalogoKeys,
+  tipos: tiposKeys,
+  aprovacoes: aprovacoesKeys,
+  ingeridos: ingeridosKeys,
 };
