@@ -11,9 +11,51 @@ const CLIENT = [
   'Tooltip.tsx',
   'Toggle.tsx',
   'Tabs.tsx',
+  'FormSelect.tsx',
+  'ChipMultiSelect.tsx',
+  'ModeSelector.tsx',
+  'RangeSlider.tsx',
+  'SelectableCard.tsx',
+  'CheckboxCard.tsx',
+  'Autocomplete.tsx',
+  'AutocompleteMenu.tsx',
+  'StatusField.tsx',
+  'ConfirmDialog.tsx',
+  'Pagination.tsx',
+  'PaginationCentered.tsx',
+  'PageSizeSelect.tsx',
 ];
-const SERVER = ['FormGrid.tsx', 'Table.tsx', 'Alert.tsx'];
-const SUPPORT = ['fieldClasses.ts', 'useFocusTrap.ts', 'tabKeys.ts'];
+const SERVER = [
+  'FormGrid.tsx',
+  'Table.tsx',
+  'Alert.tsx',
+  'Breadcrumb.tsx',
+  'CardSectionLabel.tsx',
+  'FormActions.tsx',
+  'Toolbar.tsx',
+  'FilterBar.tsx',
+  'CodeBlock.tsx',
+  'NumberedList.tsx',
+  'ColorPill.tsx',
+  'CategoryTag.tsx',
+  'PendingItemRow.tsx',
+  'StatusDistributionRow.tsx',
+  'Skeleton.tsx',
+  'TableSkeleton.tsx',
+  'DetailField.tsx',
+  'CodeTag.tsx',
+];
+const SUPPORT = [
+  'fieldClasses.ts',
+  'useFocusTrap.ts',
+  'tabKeys.ts',
+  'useAutocomplete.ts',
+  'useUnsavedChangesGuard.ts',
+  'focusFirstInvalid.ts',
+  'pillColors.ts',
+  'categoryTones.ts',
+  'chipClasses.ts',
+];
 const FILES = [...CLIENT, ...SERVER, ...SUPPORT];
 
 describe('código-fonte dos componentes base', () => {

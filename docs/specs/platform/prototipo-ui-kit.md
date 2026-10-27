@@ -1,5 +1,5 @@
 ---
-status: READY
+status: REVIEW
 fase: 8
 area: platform
 feature: prototipo-ui-kit
@@ -422,10 +422,13 @@ interface PaginationProps {
 - `src/presentation/components/ui/{Breadcrumb,CardSectionLabel,FormActions,Toolbar,FilterBar,StatusField,CodeBlock,NumberedList,ChipMultiSelect,ModeSelector,RangeSlider,SelectableCard,CheckboxCard,Autocomplete,ColorPill,CategoryTag,PendingItemRow,StatusDistributionRow,Skeleton,ConfirmDialog}.tsx` (`Skeleton.tsx` exporta `Skeleton`, `SkeletonText`, `TableSkeleton`, `CardSkeleton`, `PageSkeleton`; dividir se passar de 120 linhas)
 - `src/presentation/components/ui/{useAutocomplete,useUnsavedChangesGuard,focusFirstInvalid,pillColors,categoryTones}.ts`
 - `src/presentation/components/ui/__tests__/` — um teste por componente/hook (§11)
+- Entregues também (divisão por tamanho ou peças genéricas pedidas pelas specs das ondas 2–5): `PageSizeSelect.tsx` e `PaginationCentered.tsx` (partes da `Pagination`), `AutocompleteMenu.tsx` (lista do `Autocomplete`), `TableSkeleton.tsx` (separado do `Skeleton.tsx`), `chipClasses.ts` (classes compartilhadas por `ChipGroup` e `ChipMultiSelect`), `DetailField.tsx` ([ingeridos](../admin/ingeridos.md), [agentes](../agentes/agentes.md)) e `CodeTag.tsx` ([tipos](../admin/tipos.md)), com testes em `__tests__/{FormFieldRich,structure,Badge}.test.tsx`.
 
 ### Modificados
 
 - `src/presentation/components/ui/{FormGrid,FormField,TextInput,FormSelect,Button,buttonClasses,IconButton,Card,Section,Badge,Tabs,Pagination,Table,index}.ts(x)` — §3.1/§8.2.
+- Também modificados: `Modal.tsx`/`useFocusTrap.ts` (`initialFocusRef`, foco inicial no "Cancelar" do `ConfirmDialog`, pedido pela spec [fontes](../admin/fontes.md)); `ChipGroup.tsx` (usa `chipClasses.ts`); `icons.tsx` (`PulseIcon` do rodapé do `Autocomplete`); `buttonClasses.ts` ganha o tamanho `xs` (ação do `PendingItemRow`, evita classes conflitantes sobre o `sm`); `IconLink` aceita `tone` como o `IconButton`.
+- Compatibilidade com as specs das ondas 2–5: `Pagination` aceita `layout="centered"` como alias de `variant="centered"` ([aprovacoes](../admin/aprovacoes.md)); `ConfirmDialog` aceita `description` (alias de `message`) e `cancelLabel` ([fontes](../admin/fontes.md), [ciclos](../admin/ciclos.md)); `useUnsavedChangesGuard` devolve também `confirmNavigation` (= `confirmLeave`, [tipos](../admin/tipos.md)) e aceita `cancelLabel`; `TableSkeleton` aceita `headers` ("cabeçalho real" do [catálogo](../drivers/catalogo-de-produtos.md)). `TextInput` repassa atributos nativos do `input` (necessário para o combobox do `Autocomplete`).
 - `src/presentation/components/ui/__tests__/{FormGrid,FormField,FormSelect,Button,IconButton,layout,Badge,Tabs,Pagination,Table,Tooltip,index,uiKitSource}.test.ts(x)` — casos novos; `uiKitSource` passa a cobrir os arquivos novos.
 - `src/app/loading.tsx` e `src/app/__tests__/loading.test.tsx` — `PageSkeleton`.
 - `src/app/globals.css` e `src/app/__tests__/globals.test.ts` — tokens do RN-06.

@@ -140,3 +140,49 @@ describe('ScreenDesc', () => {
     expect(icon.parentElement).toHaveClass('bg-apsen-bg', 'leading-[1.65]', 'text-[12.5px]');
   });
 });
+
+describe('CardTitle com etapa', () => {
+  it('mostra a pílula azul por padrão e laranja com stepTone', () => {
+    const { rerender } = render(<CardTitle step="01">Identificação</CardTitle>);
+    expect(screen.getByText('01')).toHaveClass(
+      'bg-apsen-blue-bg',
+      'text-apsen-blue',
+      'rounded-[6px]',
+      'px-[10px]',
+      'py-[2px]',
+      'text-[11px]',
+      'font-bold',
+    );
+    rerender(
+      <CardTitle step="02" stepTone="orange">
+        Modelo
+      </CardTitle>,
+    );
+    expect(screen.getByText('02')).toHaveClass('bg-apsen-orange-soft', 'text-apsen-orange');
+  });
+});
+
+describe('Section com tom', () => {
+  it('usa laranja no detail e troca com tone', () => {
+    const { rerender } = render(
+      <Section title="Justificativa" variant="detail">
+        x
+      </Section>,
+    );
+    expect(screen.getByRole('heading', { name: 'Justificativa' })).toHaveClass('text-apsen-orange');
+    rerender(
+      <Section title="Justificativa" variant="detail" tone="muted">
+        x
+      </Section>,
+    );
+    const heading = screen.getByRole('heading', { name: 'Justificativa' });
+    expect(heading).toHaveClass('text-apsen-muted');
+    expect(heading).not.toHaveClass('text-apsen-orange');
+    rerender(
+      <Section title="Painel" tone="orange">
+        x
+      </Section>,
+    );
+    expect(screen.getByRole('heading', { name: 'Painel' })).toHaveClass('text-apsen-orange');
+  });
+});

@@ -10,18 +10,19 @@ export function focusableElements(container: HTMLElement): HTMLElement[] {
 export function useFocusTrap(
   ref: RefObject<HTMLElement | null>,
   onClose: () => void,
+  initialFocus?: RefObject<HTMLElement | null>,
 ): (event: KeyboardEvent<HTMLElement>) => void {
   useEffect(() => {
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     if (ref.current !== null) {
-      focusableElements(ref.current)[0]?.focus();
+      (initialFocus?.current ?? focusableElements(ref.current)[0])?.focus();
     }
     return () => {
       if (previous?.isConnected === true) {
         previous.focus();
       }
     };
-  }, [ref]);
+  }, [ref, initialFocus]);
 
   return (event) => {
     if (event.key === 'Escape') {

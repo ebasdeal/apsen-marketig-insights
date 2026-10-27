@@ -86,6 +86,56 @@ describe('app/globals.css', () => {
     },
   );
 
+  it.each([
+    ['cat-tv-bg', '#eef2ff', '#1e2148'],
+    ['cat-tv-b', '#a5b4fc', '#4b53a8'],
+    ['cat-tv-fg', '#4338ca', '#a5b4fc'],
+    ['cat-digital-bg', '#f0fdf4', '#12301f'],
+    ['cat-digital-b', '#86efac', '#2e7d4f'],
+    ['cat-digital-fg', '#166534', '#86efac'],
+    ['cat-pdv-bg', '#fffbeb', '#3a3115'],
+    ['cat-pdv-b', '#fcd34d', '#8a7420'],
+    ['cat-pdv-fg', '#92400e', '#fcd34d'],
+    ['cat-conc-bg', '#ecfeff', '#0e2e36'],
+    ['cat-conc-b', '#67e8f9', '#1f6b7a'],
+    ['cat-conc-fg', '#0e7490', '#67e8f9'],
+    ['cat-sazo-bg', '#f0fdf4', '#10302a'],
+    ['cat-sazo-b', '#6ee7b7', '#2a7a62'],
+    ['cat-sazo-fg', '#065f46', '#6ee7b7'],
+    ['cat-viral-bg', '#fdf2f8', '#3a1630'],
+    ['cat-viral-b', '#f0abfc', '#8a3f8f'],
+    ['cat-viral-fg', '#86198f', '#f0abfc'],
+    ['danger-b-soft', '#fca5a5', '#a33a3a'],
+    ['danger-ink', '#7f1d1d', '#fecaca'],
+    ['attention', '#b45309', '#f59e0b'],
+    ['row-active', '#fffbf5', '#241c14'],
+    ['pal-blue', '#2563eb', '#5b8def'],
+    ['pal-purple', '#7c3aed', '#a78bfa'],
+    ['pal-cyan', '#0891b2', '#22b8d6'],
+    ['pal-amber', '#d97706', '#f0a43a'],
+    ['pal-emerald', '#059669', '#34c08f'],
+    ['pal-red', '#dc2626', '#f06565'],
+    ['pal-lime', '#65a30d', '#8fc93a'],
+    ['pal-slate', '#64748b', '#94a3b8'],
+    ['purple-soft', '#f3e8ff', '#2a1f4a'],
+    ['purple-soft-b', '#ddd6fe', '#5b45a8'],
+    ['blue-soft-b', '#c7d7fa', '#2e3680'],
+    ['teal-soft', '#f0fdfa', '#0e2a2a'],
+    ['teal-soft-b', '#99f6e4', '#1f6b5e'],
+    ['cyan-bg', '#e0f2fe', '#0e2a3b'],
+    ['cyan-b', '#bae6fd', '#1f5675'],
+    ['yellow-soft', '#fff8ec', '#3a3115'],
+    ['code-bg', '#141414', '#0b0c0e'],
+    ['code-fg', '#7dd3fc', '#7dd3fc'],
+    ['chart-fill', 'rgba(27, 78, 201, 0.08)', 'rgba(124, 135, 245, 0.16)'],
+    ['chart-grid', 'rgba(0, 0, 0, 0.04)', 'rgba(255, 255, 255, 0.06)'],
+  ])('define o token do protótipo %s nos dois temas', (name, light, dark) => {
+    const theme = css.match(/@theme \{([\s\S]*?)\n\}/)?.[1] ?? '';
+    const darkBlock = css.match(/html\.dark \{([\s\S]*?)\n\}/)?.[1] ?? '';
+    expect(theme).toContain(`--color-apsen-${name}: ${light};`);
+    expect(darkBlock).toContain(`--color-apsen-${name}: ${dark};`);
+  });
+
   it('não tem mais a role bar e define as animações do toast e do login', () => {
     expect(css).not.toContain('rolebar');
     expect(css).toContain('@keyframes apsen-toast-in');
