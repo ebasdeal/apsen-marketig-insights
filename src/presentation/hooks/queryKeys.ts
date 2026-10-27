@@ -3,6 +3,8 @@ import { ciclosKeys } from './ciclos/ciclosKeys';
 import { fontesKeys } from './fontes/fontesKeys';
 import { planosKeys } from './planos/planosKeys';
 import { restricoesKeys } from './restricoes/restricoesKeys';
+import { permissoesKeys, usuariosKeys } from './usuarios/usuariosKeys';
+import { agentesKeys } from './agentes/agentesKeys';
 
 export const queryKeys = {
   auth: {
@@ -20,4 +22,7 @@ export const queryKeys = {
   fontes: fontesKeys,
   restricoes: restricoesKeys,
   planos: planosKeys,
+  usuarios: usuariosKeys,
+  permissoes: permissoesKeys,
+  agentes: agentesKeys,
 };

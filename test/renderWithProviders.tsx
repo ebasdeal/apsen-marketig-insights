@@ -12,6 +12,8 @@ import { createFakeRestricoesUseCases } from './fakes/restricoes';
 import { NAV_BADGES_FIXTURE } from './fixtures/navBadges';
 import { PERFIS_FIXTURE } from './fixtures/perfis';
 import { SESSAO_ADMIN } from './fixtures/sessao';
+import { createFakePermissoesUseCases, createFakeUsuariosUseCases } from './fakes/usuarios';
+import { createFakeAgentesUseCases } from './fakes/agentes';
 
 export type FakeUseCasesOverrides = { [K in keyof UseCases]?: Partial<UseCases[K]> };
 
@@ -46,6 +48,9 @@ export function createFakeUseCases(overrides: FakeUseCasesOverrides = {}): UseCa
     fontes: createFakeFontesUseCases(overrides.fontes),
     restricoes: createFakeRestricoesUseCases(overrides.restricoes),
     planos: createFakePlanosUseCases(overrides.planos),
+    usuarios: createFakeUsuariosUseCases(overrides.usuarios),
+    permissoes: createFakePermissoesUseCases(overrides.permissoes),
+    agentes: createFakeAgentesUseCases(overrides.agentes),
   };
 }
 

@@ -14,6 +14,9 @@ import type { GetNavBadges } from '@application/navegacao/GetNavBadges';
 import type { ListPerfis } from '@application/perfis/ListPerfis';
 import type { PlanosUseCases } from '@application/planos/planosUseCases';
 import type { RestricoesUseCases } from '@application/restricoes/restricoesUseCases';
+import type { UsuariosUseCases } from '@application/usuarios/usuariosUseCases';
+import type { PermissoesUseCases } from '@application/permissoes/permissoesUseCases';
+import type { AgentesUseCases } from '@application/agentes/agentesUseCases';
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface UseCases {
@@ -31,6 +34,9 @@ export interface UseCases {
   fontes: FontesUseCases;
   restricoes: RestricoesUseCases;
   planos: PlanosUseCases;
+  usuarios: UsuariosUseCases;
+  permissoes: PermissoesUseCases;
+  agentes: AgentesUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

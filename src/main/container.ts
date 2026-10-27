@@ -11,6 +11,9 @@ import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
 import { createPlanosModule } from './modules/planos';
 import { createRestricoesModule } from './modules/restricoes';
+import { createUsuariosModule } from './modules/usuarios';
+import { createPermissoesModule } from './modules/permissoes';
+import { createAgentesModule } from './modules/agentes';
 
 export interface Container {
   useCases: UseCases;
@@ -42,6 +45,9 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       fontes: createFontesModule(http),
       restricoes: createRestricoesModule(http),
       planos: createPlanosModule(http),
+      usuarios: createUsuariosModule(http),
+      permissoes: createPermissoesModule(http),
+      agentes: createAgentesModule(http),
     },
   };
 }
