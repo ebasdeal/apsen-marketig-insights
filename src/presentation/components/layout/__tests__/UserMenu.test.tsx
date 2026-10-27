@@ -2,7 +2,7 @@ import { createFakeUseCases, renderWithProviders } from '@test/renderWithProvide
 import { logout } from '@test/resetStores';
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
 import { useSessaoStore } from '../../../stores/sessaoStore';
-import { UserMenu } from '../UserMenu';
+import { initialOf, UserMenu } from '../UserMenu';
 
 async function openMenu() {
   const result = renderWithProviders(
@@ -14,6 +14,17 @@ async function openMenu() {
   const trigger = await screen.findByRole('button', { name: 'Menu do usuário Ana Admin' });
   return { ...result, trigger };
 }
+
+describe('initialOf', () => {
+  it('usa a inicial do nome do usuário, não a letra fixa do perfil', () => {
+    expect(initialOf('marcus Cruz', 'P')).toBe('M');
+    expect(initialOf('  Érica Lima', 'P')).toBe('É');
+  });
+
+  it('cai na letra do perfil quando o nome está vazio', () => {
+    expect(initialOf('   ', 'P')).toBe('P');
+  });
+});
 
 describe('UserMenu', () => {
   it('mostra avatar e nome; abre com nome, e-mail, perfil e Sair', async () => {

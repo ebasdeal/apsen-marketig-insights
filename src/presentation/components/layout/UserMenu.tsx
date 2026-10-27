@@ -13,6 +13,11 @@ function focusItem(menu: HTMLElement | null, delta: number): void {
   items[(index + delta + items.length) % items.length]?.focus();
 }
 
+// O protótipo tinha um usuário por perfil (letra fixa no perfil); com login real a letra é a do nome.
+export function initialOf(nome: string, fallback: string): string {
+  return nome.trim().charAt(0).toLocaleUpperCase('pt-BR') || fallback;
+}
+
 export function UserMenu() {
   const { usuario, perfil, sair } = useSessao();
   const [open, setOpen] = useState(false);
@@ -76,7 +81,7 @@ export function UserMenu() {
           data-testid="topbar-avatar"
           className={`flex size-[30px] shrink-0 items-center justify-center rounded-full text-[11.5px] font-bold text-white ${PERFIL_TONE_BG[perfil.tone]}`}
         >
-          {perfil.avatar}
+          {initialOf(usuario.nome, perfil.avatar)}
         </span>
         <span className="text-[13px] font-semibold text-apsen-slate max-[560px]:hidden">
           {usuario.nome}
