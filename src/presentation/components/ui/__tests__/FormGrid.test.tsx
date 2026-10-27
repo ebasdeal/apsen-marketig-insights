@@ -26,3 +26,14 @@ describe('FormGrid', () => {
     );
   });
 });
+
+describe('FormGrid 4 colunas', () => {
+  it('aplica quatro colunas com quebras em 800px e 560px', () => {
+    const { container } = render(<FormGrid columns={4}>campo</FormGrid>);
+    expect(container.firstChild).toHaveClass(
+      'grid-cols-4',
+      'max-[800px]:grid-cols-2',
+      'max-[560px]:grid-cols-1',
+    );
+  });
+});

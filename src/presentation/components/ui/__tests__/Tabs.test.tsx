@@ -91,3 +91,32 @@ describe('Tabs', () => {
     expect(screen.getByText('8')).toHaveClass('bg-apsen-blue');
   });
 });
+
+describe('Tabs com tom por item', () => {
+  const TONED: readonly TabItem<Status>[] = [
+    { value: 'ativas', label: 'Ativas', count: 3, tone: 'red', countTone: 'red' },
+    { value: 'resolvidas', label: 'Resolvidas', count: 2, tone: 'blue', countTone: 'gray' },
+  ];
+
+  it('usa o tom do item e o contador fixo', () => {
+    render(
+      <Tabs id="r" aria-label="Situação" items={TONED} value="resolvidas" onChange={vi.fn()}>
+        x
+      </Tabs>,
+    );
+    const resolved = screen.getByRole('tab', { name: 'Resolvidas 2' });
+    expect(resolved).toHaveClass('border-apsen-blue', 'text-apsen-blue');
+    expect(resolved.querySelector('span')).toHaveClass('bg-apsen-border', 'text-apsen-muted');
+    const active = screen.getByRole('tab', { name: 'Ativas 3' });
+    expect(active.querySelector('span')).toHaveClass('bg-apsen-red', 'text-white');
+  });
+
+  it('usa o tom do item ativo vermelho', () => {
+    render(
+      <Tabs id="r" aria-label="Situação" items={TONED} value="ativas" onChange={vi.fn()}>
+        x
+      </Tabs>,
+    );
+    expect(screen.getByRole('tab', { name: 'Ativas 3' })).toHaveClass('border-apsen-red');
+  });
+});

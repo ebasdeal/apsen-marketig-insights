@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { ActionGroup } from './IconButton';
+import { Toolbar } from './Toolbar';
 
 export interface TableColumn<T> {
   key: string;
@@ -37,9 +38,7 @@ export function Table<T>({
   const total = columns.length + (actions === undefined ? 0 : 1);
   return (
     <>
-      {toolbar === undefined ? null : (
-        <div className="mb-[13px] flex flex-wrap items-center gap-[8px]">{toolbar}</div>
-      )}
+      {toolbar === undefined ? null : <Toolbar>{toolbar}</Toolbar>}
       <div className="overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm">
         <table className="w-full min-w-[560px] border-collapse">
           <caption className="sr-only">{caption}</caption>

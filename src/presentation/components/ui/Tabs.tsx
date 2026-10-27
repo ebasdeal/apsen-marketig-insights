@@ -4,11 +4,14 @@ import { useRef, type KeyboardEvent, type ReactNode } from 'react';
 import { nextTabIndex } from './tabKeys';
 
 export type TabsTone = 'blue' | 'red';
+export type TabCountTone = 'blue' | 'red' | 'gray';
 
 export interface TabItem<T extends string> {
   value: T;
   label: string;
   count?: number;
+  tone?: TabsTone;
+  countTone?: TabCountTone;
 }
 
 interface TabsProps<T extends string> {
@@ -28,10 +31,15 @@ const ACTIVE: Record<TabsTone, string> = {
   red: 'border-apsen-red font-medium text-apsen-red',
 };
 const COUNT = 'ml-[4px] rounded-[10px] px-[7px] py-[1px] text-[10px]';
-const COUNT_ACTIVE: Record<TabsTone, string> = {
+const COUNT_TONES: Record<TabCountTone, string> = {
   blue: 'bg-apsen-blue font-bold text-white',
   red: 'bg-apsen-red font-bold text-white',
+  gray: 'bg-apsen-border font-semibold text-apsen-muted',
 };
+
+function countClasses(selected: boolean, tone: TabsTone, countTone?: TabCountTone): string {
+  return COUNT_TONES[countTone ?? (selected ? tone : 'gray')];
+}
 
 export function Tabs<T extends string>({
   id,
@@ -68,6 +76,7 @@ export function Tabs<T extends string>({
       >
         {items.map((item, index) => {
           const selected = item.value === value;
+          const itemTone = item.tone ?? tone;
           return (
             <button
               key={item.value}
@@ -83,13 +92,11 @@ export function Tabs<T extends string>({
               tabIndex={selected ? 0 : -1}
               onClick={() => onChange(item.value)}
               onKeyDown={onKeyDown}
-              className={`${TAB} ${selected ? ACTIVE[tone] : 'border-transparent text-apsen-muted'}`}
+              className={`${TAB} ${selected ? ACTIVE[itemTone] : 'border-transparent text-apsen-muted'}`}
             >
               {item.label}
               {item.count === undefined ? null : (
-                <span
-                  className={`${COUNT} ${selected ? COUNT_ACTIVE[tone] : 'bg-apsen-border font-semibold text-apsen-muted'}`}
-                >
+                <span className={`${COUNT} ${countClasses(selected, itemTone, item.countTone)}`}>
                   {item.count}
                 </span>
               )}

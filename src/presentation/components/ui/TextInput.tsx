@@ -1,23 +1,37 @@
 'use client';
 
+import type { InputHTMLAttributes, Ref } from 'react';
 import { FIELD_CONTROL } from './fieldClasses';
 import { useFieldControl } from './FormField';
 
 const INPUT = `${FIELD_CONTROL} w-full read-only:bg-apsen-bg read-only:text-apsen-muted aria-[invalid=true]:border-apsen-red-b`;
 
-interface TextInputProps {
+interface ControlProps {
   value: string;
   onChange: (value: string) => void;
-  type?: 'text' | 'email' | 'number' | 'date' | 'password' | 'tel' | 'url';
-  placeholder?: string;
+  placeholder?: string | undefined;
   name?: string;
   readOnly?: boolean;
   disabled?: boolean;
-  'aria-label'?: string;
+  'aria-label'?: string | undefined;
   className?: string;
 }
 
-interface TextAreaProps extends Omit<TextInputProps, 'type'> {
+type NativeInputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  keyof ControlProps | 'type' | 'inputMode' | 'min' | 'max' | 'step'
+>;
+
+interface TextInputProps extends ControlProps, NativeInputProps {
+  type?: 'text' | 'email' | 'number' | 'date' | 'password' | 'tel' | 'url';
+  min?: number | string;
+  max?: number | string;
+  step?: number | string;
+  inputMode?: 'text' | 'numeric' | 'decimal' | 'email';
+  ref?: Ref<HTMLInputElement>;
+}
+
+interface TextAreaProps extends ControlProps {
   rows?: number;
 }
 

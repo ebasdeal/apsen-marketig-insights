@@ -69,3 +69,36 @@ describe('IconLink', () => {
     expect(container.querySelector('svg')).toHaveClass('opacity-40');
   });
 });
+
+describe('tons do IconButton', () => {
+  it('usa azul por padrão com desabilitado esmaecido', () => {
+    render(<IconButton aria-label="Ver" disabled />);
+    const button = screen.getByRole('button', { name: 'Ver' });
+    expect(button).toHaveClass(
+      'text-apsen-muted',
+      'hover:bg-apsen-blue-bg',
+      'hover:text-apsen-blue',
+      'disabled:opacity-[.3]',
+      'disabled:cursor-default',
+      'disabled:hover:bg-transparent',
+    );
+  });
+
+  it.each([
+    ['red', ['hover:bg-apsen-red-bg', 'hover:text-apsen-red']],
+    ['teal', ['hover:bg-apsen-teal-bg', 'hover:text-apsen-teal']],
+    ['green', ['text-apsen-green', 'hover:bg-apsen-blue-bg']],
+  ] as const)('aplica o tom %s', (tone, expected) => {
+    render(<IconButton aria-label="Ação" tone={tone} />);
+    expect(screen.getByRole('button', { name: 'Ação' })).toHaveClass(...expected);
+  });
+
+  it('aplica o tom no IconLink', () => {
+    render(
+      <IconLink href="/" aria-label="Editar" tone="teal">
+        <EyeIcon />
+      </IconLink>,
+    );
+    expect(screen.getByRole('link', { name: 'Editar' })).toHaveClass('hover:text-apsen-teal');
+  });
+});

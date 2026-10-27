@@ -1,7 +1,16 @@
 export type ButtonVariant =
-  'primary' | 'outline' | 'ghost' | 'danger' | 'success' | 'teal' | 'purple' | 'outline-teal';
+  | 'primary'
+  | 'outline'
+  | 'ghost'
+  | 'danger'
+  | 'success'
+  | 'teal'
+  | 'purple'
+  | 'outline-teal'
+  | 'orange'
+  | 'red';
 
-export type ButtonSize = 'md' | 'sm';
+export type ButtonSize = 'md' | 'sm' | 'xs';
 
 const BASE =
   'inline-flex cursor-pointer items-center gap-[6px] whitespace-nowrap rounded-apsen-pill border font-semibold leading-none transition-all focus-ring disabled:cursor-default disabled:opacity-[.35]';
@@ -9,6 +18,7 @@ const BASE =
 const SIZES: Record<ButtonSize, string> = {
   md: 'px-[20px] py-[9px] text-[13px]',
   sm: 'px-[12px] py-[5px] text-[12px]',
+  xs: 'px-[8px] py-[2px] text-[11px]',
 };
 
 const VARIANTS: Record<ButtonVariant, string> = {
@@ -21,6 +31,8 @@ const VARIANTS: Record<ButtonVariant, string> = {
   teal: 'border-apsen-teal bg-apsen-teal text-white hover:bg-apsen-teal-hover',
   purple: 'border-apsen-purple bg-apsen-purple text-white hover:bg-apsen-purple-hover',
   'outline-teal': 'border-apsen-teal bg-apsen-white text-apsen-teal hover:bg-apsen-teal-bg',
+  orange: 'border-apsen-orange bg-apsen-orange text-white',
+  red: 'border-apsen-red bg-apsen-red text-white',
 };
 
 export function buttonClasses(

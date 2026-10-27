@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useRef, type ReactNode } from 'react';
+import { useId, useRef, type ReactNode, type RefObject } from 'react';
 import { useFocusTrap } from './useFocusTrap';
 
 export type ModalSize = 'md' | 'lg';
@@ -16,12 +16,20 @@ interface ModalProps {
   children: ReactNode;
   footer?: ReactNode;
   size?: ModalSize;
+  initialFocusRef?: RefObject<HTMLElement | null>;
 }
 
-function ModalDialog({ onClose, title, children, footer, size = 'md' }: Omit<ModalProps, 'open'>) {
+function ModalDialog({
+  onClose,
+  title,
+  children,
+  footer,
+  size = 'md',
+  initialFocusRef,
+}: Omit<ModalProps, 'open'>) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
-  const onKeyDown = useFocusTrap(dialogRef, onClose);
+  const onKeyDown = useFocusTrap(dialogRef, onClose, initialFocusRef);
   return (
     <div
       className="fixed inset-0 z-[9000] flex items-center justify-center bg-apsen-overlay"

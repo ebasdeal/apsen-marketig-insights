@@ -89,3 +89,54 @@ describe('ButtonLink', () => {
     expect(screen.getByRole('link', { name: 'Abrir' })).toHaveAttribute('href', '/drivers/cmp-2');
   });
 });
+
+describe('variantes do protótipo', () => {
+  it.each([
+    ['orange', ['bg-apsen-orange', 'border-apsen-orange', 'text-white']],
+    ['red', ['bg-apsen-red', 'border-apsen-red', 'text-white']],
+  ] as const)('a variante %s é sólida e sem hover', (variant, expected) => {
+    render(<Button variant={variant}>Ação</Button>);
+    const button = screen.getByRole('button', { name: 'Ação' });
+    expect(button).toHaveClass(...expected);
+    expect(button.className).not.toMatch(/hover:/);
+  });
+
+  it('aplica o tamanho xs', () => {
+    expect(buttonClasses('ghost', 'xs')).toContain('px-[8px] py-[2px] text-[11px]');
+  });
+
+  it('aplica borda tracejada no Button e no ButtonLink', () => {
+    render(
+      <>
+        <Button variant="ghost" dashed>
+          Adicionar linha
+        </Button>
+        <ButtonLink href="/" variant="ghost" dashed>
+          Novo
+        </ButtonLink>
+      </>,
+    );
+    expect(screen.getByRole('button', { name: 'Adicionar linha' })).toHaveClass('border-dashed');
+    expect(screen.getByRole('link', { name: 'Novo' })).toHaveClass('border-dashed');
+  });
+
+  it('mostra Salvando… desabilitado e ocupado com loading', () => {
+    const onClick = vi.fn();
+    const { rerender } = render(
+      <Button loading onClick={onClick}>
+        Salvar
+      </Button>,
+    );
+    const button = screen.getByRole('button', { name: 'Salvando…' });
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('aria-busy', 'true');
+    rerender(
+      <Button loading loadingLabel="Enviando…">
+        Salvar
+      </Button>,
+    );
+    expect(screen.getByRole('button', { name: 'Enviando…' })).toBeDisabled();
+    rerender(<Button>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).not.toHaveAttribute('aria-busy');
+  });
+});
