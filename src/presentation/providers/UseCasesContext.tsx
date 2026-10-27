@@ -12,6 +12,8 @@ import type { CiclosUseCases } from '@application/ciclos/ciclosUseCases';
 import type { FontesUseCases } from '@application/fontes/fontesUseCases';
 import type { GetNavBadges } from '@application/navegacao/GetNavBadges';
 import type { ListPerfis } from '@application/perfis/ListPerfis';
+import type { PlanosUseCases } from '@application/planos/planosUseCases';
+import type { RestricoesUseCases } from '@application/restricoes/restricoesUseCases';
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface UseCases {
@@ -27,6 +29,8 @@ export interface UseCases {
   analises: AnalisesUseCases;
   ciclos: CiclosUseCases;
   fontes: FontesUseCases;
+  restricoes: RestricoesUseCases;
+  planos: PlanosUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

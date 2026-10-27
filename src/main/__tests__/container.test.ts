@@ -98,5 +98,8 @@ describe('createContainerFromProcessEnv', () => {
       'ciclos',
       'fontes',
     ]);
+    expect(Object.keys(createContainerFromProcessEnv().useCases)).toEqual(
+      expect.arrayContaining(['auth', 'perfis', 'navegacao']),
+    );
   });
 });

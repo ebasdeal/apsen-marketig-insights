@@ -9,6 +9,8 @@ import { createCiclosModule } from './modules/ciclos';
 import { createFontesModule } from './modules/fontes';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
+import { createPlanosModule } from './modules/planos';
+import { createRestricoesModule } from './modules/restricoes';
 
 export interface Container {
   useCases: UseCases;
@@ -38,6 +40,8 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       analises: createAnalisesModule(http),
       ciclos: createCiclosModule(http),
       fontes: createFontesModule(http),
+      restricoes: createRestricoesModule(http),
+      planos: createPlanosModule(http),
     },
   };
 }

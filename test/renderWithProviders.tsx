@@ -7,6 +7,8 @@ import type { ReactElement, ReactNode } from 'react';
 import { createFakeAnalisesUseCases } from './fakes/analises';
 import { createFakeCiclosUseCases } from './fakes/ciclos';
 import { createFakeFontesUseCases } from './fakes/fontes';
+import { createFakePlanosUseCases } from './fakes/planos';
+import { createFakeRestricoesUseCases } from './fakes/restricoes';
 import { NAV_BADGES_FIXTURE } from './fixtures/navBadges';
 import { PERFIS_FIXTURE } from './fixtures/perfis';
 import { SESSAO_ADMIN } from './fixtures/sessao';
@@ -42,6 +44,8 @@ export function createFakeUseCases(overrides: FakeUseCasesOverrides = {}): UseCa
     analises: createFakeAnalisesUseCases(overrides.analises),
     ciclos: createFakeCiclosUseCases(overrides.ciclos),
     fontes: createFakeFontesUseCases(overrides.fontes),
+    restricoes: createFakeRestricoesUseCases(overrides.restricoes),
+    planos: createFakePlanosUseCases(overrides.planos),
   };
 }
 

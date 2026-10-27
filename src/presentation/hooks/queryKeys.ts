@@ -1,6 +1,8 @@
 import { analisesKeys } from './analises/analisesKeys';
 import { ciclosKeys } from './ciclos/ciclosKeys';
 import { fontesKeys } from './fontes/fontesKeys';
+import { planosKeys } from './planos/planosKeys';
+import { restricoesKeys } from './restricoes/restricoesKeys';
 
 export const queryKeys = {
   auth: {
@@ -16,4 +18,6 @@ export const queryKeys = {
   analises: analisesKeys,
   ciclos: ciclosKeys,
   fontes: fontesKeys,
+  restricoes: restricoesKeys,
+  planos: planosKeys,
 };
