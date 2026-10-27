@@ -4,6 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement, ReactNode } from 'react';
+import { createFakeAnalisesUseCases } from './fakes/analises';
 import { NAV_BADGES_FIXTURE } from './fixtures/navBadges';
 import { PERFIS_FIXTURE } from './fixtures/perfis';
 import { SESSAO_ADMIN } from './fixtures/sessao';
@@ -36,6 +37,7 @@ export function createFakeUseCases(overrides: FakeUseCasesOverrides = {}): UseCa
       badges: { execute: vi.fn().mockResolvedValue(NAV_BADGES_FIXTURE) },
       ...overrides.navegacao,
     },
+    analises: createFakeAnalisesUseCases(overrides.analises),
   };
 }
 

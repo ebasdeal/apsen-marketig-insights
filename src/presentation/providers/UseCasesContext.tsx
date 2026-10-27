@@ -1,5 +1,6 @@
 'use client';
 
+import type { AnalisesUseCases } from '@application/analises/analisesUseCases';
 import type {
   ConcluirLogin,
   EncerrarNoProvedor,
@@ -21,6 +22,7 @@ export interface UseCases {
   };
   perfis: { list: Pick<ListPerfis, 'execute'> };
   navegacao: { badges: Pick<GetNavBadges, 'execute'> };
+  analises: AnalisesUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

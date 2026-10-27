@@ -3,6 +3,7 @@ import { parseEnv, readProcessEnv, type AppEnv } from '@infrastructure/config/en
 import { FetchHttpClient, type FetchFn } from '@infrastructure/http/FetchHttpClient';
 import type { UseCases } from '@presentation/providers/UseCasesContext';
 import { expirarSessao, tokenAtual } from '@presentation/stores/sessaoStore';
+import { createAnalisesModule } from './modules/analises';
 import { createAuthModule, createSsoProvider } from './modules/auth';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
@@ -32,6 +33,7 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       auth: createAuthModule(http, sso),
       perfis: createPerfisModule(http),
       navegacao: createNavegacaoModule(http),
+      analises: createAnalisesModule(http),
     },
   };
 }

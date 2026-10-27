@@ -1,3 +1,5 @@
+import { analisesKeys } from './analises/analisesKeys';
+
 export const queryKeys = {
   auth: {
     me: (usuarioId: string) => ['auth', 'me', usuarioId] as const,
@@ -9,4 +11,5 @@ export const queryKeys = {
   navegacao: {
     badges: () => ['navegacao', 'badges'] as const,
   },
+  analises: analisesKeys,
 };
