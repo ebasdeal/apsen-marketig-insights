@@ -6,6 +6,9 @@ import { expirarSessao, tokenAtual } from '@presentation/stores/sessaoStore';
 import { createAuthModule, createSsoProvider } from './modules/auth';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
+import { createUsuariosModule } from './modules/usuarios';
+import { createPermissoesModule } from './modules/permissoes';
+import { createAgentesModule } from './modules/agentes';
 
 export interface Container {
   useCases: UseCases;
@@ -32,6 +35,9 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       auth: createAuthModule(http, sso),
       perfis: createPerfisModule(http),
       navegacao: createNavegacaoModule(http),
+      usuarios: createUsuariosModule(http),
+      permissoes: createPermissoesModule(http),
+      agentes: createAgentesModule(http),
     },
   };
 }
