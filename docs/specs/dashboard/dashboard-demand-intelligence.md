@@ -271,3 +271,38 @@ Nenhum arquivo novo. Usa os repositórios HTTP das fases 51–53 e da onda 3. Se
 | Caso de uso Dado repositórios falsos, quando executa, então consultas em paralelo e DTO completo                            | `src/application/dashboard/__tests__/GetDashboardOverview.test.ts`                                  | `count` chamado com cada filtro do §4 (`{ cat: 'midia' }`, `{ status: 'ativa', sev: 'critica' }`, `{ status: 'aprovado' }`…); `salvas = 1 + 1`; `atualizadoEm` = ISO do `now` falso; rejeição de qualquer repositório rejeita o `execute`                                                        |
 | UI kit Dado `KpiCard` com `hintTone="yellow"` e `BarRow` com `valueWidth="compact"`, quando renderiza, então as classes     | `src/presentation/components/ui/__tests__/KpiCard.test.tsx`, `BarRow.test.tsx`                      | hint `text-apsen-yellow` com valor azul; sem `hintTone` = cor do tom; valor `w-[24px]`; padrão `min-w-[72px]`                                                                                                                                                                                    |
 | Formatação Dado ISO e `null`, quando formata, então pt-BR e "—"                                                             | `src/presentation/format/__tests__/format.test.ts`                                                  | `formatDateTime(iso) === new Date(iso).toLocaleString('pt-BR')`; `formatDateTime(null) === '—'`                                                                                                                                                                                                  |
+
+## Adendo do orquestrador (27/10/2026) — endpoint agregado
+
+Decisão: em vez de ~25 contagens com `_limit=1`, a tela consome **um** endpoint agregado, como o BFF real deve expor. Já implementado em `mock-api/server.mjs`:
+
+`GET /dashboard` (Bearer) →
+
+```json
+{
+  "atualizadoEm": "ISO",
+  "cicloAtivo": { "id": "PLP-2026-07", "descricao": "Planejamento Julho 2026" },
+  "pipeline": { "total": 14, "pendentes": 2 },
+  "restricoes": {
+    "ativas": 8,
+    "criticas": 3,
+    "porTipo": [{ "tipo": "mp", "label": "Matéria-Prima", "n": 2 }]
+  },
+  "plano": {
+    "total": 247,
+    "aprovados": 107,
+    "porStatus": { "aprovado": 107, "revisao": 70, "bloqueado": 35, "pendente": 35 }
+  },
+  "analises": { "total": 2, "salvas": 2 },
+  "driversPorCategoria": [{ "categoria": "midia", "label": "Mídia / Digital", "n": 3 }],
+  "aguardandoAprovacao": {
+    "total": 2,
+    "itens": [{ "id": "DRV-2026-034", "produto": "…", "tipo": "💻 Digital / Redes" }]
+  }
+}
+```
+
+- `porTipo` só traz tipos com `n > 0` (vazio → "✅ Nenhuma restrição ativa"); `itens` traz até 4 pendentes ("+mais N" = `total - itens.length`).
+- Cores não vêm da API: categoria/tipo → token `apsen-*` no front.
+- Módulo `dashboard` próprio: `DashboardRepository.overview()` → `HttpDashboardRepository` (zod) → `GetDashboardOverview`. Substitui a composição pelos repositórios dos outros módulos descrita acima. Invalida junto com `queryKeys.navegacao.badges()` após mutações dos outros módulos (prefixo `['dashboard']`).
+- "Atualizado em" = `atualizadoEm` formatado em pt-BR.
