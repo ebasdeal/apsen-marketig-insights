@@ -45,3 +45,6 @@ next-env.d.ts
 
 # claude code
 .claude/settings.local.json
+
+# worktrees de agentes (Claude Code)
+/.claude/worktrees/
