@@ -18,14 +18,15 @@ Fora de produção (F5 CA-03, login simulado), o provedor de identidade é **sim
 
 Substitui na spec `prototipo-plataforma.md` a role bar, o `RoleSwitcher`, `NEXT_PUBLIC_ROLE_SIMULATOR` (RN-13) e a store de perfil simulado. Todo o resto daquela spec continua, lendo o perfil da **sessão**.
 
-### 1.1 Provisionamento no primeiro acesso (decisão de 27/10/2026)
+### 1.1 Quem pode entrar (decisões de 27/10/2026 — substituem o provisionamento automático)
 
-Resumo combinado com a Apsen: o AD **só autentica**; quem é e o que acessa fica no sistema.
-
-- Os primeiros admins são cadastrados **direto no banco** (no mock: Ana Admin já existe no `db.json`).
-- Qualquer conta corporativa que autentica e ainda não existe em `usuarios` é **criada no primeiro acesso** com o **perfil padrão** `config.perfilPadrao` (= `viewer`, Visualizador, nível 1), `ativo: true`, id UUID, `criadoNoPrimeiroAcesso: true`.
-- O admin eleva o perfil depois na tela de Usuários (onda 4). Usuário desativado pelo admin não entra (403).
-- No provedor simulado: além das contas já cadastradas, há "Outro e-mail" (só `@apsen.com.br`) + "Nome" para simular o primeiro acesso.
+- O AD/Entra ID **só autentica**. Quem é e o que acessa fica no sistema.
+- **Só entra quem o Administrador cadastrou** (pré-cadastro na tela de Usuários, com nome, e-mail corporativo, perfil e área). Os primeiros admins são cadastrados direto no banco (no mock: Ana Admin).
+- Conta que autentica no Entra ID mas **não está cadastrada**: `POST /auth/token` → 403 `{ codigo: "nao_cadastrado" }`. O app mostra em tela cheia (sem shell e sem formulário) "Seu acesso ao Demand Intelligence ainda não foi liberado. Solicite o cadastro ao administrador." com "Tentar novamente" (volta ao provedor). A pessoa fica nesse ciclo até ser cadastrada — não existe tela de login nem auto-cadastro.
+- **Usuário inativo** entra, mas **só visualiza**: o app mostra um aviso fixo "Seu usuário está inativo: acesso somente para visualização.", esconde/desabilita as ações de escrita, e a API recusa qualquer escrita com 403 `{ codigo: "somente_leitura" }` (o app mostra o toast de erro). `usuario.ativo` vem na sessão.
+- **Admin pode tudo.** Os demais perfis seguem as Regras de Negócio. Cadastrar, editar, inativar e **excluir** usuários: Administrador (Planejador por enquanto também pode excluir — a confirmar, PRG-ACS-01). Usuário excluído, ao entrar de novo, cai no caso "não cadastrado".
+- Inativar e excluir sempre pedem confirmação ("Tem certeza?"). Mudanças de perfil e status registram quem alterou e quando, visíveis na tela de Usuários (PRG-ACS-09).
+- Pode registrar / pode validar / admin são sempre consequência do perfil (não se ajustam por pessoa).
 
 ## 2. Fluxo
 
@@ -78,20 +79,21 @@ Sair (menu do usuário)
 
 ## 6. Regras de negócio
 
-| RN    | Regra                                                                                                                                 |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| RN-01 | Nível de acesso = `perfis[usuario.perfil].level`; `SCREEN_ROLES` e visibilidade da sidebar como no protótipo (`setRole`, L3716–3753). |
-| RN-02 | Usuário inativo não entra (403 no `/auth/token`). Usuário inexistente é criado com o perfil padrão (§1.1).                            |
-| RN-03 | O app não mantém senha nem tela de login (RN-ACS-01).                                                                                 |
-| RN-04 | Token só em `sessionStorage`; nunca em log ou `localStorage` (RN-SEG-04 / LGPD).                                                      |
-| RN-05 | Logout invalida no servidor, limpa o cache e passa pelo logout do provedor.                                                           |
-| RN-06 | `state` só redireciona para rota interna (sem open redirect).                                                                         |
+| RN    | Regra                                                                                                                                      |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| RN-01 | Nível de acesso = `perfis[usuario.perfil].level`; `SCREEN_ROLES` e visibilidade da sidebar como no protótipo (`setRole`, L3716–3753).      |
+| RN-02 | Só entra usuário cadastrado pelo admin (403 `nao_cadastrado`); inativo entra só para visualizar (escritas → 403 `somente_leitura`) (§1.1). |
+| RN-03 | O app não mantém senha nem tela de login (RN-ACS-01).                                                                                      |
+| RN-04 | Token só em `sessionStorage`; nunca em log ou `localStorage` (RN-SEG-04 / LGPD).                                                           |
+| RN-05 | Logout invalida no servidor, limpa o cache e passa pelo logout do provedor.                                                                |
+| RN-06 | `state` só redireciona para rota interna (sem open redirect).                                                                              |
 
 ## 7. BDD (resumo)
 
 - Dado que não há sessão, quando acesso `/drivers?page=2`, então sou redirecionado ao provedor com `state=/drivers?page=2` e `redirect_uri={origin}/auth/callback`.
 - Dado o callback com código válido do Carlos (planejador), então vou para `/drivers?page=2` e vejo Drivers, Administração DI, Restrições, Planos e Relatórios, sem Controle de Acesso e Agentes; `/agentes` mostra Acesso Negado.
-- Dado o callback com código do Pedro (inativo), então vejo "Usuário inativo…" sem shell.
+- Dado o callback com código do Pedro (inativo), então entro com aviso de somente leitura e não vejo ações de escrita.
+- Dado o callback de uma conta não cadastrada, então vejo "Seu acesso … ainda não foi liberado…" sem shell e "Tentar novamente" volta ao provedor.
 - Dado o callback sem `code`, então vejo "Não foi possível concluir o login…" e "Tentar novamente" reinicia o login.
 - Dado `state=//evil.com`, então vou para `/`.
 - Dado que a API responde 401 numa lista, então a sessão é limpa e o login reinicia com a rota atual.
