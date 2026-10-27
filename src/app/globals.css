@@ -135,6 +135,8 @@ html.dark {
   --shadow-apsen-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-apsen-tab: 0 1px 3px rgba(0, 0, 0, 0.5);
   --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
+  --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {

@@ -45,4 +45,35 @@ describe('app/globals.css', () => {
     expect(css).toMatch(/html\.dark \{[^}]*--color-apsen-orange-soft: #2e1c12;/);
     expect(css).toMatch(/html\.dark \{[^}]*--color-apsen-orange-b: #7a4426;/);
   });
+
+  it('mantém os tokens do :root do protótipo', () => {
+    expect(css).toContain('--color-apsen-teal: #0077be;');
+    expect(css).toContain('--color-apsen-purple-b: #c4b5fd;');
+    expect(css).toContain('--radius-apsen: 8px;');
+    expect(css).toContain('--radius-apsen-pill: 24px;');
+    expect(css).toContain('--shadow-apsen-sm: 0 2px 4px 0 rgba(20, 20, 20, 0.08);');
+    expect(css).toContain('--shadow-apsen-md: 0 6px 10px 0 rgba(20, 20, 20, 0.08);');
+    expect(css).not.toContain('rolebar');
+  });
+
+  it('dá par escuro a toda cor e sombra, exceto as cores categóricas dos canais', () => {
+    const block = (selector: RegExp) => css.match(selector)?.[1] ?? '';
+    const names = (source: string) =>
+      new Set(
+        Array.from(source.matchAll(/--((?:color|shadow)-apsen-[\w-]+):/g), (match) => match[1]),
+      );
+    const light = names(block(/@theme \{([\s\S]*?)\n\}/));
+    const dark = names(block(/html\.dark \{([\s\S]*?)\n\}/));
+    const missing = [...light].filter(
+      (name) => !dark.has(name) && !name?.startsWith('color-apsen-ch-'),
+    );
+    expect(light.size).toBeGreaterThan(40);
+    expect(missing).toEqual([]);
+    expect(css).toMatch(
+      /html\.dark \{[^}]*--shadow-apsen-dropdown: 0 6px 24px rgba\(0, 0, 0, 0\.5\);/,
+    );
+    expect(css).toMatch(
+      /html\.dark \{[^}]*--shadow-apsen-modal: 0 20px 40px rgba\(0, 0, 0, 0\.6\);/,
+    );
+  });
 });

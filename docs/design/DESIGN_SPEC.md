@@ -182,6 +182,8 @@ html.dark {
   --shadow-apsen-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-apsen-tab: 0 1px 3px rgba(0, 0, 0, 0.5);
   --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
+  --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
@@ -217,6 +219,22 @@ Notas do bloco:
 - `focus-ring` **[derivado]**: o protótipo não tem foco em botão ou link. É um contorno `outline` só em `:focus-visible`, que aparece apenas na navegação por teclado e não altera a comparação visual com o mouse. Em campos (`input`/`select`) vale o foco do protótipo, `field-focus` (borda azul + `0 0 0 3px rgba(27,78,201,.1)`, L172-173).
 - `surface` = `.card` do protótipo (L145-147).
 - O token `--spacing-sidebar` gera `w-sidebar`, `ml-sidebar`, `left-sidebar`, e `--spacing-topbar` gera `h-topbar`, `mt-topbar`.
+
+### 1.0 Conferência dos tokens com o protótipo (PBI 39010, 27/10/2026)
+
+Comparação automática das 38 variáveis do `:root` do protótipo (L17-33) com o `@theme` acima.
+
+| Protótipo                                                | Token                                        | Situação                                                                         |
+| -------------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
+| 29 cores (`--blue` … `--purple-b`)                       | `--color-apsen-*` de mesmo nome              | igual                                                                            |
+| `--sidebar-w: 252px`, `--topbar-h: 64px`                 | `--spacing-sidebar`, `--spacing-topbar`      | igual                                                                            |
+| `--radius`, `--radius-lg`, `--radius-pill` (8, 16, 24px) | `--radius-apsen`, `-lg`, `-pill`             | igual                                                                            |
+| `--shadow-sm`, `--shadow`, `--shadow-md`                 | `--shadow-apsen-sm`, `--shadow-apsen`, `-md` | igual                                                                            |
+| `--rolebar-h: 34px`                                      | —                                            | descartado (barra "Simular perfil", §0.1)                                        |
+| Fonte `'Inter', -apple-system, …`                        | `--font-sans` com `var(--font-inter)`        | igual (Inter via `next/font`)                                                    |
+| Tema escuro                                              | `html.dark`                                  | ajustado: `--shadow-apsen-dropdown` e `--shadow-apsen-modal` ganharam par escuro |
+
+Hex fora do `:root` do protótipo que ainda não são tokens ficam para as histórias que os usam: categorias de driver `.db-*` (Registrar Driver, Sprint 2), tooltip `#1e293b`/`#cbd5e1`/`#f8fafc`/`#7dd3fc` (PBI 39014) e role bar `#64748b`/`#334155` (descartada). Os tokens `ch-*` são categóricos e valem nos dois temas. Nenhum componente em `src/` usa hex ou paleta padrão do Tailwind (teste `designTokensSource.test.ts`).
 
 ### 1.1 `src/app/layout.tsx` (único ajuste fora do CSS)
 
