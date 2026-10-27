@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useId } from 'react';
 import { NavBadge } from './NavBadge';
 import { useNav } from './NavContext';
-import { SOON_BADGE_LABEL, type NavAccent, type NavLeaf, type NavModule } from './navItems';
+import { SOON_BADGE_LABEL, type NavLeaf, type NavModule } from './navItems';
 
 const HEADER_CLASS =
   'relative mt-[6px] flex w-full cursor-pointer select-none items-center gap-[8px] border-l-[3px] border-transparent pt-[10px] pr-[18px] pb-[6px] pl-[18px] text-left text-[10px] font-bold uppercase tracking-[.12em] text-apsen-muted-2 transition-all focus-ring';
@@ -18,11 +18,6 @@ const ITEM_CLASS =
 const ITEM_ACTIVE = 'border-apsen-blue bg-apsen-blue-bg font-medium text-apsen-blue';
 const ITEM_INACTIVE =
   'border-transparent text-apsen-muted hover:bg-apsen-hover hover:text-apsen-slate';
-const ACCENT_CLASS: Record<NavAccent, string> = {
-  blue: 'bg-apsen-blue',
-  teal: 'bg-apsen-teal',
-  purple: 'bg-apsen-purple',
-};
 
 interface NavModuleGroupProps {
   module: NavModule;
@@ -63,13 +58,6 @@ export function NavModuleGroup({
         onClick={onToggle}
         className={HEADER_CLASS}
       >
-        {module.accent === undefined ? null : (
-          <span
-            aria-hidden
-            data-testid={`accent-${module.id}`}
-            className={`h-[22px] w-[3px] shrink-0 rounded-[2px] ${ACCENT_CLASS[module.accent]}`}
-          />
-        )}
         {module.label}
         <span
           aria-hidden
