@@ -1,5 +1,5 @@
 ---
-status: IN_PROGRESS
+status: REVIEW
 fase: 21
 area: drivers
 feature: meus-registros-e-exportar

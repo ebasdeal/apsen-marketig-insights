@@ -106,6 +106,9 @@
   --color-apsen-code-fg: #7dd3fc;
   --color-apsen-chart-fill: rgba(27, 78, 201, 0.08);
   --color-apsen-chart-grid: rgba(0, 0, 0, 0.04);
+  /* drivers */
+  --color-apsen-star: #f59e0b;
+  /* /drivers */
 
   --spacing-sidebar: 252px;
   --spacing-topbar: 64px;
@@ -225,6 +228,9 @@ html.dark {
   --color-apsen-code-fg: #7dd3fc;
   --color-apsen-chart-fill: rgba(124, 135, 245, 0.16);
   --color-apsen-chart-grid: rgba(255, 255, 255, 0.06);
+  /* drivers */
+  --color-apsen-star: #f59e0b;
+  /* /drivers */
   --shadow-apsen-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen: 0 4px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen-md: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
