@@ -38,20 +38,12 @@ async function waitForModules() {
 }
 
 describe('NavLinks', () => {
-  it('mostra Dashboard e os 8 módulos na ordem para o Admin, com accent nos 3 primeiros', async () => {
-    renderNav();
+  it('mostra Dashboard e os 8 módulos na ordem para o Admin, sem barra colorida (fiel ao markup do protótipo)', async () => {
+    const { container } = renderNav();
     expect(screen.getByRole('link', { name: 'Dashboard' })).toHaveAttribute('href', '/');
     await waitForModules();
     expect(headerNames()).toEqual(HEADERS);
-    expect(screen.getByTestId('accent-drivers')).toHaveClass(
-      'bg-apsen-blue',
-      'h-[22px]',
-      'w-[3px]',
-    );
-    expect(screen.getByTestId('accent-admin')).toHaveClass('bg-apsen-teal');
-    expect(screen.getByTestId('accent-acesso')).toHaveClass('bg-apsen-purple');
-    expect(screen.queryByTestId('accent-agentes')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('accent-planos')).not.toBeInTheDocument();
+    expect(container.querySelector('.w-\\[3px\\]')).toBeNull();
   });
 
   it('cada módulo aberto lista os itens com rótulos e rotas', async () => {

@@ -450,7 +450,7 @@ text-[10px] font-bold uppercase tracking-[.12em] text-apsen-muted-2 transition-a
 
 - Hover: não existe no protótipo. Estado `.active-mod`: definido no CSS, mas nunca aplicado. Não usar nenhum dos dois.
 - Seta: `<span aria-hidden className="ml-auto text-[9px] text-apsen-muted-2 transition-transform duration-[180ms]">▼</span>`, com `rotate-180` quando aberto.
-- `.mod-accent` (3x22px, radius 2px, cor do módulo, L76-79) existe no CSS, mas não aparece no markup do protótipo. Decisão da onda 0 (`prototipo-plataforma.md`, pergunta 4): **renderizar** só nos 3 módulos com cor no CSS — Drivers `bg-apsen-blue`, Administração DI `bg-apsen-teal`, Controle de Acesso `bg-apsen-purple`.
+- `.mod-accent` (3x22px, radius 2px, L76-79) existe no CSS, mas **não aparece no markup do protótipo** (nenhum `class="mod-accent"` no HTML). Por fidelidade, os cabeçalhos de módulo **não** têm barra colorida (corrigido em 27/10/2026 após revisão visual do usuário).
 
 **Filhos** `.nav-children` (L80-81): abre e fecha sem animação (`max-height` sem transição). Renderizar condicionalmente: `{open ? <ul>…</ul> : null}`. O módulo que contém a rota atual começa aberto; o clique alterna.
 
