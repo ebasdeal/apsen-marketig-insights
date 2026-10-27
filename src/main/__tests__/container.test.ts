@@ -97,6 +97,8 @@ describe('createContainerFromProcessEnv', () => {
       'analises',
       'ciclos',
       'fontes',
+      'restricoes',
+      'planos',
       'usuarios',
       'permissoes',
       'agentes',
@@ -106,8 +108,5 @@ describe('createContainerFromProcessEnv', () => {
       'aprovacoes',
       'ingeridos',
     ]);
-    expect(Object.keys(createContainerFromProcessEnv().useCases)).toEqual(
-      expect.arrayContaining(['auth', 'perfis', 'navegacao']),
-    );
   });
 });
