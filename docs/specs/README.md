@@ -46,3 +46,4 @@ Máximo de 3 ciclos developer ↔ qa; depois disso a spec volta para `BLOCKED` e
 | 3    | campaigns | [campaign-list](campaigns/campaign-list.md)                | DONE   |
 | 4    | campaigns | [campaign-details](campaigns/campaign-details.md)          | DONE   |
 | 5    | platform  | [apsen-visual-identity](platform/apsen-visual-identity.md) | DONE   |
+| 6    | platform  | [ui-kit-base](platform/ui-kit-base.md)                     | READY  |

@@ -76,4 +76,17 @@ describe('app/globals.css', () => {
       /html\.dark \{[^}]*--shadow-apsen-modal: 0 20px 40px rgba\(0, 0, 0, 0\.6\);/,
     );
   });
+
+  it('define os tokens do tooltip nos dois temas', () => {
+    expect(css).toContain('--color-apsen-tip-bg: #1e293b;');
+    expect(css).toContain('--color-apsen-tip-fg: #cbd5e1;');
+    expect(css).toContain('--color-apsen-tip-strong: #f8fafc;');
+    expect(css).toContain('--color-apsen-tip-em: #7dd3fc;');
+    expect(css).toContain('--shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.28);');
+    expect(css).toMatch(/html\.dark \{[^}]*--color-apsen-tip-bg: #2b3446;/);
+    expect(css).toMatch(/html\.dark \{[^}]*--color-apsen-tip-fg: #d5dbe5;/);
+    expect(css).toMatch(/html\.dark \{[^}]*--color-apsen-tip-strong: #f8fafc;/);
+    expect(css).toMatch(/html\.dark \{[^}]*--color-apsen-tip-em: #7dd3fc;/);
+    expect(css).toMatch(/html\.dark \{[^}]*--shadow-apsen-tip: 0 8px 28px rgba\(0, 0, 0, 0\.6\);/);
+  });
 });

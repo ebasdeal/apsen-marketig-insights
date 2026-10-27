@@ -1,12 +1,11 @@
 'use client';
 
+import { FIELD_CONTROL } from './fieldClasses';
+
 export interface SelectOption<T extends string> {
   value: T;
   label: string;
 }
-
-const SELECT =
-  'rounded-[6px] border border-apsen-border bg-apsen-white px-[11px] py-[8px] font-[inherit] text-[13.5px] text-apsen-slate transition-[border,box-shadow] duration-[140ms] field-focus';
 
 interface FormSelectProps<T extends string> {
   value: T;
@@ -33,7 +32,7 @@ export function FormSelect<T extends string>({
           onChange(selected.value);
         }
       }}
-      className={`${SELECT} ${className}`}
+      className={`${FIELD_CONTROL} ${className}`}
     >
       {options.map((option) => (
         <option key={option.value} value={option.value}>

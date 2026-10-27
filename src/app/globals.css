@@ -46,6 +46,10 @@
   --color-apsen-warning-fg: #92400e;
   --color-apsen-success-fg: #14532d;
   --color-apsen-danger-fg: #991b1b;
+  --color-apsen-tip-bg: #1e293b;
+  --color-apsen-tip-fg: #cbd5e1;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
 
   --color-apsen-kpi-blue: #eef3ff;
   --color-apsen-kpi-red: #fef2f2;
@@ -74,6 +78,7 @@
   --shadow-apsen-focus: 0 0 0 3px rgba(27, 78, 201, 0.1);
   --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.12);
   --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.18);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.28);
 
   --default-transition-duration: 140ms;
   --default-transition-timing-function: ease;
@@ -125,6 +130,10 @@ html.dark {
   --color-apsen-warning-fg: #fcd34d;
   --color-apsen-success-fg: #86efac;
   --color-apsen-danger-fg: #fca5a5;
+  --color-apsen-tip-bg: #2b3446;
+  --color-apsen-tip-fg: #d5dbe5;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
   --color-apsen-kpi-blue: #1b2050;
   --color-apsen-kpi-red: #3a1717;
   --color-apsen-kpi-green: #12301f;
@@ -137,6 +146,7 @@ html.dark {
   --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
   --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.5);
   --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {

@@ -93,6 +93,10 @@ Substitui integralmente o arquivo atual. Os tokens `brand-*` (`#3b6ef5` etc.) n�
   --color-apsen-warning-fg: #92400e;
   --color-apsen-success-fg: #14532d;
   --color-apsen-danger-fg: #991b1b;
+  --color-apsen-tip-bg: #1e293b;
+  --color-apsen-tip-fg: #cbd5e1;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
 
   --color-apsen-kpi-blue: #eef3ff;
   --color-apsen-kpi-red: #fef2f2;
@@ -121,6 +125,7 @@ Substitui integralmente o arquivo atual. Os tokens `brand-*` (`#3b6ef5` etc.) n�
   --shadow-apsen-focus: 0 0 0 3px rgba(27, 78, 201, 0.1);
   --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.12);
   --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.18);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.28);
 
   --default-transition-duration: 140ms;
   --default-transition-timing-function: ease;
@@ -172,6 +177,10 @@ html.dark {
   --color-apsen-warning-fg: #fcd34d;
   --color-apsen-success-fg: #86efac;
   --color-apsen-danger-fg: #fca5a5;
+  --color-apsen-tip-bg: #2b3446;
+  --color-apsen-tip-fg: #d5dbe5;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
   --color-apsen-kpi-blue: #1b2050;
   --color-apsen-kpi-red: #3a1717;
   --color-apsen-kpi-green: #12301f;
@@ -184,6 +193,7 @@ html.dark {
   --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
   --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.5);
   --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
@@ -782,6 +792,72 @@ Padrões de célula do protótipo:
 - `FormSelect`: `rounded-[6px] border border-apsen-border bg-apsen-white px-[11px] py-[8px] font-[inherit] text-[13.5px] text-apsen-slate transition-[border,box-shadow] duration-[140ms] field-focus` + largura (padrão `w-full`).
 - `ResultSummary`: `mb-[12px] flex items-center justify-between`, com o contador em `text-[13px] text-apsen-muted` (`aria-live="polite"`, número em `<strong>`) e, à direita, a ação opcional.
 - `Pagination`: `nav` "Paginação" com `mt-[4px] flex items-center justify-between border-t border-apsen-border py-[14px]`; info "Mostrando a–b de n" em `text-[13px] text-apsen-muted`; botões `size-[28px] rounded-full border text-[13px] focus-ring`, normal `border-apsen-border bg-apsen-white text-apsen-slate`, atual `border-apsen-blue bg-apsen-blue font-semibold text-white` com `aria-current="page"`, desabilitado `opacity-[.35]`; reticências `px-[4px] text-apsen-muted`. Os números vêm de `pageRange.ts`.
+
+Seções §3.15 a §3.21: componentes base do Demand Intelligence (spec [ui-kit-base](../specs/platform/ui-kit-base.md), fase 6). Tons marcados [derivado] não existem no protótipo.
+
+### 3.15 `FormField`, `TextInput`, `TextArea` e `FormGrid` — `.form-*` (L157-175)
+
+| Parte                 | Classes                                                                                                                                                          |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| grupo (`.form-group`) | `flex flex-col gap-[5px]`; com `full`, `+ col-span-full`                                                                                                         |
+| rótulo                | `text-[11.5px] font-semibold uppercase tracking-[.04em] text-apsen-muted`, ligado ao controle por `htmlFor`                                                      |
+| obrigatório (`.req`)  | `<span aria-hidden="true" className="text-apsen-red"> *</span>` e `required` no controle                                                                         |
+| controle              | `FIELD_CONTROL` (`fieldClasses.ts`), o mesmo do `FormSelect`                                                                                                     |
+| input                 | `FIELD_CONTROL + w-full read-only:bg-apsen-bg read-only:text-apsen-muted aria-[invalid=true]:border-apsen-red-b`                                                 |
+| textarea              | input `+ min-h-[72px] resize-y`                                                                                                                                  |
+| dica                  | `mt-[2px] text-[11px] text-apsen-muted-2`, no `aria-describedby`                                                                                                 |
+| erro [derivado]       | `mt-[2px] text-[11px] text-apsen-red`, no `aria-describedby` e com `aria-invalid="true"`                                                                         |
+| grade                 | `mb-[16px] grid gap-[13px]` + `1`: `grid-cols-1`; `2`: `grid-cols-2 max-[560px]:grid-cols-1`; `3`: `grid-cols-3 max-[800px]:grid-cols-2 max-[560px]:grid-cols-1` |
+
+### 3.16 `Modal` — `.modal-*` (L255-269)
+
+| Parte           | Classes                                                                                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| overlay         | `fixed inset-0 z-[9000] flex items-center justify-center bg-apsen-overlay`; fecha com `mousedown` no próprio overlay                                                       |
+| caixa           | `role="dialog" aria-modal="true"`, `flex max-h-[90vh] max-w-[95vw] flex-col rounded-apsen-lg bg-apsen-white shadow-apsen-modal` + `w-[500px]` (`md`) ou `w-[680px]` (`lg`) |
+| cabeçalho       | `flex items-center justify-between border-b border-apsen-border px-[20px] pt-[16px] pb-[13px]`; `h3` `text-[14.5px] font-semibold`                                         |
+| fechar          | botão "Fechar" (`✕`) `rounded-[4px] px-[6px] py-[2px] text-[17px] leading-none text-apsen-muted hover:bg-apsen-bg hover:text-apsen-slate`                                  |
+| corpo           | `flex flex-col gap-[13px] overflow-y-auto px-[20px] py-[18px]`                                                                                                             |
+| rodapé          | `flex justify-end gap-[8px] border-t border-apsen-border px-[20px] py-[12px]`                                                                                              |
+| foco [derivado] | `useFocusTrap`: foca o primeiro focável, Tab e Shift+Tab circulam dentro, Esc fecha e o foco volta a quem abriu                                                            |
+
+### 3.17 `Table` genérica — mesmas classes do §3.13
+
+Recebe `columns` (`key`, `header`, `render`, `headerClassName?`, `className?`), `rows` já recortadas, `rowKey`, `emptyText` e `actions?` (coluna "Ações" com `ActionGroup`). Slots: `toolbar` (`mb-[13px] flex flex-wrap items-center gap-[8px]`, para o `SearchInput`) e `footer` (para a `Pagination`). Vazio: `td` com `colSpan` de todas as colunas. Não pagina nem filtra.
+
+### 3.18 `Tooltip` — `.tip-*` (L426-444)
+
+| Parte            | Classes                                                                                                                                                                                                                                   |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| wrapper          | `relative ml-[4px] inline-flex items-center align-middle`                                                                                                                                                                                 |
+| gatilho          | `button` com `aria-label`, `cursor-help text-apsen-muted-2 hover:text-apsen-blue focus-ring` e `InfoIcon` 14px                                                                                                                            |
+| balão            | `role="tooltip"`, `w-[290px] rounded-apsen bg-apsen-tip-bg px-[14px] py-[11px] text-[12px] leading-[1.65] text-apsen-tip-fg shadow-apsen-tip`, seta `before:border-b-apsen-tip-bg`; `strong` e `em` com os tokens `tip-strong` e `tip-em` |
+| abrir [derivado] | mouse e foco abrem; sair, blur e Esc fecham; o conteúdo é a descrição acessível do botão                                                                                                                                                  |
+
+### 3.19 `Alert` — `.alert-*` (L291-296)
+
+Base `mb-[14px] flex items-start gap-[9px] rounded-apsen border px-[14px] py-[10px] text-[12.5px] leading-[1.6]` + `AlertCircleIcon` 14px (`aria-hidden`) e título opcional em `<strong>`.
+
+| Tom       | Classes                                                          | Papel    |
+| --------- | ---------------------------------------------------------------- | -------- |
+| `info`    | `border-apsen-blue-light bg-apsen-blue-bg text-apsen-blue`       | `status` |
+| `success` | `border-apsen-green-b bg-apsen-green-bg text-apsen-success-fg`   | `status` |
+| `warning` | `border-apsen-yellow-b bg-apsen-yellow-bg text-apsen-warning-fg` | `alert`  |
+| `error`   | `border-apsen-red-b bg-apsen-red-bg text-apsen-danger-fg`        | `alert`  |
+
+### 3.20 `Toggle` — `.toggle` (L272-279)
+
+`label` `relative inline-block h-[21px] w-[38px]`; `input type="checkbox" role="switch"` `peer absolute size-0 opacity-0`; trilho `rounded-[20px] bg-apsen-border peer-checked:bg-apsen-green` com bolinha `before:size-[15px] before:bg-white peer-checked:before:translate-x-[17px]`, transição de 180ms. Foco visível e desabilitado (`opacity-[.35]`) são [derivado].
+
+### 3.21 `Tabs` — `#tab-ativas`/`#tab-resolvidas` (L2590-2606)
+
+| Parte    | Classes                                                                                                                                                                      |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tablist  | `mb-[16px] flex border-b border-apsen-border`                                                                                                                                |
+| aba      | `-mb-px border-b-2 px-[20px] py-[9px] text-[13px] focus-ring`; inativa `border-transparent text-apsen-muted`                                                                 |
+| ativa    | `blue`: `border-apsen-blue font-medium text-apsen-blue`; `red`: `border-apsen-red font-medium text-apsen-red`                                                                |
+| contador | `ml-[4px] rounded-[10px] px-[7px] py-[1px] text-[10px]`; ativo `bg-apsen-blue`/`bg-apsen-red font-bold text-white`; inativo `bg-apsen-border font-semibold text-apsen-muted` |
+| teclado  | WAI-ARIA: tabindex móvel, setas circulares, Home e End (`nextTabIndex`), ativação automática                                                                                 |
 
 ---
 
