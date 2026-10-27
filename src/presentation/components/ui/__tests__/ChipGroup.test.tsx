@@ -1,12 +1,16 @@
 import { renderWithProviders } from '@test/renderWithProviders';
 import { screen, within } from '@testing-library/react';
-import { PERIOD_OPTIONS } from '../../filterOptions';
 import { ChipGroup, type ChipOption } from '../ChipGroup';
 
 const CHANNEL_OPTIONS: readonly ChipOption<string | null>[] = [
   { value: null, label: 'Todos' },
   { value: 'meta', label: 'Meta Ads' },
   { value: 'tiktok', label: 'TikTok Ads' },
+];
+
+const PERIOD_OPTIONS: readonly ChipOption<string>[] = [
+  { value: 'all', label: 'Tudo' },
+  { value: '30d', label: '30 dias' },
 ];
 
 describe('ChipGroup', () => {
@@ -53,9 +57,5 @@ describe('ChipGroup', () => {
     );
     expect(screen.getByText('Período')).toHaveClass('sr-only');
     expect(screen.getByRole('radiogroup', { name: 'Período' })).toBeInTheDocument();
-  });
-
-  it('opções de período cobrem todos os presets', () => {
-    expect(PERIOD_OPTIONS.map((option) => option.value)).toEqual(['all', '30d', '90d', 'ytd']);
   });
 });

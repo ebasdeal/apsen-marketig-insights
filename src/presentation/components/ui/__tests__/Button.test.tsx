@@ -1,5 +1,6 @@
 import { renderWithProviders } from '@test/renderWithProviders';
-import { campaignDetailsRoute } from '@presentation/navigation/routes';
+import { screenHref } from '@presentation/navigation/screens';
+import type { Route } from 'next';
 import { render, screen } from '@testing-library/react';
 import { Button, ButtonLink } from '../Button';
 import { buttonClasses, type ButtonVariant } from '../buttonClasses';
@@ -79,12 +80,12 @@ describe('ButtonLink', () => {
   });
 
   it('usa primary md por padrão', () => {
-    render(<ButtonLink href="/campaigns">Campanhas</ButtonLink>);
+    render(<ButtonLink href="/acesso-negado">Campanhas</ButtonLink>);
     expect(screen.getByRole('link', { name: 'Campanhas' })).toHaveClass('bg-apsen-blue');
   });
 
   it('aceita rota tipada dinâmica', () => {
-    render(<ButtonLink href={campaignDetailsRoute('cmp-2')}>Abrir</ButtonLink>);
-    expect(screen.getByRole('link', { name: 'Abrir' })).toHaveAttribute('href', '/campaigns/cmp-2');
+    render(<ButtonLink href={screenHref('form', { id: 'cmp-2' }) as Route}>Abrir</ButtonLink>);
+    expect(screen.getByRole('link', { name: 'Abrir' })).toHaveAttribute('href', '/drivers/cmp-2');
   });
 });

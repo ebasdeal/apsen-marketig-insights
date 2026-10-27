@@ -1,9 +1,7 @@
 import type { Route } from 'next';
 
-export const CAMPAIGNS_ROUTE = '/campaigns' satisfies Route;
+export const HOME_ROUTE = '/' satisfies Route;
 
-type CampaignDetailsRoute = `/campaigns/${string}`;
+export const ACCESS_DENIED_ROUTE = '/acesso-negado' satisfies Route;
 
-export function campaignDetailsRoute(id: string): Route<CampaignDetailsRoute> {
-  return `/campaigns/${encodeURIComponent(id)}`;
-}
+export const AUTH_CALLBACK_ROUTE = '/auth/callback' satisfies Route;

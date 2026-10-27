@@ -1,34 +1,42 @@
-import { InvalidEnvError, parseEnv, readProcessEnv } from '../env';
+import { DEFAULT_API_URL, InvalidEnvError, parseEnv, readProcessEnv } from '../env';
 
 describe('parseEnv', () => {
-  it('usa mock com latência padrão quando nada é informado', () => {
-    expect(parseEnv({})).toEqual({ apiUrl: undefined, mockLatencyMs: 600 });
+  it('aponta para a API local e usa login simulado quando nada é informado', () => {
+    expect(parseEnv({})).toEqual({ apiUrl: DEFAULT_API_URL, authMode: 'simulado' });
+    expect(DEFAULT_API_URL).toBe('http://localhost:3001');
   });
 
   it('trata strings vazias como ausentes', () => {
-    expect(parseEnv({ NEXT_PUBLIC_API_URL: '  ', NEXT_PUBLIC_MOCK_LATENCY_MS: '' })).toEqual({
-      apiUrl: undefined,
-      mockLatencyMs: 600,
+    expect(parseEnv({ NEXT_PUBLIC_API_URL: '  ', NEXT_PUBLIC_AUTH_MODE: ' ' })).toEqual({
+      apiUrl: DEFAULT_API_URL,
+      authMode: 'simulado',
     });
   });
 
-  it('normaliza URL e converte latência', () => {
-    expect(
-      parseEnv({
-        NEXT_PUBLIC_API_URL: ' https://api.exemplo.com/v1/ ',
-        NEXT_PUBLIC_MOCK_LATENCY_MS: '0',
-      }),
-    ).toEqual({ apiUrl: 'https://api.exemplo.com/v1', mockLatencyMs: 0 });
+  it('normaliza a URL informada', () => {
+    expect(parseEnv({ NEXT_PUBLIC_API_URL: ' https://api.exemplo.com/v1/ ' }).apiUrl).toBe(
+      'https://api.exemplo.com/v1',
+    );
+  });
+
+  it('rejeita URL inválida', () => {
+    const source = { NEXT_PUBLIC_API_URL: 'nao-e-url' };
+    expect(() => parseEnv(source)).toThrow(InvalidEnvError);
+    expect(() => parseEnv(source)).toThrow('NEXT_PUBLIC_API_URL');
   });
 
   it.each([
-    [{ NEXT_PUBLIC_API_URL: 'nao-e-url' }, 'NEXT_PUBLIC_API_URL'],
-    [{ NEXT_PUBLIC_MOCK_LATENCY_MS: 'abc' }, 'NEXT_PUBLIC_MOCK_LATENCY_MS'],
-    [{ NEXT_PUBLIC_MOCK_LATENCY_MS: '-5' }, 'NEXT_PUBLIC_MOCK_LATENCY_MS'],
-    [{ NEXT_PUBLIC_MOCK_LATENCY_MS: '20000' }, 'NEXT_PUBLIC_MOCK_LATENCY_MS'],
-  ])('rejeita configuração inválida %p', (source, key) => {
-    expect(() => parseEnv(source)).toThrow(InvalidEnvError);
-    expect(() => parseEnv(source)).toThrow(key);
+    [{ NEXT_PUBLIC_AUTH_MODE: 'entra' }, 'entra'],
+    [{ NEXT_PUBLIC_AUTH_MODE: 'simulado' }, 'simulado'],
+    [{ NODE_ENV: 'development' }, 'simulado'],
+    [{ NODE_ENV: 'production' }, 'entra'],
+    [{ NODE_ENV: 'production', NEXT_PUBLIC_AUTH_MODE: 'simulado' }, 'entra'],
+  ])('modo de autenticação com %p → %s', (source, esperado) => {
+    expect(parseEnv(source).authMode).toBe(esperado);
+  });
+
+  it('aceita só simulado/entra', () => {
+    expect(() => parseEnv({ NEXT_PUBLIC_AUTH_MODE: 'sso' })).toThrow('NEXT_PUBLIC_AUTH_MODE');
   });
 });
 
@@ -39,12 +47,13 @@ describe('readProcessEnv', () => {
     process.env = { ...original };
   });
 
-  it('lê apenas as variáveis públicas usadas pelo app', () => {
+  it('lê as variáveis públicas e o NODE_ENV', () => {
     process.env.NEXT_PUBLIC_API_URL = 'https://api.exemplo.com';
-    process.env.NEXT_PUBLIC_MOCK_LATENCY_MS = '10';
+    process.env.NEXT_PUBLIC_AUTH_MODE = 'entra';
     expect(readProcessEnv()).toEqual({
       NEXT_PUBLIC_API_URL: 'https://api.exemplo.com',
-      NEXT_PUBLIC_MOCK_LATENCY_MS: '10',
+      NEXT_PUBLIC_AUTH_MODE: 'entra',
+      NODE_ENV: process.env.NODE_ENV,
     });
   });
 });

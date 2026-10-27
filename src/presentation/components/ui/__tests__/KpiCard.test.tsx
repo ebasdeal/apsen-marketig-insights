@@ -39,9 +39,9 @@ describe('KpiCard', () => {
   });
 
   it('navega quando recebe href', () => {
-    render(<KpiCard label="Campanhas" value="15" href="/campaigns" className="extra" />);
+    render(<KpiCard label="Campanhas" value="15" href="/acesso-negado" className="extra" />);
     const link = screen.getByRole('link', { name: 'Campanhas: 15' });
-    expect(link).toHaveAttribute('href', '/campaigns');
+    expect(link).toHaveAttribute('href', '/acesso-negado');
     expect(link).toHaveClass('extra', 'focus-ring');
     const card = screen.getByRole('article', { name: 'Campanhas: 15' });
     expect(card).toHaveClass('cursor-pointer', 'hover:shadow-apsen-hover');

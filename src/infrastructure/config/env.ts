@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+export const DEFAULT_API_URL = 'http://localhost:3001';
+
 function blankToUndefined(value: unknown): unknown {
   if (typeof value !== 'string') {
     return value;
@@ -9,16 +11,16 @@ function blankToUndefined(value: unknown): unknown {
 }
 
 const envSchema = z.object({
-  NEXT_PUBLIC_API_URL: z.preprocess(blankToUndefined, z.url().optional()),
-  NEXT_PUBLIC_MOCK_LATENCY_MS: z.preprocess(
-    blankToUndefined,
-    z.coerce.number().int().min(0).max(10_000).default(600),
-  ),
+  NEXT_PUBLIC_API_URL: z.preprocess(blankToUndefined, z.url().default(DEFAULT_API_URL)),
+  NEXT_PUBLIC_AUTH_MODE: z.preprocess(blankToUndefined, z.enum(['simulado', 'entra']).optional()),
+  NODE_ENV: z.string().optional(),
 });
 
+export type AuthMode = 'simulado' | 'entra';
+
 export interface AppEnv {
-  apiUrl: string | undefined;
-  mockLatencyMs: number;
+  apiUrl: string;
+  authMode: AuthMode;
 }
 
 export type EnvSource = Record<string, string | undefined>;
@@ -38,15 +40,17 @@ export function parseEnv(source: EnvSource): AppEnv {
       .join('; ');
     throw new InvalidEnvError(`Variáveis de ambiente inválidas: ${details}`);
   }
+  const production = result.data.NODE_ENV === 'production';
   return {
-    apiUrl: result.data.NEXT_PUBLIC_API_URL?.replace(/\/+$/, ''),
-    mockLatencyMs: result.data.NEXT_PUBLIC_MOCK_LATENCY_MS,
+    apiUrl: result.data.NEXT_PUBLIC_API_URL.replace(/\/+$/, ''),
+    authMode: production ? 'entra' : (result.data.NEXT_PUBLIC_AUTH_MODE ?? 'simulado'),
   };
 }
 
 export function readProcessEnv(): EnvSource {
   return {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-    NEXT_PUBLIC_MOCK_LATENCY_MS: process.env.NEXT_PUBLIC_MOCK_LATENCY_MS,
+    NEXT_PUBLIC_AUTH_MODE: process.env.NEXT_PUBLIC_AUTH_MODE,
+    NODE_ENV: process.env.NODE_ENV,
   };
 }

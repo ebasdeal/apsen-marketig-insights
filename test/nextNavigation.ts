@@ -7,13 +7,19 @@ export const routerMock = {
   prefetch: vi.fn(),
 };
 
-export const navigationState: { pathname: string; params: Record<string, string> } = {
+export const navigationState: {
+  pathname: string;
+  params: Record<string, string>;
+  search: string;
+} = {
   pathname: '/',
   params: {},
+  search: '',
 };
 
 export function resetNavigationMock(): void {
   Object.values(routerMock).forEach((fn) => fn.mockReset());
   navigationState.pathname = '/';
   navigationState.params = {};
+  navigationState.search = '';
 }

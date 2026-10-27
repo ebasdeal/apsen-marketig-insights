@@ -12,7 +12,7 @@ vi.mock('next/font/google', () => ({
 }));
 
 describe('app/layout', () => {
-  it('renderiza html pt-BR com script de tema, shell e conteúdo', () => {
+  it('renderiza html pt-BR com script de tema, provedores e conteúdo, sem o shell', () => {
     const html = renderToStaticMarkup(
       <RootLayout>
         <p>página</p>
@@ -20,12 +20,10 @@ describe('app/layout', () => {
     );
     expect(html).toContain('<html lang="pt-BR" class="font-inter-test">');
     expect(html).toContain(themeInitScript.slice(0, 40));
-    expect(html).toContain('Marketing Insights');
-    expect(html).toContain('Navegação principal');
     expect(html).toContain('<body class="font-sans">');
-    expect(html).toContain('aria-label="Menu lateral"');
-    expect(html).toContain('Dashboard');
-    expect(html).toMatch(/<main[^>]*><p>página<\/p><\/main>/);
+    expect(html).toContain('<p>página</p>');
+    expect(html).toContain('aria-label="Notificações"');
+    expect(html).not.toContain('aria-label="Menu lateral"');
   });
 
   it('carrega a Inter com os pesos exatos do protótipo', () => {
@@ -39,8 +37,9 @@ describe('app/layout', () => {
 
   it('define metadados da aplicação', () => {
     expect(metadata.title).toEqual({
-      default: 'Marketing Insights',
-      template: '%s · Marketing Insights',
+      default: 'Demand Intelligence',
+      template: '%s · Demand Intelligence',
     });
+    expect(metadata.description).toBe('Apsen · Demand Intelligence — Drivers de Demanda.');
   });
 });

@@ -1,5 +1,6 @@
 import { renderWithProviders } from '@test/renderWithProviders';
-import { campaignDetailsRoute } from '@presentation/navigation/routes';
+import { screenHref } from '@presentation/navigation/screens';
+import type { Route } from 'next';
 import { render, screen } from '@testing-library/react';
 import { ActionGroup, IconButton, IconLink } from '../IconButton';
 import { ChevronRightIcon, EyeIcon } from '../icons';
@@ -31,7 +32,7 @@ describe('IconLink', () => {
   it('renderiza link com visual de action-btn dentro do grupo', () => {
     render(
       <ActionGroup>
-        <IconLink href="/campaigns" aria-label="Abrir campanha X" className="extra">
+        <IconLink href="/acesso-negado" aria-label="Abrir campanha X" className="extra">
           <EyeIcon className="size-[14px]" />
         </IconLink>
         <IconLink href="/" aria-label="Início">
@@ -40,7 +41,7 @@ describe('IconLink', () => {
       </ActionGroup>,
     );
     const link = screen.getByRole('link', { name: 'Abrir campanha X' });
-    expect(link).toHaveAttribute('href', '/campaigns');
+    expect(link).toHaveAttribute('href', '/acesso-negado');
     expect(link).toHaveClass('rounded-[5px]', 'extra');
     expect(link.parentElement).toHaveClass('gap-[2px]');
     expect(link.querySelector('svg')).toHaveClass('size-[14px]');
@@ -52,13 +53,13 @@ describe('IconLink', () => {
 
   it('aceita rota tipada dinâmica', () => {
     render(
-      <IconLink href={campaignDetailsRoute('cmp-9')} aria-label="Abrir campanha 9">
+      <IconLink href={screenHref('form', { id: 'cmp-9' }) as Route} aria-label="Abrir campanha 9">
         <EyeIcon />
       </IconLink>,
     );
     expect(screen.getByRole('link', { name: 'Abrir campanha 9' })).toHaveAttribute(
       'href',
-      '/campaigns/cmp-9',
+      '/drivers/cmp-9',
     );
   });
 

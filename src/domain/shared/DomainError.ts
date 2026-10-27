@@ -7,8 +7,11 @@ export class DomainError extends Error {
 
 export class InvalidValueError extends DomainError {}
 
-export class CampaignNotFoundError extends DomainError {
-  constructor(readonly campaignId: string) {
-    super(`Campanha ${campaignId} não encontrada`);
+export class NotFoundError extends DomainError {
+  constructor(
+    readonly resource: string,
+    readonly resourceId: string,
+  ) {
+    super(`${resource} ${resourceId} não encontrado`);
   }
 }

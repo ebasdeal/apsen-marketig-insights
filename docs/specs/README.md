@@ -39,11 +39,28 @@ Máximo de 3 ciclos developer ↔ qa; depois disso a spec volta para `BLOCKED` e
 
 ## Índice
 
-| Fase | Área      | Spec                                                       | Status |
-| ---- | --------- | ---------------------------------------------------------- | ------ |
-| 1    | platform  | [app-shell-and-theme](platform/app-shell-and-theme.md)     | DONE   |
-| 2    | dashboard | [dashboard-summary](dashboard/dashboard-summary.md)        | DONE   |
-| 3    | campaigns | [campaign-list](campaigns/campaign-list.md)                | DONE   |
-| 4    | campaigns | [campaign-details](campaigns/campaign-details.md)          | DONE   |
-| 5    | platform  | [apsen-visual-identity](platform/apsen-visual-identity.md) | DONE   |
-| 6    | platform  | [ui-kit-base](platform/ui-kit-base.md)                     | READY  |
+As fases 7 em diante portam o protótipo do Demand Intelligence (ver `docs/prototipo/`). A dezena indica a onda: 2x Drivers, 3x Administração DI, 4x Acesso e Agentes, 5x Análises, Restrições, Planos, Relatórios e Dashboard. As fases 2–4 (Dashboard de marketing e Campanhas) foram removidas junto com o módulo.
+
+| Fase | Área       | Spec                                                                        | Status      |
+| ---- | ---------- | --------------------------------------------------------------------------- | ----------- |
+| 1    | platform   | [app-shell-and-theme](platform/app-shell-and-theme.md)                      | DONE        |
+| 5    | platform   | [apsen-visual-identity](platform/apsen-visual-identity.md)                  | DONE        |
+| 6    | platform   | [ui-kit-base](platform/ui-kit-base.md)                                      | READY       |
+| 7    | platform   | [prototipo-plataforma](platform/prototipo-plataforma.md)                    | IN_PROGRESS |
+| 8    | platform   | [prototipo-ui-kit](platform/prototipo-ui-kit.md)                            | READY       |
+| 9    | platform   | [login](platform/login.md)                                                  | READY       |
+| 20   | drivers    | [registrar-driver](drivers/registrar-driver.md)                             | READY       |
+| 21   | drivers    | [meus-registros-e-exportar](drivers/meus-registros-e-exportar.md)           | READY       |
+| 22   | drivers    | [catalogo-de-produtos](drivers/catalogo-de-produtos.md)                     | READY       |
+| 31   | admin      | [ciclos](admin/ciclos.md)                                                   | READY       |
+| 32   | admin      | [fontes](admin/fontes.md)                                                   | READY       |
+| 33   | admin      | [tipos](admin/tipos.md)                                                     | READY       |
+| 34   | admin      | [aprovacoes](admin/aprovacoes.md)                                           | READY       |
+| 35   | admin      | [ingeridos](admin/ingeridos.md)                                             | READY       |
+| 41   | acesso     | [usuarios-e-perfis](acesso/usuarios-e-perfis.md)                            | READY       |
+| 42   | agentes    | [agentes](agentes/agentes.md)                                               | READY       |
+| 51   | restricoes | [restricoes](restricoes/restricoes.md)                                      | READY       |
+| 52   | planos     | [plano-de-producao](planos/plano-de-producao.md)                            | READY       |
+| 53   | analises   | [analises](analises/analises.md)                                            | READY       |
+| 54   | relatorios | [relatorios](relatorios/relatorios.md)                                      | READY       |
+| 55   | dashboard  | [dashboard-demand-intelligence](dashboard/dashboard-demand-intelligence.md) | READY       |

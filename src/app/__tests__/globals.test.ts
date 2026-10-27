@@ -53,7 +53,6 @@ describe('app/globals.css', () => {
     expect(css).toContain('--radius-apsen-pill: 24px;');
     expect(css).toContain('--shadow-apsen-sm: 0 2px 4px 0 rgba(20, 20, 20, 0.08);');
     expect(css).toContain('--shadow-apsen-md: 0 6px 10px 0 rgba(20, 20, 20, 0.08);');
-    expect(css).not.toContain('rolebar');
   });
 
   it('dá par escuro a toda cor e sombra, exceto as cores categóricas dos canais', () => {
@@ -75,6 +74,23 @@ describe('app/globals.css', () => {
     expect(css).toMatch(
       /html\.dark \{[^}]*--shadow-apsen-modal: 0 20px 40px rgba\(0, 0, 0, 0\.6\);/,
     );
+  });
+
+  it.each([['avatar-muted', '#6f6f6f', '#5c5c5c']])(
+    'define o token %s nos dois temas',
+    (name, light, dark) => {
+      const theme = css.match(/@theme \{([\s\S]*?)\n\}/)?.[1] ?? '';
+      const darkBlock = css.match(/html\.dark \{([\s\S]*?)\n\}/)?.[1] ?? '';
+      expect(theme).toContain(`--color-apsen-${name}: ${light};`);
+      expect(darkBlock).toContain(`--color-apsen-${name}: ${dark};`);
+    },
+  );
+
+  it('não tem mais a role bar e define as animações do toast e do login', () => {
+    expect(css).not.toContain('rolebar');
+    expect(css).toContain('@keyframes apsen-toast-in');
+    expect(css).toContain('@keyframes apsen-toast-progress');
+    expect(css).toContain('@keyframes apsen-fade-up');
   });
 
   it('define os tokens do tooltip nos dois temas', () => {

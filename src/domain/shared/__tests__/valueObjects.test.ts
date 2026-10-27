@@ -1,5 +1,5 @@
 import { DateRange } from '../DateRange';
-import { CampaignNotFoundError, DomainError, InvalidValueError } from '../DomainError';
+import { DomainError, InvalidValueError, NotFoundError } from '../DomainError';
 import { Money } from '../Money';
 import { Percentage } from '../Percentage';
 
@@ -92,12 +92,13 @@ describe('DateRange', () => {
 });
 
 describe('DomainError', () => {
-  it('preserva nome da subclasse e id da campanha', () => {
-    const error = new CampaignNotFoundError('cmp-9');
+  it('preserva nome da subclasse, recurso e id', () => {
+    const error = new NotFoundError('Driver', 'DRV-2026-001');
     expect(error).toBeInstanceOf(DomainError);
-    expect(error.name).toBe('CampaignNotFoundError');
-    expect(error.campaignId).toBe('cmp-9');
-    expect(error.message).toBe('Campanha cmp-9 não encontrada');
+    expect(error.name).toBe('NotFoundError');
+    expect(error.resource).toBe('Driver');
+    expect(error.resourceId).toBe('DRV-2026-001');
+    expect(error.message).toBe('Driver DRV-2026-001 não encontrado');
     expect(new InvalidValueError('x').name).toBe('InvalidValueError');
   });
 });

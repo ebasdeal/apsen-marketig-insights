@@ -1,12 +1,8 @@
-import { CAMPAIGNS_ROUTE, campaignDetailsRoute } from '../routes';
+import { ACCESS_DENIED_ROUTE, HOME_ROUTE } from '../routes';
 
 describe('routes', () => {
-  it('expõe a rota da lista de campanhas', () => {
-    expect(CAMPAIGNS_ROUTE).toBe('/campaigns');
-  });
-
-  it('monta a rota de detalhe codificando o id', () => {
-    expect(campaignDetailsRoute('cmp-1')).toBe('/campaigns/cmp-1');
-    expect(campaignDetailsRoute('a b/c')).toBe('/campaigns/a%20b%2Fc');
+  it('expõe as rotas fixas do shell', () => {
+    expect(HOME_ROUTE).toBe('/');
+    expect(ACCESS_DENIED_ROUTE).toBe('/acesso-negado');
   });
 });

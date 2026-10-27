@@ -1,39 +1,51 @@
+import { useToast } from '@presentation/providers/ToastProvider';
 import { useUseCases, type UseCases } from '@presentation/providers/UseCasesContext';
 import { createFakeUseCases } from '@test/renderWithProviders';
 import { render, screen } from '@testing-library/react';
 import { AppRoot } from '../AppRoot';
 import type { Container } from '../container';
 
-function UseCasesProbe({ onUseCases }: { onUseCases: (value: UseCases) => void }) {
-  onUseCases(useUseCases());
+interface Seen {
+  useCases: UseCases;
+  show: (message: string) => void;
+}
+
+function Probe({ onSeen }: { onSeen: (value: Seen) => void }) {
+  const useCases = useUseCases();
+  const { show } = useToast();
+  onSeen({ useCases, show });
   return <p>raiz pronta</p>;
 }
 
 describe('AppRoot', () => {
-  it('usa o container injetado', () => {
-    const container: Container = { dataSource: 'mock', useCases: createFakeUseCases() };
-    const onUseCases = vi.fn();
+  it('usa o container injetado e expõe o toast', () => {
+    const container: Container = { useCases: createFakeUseCases() };
+    const onSeen = vi.fn();
     render(
       <AppRoot container={container}>
-        <UseCasesProbe onUseCases={onUseCases} />
+        <Probe onSeen={onSeen} />
       </AppRoot>,
     );
     expect(screen.getByText('raiz pronta')).toBeInTheDocument();
-    expect(onUseCases).toHaveBeenCalledWith(container.useCases);
+    expect(onSeen.mock.calls[0]?.[0]).toMatchObject({
+      useCases: container.useCases,
+      show: expect.any(Function),
+    });
   });
 
   it('cria o container a partir do ambiente quando não injetado', () => {
-    const onUseCases = vi.fn();
+    const onSeen = vi.fn();
     render(
       <AppRoot>
-        <UseCasesProbe onUseCases={onUseCases} />
+        <Probe onSeen={onSeen} />
       </AppRoot>,
     );
-    expect(screen.getByText('raiz pronta')).toBeInTheDocument();
-    expect(onUseCases.mock.calls[0]?.[0]).toMatchObject({
-      listCampaigns: expect.any(Object),
-      getCampaignDetails: expect.any(Object),
-      getDashboardSummary: expect.any(Object),
+    expect(onSeen.mock.calls[0]?.[0]).toMatchObject({
+      useCases: {
+        auth: expect.objectContaining({ concluirLogin: expect.any(Object) }),
+        perfis: { list: expect.any(Object) },
+        navegacao: { badges: expect.any(Object) },
+      },
     });
   });
 });

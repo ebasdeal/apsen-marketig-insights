@@ -29,3 +29,28 @@ describe('código-fonte sem cores soltas', () => {
     expect(source).not.toMatch(PALETTE);
   });
 });
+
+describe('sem restos de campanhas', () => {
+  const ROOT = resolve(SRC, '..');
+
+  function allFiles(dir: string): string[] {
+    return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) {
+        return allFiles(path);
+      }
+      return /\.(ts|tsx)$/.test(entry.name) ? [path] : [];
+    });
+  }
+
+  const files = [...allFiles(SRC), ...allFiles(join(ROOT, 'test')), join(ROOT, 'vitest.setup.ts')];
+  const self = resolve(__filename);
+  const word = ['camp', 'aign'].join('');
+
+  it.each(files.filter((path) => resolve(path) !== self).map((path) => relative(ROOT, path)))(
+    '%s não menciona o módulo removido',
+    (file) => {
+      expect(readFileSync(join(ROOT, file), 'utf-8').toLowerCase()).not.toContain(word);
+    },
+  );
+});

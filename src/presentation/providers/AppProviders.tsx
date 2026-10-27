@@ -3,6 +3,8 @@
 import { QueryClientProvider, type QueryClient } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
 import { ThemeSync } from '../theme/ThemeSync';
+import { SessionSync } from './SessionSync';
+import { ToastProvider } from './ToastProvider';
 import { UseCasesProvider, type UseCases } from './UseCasesContext';
 
 interface AppProvidersProps {
@@ -15,8 +17,11 @@ export function AppProviders({ useCases, queryClient, children }: AppProvidersPr
   return (
     <QueryClientProvider client={queryClient}>
       <UseCasesProvider useCases={useCases}>
-        <ThemeSync />
-        {children}
+        <ToastProvider>
+          <ThemeSync />
+          <SessionSync />
+          {children}
+        </ToastProvider>
       </UseCasesProvider>
     </QueryClientProvider>
   );

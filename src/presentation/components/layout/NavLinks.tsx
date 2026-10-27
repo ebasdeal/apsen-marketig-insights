@@ -1,8 +1,14 @@
 'use client';
 
+import { moduloVisivel } from '@domain/perfis/acesso';
+import { nextAccordion, resolveOpenModule } from '@presentation/navigation/resolveOpenModule';
+import { useCurrentScreen } from '@presentation/navigation/useCurrentScreen';
+import type { Route } from 'next';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { isActiveRoute } from './isActiveRoute';
+import { useNavBadges } from '../../hooks/useNavBadges';
+import { usePerfilAtual } from '../../hooks/usePerfilAtual';
+import { useSidebarStore } from '../../stores/sidebarStore';
 import { useNav } from './NavContext';
 import { DashboardIcon } from './NavIcons';
 import { NAV_MODULES, NAV_ROOT } from './navItems';
@@ -17,11 +23,22 @@ const ROOT_INACTIVE =
 export function NavLinks() {
   const pathname = usePathname();
   const { closeOnMobile } = useNav();
-  const rootActive = isActiveRoute(pathname, NAV_ROOT.href);
+  const { screen, blocked } = useCurrentScreen();
+  const { perfil } = usePerfilAtual();
+  const badges = useNavBadges().data;
+  const accordion = useSidebarStore((state) => state.accordion);
+  const setAccordion = useSidebarStore((state) => state.setAccordion);
+  const activeScreenId = blocked ? null : (screen?.id ?? null);
+  const openModule = resolveOpenModule(screen?.modulo ?? null, pathname, accordion);
+  const rootActive = activeScreenId === NAV_ROOT.screenId;
+  const modules =
+    perfil === undefined
+      ? []
+      : NAV_MODULES.filter((module) => moduloVisivel(perfil.nivel, module.id));
   return (
     <nav aria-label="Navegação principal">
       <Link
-        href={NAV_ROOT.href}
+        href={NAV_ROOT.href as Route}
         onClick={closeOnMobile}
         aria-current={rootActive ? 'page' : undefined}
         className={`${ROOT_CLASS} ${rootActive ? ROOT_ACTIVE : ROOT_INACTIVE}`}
@@ -29,9 +46,19 @@ export function NavLinks() {
         <DashboardIcon />
         {NAV_ROOT.label}
       </Link>
-      {NAV_MODULES.map((module) => (
-        <NavModuleGroup key={module.key} module={module} />
-      ))}
+      {perfil === undefined
+        ? null
+        : modules.map((module) => (
+            <NavModuleGroup
+              key={module.id}
+              module={module}
+              open={openModule === module.id}
+              onToggle={() => setAccordion(nextAccordion(openModule, module.id), pathname)}
+              activeScreenId={activeScreenId}
+              badges={badges}
+              nivel={perfil.nivel}
+            />
+          ))}
     </nav>
   );
 }

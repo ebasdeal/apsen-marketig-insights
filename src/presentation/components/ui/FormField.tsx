@@ -22,7 +22,7 @@ interface FormFieldProps {
   label: string;
   children: ReactNode;
   hint?: string;
-  error?: string;
+  error?: string | undefined;
   required?: boolean;
   full?: boolean;
 }

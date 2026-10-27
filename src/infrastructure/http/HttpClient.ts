@@ -5,8 +5,20 @@ export interface HttpRequestOptions {
   signal?: AbortSignal;
 }
 
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export interface PageResult {
+  data: unknown;
+  total: number;
+}
+
 export interface HttpClient {
   get(path: string, options?: HttpRequestOptions): Promise<unknown>;
+  getPage(path: string, options?: HttpRequestOptions): Promise<PageResult>;
+  post(path: string, body: unknown, options?: HttpRequestOptions): Promise<unknown>;
+  put(path: string, body: unknown, options?: HttpRequestOptions): Promise<unknown>;
+  patch(path: string, body: unknown, options?: HttpRequestOptions): Promise<unknown>;
+  delete(path: string, options?: HttpRequestOptions): Promise<unknown>;
 }
 
 export class HttpError extends Error {
@@ -27,6 +39,16 @@ export class NetworkError extends Error {
   ) {
     super(`Falha de rede ao acessar ${url}`);
     this.name = 'NetworkError';
+  }
+}
+
+export class TimeoutError extends Error {
+  constructor(
+    readonly url: string,
+    readonly timeoutMs: number,
+  ) {
+    super(`Tempo de resposta esgotado ao acessar ${url}`);
+    this.name = 'TimeoutError';
   }
 }
 

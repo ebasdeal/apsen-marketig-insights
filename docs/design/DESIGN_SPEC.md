@@ -352,7 +352,7 @@ text-[10px] font-bold uppercase tracking-[.12em] text-apsen-muted-2 transition-a
 
 - Hover: não existe no protótipo. Estado `.active-mod`: definido no CSS, mas nunca aplicado. Não usar nenhum dos dois.
 - Seta: `<span aria-hidden className="ml-auto text-[9px] text-apsen-muted-2 transition-transform duration-[180ms]">▼</span>`, com `rotate-180` quando aberto.
-- `.mod-accent` (3x22px, radius 2px, cor do módulo, L76-79) existe no CSS, mas **não aparece no markup** do protótipo. Para ficar à risca com o que é renderizado, **não renderizar**.
+- `.mod-accent` (3x22px, radius 2px, cor do módulo, L76-79) existe no CSS, mas não aparece no markup do protótipo. Decisão da onda 0 (`prototipo-plataforma.md`, pergunta 4): **renderizar** só nos 3 módulos com cor no CSS — Drivers `bg-apsen-blue`, Administração DI `bg-apsen-teal`, Controle de Acesso `bg-apsen-purple`.
 
 **Filhos** `.nav-children` (L80-81): abre e fecha sem animação (`max-height` sem transição). Renderizar condicionalmente: `{open ? <ul>…</ul> : null}`. O módulo que contém a rota atual começa aberto; o clique alterna.
 
@@ -472,6 +472,20 @@ export const NAV_MODULES: readonly NavModule[] = [
 - Nos dois casos, o grid interno responde com os breakpoints do protótipo (§4).
 
 ---
+
+### 2.6 Onda 0 — shell do Demand Intelligence (`prototipo-plataforma.md`, `login.md`)
+
+- **Textos**: logo "Demand / Intelligence"; rodapé "Apsen Farmacêutica / PLP Agent · Demand Intelligence"; trilha "Demand Intelligence › {crumb}" com o crumb de `navigation/screens.ts` ("Acesso Negado" quando a guarda bloqueia, "Página não encontrada" fora do registro).
+- **Módulos**: Dashboard + 8 módulos na ordem do protótipo (L542-681), visíveis pelo nível do perfil da sessão (`setRole`, L3716-3753). "Exportar JSON" exige nível 3 e "Novo Usuário" nível 4.
+- **Badges** calculados da API (`X-Total-Count`), inclusive os fixos do protótipo; contagem indisponível oculta só aquele badge; "A definir" mostra "em breve" (tom `soon`).
+- **Item ativo** decidido pela tela atual (`ni-{id}`), não por prefixo de rota. **Accordion**: um módulo aberto por vez; a tela atual abre o seu; Drivers começa aberto.
+- **Gaveta < 800 px**: começa fechada, overlay, Esc fecha e devolve o foco ao burger, abrir foca o primeiro link; `motion-reduce:transition-none`.
+- **Role bar**: continua fora do app (§0.1). O perfil vem do usuário autenticado por SSO.
+- **Menu do usuário** (topbar): avatar 30 px com a letra e a cor do perfil (`purple`/`blue`/`teal`/`avatar-muted`) + nome; menu com nome, e-mail, perfil e "Sair".
+- **Acesso Restrito** (L3153-3161): 🔒, `h1` "Acesso Restrito", "Seu perfil ({label}) não tem acesso a esta funcionalidade.", texto de upgrade por nível com `<strong>` e botão outline "← Voltar ao Dashboard".
+- **Toast** (substitui o do protótipo, §13.2): canto superior direito abaixo da topbar, 380 px, faixa de 4 px na cor do tom, ícone em círculo, título por tom, ✕, barra de progresso; 4 s (erro 6 s), pausa no hover/foco, pilha de 3.
+- **Carregamento** (§13.3): `RouteProgress` de 3 px `apsen-blue` no topo (após 120 ms; indeterminado em buscas iniciais), `BusyRegion` (opacidade 60 % + `aria-busy`) e `FullScreenLoader` com o logo pulsando ("Verificando sua sessão…", "Redirecionando para o login…", "Entrando…").
+- **Token novo**: `--color-apsen-avatar-muted` `#6f6f6f` / escuro `#5c5c5c` (avatar do Visualizador; o `muted` clareia no escuro e o texto branco ficaria ilegível).
 
 ## 3. UI kit (`src/presentation/components/ui`)
 
