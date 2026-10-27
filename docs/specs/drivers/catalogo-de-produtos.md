@@ -1,5 +1,5 @@
 ---
-status: IN_PROGRESS
+status: REVIEW
 fase: 22
 area: drivers
 feature: catalogo-de-produtos
