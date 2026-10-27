@@ -4,6 +4,8 @@ import { FetchHttpClient, type FetchFn } from '@infrastructure/http/FetchHttpCli
 import type { UseCases } from '@presentation/providers/UseCasesContext';
 import { expirarSessao, tokenAtual } from '@presentation/stores/sessaoStore';
 import { createAuthModule, createSsoProvider } from './modules/auth';
+import { createCiclosModule } from './modules/ciclos';
+import { createFontesModule } from './modules/fontes';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
 
@@ -32,6 +34,8 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       auth: createAuthModule(http, sso),
       perfis: createPerfisModule(http),
       navegacao: createNavegacaoModule(http),
+      ciclos: createCiclosModule(http),
+      fontes: createFontesModule(http),
     },
   };
 }

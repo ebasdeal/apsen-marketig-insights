@@ -94,6 +94,8 @@ describe('createContainerFromProcessEnv', () => {
       'auth',
       'perfis',
       'navegacao',
+      'ciclos',
+      'fontes',
     ]);
   });
 });

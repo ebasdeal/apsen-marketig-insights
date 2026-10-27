@@ -1,3 +1,6 @@
+import { ciclosKeys } from './ciclos/ciclosKeys';
+import { fontesKeys } from './fontes/fontesKeys';
+
 export const queryKeys = {
   auth: {
     me: (usuarioId: string) => ['auth', 'me', usuarioId] as const,
@@ -9,4 +12,6 @@ export const queryKeys = {
   navegacao: {
     badges: () => ['navegacao', 'badges'] as const,
   },
+  ciclos: ciclosKeys,
+  fontes: fontesKeys,
 };
