@@ -24,13 +24,13 @@ const data = JSON.parse(readFileSync(join(dir, 'db.json'), 'utf-8'));
 const server = jsonServer.create();
 const router = jsonServer.router(data);
 
-// token -> id do usuário · código -> { email, nome, expiraEm }
+// token -> id do usuário · código -> { email, expiraEm }
 const sessions = new Map();
 const codes = new Map();
 
 function publicUser(usuario) {
-  const { id, nome, email, perfil, perfilLabel, area } = usuario;
-  return { id, nome, email, perfil, perfilLabel, area };
+  const { id, nome, email, perfil, perfilLabel, area, ativo } = usuario;
+  return { id, nome, email, perfil, perfilLabel, area, ativo };
 }
 
 function bearerToken(req) {
@@ -47,31 +47,7 @@ function sessionUser(req) {
   if (userId === undefined) {
     return undefined;
   }
-  const usuario = findUser({ id: userId });
-  return usuario?.ativo ? usuario : undefined;
-}
-
-// Primeiro acesso: cria o usuário com o perfil padrão; o admin eleva depois na tela de Usuários.
-function provisionUser({ email, nome }) {
-  const perfilId = router.db.get('config').value().perfilPadrao ?? 'viewer';
-  const perfil = router.db.get('perfis').find({ id: perfilId }).value();
-  const usuario = {
-    id: randomUUID(),
-    nome: nome || email.split('@')[0],
-    email,
-    perfil: perfilId,
-    perfilLabel: perfil?.label ?? perfilId,
-    area: '',
-    podeRegistrar: false,
-    podeValidar: false,
-    admin: false,
-    ultimoAcesso: 'Primeiro acesso',
-    ativo: true,
-    removivel: true,
-    criadoNoPrimeiroAcesso: true,
-  };
-  router.db.get('usuarios').push(usuario).write();
-  return usuario;
+  return findUser({ id: userId });
 }
 
 function escapeHtml(value) {
@@ -146,11 +122,9 @@ ${erro ? `<div class="erro" role="alert" id="erro">${escapeHtml(erro)}</div>` : 
   <input type="hidden" name="redirect_uri" value="${escapeHtml(redirectUri)}">
   <input type="hidden" name="state" value="${escapeHtml(state)}">
   <fieldset><legend>Contas já cadastradas</legend>${contas}</fieldset>
-  <p class="dica">Ou entre com outra conta corporativa (primeiro acesso cria o usuário com o perfil padrão):</p>
+  <p class="dica">Ou entre com outra conta corporativa. Quem não foi cadastrado pelo administrador autentica, mas não tem acesso liberado:</p>
   <label class="campo" for="outro-email">Outro e-mail</label>
   <input id="outro-email" name="outro_email" type="email" autocomplete="username" placeholder="nome.sobrenome@apsen.com.br">
-  <label class="campo" for="nome" style="margin-top:12px">Nome (só no primeiro acesso)</label>
-  <input id="nome" name="nome" type="text" autocomplete="name">
   <button type="submit">Entrar</button>
 </form>`,
   );
@@ -179,7 +153,6 @@ server.post('/sso/authorize', (req, res) => {
   const email = String(req.body?.outro_email || req.body?.email || '')
     .trim()
     .toLowerCase();
-  const nome = String(req.body?.nome ?? '').trim();
   const render = (status, erro) =>
     res.status(status).send(authorizePage({ redirectUri: redirect.href, state, email, erro }));
 
@@ -191,7 +164,7 @@ server.post('/sso/authorize', (req, res) => {
   }
 
   const code = randomUUID();
-  codes.set(code, { email, nome, expiraEm: Date.now() + codeTtlMs });
+  codes.set(code, { email, expiraEm: Date.now() + codeTtlMs });
   redirect.searchParams.set('code', code);
   redirect.searchParams.set('state', state);
   res.redirect(302, redirect.href);
@@ -219,9 +192,14 @@ server.post('/auth/token', (req, res) => {
     res.status(401).json({ message: 'Código de autenticação inválido ou expirado.' });
     return;
   }
-  const usuario = findUser((u) => u.email.toLowerCase() === entry.email) ?? provisionUser(entry);
-  if (!usuario.ativo) {
-    res.status(403).json({ message: 'Usuário inativo. Fale com o administrador do sistema.' });
+  // Só entra quem o administrador cadastrou. Inativo entra, mas só visualiza.
+  const usuario = findUser((u) => u.email.toLowerCase() === entry.email);
+  if (usuario === undefined) {
+    res.status(403).json({
+      codigo: 'nao_cadastrado',
+      message:
+        'Seu acesso ao Demand Intelligence ainda não foi liberado. Solicite o cadastro ao administrador.',
+    });
     return;
   }
   const token = randomUUID();
@@ -243,6 +221,13 @@ server.use((req, res, next) => {
   const usuario = sessionUser(req);
   if (usuario === undefined) {
     res.status(401).json({ message: 'Sessão expirada. Entre novamente.' });
+    return;
+  }
+  if (!usuario.ativo && req.method !== 'GET') {
+    res.status(403).json({
+      codigo: 'somente_leitura',
+      message: 'Seu usuário está inativo: o acesso é somente para visualização.',
+    });
     return;
   }
   req.usuario = usuario;
