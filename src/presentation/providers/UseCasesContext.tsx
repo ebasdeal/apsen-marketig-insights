@@ -7,8 +7,11 @@ import type {
   ObterSessaoAtual,
   Sair,
 } from '@application/auth/authUseCases';
+import type { AprovacoesUseCases } from '@application/aprovacoes/aprovacoesUseCases';
+import type { IngeridosUseCases } from '@application/ingeridos/ingeridosUseCases';
 import type { GetNavBadges } from '@application/navegacao/GetNavBadges';
 import type { ListPerfis } from '@application/perfis/ListPerfis';
+import type { TiposUseCases } from '@application/tipos/tiposUseCases';
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface UseCases {
@@ -21,6 +24,9 @@ export interface UseCases {
   };
   perfis: { list: Pick<ListPerfis, 'execute'> };
   navegacao: { badges: Pick<GetNavBadges, 'execute'> };
+  tipos: TiposUseCases;
+  aprovacoes: AprovacoesUseCases;
+  ingeridos: IngeridosUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

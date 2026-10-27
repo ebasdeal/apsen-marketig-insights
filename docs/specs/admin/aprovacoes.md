@@ -1,5 +1,5 @@
 ---
-status: READY
+status: IN_PROGRESS
 fase: 34
 area: admin
 feature: aprovacoes

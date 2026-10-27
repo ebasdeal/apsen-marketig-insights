@@ -3,9 +3,12 @@ import { parseEnv, readProcessEnv, type AppEnv } from '@infrastructure/config/en
 import { FetchHttpClient, type FetchFn } from '@infrastructure/http/FetchHttpClient';
 import type { UseCases } from '@presentation/providers/UseCasesContext';
 import { expirarSessao, tokenAtual } from '@presentation/stores/sessaoStore';
+import { createAprovacoesModule } from './modules/aprovacoes';
 import { createAuthModule, createSsoProvider } from './modules/auth';
+import { createIngeridosModule } from './modules/ingeridos';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
+import { createTiposModule } from './modules/tipos';
 
 export interface Container {
   useCases: UseCases;
@@ -32,6 +35,9 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       auth: createAuthModule(http, sso),
       perfis: createPerfisModule(http),
       navegacao: createNavegacaoModule(http),
+      tipos: createTiposModule(http),
+      aprovacoes: createAprovacoesModule(http),
+      ingeridos: createIngeridosModule(http),
     },
   };
 }

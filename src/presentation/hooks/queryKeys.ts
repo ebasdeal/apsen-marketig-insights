@@ -1,3 +1,7 @@
+import { aprovacoesKeys } from './aprovacoes/aprovacoesKeys';
+import { ingeridosKeys } from './ingeridos/ingeridosKeys';
+import { tiposKeys } from './tipos/tiposKeys';
+
 export const queryKeys = {
   auth: {
     me: (usuarioId: string) => ['auth', 'me', usuarioId] as const,
@@ -9,4 +13,7 @@ export const queryKeys = {
   navegacao: {
     badges: () => ['navegacao', 'badges'] as const,
   },
+  tipos: tiposKeys,
+  aprovacoes: aprovacoesKeys,
+  ingeridos: ingeridosKeys,
 };
