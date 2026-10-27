@@ -17,13 +17,14 @@ interface AlertProps {
   title?: string;
   children: ReactNode;
   className?: string;
+  icon?: ReactNode;
 }
 
-export function Alert({ tone = 'info', title, children, className = '' }: AlertProps) {
+export function Alert({ tone = 'info', title, children, className = '', icon }: AlertProps) {
   const role = tone === 'warning' || tone === 'error' ? 'alert' : 'status';
   return (
     <div role={role} data-tone={tone} className={`${BASE} ${TONES[tone]} ${className}`.trim()}>
-      <AlertCircleIcon className="mt-[3px] size-[14px] shrink-0" />
+      {icon ?? <AlertCircleIcon className="mt-[3px] size-[14px] shrink-0" />}
       <span>
         {title === undefined ? null : <strong>{title} </strong>}
         {children}
