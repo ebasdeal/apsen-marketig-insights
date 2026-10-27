@@ -5,6 +5,8 @@ import type { UseCases } from '@presentation/providers/UseCasesContext';
 import { expirarSessao, tokenAtual } from '@presentation/stores/sessaoStore';
 import { createAnalisesModule } from './modules/analises';
 import { createAuthModule, createSsoProvider } from './modules/auth';
+import { createCiclosModule } from './modules/ciclos';
+import { createFontesModule } from './modules/fontes';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
 
@@ -34,6 +36,8 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       perfis: createPerfisModule(http),
       navegacao: createNavegacaoModule(http),
       analises: createAnalisesModule(http),
+      ciclos: createCiclosModule(http),
+      fontes: createFontesModule(http),
     },
   };
 }

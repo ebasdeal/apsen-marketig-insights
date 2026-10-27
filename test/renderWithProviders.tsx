@@ -5,6 +5,8 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement, ReactNode } from 'react';
 import { createFakeAnalisesUseCases } from './fakes/analises';
+import { createFakeCiclosUseCases } from './fakes/ciclos';
+import { createFakeFontesUseCases } from './fakes/fontes';
 import { NAV_BADGES_FIXTURE } from './fixtures/navBadges';
 import { PERFIS_FIXTURE } from './fixtures/perfis';
 import { SESSAO_ADMIN } from './fixtures/sessao';
@@ -38,6 +40,8 @@ export function createFakeUseCases(overrides: FakeUseCasesOverrides = {}): UseCa
       ...overrides.navegacao,
     },
     analises: createFakeAnalisesUseCases(overrides.analises),
+    ciclos: createFakeCiclosUseCases(overrides.ciclos),
+    fontes: createFakeFontesUseCases(overrides.fontes),
   };
 }
 
