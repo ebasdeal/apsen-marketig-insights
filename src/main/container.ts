@@ -7,6 +7,8 @@ import { createAnalisesModule } from './modules/analises';
 import { createAuthModule, createSsoProvider } from './modules/auth';
 import { createCiclosModule } from './modules/ciclos';
 import { createFontesModule } from './modules/fontes';
+import { createCatalogoModule } from './modules/catalogo';
+import { createDriversModule } from './modules/drivers';
 import { createNavegacaoModule } from './modules/navegacao';
 import { createPerfisModule } from './modules/perfis';
 import { createPlanosModule } from './modules/planos';
@@ -48,6 +50,8 @@ export function createContainer(env: AppEnv, overrides: ContainerOverrides = {})
       usuarios: createUsuariosModule(http),
       permissoes: createPermissoesModule(http),
       agentes: createAgentesModule(http),
+      drivers: createDriversModule(http),
+      catalogo: createCatalogoModule(http),
     },
   };
 }

@@ -100,6 +100,8 @@ describe('createContainerFromProcessEnv', () => {
       'usuarios',
       'permissoes',
       'agentes',
+      'drivers',
+      'catalogo',
     ]);
     expect(Object.keys(createContainerFromProcessEnv().useCases)).toEqual(
       expect.arrayContaining(['auth', 'perfis', 'navegacao']),

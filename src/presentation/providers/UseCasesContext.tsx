@@ -10,6 +10,8 @@ import type {
 } from '@application/auth/authUseCases';
 import type { CiclosUseCases } from '@application/ciclos/ciclosUseCases';
 import type { FontesUseCases } from '@application/fontes/fontesUseCases';
+import type { CatalogoUseCases } from '@application/catalogo/catalogoUseCases';
+import type { DriversUseCases } from '@application/drivers/driversUseCases';
 import type { GetNavBadges } from '@application/navegacao/GetNavBadges';
 import type { ListPerfis } from '@application/perfis/ListPerfis';
 import type { PlanosUseCases } from '@application/planos/planosUseCases';
@@ -37,6 +39,8 @@ export interface UseCases {
   usuarios: UsuariosUseCases;
   permissoes: PermissoesUseCases;
   agentes: AgentesUseCases;
+  drivers: DriversUseCases;
+  catalogo: CatalogoUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

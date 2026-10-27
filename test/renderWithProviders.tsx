@@ -9,6 +9,8 @@ import { createFakeCiclosUseCases } from './fakes/ciclos';
 import { createFakeFontesUseCases } from './fakes/fontes';
 import { createFakePlanosUseCases } from './fakes/planos';
 import { createFakeRestricoesUseCases } from './fakes/restricoes';
+import { createFakeCatalogoUseCases } from './fakes/catalogo';
+import { createFakeDriversUseCases } from './fakes/drivers';
 import { NAV_BADGES_FIXTURE } from './fixtures/navBadges';
 import { PERFIS_FIXTURE } from './fixtures/perfis';
 import { SESSAO_ADMIN } from './fixtures/sessao';
@@ -51,6 +53,8 @@ export function createFakeUseCases(overrides: FakeUseCasesOverrides = {}): UseCa
     usuarios: createFakeUsuariosUseCases(overrides.usuarios),
     permissoes: createFakePermissoesUseCases(overrides.permissoes),
     agentes: createFakeAgentesUseCases(overrides.agentes),
+    drivers: { ...createFakeDriversUseCases(), ...overrides.drivers },
+    catalogo: { ...createFakeCatalogoUseCases(), ...overrides.catalogo },
   };
 }
 

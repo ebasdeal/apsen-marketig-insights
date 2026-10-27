@@ -5,6 +5,8 @@ import { planosKeys } from './planos/planosKeys';
 import { restricoesKeys } from './restricoes/restricoesKeys';
 import { permissoesKeys, usuariosKeys } from './usuarios/usuariosKeys';
 import { agentesKeys } from './agentes/agentesKeys';
+import { catalogoKeys } from './catalogo/catalogoKeys';
+import { driversKeys } from './drivers/driversKeys';
 
 export const queryKeys = {
   auth: {
@@ -25,4 +27,6 @@ export const queryKeys = {
   usuarios: usuariosKeys,
   permissoes: permissoesKeys,
   agentes: agentesKeys,
+  drivers: driversKeys,
+  catalogo: catalogoKeys,
 };

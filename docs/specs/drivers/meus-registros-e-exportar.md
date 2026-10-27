@@ -1,5 +1,5 @@
 ---
-status: READY
+status: IN_PROGRESS
 fase: 21
 area: drivers
 feature: meus-registros-e-exportar
