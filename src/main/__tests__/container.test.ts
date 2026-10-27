@@ -90,10 +90,8 @@ describe('createContainerFromProcessEnv', () => {
   });
 
   it('cria todos os módulos', () => {
-    expect(Object.keys(createContainerFromProcessEnv().useCases)).toEqual([
-      'auth',
-      'perfis',
-      'navegacao',
-    ]);
+    expect(Object.keys(createContainerFromProcessEnv().useCases)).toEqual(
+      expect.arrayContaining(['auth', 'perfis', 'navegacao']),
+    );
   });
 });

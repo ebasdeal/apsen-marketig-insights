@@ -1,3 +1,6 @@
+import { planosKeys } from './planos/planosKeys';
+import { restricoesKeys } from './restricoes/restricoesKeys';
+
 export const queryKeys = {
   auth: {
     me: (usuarioId: string) => ['auth', 'me', usuarioId] as const,
@@ -9,4 +12,6 @@ export const queryKeys = {
   navegacao: {
     badges: () => ['navegacao', 'badges'] as const,
   },
+  restricoes: restricoesKeys,
+  planos: planosKeys,
 };

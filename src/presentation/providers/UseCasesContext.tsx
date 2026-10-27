@@ -9,6 +9,8 @@ import type {
 } from '@application/auth/authUseCases';
 import type { GetNavBadges } from '@application/navegacao/GetNavBadges';
 import type { ListPerfis } from '@application/perfis/ListPerfis';
+import type { PlanosUseCases } from '@application/planos/planosUseCases';
+import type { RestricoesUseCases } from '@application/restricoes/restricoesUseCases';
 import { createContext, useContext, type ReactNode } from 'react';
 
 export interface UseCases {
@@ -21,6 +23,8 @@ export interface UseCases {
   };
   perfis: { list: Pick<ListPerfis, 'execute'> };
   navegacao: { badges: Pick<GetNavBadges, 'execute'> };
+  restricoes: RestricoesUseCases;
+  planos: PlanosUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);
