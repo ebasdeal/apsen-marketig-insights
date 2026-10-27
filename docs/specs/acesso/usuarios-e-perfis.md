@@ -1,5 +1,5 @@
 ---
-status: READY
+status: IN_PROGRESS
 fase: 41
 area: acesso
 feature: usuarios-e-perfis

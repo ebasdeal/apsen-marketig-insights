@@ -22,7 +22,14 @@ const layers = (...types) => ({ element: { types: { anyOf: types } } });
 export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
-  globalIgnores(['.next/**', 'out/**', 'coverage/**', 'node_modules/**', 'next-env.d.ts']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'coverage/**',
+    'node_modules/**',
+    'next-env.d.ts',
+    '.claude/worktrees/**',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     rules: {

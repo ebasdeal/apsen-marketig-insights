@@ -1,13 +1,16 @@
 import type { ReactNode } from 'react';
 
 export type BadgeTone = 'blue' | 'green' | 'yellow' | 'red' | 'gray' | 'teal' | 'purple' | 'orange';
-export type BadgeSize = 'md' | 'lg';
+export type BadgeSize = 'md' | 'lg' | 'xl';
 
 const BASE = 'inline-flex w-fit items-center whitespace-nowrap rounded-[20px]';
 
+const DOT = "before:size-[5px] before:shrink-0 before:rounded-full before:content-['']";
+
 const SIZES: Record<BadgeSize, string> = {
-  md: "gap-[5px] px-[9px] py-[3px] text-[11.5px] font-medium before:size-[5px] before:shrink-0 before:rounded-full before:content-['']",
+  md: `gap-[5px] px-[9px] py-[3px] text-[11.5px] font-medium ${DOT}`,
   lg: 'border px-[12px] py-[4px] text-[12px] font-semibold',
+  xl: `gap-[5px] px-[13px] py-[5px] text-[12.5px] font-medium ${DOT}`,
 };
 
 const TONES: Record<BadgeTone, string> = {

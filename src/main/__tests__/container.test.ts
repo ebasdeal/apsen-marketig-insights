@@ -94,8 +94,19 @@ describe('createContainerFromProcessEnv', () => {
       'auth',
       'perfis',
       'navegacao',
+      'analises',
+      'ciclos',
+      'fontes',
+      'restricoes',
+      'planos',
+      'usuarios',
+      'permissoes',
+      'agentes',
       'drivers',
       'catalogo',
+      'tipos',
+      'aprovacoes',
+      'ingeridos',
     ]);
   });
 });

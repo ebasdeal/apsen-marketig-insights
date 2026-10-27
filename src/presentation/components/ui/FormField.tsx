@@ -19,7 +19,9 @@ const LABEL = 'text-[11.5px] font-semibold uppercase tracking-[.04em] text-apsen
 const MESSAGE = 'mt-[2px] text-[11px]';
 
 interface FormFieldProps {
-  label: string;
+  label: ReactNode;
+  tip?: ReactNode;
+  labelClassName?: string;
   children: ReactNode;
   hint?: string;
   error?: string | undefined;
@@ -29,6 +31,8 @@ interface FormFieldProps {
 
 export function FormField({
   label,
+  tip,
+  labelClassName = '',
   children,
   hint,
   error,
@@ -45,17 +49,27 @@ export function FormField({
     invalid: error !== undefined,
     required,
   };
+  const labelElement = (
+    <label htmlFor={id} className={`${LABEL} ${labelClassName}`.trim()}>
+      {label}
+      {required ? (
+        <span aria-hidden="true" className="text-apsen-red">
+          {' *'}
+        </span>
+      ) : null}
+    </label>
+  );
   return (
     <FieldControlContext value={control}>
       <div className={full ? 'col-span-full flex flex-col gap-[5px]' : 'flex flex-col gap-[5px]'}>
-        <label htmlFor={id} className={LABEL}>
-          {label}
-          {required ? (
-            <span aria-hidden="true" className="text-apsen-red">
-              {' *'}
-            </span>
-          ) : null}
-        </label>
+        {tip === undefined ? (
+          labelElement
+        ) : (
+          <div className="flex items-center">
+            {labelElement}
+            {tip}
+          </div>
+        )}
         {children}
         {hint === undefined ? null : (
           <span id={hintId} className={`${MESSAGE} text-apsen-muted-2`}>

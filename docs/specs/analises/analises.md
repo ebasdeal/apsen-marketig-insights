@@ -1,5 +1,5 @@
 ---
-status: READY
+status: IN_PROGRESS
 fase: 53
 area: analises
 feature: analises

@@ -253,6 +253,53 @@ server.get('/auth/me', (req, res) => {
   res.json({ usuario: publicUser(req.usuario) });
 });
 
+// Agregado do Dashboard (no real: endpoint do BFF), para a tela não baixar coleções inteiras.
+server.get('/dashboard', (_req, res) => {
+  const db = router.db;
+  const config = db.get('config').value();
+  const aprovacoes = db.get('aprovacoes').value();
+  const restricoes = db.get('restricoes').value();
+  const itens = db.get('planoItens').value();
+  const analises = db.get('analises').value();
+  const ciclo = db.get('ciclos').find({ status: 'ativo' }).value();
+  const count = (list, predicate) => list.filter(predicate).length;
+  const ativas = restricoes.filter((r) => r.status === 'ativa');
+  const pendentes = aprovacoes.filter((a) => a.status === 'pendente');
+  const planoPorStatus = Object.fromEntries(
+    ['aprovado', 'revisao', 'bloqueado', 'pendente'].map((s) => [
+      s,
+      count(itens, (i) => i.status === s),
+    ]),
+  );
+
+  res.json({
+    atualizadoEm: new Date().toISOString(),
+    cicloAtivo: ciclo === undefined ? null : { id: ciclo.id, descricao: ciclo.descricao },
+    pipeline: { total: aprovacoes.length, pendentes: pendentes.length },
+    restricoes: {
+      ativas: ativas.length,
+      criticas: count(ativas, (r) => r.sev === 'critica'),
+      porTipo: config.dashboardRestricaoTipos
+        .map(({ t, lbl }) => ({ tipo: t, label: lbl, n: count(ativas, (r) => r.tipo === t) }))
+        .filter((linha) => linha.n > 0),
+    },
+    plano: { total: itens.length, aprovados: planoPorStatus.aprovado, porStatus: planoPorStatus },
+    analises: {
+      total: analises.length,
+      salvas: count(analises, (a) => a.status === 'salva' || a.status === 'relatorio'),
+    },
+    driversPorCategoria: config.dashboardCategorias.map(({ slug, lbl }) => ({
+      categoria: slug,
+      label: lbl,
+      n: count(aprovacoes, (a) => a.cat === slug),
+    })),
+    aguardandoAprovacao: {
+      total: pendentes.length,
+      itens: pendentes.slice(0, 4).map(({ id, produto, tipo }) => ({ id, produto, tipo })),
+    },
+  });
+});
+
 server.use(router);
 
 server.listen(port, () => {

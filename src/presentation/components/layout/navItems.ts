@@ -4,8 +4,6 @@ import type { ScreenId } from '@presentation/navigation/screens';
 
 export type NavBadgeTone = 'blue' | 'teal' | 'red' | 'purple' | 'orange' | 'gray' | 'soon';
 
-export type NavAccent = 'blue' | 'teal' | 'purple';
-
 export interface NavLeaf {
   screenId: ScreenId;
   href: string;
@@ -16,7 +14,6 @@ export interface NavLeaf {
 export interface NavModule {
   id: ModuloId;
   label: string;
-  accent?: NavAccent;
   items: readonly NavLeaf[];
 }
 
@@ -28,7 +25,6 @@ export const NAV_MODULES: readonly NavModule[] = [
   {
     id: 'drivers',
     label: 'Drivers de Demanda',
-    accent: 'blue',
     items: [
       { screenId: 'form', href: '/drivers/novo', label: 'Registrar Driver' },
       {
@@ -44,7 +40,6 @@ export const NAV_MODULES: readonly NavModule[] = [
   {
     id: 'admin',
     label: 'Administração DI',
-    accent: 'teal',
     items: [
       {
         screenId: 'ciclos',
@@ -71,7 +66,6 @@ export const NAV_MODULES: readonly NavModule[] = [
   {
     id: 'acesso',
     label: 'Controle de Acesso',
-    accent: 'purple',
     items: [
       {
         screenId: 'usuarios',
