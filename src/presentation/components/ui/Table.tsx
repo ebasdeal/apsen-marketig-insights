@@ -19,6 +19,7 @@ interface TableProps<T> {
   actions?: (row: T) => ReactNode;
   toolbar?: ReactNode;
   footer?: ReactNode;
+  rowClassName?: (row: T) => string;
 }
 
 const TH =
@@ -34,6 +35,7 @@ export function Table<T>({
   actions,
   toolbar,
   footer,
+  rowClassName,
 }: TableProps<T>) {
   const total = columns.length + (actions === undefined ? 0 : 1);
   return (
@@ -71,7 +73,7 @@ export function Table<T>({
               rows.map((row) => (
                 <tr
                   key={rowKey(row)}
-                  className="hover:bg-apsen-row-hover [&:last-child>td]:border-b-0"
+                  className={`hover:bg-apsen-row-hover [&:last-child>td]:border-b-0 ${rowClassName?.(row) ?? ''}`.trim()}
                 >
                   {columns.map((column) => (
                     <td key={column.key} className={`${TD} ${column.className ?? ''}`.trim()}>

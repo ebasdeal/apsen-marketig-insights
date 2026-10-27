@@ -119,6 +119,21 @@ describe('Table', () => {
     expect(screen.getByText('Nada aqui')).toHaveAttribute('colspan', '3');
   });
 
+  it('aplica rowClassName por linha', () => {
+    render(
+      <Table
+        caption="Famílias"
+        columns={COLUMNS}
+        rows={FAMILIES}
+        rowKey={(row) => row.id}
+        emptyText="Nada aqui"
+        rowClassName={(row) => (row.id === 'f1' ? 'bg-apsen-row-active' : '')}
+      />,
+    );
+    expect(screen.getByRole('row', { name: /Atentah/ })).toHaveClass('bg-apsen-row-active');
+    expect(screen.getByRole('row', { name: /Lyra/ })).not.toHaveClass('bg-apsen-row-active');
+  });
+
   it('combina busca e paginação nos slots', async () => {
     const user = userEvent.setup();
     render(<Harness />);
