@@ -7,6 +7,8 @@ import type {
   ObterSessaoAtual,
   Sair,
 } from '@application/auth/authUseCases';
+import type { CatalogoUseCases } from '@application/catalogo/catalogoUseCases';
+import type { DriversUseCases } from '@application/drivers/driversUseCases';
 import type { GetNavBadges } from '@application/navegacao/GetNavBadges';
 import type { ListPerfis } from '@application/perfis/ListPerfis';
 import { createContext, useContext, type ReactNode } from 'react';
@@ -21,6 +23,8 @@ export interface UseCases {
   };
   perfis: { list: Pick<ListPerfis, 'execute'> };
   navegacao: { badges: Pick<GetNavBadges, 'execute'> };
+  drivers: DriversUseCases;
+  catalogo: CatalogoUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

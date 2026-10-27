@@ -1,5 +1,5 @@
 ---
-status: READY
+status: IN_PROGRESS
 fase: 20
 area: drivers
 feature: registrar-driver

@@ -1,3 +1,6 @@
+import { catalogoKeys } from './catalogo/catalogoKeys';
+import { driversKeys } from './drivers/driversKeys';
+
 export const queryKeys = {
   auth: {
     me: (usuarioId: string) => ['auth', 'me', usuarioId] as const,
@@ -9,4 +12,6 @@ export const queryKeys = {
   navegacao: {
     badges: () => ['navegacao', 'badges'] as const,
   },
+  drivers: driversKeys,
+  catalogo: catalogoKeys,
 };
