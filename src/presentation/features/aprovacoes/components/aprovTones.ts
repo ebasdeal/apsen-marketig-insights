@@ -2,8 +2,8 @@ import type { AprovTone } from '@domain/aprovacoes/vocabulario';
 
 export const TEXT_TONE: Record<AprovTone | '', string> = {
   '': 'text-apsen-slate',
-  yellow: 'text-apsen-yellow',
-  green: 'text-apsen-green',
+  yellow: 'text-apsen-yellow-fg',
+  green: 'text-apsen-green-fg',
   red: 'text-apsen-red',
   blue: 'text-apsen-blue',
   orange: 'text-apsen-orange',

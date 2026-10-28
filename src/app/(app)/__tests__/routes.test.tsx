@@ -13,7 +13,6 @@ describe('app/(app)', () => {
         <p>conteúdo</p>
       </AppLayout>,
     );
-    expect(screen.getByRole('status')).toHaveTextContent('Verificando sua sessão…');
     expect(await screen.findByText('conteúdo')).toBeInTheDocument();
     expect(screen.getByRole('complementary', { name: 'Menu lateral' })).toBeInTheDocument();
   });

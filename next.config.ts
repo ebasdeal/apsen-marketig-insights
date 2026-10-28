@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   reactStrictMode: true,
   poweredByHeader: false,
+  experimental: {
+    optimizePackageImports: ['@tanstack/react-query', 'zustand', 'chart.js'],
+  },
   async headers() {
     return [
       {

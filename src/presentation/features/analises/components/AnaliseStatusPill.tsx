@@ -3,7 +3,7 @@ import { ANALISE_STATUS_LABEL } from '@domain/analises/analiseConstants';
 
 const TONS: Record<AnaliseStatus, string> = {
   rascunho: 'border-apsen-border bg-apsen-bg text-apsen-muted',
-  salva: 'border-apsen-green-b bg-apsen-green-bg text-apsen-green',
+  salva: 'border-apsen-green-b bg-apsen-green-bg text-apsen-green-fg',
   relatorio: 'border-apsen-blue-light bg-apsen-blue-bg text-apsen-blue',
 };
 

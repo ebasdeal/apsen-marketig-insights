@@ -3,6 +3,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { useEffect, type ReactNode } from 'react';
+import { ShellSkeleton } from '../../components/layout/ShellSkeleton';
 import { FullScreenLoader } from '../../components/ui/FullScreenLoader';
 import { ErrorState } from '../../components/ui/StateViews';
 import { queryKeys } from '../../hooks/queryKeys';
@@ -50,8 +51,8 @@ export function AuthGate({ children }: { children: ReactNode }) {
   if (semSessao) {
     return <SsoRedirect state={currentPath(pathname)} />;
   }
-  if (!hidratado || sessao === null || me.isPending) {
-    return <FullScreenLoader label="Verificando sua sessão…" />;
+  if (!hidratado || sessao === null) {
+    return <ShellSkeleton label="Verificando sua sessão…" />;
   }
   if (me.isError) {
     return (

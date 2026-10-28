@@ -18,7 +18,7 @@ describe('CiclosTable (CA-04)', () => {
     expect(screen.getByRole('table', { name: 'Ciclos de planejamento' })).toBeInTheDocument();
     const row = screen.getByRole('row', { name: /Planejamento Julho 2026/ });
     expect(within(row).getByRole('switch', { name: 'Ciclo PLP-2026-07 ativo' })).toBeChecked();
-    expect(within(row).getByText('Ativo')).toHaveClass('text-apsen-green');
+    expect(within(row).getByText('Ativo')).toHaveClass('text-apsen-green-fg');
     const excluir = within(row).getByRole('button', { name: 'Excluir ciclo PLP-2026-07' });
     expect(excluir).toBeDisabled();
     expect(excluir).toHaveAttribute('title', 'Ciclo ativo — não pode excluir');

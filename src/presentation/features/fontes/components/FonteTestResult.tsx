@@ -3,7 +3,7 @@ import type { TesteConexao, TesteConexaoTone } from '@domain/fontes/fonteRules';
 const TONES: Record<TesteConexaoTone, string> = {
   error: 'bg-apsen-kpi-red text-apsen-red',
   loading: 'bg-apsen-bg text-apsen-muted',
-  success: 'bg-apsen-green-bg text-apsen-green',
+  success: 'bg-apsen-green-bg text-apsen-green-fg',
 };
 
 export function FonteTestResult({ resultado }: { resultado: TesteConexao | null }) {

@@ -5,7 +5,7 @@ import type { TesteStatus } from '@domain/agentes/Agente';
 import { Button, CodeTag, DetailField, Modal } from '@presentation/components/ui';
 
 const TESTE: Record<TesteStatus, { texto: string; className: string }> = {
-  ok: { texto: '✓ OK', className: 'text-apsen-green' },
+  ok: { texto: '✓ OK', className: 'text-apsen-green-fg' },
   falha: { texto: '✗ Falha', className: 'text-apsen-red' },
   pendente: { texto: '—', className: 'text-apsen-muted' },
 };
@@ -61,7 +61,7 @@ export function AgenteViewModal({ agente, onClose }: AgenteViewModalProps) {
         </DetailField>
         <DetailField label="Status">
           <span
-            className={`font-semibold ${agente.ativo ? 'text-apsen-green' : 'text-apsen-muted'}`}
+            className={`font-semibold ${agente.ativo ? 'text-apsen-green-fg' : 'text-apsen-muted'}`}
           >
             {agente.ativo ? '✅ Ativo' : '⏸ Inativo'}
           </span>

@@ -46,7 +46,7 @@ describe('FontesScreen', () => {
       'article',
     )!;
     expect(within(card as HTMLElement).getByText('🔌 API externa ativa')).toHaveClass(
-      'text-apsen-green',
+      'text-apsen-green-fg',
     );
     expect(
       within(card as HTMLElement).getByText(

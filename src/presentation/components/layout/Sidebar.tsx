@@ -5,10 +5,10 @@ import { SIDEBAR_ID, useNav } from './NavContext';
 import { NavLinks } from './NavLinks';
 
 export function Sidebar() {
-  const { open, close } = useNav();
+  const { open, settled, close } = useNav();
   return (
     <>
-      {open ? (
+      {open && settled ? (
         <div
           aria-hidden
           data-testid="nav-backdrop"
@@ -20,7 +20,7 @@ export function Sidebar() {
         id={SIDEBAR_ID}
         aria-label="Menu lateral"
         inert={!open}
-        className={`fixed top-0 left-0 z-30 flex h-screen w-sidebar flex-col overflow-y-auto border-r border-apsen-border bg-apsen-white transition-transform duration-200 motion-reduce:transition-none ${open ? '' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 z-30 flex h-screen w-sidebar flex-col overflow-y-auto border-r border-apsen-border bg-apsen-white ${settled ? 'transition-transform duration-200 motion-reduce:transition-none' : 'max-[800px]:-translate-x-full'} ${open ? '' : '-translate-x-full'}`}
       >
         <div className="flex h-topbar shrink-0 items-center gap-[10px] border-b border-apsen-border px-[18px]">
           <Image

@@ -11,7 +11,7 @@ const TONES: Record<IconButtonTone, string> = {
   blue: 'text-apsen-muted hover:bg-apsen-blue-bg hover:text-apsen-blue',
   red: 'text-apsen-muted hover:bg-apsen-red-bg hover:text-apsen-red',
   teal: 'text-apsen-muted hover:bg-apsen-teal-bg hover:text-apsen-teal',
-  green: 'text-apsen-green hover:bg-apsen-blue-bg',
+  green: 'text-apsen-green-fg hover:bg-apsen-blue-bg',
 };
 
 function iconClasses(tone: IconButtonTone, className: string): string {

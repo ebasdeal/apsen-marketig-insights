@@ -7,11 +7,11 @@ import { ThemeToggle } from './ThemeToggle';
 import { UserMenu } from './UserMenu';
 
 export function Topbar() {
-  const { open, toggle } = useNav();
+  const { open, settled, toggle } = useNav();
   const { crumb } = useCurrentScreen();
   return (
     <header
-      className={`fixed top-0 right-0 z-20 flex h-topbar items-center gap-[14px] border-b border-apsen-border bg-apsen-white px-[22px] max-md:gap-[6px] max-md:px-[10px] transition-[left] duration-200 motion-reduce:transition-none ${open ? 'left-sidebar max-[1023px]:left-0' : 'left-0'}`}
+      className={`fixed top-0 right-0 z-20 flex h-topbar items-center gap-[14px] border-b border-apsen-border bg-apsen-white px-[22px] max-md:gap-[6px] max-md:px-[10px] ${settled ? 'transition-[left] duration-200 motion-reduce:transition-none' : ''} ${open ? 'left-sidebar max-[1023px]:left-0' : 'left-0'}`}
     >
       <button
         id={BURGER_ID}

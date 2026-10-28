@@ -10,7 +10,7 @@ const VARIANT_CASES: readonly (readonly [ButtonVariant, string])[] = [
   ['outline', 'hover:bg-apsen-blue-bg'],
   ['ghost', 'border-apsen-border'],
   ['danger', 'text-apsen-red'],
-  ['success', 'text-apsen-green'],
+  ['success', 'text-apsen-green-fg'],
   ['teal', 'hover:bg-apsen-teal-hover'],
   ['purple', 'hover:bg-apsen-purple-hover'],
   ['outline-teal', 'hover:bg-apsen-teal-bg'],

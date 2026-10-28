@@ -42,7 +42,7 @@ describe('formatarMilhar e formatos pt-BR (CA-11)', () => {
     expect(tickMilhar(41000)).toBe('41k');
     expect(tickMilhar(500)).toBe(500);
     expect(tickMilhar('x')).toBe('x');
-    expect(tomDelta(1)).toBe('text-apsen-green');
+    expect(tomDelta(1)).toBe('text-apsen-green-fg');
     expect(tomDelta(-1)).toBe('text-apsen-red');
   });
 });
@@ -136,8 +136,8 @@ describe('demais helpers', () => {
     expect(tomDaFamilia('Imunologia').texto).toBe('text-apsen-pal-purple');
     expect(tomDaFamilia('Outra').texto).toBe('text-apsen-pal-slate');
     expect(tomEstoque('critico')).toBe('text-apsen-red');
-    expect(tomEstoque('atencao')).toBe('text-apsen-yellow');
-    expect(tomEstoque('ok')).toBe('text-apsen-green');
+    expect(tomEstoque('atencao')).toBe('text-apsen-yellow-fg');
+    expect(tomEstoque('ok')).toBe('text-apsen-green-fg');
   });
 
   it('mensagem de falha de escrita', () => {

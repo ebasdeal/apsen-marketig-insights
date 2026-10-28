@@ -65,8 +65,8 @@ describe('AuthGate', () => {
   it('valida /auth/me e mostra o conteúdo', async () => {
     const execute = vi.fn().mockResolvedValue({ ...SESSOES.admin.usuario, nome: 'Ana Atual' });
     renderGate(createFakeUseCases({ auth: { sessaoAtual: { execute } } }));
-    expect(screen.getByRole('status')).toHaveTextContent('Verificando sua sessão…');
-    expect(await screen.findByText('área logada')).toBeInTheDocument();
+    expect(screen.getByText('área logada')).toBeInTheDocument();
+    await waitFor(() => expect(useSessaoStore.getState().sessao?.usuario.nome).toBe('Ana Atual'));
     expect(execute).toHaveBeenCalledTimes(1);
     expect(useSessaoStore.getState().sessao?.usuario.nome).toBe('Ana Atual');
   });

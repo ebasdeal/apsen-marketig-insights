@@ -6,7 +6,7 @@ import { StatusDistributionRow } from '../StatusDistributionRow';
 describe('extensões do UI kit para o dashboard', () => {
   it('KpiCard: hintTone muda só a cor do hint', () => {
     render(<KpiCard label="Drivers" value="14" hint="2 pendentes" tone="blue" hintTone="yellow" />);
-    expect(screen.getByText('2 pendentes')).toHaveClass('text-apsen-yellow');
+    expect(screen.getByText('2 pendentes')).toHaveClass('text-apsen-yellow-fg');
     expect(screen.getByText('14')).toHaveClass('text-apsen-blue');
   });
 
