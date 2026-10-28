@@ -48,6 +48,4 @@ export const INT_TONE = [
   'red',
 ] as const satisfies readonly (AprovTone | '')[];
 
-export const PERMANENTE_FIM = '2099-12-31';
-
 export const APROV_PAGE_SIZE = 5;

@@ -1,11 +1,12 @@
 import { aplicarDecisaoNoCard, type ListAprovacoesResult } from '@application/aprovacoes/dto';
-import type { AprovStatus, Decisao } from '@domain/aprovacoes/Aprovacao';
+import type { AprovStatus, Decisao, DecisaoRegistrada } from '@domain/aprovacoes/Aprovacao';
 import { deltaPendentes } from '@domain/aprovacoes/aprovacaoRules';
 import type { NavBadges } from '@domain/navegacao/NavBadges';
 
 export interface DecisaoInput {
   id: string;
   decisao: Decisao;
+  registro?: DecisaoRegistrada;
 }
 
 export function statusAnterior(
@@ -23,7 +24,7 @@ export function statusAnterior(
 
 export function aplicarNaPagina(
   result: ListAprovacoesResult | undefined,
-  { id, decisao }: DecisaoInput,
+  { id, decisao, registro }: DecisaoInput,
 ): ListAprovacoesResult | undefined {
   const card = result?.cards.find((candidato) => candidato.id === id);
   if (result === undefined || card === undefined) {
@@ -32,7 +33,7 @@ export function aplicarNaPagina(
   return {
     ...result,
     cards: result.cards.map((item) =>
-      item.id === id ? aplicarDecisaoNoCard(item, decisao) : item,
+      item.id === id ? aplicarDecisaoNoCard(item, decisao, registro ?? null) : item,
     ),
     pendentesNoResultado: Math.max(
       0,

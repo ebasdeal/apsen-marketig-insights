@@ -29,7 +29,7 @@ export function createFakeAprovacoesUseCases(
     },
     emUso: { execute: vi.fn().mockResolvedValue([...APROV_INGERIDOS_FIXTURE]) },
     aprovar: {
-      execute: vi.fn((id: string) =>
+      execute: vi.fn(({ id }: { id: string }) =>
         Promise.resolve({ toast: `✅ ${id} aprovado e enviado para ingestão!` }),
       ),
     },

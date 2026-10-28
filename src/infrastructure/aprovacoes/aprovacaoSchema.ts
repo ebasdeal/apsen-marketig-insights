@@ -17,6 +17,12 @@ export const aprovacaoDtoSchema = z.object({
   params: z.string(),
   motivo_rejeicao: z.string(),
   justificativa_rejeicao: z.string().optional(),
+  aprovado_por: z.string().optional(),
+  aprovado_em: z.string().optional(),
+  rejeitado_por: z.string().optional(),
+  rejeitado_em: z.string().optional(),
+  reaberto_por: z.string().optional(),
+  reaberto_em: z.string().optional(),
 });
 
 export const aprovacoesResponseSchema = z.array(aprovacaoDtoSchema);

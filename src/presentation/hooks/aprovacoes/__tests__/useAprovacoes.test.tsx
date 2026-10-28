@@ -89,7 +89,7 @@ describe('consultas de aprovações', () => {
     const pendentes = renderHook(() => usePendentesCount(), { wrapper });
     const emUso = renderHook(() => useEmUso(), { wrapper });
     await waitFor(() => expect(pendentes.result.current.data).toBe(2));
-    await waitFor(() => expect(emUso.result.current.data).toContain('DRV-2026-028'));
+    await waitFor(() => expect(emUso.result.current.data).toContain('DRV-2026-029'));
     const cache = queryClient.getQueryCache();
     expect(cache.find({ queryKey: aprovacoesKeys.pendentes() })?.options).toMatchObject({
       staleTime: 30_000,
@@ -155,7 +155,11 @@ describe('decisões otimistas (CA-05, CA-07, CA-09)', () => {
         justificativa: 'Sem fonte.',
       }),
     );
-    expect(useCases.aprovacoes.rejeitar.execute).toHaveBeenCalledWith(input);
+    expect(useCases.aprovacoes.rejeitar.execute).toHaveBeenCalledWith({
+      ...input,
+      por: expect.any(String),
+    });
+    expect(estado(queryClient).pagina?.cards[1]?.decisao).toContain('Rejeitado por ');
     expect(await screen.findByText('DRV-2026-033 rejeitado', { exact: false })).toBeInTheDocument();
   });
 
@@ -177,7 +181,7 @@ describe('decisões otimistas (CA-05, CA-07, CA-09)', () => {
       },
     );
     expect(await screen.findByText('Decisão reaberta', { exact: false })).toBeInTheDocument();
-    await act(() => result.current.mutateAsync('DRV-2026-028').catch(() => undefined));
+    await act(() => result.current.mutateAsync('DRV-2026-029').catch(() => undefined));
     expect(
       await screen.findByText('Driver em uso no Data Lake', { exact: false }),
     ).toBeInTheDocument();

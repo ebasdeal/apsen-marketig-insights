@@ -50,7 +50,7 @@ describe('AprovacaoCardDto (CA-04)', () => {
       produto: 'Baricitinibe (todos os SKUs)',
       molecula: 'Baricitinibe',
       tipo: '🚫 Restrição ANVISA',
-      periodo: '18/06/2026 → Permanente',
+      periodo: '18/06/2026 → 31/12/2099',
       intensidadeLabel: '⚡⚡⚡⚡⚡',
       intensidadeTone: 'red',
       params: 'Ato: RDC 212/2026 · Impacto: Restrição de sub-população',
@@ -58,6 +58,7 @@ describe('AprovacaoCardDto (CA-04)', () => {
       motivo: '',
       justificativa: '',
       emUso: false,
+      decisao: '',
     });
     const sku = toAprovacaoCardDto(aprovacaoFixture('DRV-2026-034'), false);
     expect(sku).toMatchObject({
@@ -88,6 +89,7 @@ describe('CountPendentes e ListEmUso', () => {
     const repository = createFakeAprovacaoRepository();
     await expect(new CountPendentes(repository).execute()).resolves.toBe(2);
     expect(repository.countPendentes).toHaveBeenCalledWith();
-    await expect(new ListEmUso(repository).execute()).resolves.toContain('DRV-2026-028');
+    await expect(new ListEmUso(repository).execute()).resolves.toContain('DRV-2026-029');
+    await expect(new ListEmUso(repository).execute()).resolves.not.toContain('DRV-2026-028');
   });
 });

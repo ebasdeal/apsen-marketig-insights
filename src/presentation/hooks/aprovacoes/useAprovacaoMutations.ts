@@ -1,9 +1,10 @@
 'use client';
 
 import type { ListAprovacoesResult, RejeitarInput, ToastDto } from '@application/aprovacoes/dto';
-import { deltaPendentes } from '@domain/aprovacoes/aprovacaoRules';
+import { deltaPendentes, registrarDecisao } from '@domain/aprovacoes/aprovacaoRules';
 import type { NavBadges } from '@domain/navegacao/NavBadges';
 import { useMutation, useQueryClient, type QueryClient } from '@tanstack/react-query';
+import { useSessao } from '../useSessao';
 import { useToast } from '../../providers/ToastProvider';
 import { useUseCases } from '../../providers/UseCasesContext';
 import { mensagemDeFalha } from '../mutationFeedback';
@@ -59,29 +60,38 @@ function useDecisaoMutation<TInput>(
   });
 }
 
+function usePor(): string {
+  return useSessao().usuario?.nome ?? '';
+}
+
+function comRegistro(input: DecisaoInput, por: string): DecisaoInput {
+  return { ...input, registro: registrarDecisao(input.decisao, por, new Date()) };
+}
+
 export function useAprovarMutation() {
   const { aprovacoes } = useUseCases();
+  const por = usePor();
   return useDecisaoMutation(
-    (id: string) => aprovacoes.aprovar.execute(id),
-    (id) => ({ id, decisao: { tipo: 'aprovar' } }),
+    (id: string) => aprovacoes.aprovar.execute({ id, por }),
+    (id) => comRegistro({ id, decisao: { tipo: 'aprovar' } }, por),
   );
 }
 
 export function useRejeitarMutation() {
   const { aprovacoes } = useUseCases();
+  const por = usePor();
   return useDecisaoMutation(
-    (input: RejeitarInput) => aprovacoes.rejeitar.execute(input),
-    ({ id, motivo, justificativa }) => ({
-      id,
-      decisao: { tipo: 'rejeitar', motivo, justificativa },
-    }),
+    (input: Omit<RejeitarInput, 'por'>) => aprovacoes.rejeitar.execute({ ...input, por }),
+    ({ id, motivo, justificativa }) =>
+      comRegistro({ id, decisao: { tipo: 'rejeitar', motivo, justificativa } }, por),
   );
 }
 
 export function useReabrirMutation() {
   const { aprovacoes } = useUseCases();
+  const por = usePor();
   return useDecisaoMutation(
-    (id: string) => aprovacoes.reabrir.execute(id),
-    (id) => ({ id, decisao: { tipo: 'reabrir' } }),
+    (id: string) => aprovacoes.reabrir.execute({ id, por }),
+    (id) => comRegistro({ id, decisao: { tipo: 'reabrir' } }, por),
   );
 }

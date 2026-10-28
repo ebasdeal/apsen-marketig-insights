@@ -29,6 +29,7 @@ describe('RejeicaoModal — CA-06', () => {
       id: 'DRV-2026-034',
       motivo: 'Produto / molécula incorreto',
       justificativa: 'SKU de outra molécula.',
+      por: expect.any(String),
     });
     expect(onClose).toHaveBeenCalled();
     expect(await screen.findByText('DRV-2026-034 rejeitado', { exact: false })).toBeInTheDocument();

@@ -1,13 +1,39 @@
-import type { AprovStatus, Decisao, Periodo } from './Aprovacao';
+import type { AprovStatus, Decisao, DecisaoRegistrada, DecisaoTipo, Periodo } from './Aprovacao';
 import type { RejeicaoErrors } from './errors';
-import { PERMANENTE_FIM } from './vocabulario';
 
 export function formatDataBr(iso: string): string {
   return iso.split('-').reverse().join('/');
 }
 
 export function formatPeriodo({ ini, fim }: Periodo): string {
-  return `${formatDataBr(ini)} → ${fim === PERMANENTE_FIM ? 'Permanente' : formatDataBr(fim)}`;
+  return `${formatDataBr(ini)} → ${formatDataBr(fim)}`;
+}
+
+const ROTULO_DECISAO: Record<DecisaoTipo, string> = {
+  aprovado: 'Aprovado',
+  rejeitado: 'Rejeitado',
+  reaberto: 'Reaberto',
+};
+
+export function formatDataHoraBr(iso: string): string {
+  return `${formatDataBr(iso.slice(0, 10))} ${iso.slice(11, 16)}`.trim();
+}
+
+export function textoDecisao(decisao: DecisaoRegistrada | null): string {
+  if (decisao === null) {
+    return '';
+  }
+  return `${ROTULO_DECISAO[decisao.tipo]} por ${decisao.por} em ${formatDataHoraBr(decisao.em)}`;
+}
+
+export function registrarDecisao(decisao: Decisao, por: string, agora: Date): DecisaoRegistrada {
+  const tipo: DecisaoTipo =
+    decisao.tipo === 'aprovar'
+      ? 'aprovado'
+      : decisao.tipo === 'rejeitar'
+        ? 'rejeitado'
+        : 'reaberto';
+  return { tipo, por, em: agora.toISOString() };
 }
 
 export function pluralPendentes(n: number): string {

@@ -7,7 +7,6 @@ import {
   INT_LABEL,
   INT_TONE,
   MOTIVOS_REJEICAO,
-  PERMANENTE_FIM,
   STATUS_CFG,
 } from '../vocabulario';
 
@@ -37,7 +36,6 @@ describe('vocabulário de aprovações × config do db.json', () => {
   });
 
   it('constantes de período e filtro', () => {
-    expect(PERMANENTE_FIM).toBe('2099-12-31');
     expect(FILTRO_VAZIO).toEqual({ q: '', ini: '', fim: '', tipo: '', status: '' });
   });
 });

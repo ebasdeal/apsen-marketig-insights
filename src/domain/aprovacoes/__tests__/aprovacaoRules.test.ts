@@ -12,9 +12,9 @@ import {
 import { AprovacaoEmUsoError, EM_USO_MENSAGEM, RejeicaoValidationError } from '../errors';
 
 describe('formatação (RN-02, RN-03)', () => {
-  it('formata datas e período, com fim 2099-12-31 permanente', () => {
+  it('formata datas e período, sem rótulo de permanente para 2099-12-31', () => {
     expect(formatDataBr('2026-06-20')).toBe('20/06/2026');
-    expect(formatPeriodo({ ini: '2026-06-18', fim: '2099-12-31' })).toBe('18/06/2026 → Permanente');
+    expect(formatPeriodo({ ini: '2026-06-18', fim: '2099-12-31' })).toBe('18/06/2026 → 31/12/2099');
     expect(formatPeriodo({ ini: '2026-07-01', fim: '2026-07-31' })).toBe('01/07/2026 → 31/07/2026');
   });
 

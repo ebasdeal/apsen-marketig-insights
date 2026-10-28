@@ -2,10 +2,24 @@ import type {
   Aprovacao,
   AprovacaoPatch,
   AprovFiltro,
+  DecisaoRegistrada,
   Intensidade,
 } from '@domain/aprovacoes/Aprovacao';
 import type { QueryParams } from '../http/HttpClient';
 import type { AprovacaoApiDto } from './aprovacaoSchema';
+
+function decisaoDoDto(dto: AprovacaoApiDto): DecisaoRegistrada | null {
+  const por = {
+    aprovado: [dto.aprovado_por, dto.aprovado_em],
+    rejeitado: [dto.rejeitado_por, dto.rejeitado_em],
+    pendente: [dto.reaberto_por, dto.reaberto_em],
+  }[dto.status];
+  const tipo = dto.status === 'pendente' ? 'reaberto' : dto.status;
+  const [quem, quando] = por;
+  return quem === undefined || quem === '' || quando === undefined || quando === ''
+    ? null
+    : { tipo, por: quem, em: quando };
+}
 
 export function toAprovacao(dto: AprovacaoApiDto): Aprovacao {
   return {
@@ -23,6 +37,7 @@ export function toAprovacao(dto: AprovacaoApiDto): Aprovacao {
     params: dto.params,
     motivoRejeicao: dto.motivo_rejeicao,
     justificativaRejeicao: dto.justificativa_rejeicao ?? '',
+    decisao: decisaoDoDto(dto),
   };
 }
 
@@ -33,6 +48,15 @@ export function toAprovacaoPatchDto(patch: AprovacaoPatch): Record<string, strin
   }
   if (patch.justificativaRejeicao !== undefined) {
     body.justificativa_rejeicao = patch.justificativaRejeicao;
+  }
+  if (patch.decisao !== undefined) {
+    const { tipo, por, em } = patch.decisao;
+    body.aprovado_por = tipo === 'aprovado' ? por : '';
+    body.aprovado_em = tipo === 'aprovado' ? em : '';
+    body.rejeitado_por = tipo === 'rejeitado' ? por : '';
+    body.rejeitado_em = tipo === 'rejeitado' ? em : '';
+    body.reaberto_por = tipo === 'reaberto' ? por : '';
+    body.reaberto_em = tipo === 'reaberto' ? em : '';
   }
   return body;
 }

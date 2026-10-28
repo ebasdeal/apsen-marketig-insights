@@ -63,6 +63,9 @@ export function ApprovalCard({ card, ...acoes }: ApprovalCardProps) {
       <div className="mb-[13px] rounded-r-[6px] border-l-[3px] border-apsen-border bg-apsen-bg px-[13px] py-[9px] text-[12.5px] leading-[1.65] text-apsen-slate-3">
         <strong>Parâmetros:</strong> {card.params}
       </div>
+      {card.decisao === '' ? null : (
+        <p className="mb-[10px] text-[12px] text-apsen-muted">{card.decisao}</p>
+      )}
       <ApprovalCardActions card={card} {...acoes} />
     </li>
   );

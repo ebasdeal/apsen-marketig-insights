@@ -9,6 +9,14 @@ export interface Periodo {
   fim: string;
 }
 
+export type DecisaoTipo = 'aprovado' | 'rejeitado' | 'reaberto';
+
+export interface DecisaoRegistrada {
+  tipo: DecisaoTipo;
+  por: string;
+  em: string;
+}
+
 export interface Aprovacao {
   id: string;
   modo: AprovModo;
@@ -24,6 +32,7 @@ export interface Aprovacao {
   params: string;
   motivoRejeicao: string;
   justificativaRejeicao: string;
+  decisao: DecisaoRegistrada | null;
 }
 
 export interface AprovFiltro {
@@ -45,6 +54,7 @@ export interface AprovacaoPatch {
   status: AprovStatus;
   motivoRejeicao?: string;
   justificativaRejeicao?: string;
+  decisao?: DecisaoRegistrada;
 }
 
 export type Decisao =

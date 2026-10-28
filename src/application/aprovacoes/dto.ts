@@ -1,5 +1,16 @@
-import type { Aprovacao, AprovFiltro, AprovStatus, Decisao } from '@domain/aprovacoes/Aprovacao';
-import { estadoDaDecisao, formatDataBr, formatPeriodo } from '@domain/aprovacoes/aprovacaoRules';
+import type {
+  Aprovacao,
+  AprovFiltro,
+  AprovStatus,
+  Decisao,
+  DecisaoRegistrada,
+} from '@domain/aprovacoes/Aprovacao';
+import {
+  estadoDaDecisao,
+  formatDataBr,
+  formatPeriodo,
+  textoDecisao,
+} from '@domain/aprovacoes/aprovacaoRules';
 import { INT_LABEL, INT_TONE, STATUS_CFG, type AprovTone } from '@domain/aprovacoes/vocabulario';
 
 export interface AprovacaoCardDto {
@@ -20,6 +31,7 @@ export interface AprovacaoCardDto {
   motivo: string;
   justificativa: string;
   emUso: boolean;
+  decisao: string;
 }
 
 export interface ListAprovacoesInput {
@@ -34,8 +46,14 @@ export interface ListAprovacoesResult {
   pendentesNoResultado: number;
 }
 
+export interface DecidirInput {
+  id: string;
+  por: string;
+}
+
 export interface RejeitarInput {
   id: string;
+  por: string;
   motivo: string;
   justificativa: string;
 }
@@ -65,10 +83,15 @@ export function toAprovacaoCardDto(item: Aprovacao, emUso: boolean): AprovacaoCa
     motivo: item.motivoRejeicao,
     justificativa: item.justificativaRejeicao,
     emUso,
+    decisao: textoDecisao(item.decisao),
   };
 }
 
-export function aplicarDecisaoNoCard(card: AprovacaoCardDto, decisao: Decisao): AprovacaoCardDto {
+export function aplicarDecisaoNoCard(
+  card: AprovacaoCardDto,
+  decisao: Decisao,
+  registro: DecisaoRegistrada | null = null,
+): AprovacaoCardDto {
   const estado = estadoDaDecisao(decisao);
   const status = STATUS_CFG[estado.status];
   return {
@@ -78,5 +101,6 @@ export function aplicarDecisaoNoCard(card: AprovacaoCardDto, decisao: Decisao): 
     statusTone: status.tone,
     motivo: estado.motivoRejeicao,
     justificativa: estado.justificativaRejeicao,
+    decisao: textoDecisao(registro),
   };
 }

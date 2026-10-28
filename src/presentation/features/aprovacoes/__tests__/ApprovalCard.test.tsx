@@ -51,3 +51,23 @@ describe('ApprovalCard — CA-04 CA-07', () => {
     expect(acoes.onReabrir).toHaveBeenCalledWith('DRV-2026-026');
   });
 });
+
+describe('ApprovalCard — autoria da decisão (RN-GOV-02)', () => {
+  it('mostra quem decidiu e quando', () => {
+    const item = {
+      ...aprovacaoFixture('DRV-2026-031'),
+      decisao: { tipo: 'aprovado' as const, por: 'Ana P.', em: '2026-10-28T14:05:00.000Z' },
+    };
+    renderWithProviders(
+      <ul>
+        <ApprovalCard
+          card={toAprovacaoCardDto(item, false)}
+          onAprovar={vi.fn()}
+          onRejeitar={vi.fn()}
+          onReabrir={vi.fn()}
+        />
+      </ul>,
+    );
+    expect(screen.getByText('Aprovado por Ana P. em 28/10/2026 14:05')).toBeInTheDocument();
+  });
+});

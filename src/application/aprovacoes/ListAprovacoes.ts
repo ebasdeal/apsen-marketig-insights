@@ -15,7 +15,9 @@ export class ListAprovacoes {
     ]);
     const ingeridos = new Set(emUso);
     return {
-      cards: pagina.items.map((item) => toAprovacaoCardDto(item, ingeridos.has(item.id))),
+      cards: pagina.items.map((item) =>
+        toAprovacaoCardDto(item, item.status === 'aprovado' && ingeridos.has(item.id)),
+      ),
       total: pagina.total,
       totalPages: pageCountOf(pagina.total, APROV_PAGE_SIZE),
       pendentesNoResultado,

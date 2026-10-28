@@ -29,7 +29,7 @@ describe('AprovacoesScreen — CA-01 CA-03 CA-04', () => {
     expect(screen.getByText(/registros encontrados/)).toBeInTheDocument();
     const drv33 = card('DRV-2026-033');
     expect(within(drv33).getByText('Por Molécula')).toBeInTheDocument();
-    expect(within(drv33).getByText('18/06/2026 → Permanente')).toBeInTheDocument();
+    expect(within(drv33).getByText('18/06/2026 → 31/12/2099')).toBeInTheDocument();
     expect(screen.getByText('Página 1 de 3')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Página anterior' })).toBeDisabled();
   });
@@ -109,10 +109,13 @@ describe('AprovacoesScreen — CA-05 CA-07 CA-08 CA-09', () => {
     await user.click(
       await screen.findByRole('button', { name: 'Alterar decisão de DRV-2026-026' }),
     );
-    expect(useCases.aprovacoes.reabrir.execute).toHaveBeenCalledWith('DRV-2026-026');
+    expect(useCases.aprovacoes.reabrir.execute).toHaveBeenCalledWith({
+      id: 'DRV-2026-026',
+      por: expect.any(String),
+    });
     expect(await screen.findByText('Decisão reaberta', { exact: false })).toBeInTheDocument();
     expect(
-      within(card('DRV-2026-028')).getByText('🔒 Em uso no Data Lake — não pode alterar'),
+      within(card('DRV-2026-029')).getByText('🔒 Em uso no Data Lake — não pode alterar'),
     ).toBeInTheDocument();
   });
 
