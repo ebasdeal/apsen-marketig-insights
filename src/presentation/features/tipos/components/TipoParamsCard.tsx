@@ -20,7 +20,7 @@ export function TipoParamsCard({ rows, errors, fontes, dispatch }: TipoParamsCar
       </CardTitle>
       <p className="mb-[10px] text-[11px] text-apsen-muted-2">
         Estes campos compõem o objeto{' '}
-        <code className="rounded-[3px] bg-apsen-bg px-[5px] py-[1px] font-mono text-[11px]">
+        <code className="whitespace-nowrap rounded-[3px] bg-apsen-bg px-[5px] py-[1px] font-mono text-[11px]">
           DriverRecord.parametros
         </code>
         .

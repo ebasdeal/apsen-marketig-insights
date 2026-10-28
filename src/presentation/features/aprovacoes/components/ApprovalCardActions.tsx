@@ -61,7 +61,7 @@ export function ApprovalCardActions({
       <Motivo card={card} />
       <span className="ml-[12px]">
         {card.emUso ? (
-          <span className="inline-flex items-center gap-[4px] rounded-[10px] border border-apsen-border bg-apsen-bg px-[9px] py-[2px] text-[11px] font-semibold text-apsen-muted">
+          <span className="inline-flex items-center gap-[4px] whitespace-nowrap rounded-[10px] border border-apsen-border bg-apsen-bg px-[9px] py-[2px] text-[11px] font-semibold text-apsen-muted">
             🔒 Em uso no Data Lake — não pode alterar
           </span>
         ) : (

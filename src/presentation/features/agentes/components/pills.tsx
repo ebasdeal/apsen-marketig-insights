@@ -17,7 +17,7 @@ const ENV_TONES: Record<AmbienteTone, string> = {
 export function ProviderPill({ provedor }: { provedor: Provedor }) {
   return (
     <span
-      className={`rounded-[8px] border px-[8px] py-[2px] text-[11px] font-bold ${PROVIDER_TONES[provedor]}`}
+      className={`inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-[8px] border px-[8px] py-[2px] text-[11px] font-bold ${PROVIDER_TONES[provedor]}`}
     >
       {provedor}
     </span>
@@ -31,7 +31,7 @@ export function EnvironmentPill({
 }) {
   return (
     <span
-      className={`rounded-[6px] border px-[8px] py-[2px] text-[11px] font-semibold ${ENV_TONES[agente.ambienteTone]}`}
+      className={`inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-[6px] border px-[8px] py-[2px] text-[11px] font-semibold ${ENV_TONES[agente.ambienteTone]}`}
     >
       {agente.ambienteLabel}
     </span>
@@ -40,7 +40,7 @@ export function EnvironmentPill({
 
 export function SchedulePill({ schedule }: { schedule: string }) {
   return (
-    <span className="rounded-[8px] bg-apsen-blue-bg px-[8px] py-[2px] text-[11.5px] font-semibold text-apsen-blue">
+    <span className="inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-[8px] bg-apsen-blue-bg px-[8px] py-[2px] text-[11.5px] font-semibold text-apsen-blue">
       {schedule}
     </span>
   );

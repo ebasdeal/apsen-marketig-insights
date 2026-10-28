@@ -18,7 +18,9 @@ const ACTION =
 
 export function DriverLevelPill({ nivel }: { nivel: NivelDriver }) {
   return (
-    <span className={`rounded-[8px] px-[8px] py-[2px] text-[10px] ${NIVEL[nivel.tone]}`}>
+    <span
+      className={`inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-[8px] px-[8px] py-[2px] text-[10px] ${NIVEL[nivel.tone]}`}
+    >
       {nivel.label}
     </span>
   );

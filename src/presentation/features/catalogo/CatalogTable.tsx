@@ -28,7 +28,7 @@ const COLUMNS: readonly CardTableColumn<CatalogRowDto>[] = [
     center: true,
     render: (row) =>
       row.nDrivers > 0 ? (
-        <span className="inline-flex items-center rounded-[20px] bg-apsen-blue-bg px-[10px] py-[2px] text-[12px] font-semibold text-apsen-blue">
+        <span className="inline-flex items-center whitespace-nowrap rounded-[20px] bg-apsen-blue-bg px-[10px] py-[2px] text-[12px] font-semibold text-apsen-blue">
           {row.nDrivers}
         </span>
       ) : (

@@ -24,7 +24,7 @@ interface CodeTagProps {
 export function CodeTag({ children, tone = 'slate', className = '' }: CodeTagProps) {
   return (
     <code
-      className={`rounded-[4px] bg-apsen-bg px-[7px] py-[2px] font-mono text-[11px] ${TONES[tone]} ${className}`.trim()}
+      className={`inline-block whitespace-nowrap rounded-[4px] bg-apsen-bg px-[7px] py-[2px] font-mono text-[11px] ${TONES[tone]} ${className}`.trim()}
     >
       {children}
     </code>

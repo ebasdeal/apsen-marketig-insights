@@ -28,7 +28,7 @@ export function RelatoriosScreen() {
           <br />
           <strong>Possíveis candidatos:</strong> {`${RELATORIOS_CANDIDATOS.join(' · ')}.`}
         </p>
-        <span className="inline-block rounded-[20px] border border-apsen-cyan-b bg-apsen-cyan-bg px-[18px] py-[6px] text-[12px] font-bold text-apsen-cyan">
+        <span className="inline-block whitespace-nowrap rounded-[20px] border border-apsen-cyan-b bg-apsen-cyan-bg px-[18px] py-[6px] text-[12px] font-bold text-apsen-cyan">
           🔜 Em definição
         </span>
       </section>

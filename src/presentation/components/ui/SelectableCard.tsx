@@ -48,7 +48,7 @@ export function SelectableCard({
         <span className="block text-[12px] leading-[1.5] text-apsen-muted">{description}</span>
       )}
       {tag === undefined ? null : (
-        <span className="mt-[5px] inline-block rounded-[8px] border border-apsen-orange-b bg-apsen-orange-soft px-[7px] py-[1px] text-[10.5px] font-semibold text-apsen-orange">
+        <span className="mt-[5px] inline-block whitespace-nowrap rounded-[8px] border border-apsen-orange-b bg-apsen-orange-soft px-[7px] py-[1px] text-[10.5px] font-semibold text-apsen-orange">
           {tag}
         </span>
       )}

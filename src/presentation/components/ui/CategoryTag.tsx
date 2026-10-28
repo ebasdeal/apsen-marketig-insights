@@ -10,7 +10,7 @@ interface CategoryTagProps {
 export function CategoryTag({ tone, children, className = '' }: CategoryTagProps) {
   return (
     <span
-      className={`inline-block rounded-[4px] border px-[8px] py-[2px] text-[10.5px] font-bold ${CATEGORY_TONES[tone]} ${className}`.trim()}
+      className={`inline-block whitespace-nowrap rounded-[4px] border px-[8px] py-[2px] text-[10.5px] font-bold ${CATEGORY_TONES[tone]} ${className}`.trim()}
     >
       {children}
     </span>

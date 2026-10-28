@@ -29,7 +29,7 @@ export function CardTitle({ children, small, step, stepTone = 'blue' }: CardTitl
     <div className="mb-[16px] flex items-center gap-[8px] border-b border-apsen-border pb-[12px] text-[13.5px] font-semibold text-apsen-slate">
       {step === undefined ? null : (
         <span
-          className={`rounded-[6px] px-[10px] py-[2px] text-[11px] font-bold ${STEP_TONES[stepTone]}`}
+          className={`shrink-0 whitespace-nowrap rounded-[6px] px-[10px] py-[2px] text-[11px] font-bold ${STEP_TONES[stepTone]}`}
         >
           {step}
         </span>

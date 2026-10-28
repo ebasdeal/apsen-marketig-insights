@@ -12,7 +12,7 @@ interface TipoDriverCardProps extends CardProps {
 
 export function SelectedTipoBadge({ label }: { label: string }) {
   return (
-    <span className="mt-[6px] inline-flex items-center gap-[6px] rounded-[20px] border border-apsen-blue-light bg-apsen-blue-bg px-[13px] py-[4px] text-[12.5px] font-semibold text-apsen-blue">
+    <span className="mt-[6px] inline-flex items-center gap-[6px] whitespace-nowrap rounded-[20px] border border-apsen-blue-light bg-apsen-blue-bg px-[13px] py-[4px] text-[12.5px] font-semibold text-apsen-blue">
       <span aria-hidden="true" className="size-[6px] rounded-full bg-apsen-blue" />
       {label} selecionado
     </span>

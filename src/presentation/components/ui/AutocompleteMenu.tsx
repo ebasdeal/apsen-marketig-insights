@@ -53,7 +53,7 @@ export function AutocompleteMenu({
               >
                 <span>{item.value}</span>
                 {(item.tag ?? itemTag) === undefined ? null : (
-                  <span className="ml-auto shrink-0 rounded-[8px] bg-apsen-bg px-[7px] py-[1px] text-[10px] font-semibold text-apsen-muted">
+                  <span className="ml-auto shrink-0 whitespace-nowrap rounded-[8px] bg-apsen-bg px-[7px] py-[1px] text-[10px] font-semibold text-apsen-muted">
                     {item.tag ?? itemTag}
                   </span>
                 )}

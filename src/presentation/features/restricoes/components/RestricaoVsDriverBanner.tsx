@@ -19,7 +19,7 @@ export function RestricaoVsDriverBanner() {
         <em>capacidade de executar</em> o plano (falta de IFA, manutenção de linha, demanda acima do
         plano) — aciona revisão imediata do S&amp;OP.
         <br />
-        <span className="mt-[5px] inline-block rounded-[4px] bg-apsen-danger-b-soft px-[8px] py-[2px] text-[11.5px] font-semibold">
+        <span className="mt-[5px] inline-block whitespace-nowrap rounded-[4px] bg-apsen-danger-b-soft px-[8px] py-[2px] text-[11.5px] font-semibold">
           Atenção:
         </span>{' '}
         Um mesmo evento pode gerar <em>ambos</em>: falta de IFA deve ser registrada como Driver
