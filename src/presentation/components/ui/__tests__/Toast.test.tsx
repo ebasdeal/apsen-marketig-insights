@@ -60,14 +60,14 @@ describe('Toast', () => {
     expect(screen.getByRole('status')).toHaveAttribute('data-state', 'leaving');
   });
 
-  it('a região ignora cliques e só o cartão recebe eventos, no topo central', () => {
+  it('a região ignora cliques e só o cartão recebe eventos, no canto superior direito', () => {
     renderToast('success');
     expect(screen.getByRole('region', { name: 'Notificações' })).toHaveClass(
       'pointer-events-none',
       'fixed',
-      'top-[calc(var(--spacing-topbar)+8px)]',
-      'left-1/2',
-      'w-[420px]',
+      'top-[calc(var(--spacing-topbar)+60px)]',
+      'right-[22px]',
+      'w-[380px]',
     );
     expect(screen.getByRole('status')).toHaveClass('pointer-events-auto');
   });

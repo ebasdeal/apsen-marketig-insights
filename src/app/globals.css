@@ -143,6 +143,7 @@ html {
 
 html.dark {
   color-scheme: dark;
+  --color-apsen-login: #1e3a8a;
   --color-apsen-blue: #7c87f5;
   --color-apsen-blue-d: #5a66e8;
   --color-apsen-blue-bg: #1b2050;
