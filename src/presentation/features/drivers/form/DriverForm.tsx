@@ -51,6 +51,7 @@ export function DriverForm({ mode, lookups, inicial, original, destino }: Driver
   const guard = useUnsavedChangesGuard(!disabled && !salvo && isDraftSujo(draft, baseline), GUARD);
   const { submit, pending } = useDriverSubmit({
     mode,
+    lookups,
     original,
     destino,
     onSaved: () => setSalvo(true),

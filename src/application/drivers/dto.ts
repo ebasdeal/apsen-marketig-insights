@@ -9,6 +9,7 @@ import type {
   DriverConfig,
   IntensidadeInfo,
 } from '@domain/drivers/lookups';
+import type { ContextoAprovacao } from './aprovacaoDoDriver';
 import type { ParametroResumo } from '@domain/drivers/resumoDriver';
 
 export interface DriverFormLookupsDto {
@@ -26,14 +27,17 @@ export interface DriverForFormDto {
   familia: Familia | null;
 }
 
+export interface UpdateDriverInput {
+  draft: DriverDraft;
+  campos: readonly CampoTipo[];
+  id: string;
+  original: Driver;
+}
+
 export interface CreateDriverInput {
   draft: DriverDraft;
   campos: readonly CampoTipo[];
-}
-
-export interface UpdateDriverInput extends CreateDriverInput {
-  id: string;
-  original: Driver;
+  registro: ContextoAprovacao;
 }
 
 export interface SearchMarcasInput {

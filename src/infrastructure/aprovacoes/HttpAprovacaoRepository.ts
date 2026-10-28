@@ -4,12 +4,13 @@ import type {
   AprovFiltro,
   AprovPageRequest,
 } from '@domain/aprovacoes/Aprovacao';
+import { FILTRO_VAZIO } from '@domain/aprovacoes/Aprovacao';
 import type { AprovacaoRepository } from '@domain/aprovacoes/AprovacaoRepository';
 import { NotFoundError } from '@domain/shared/DomainError';
 import type { Page } from '@domain/shared/Page';
 import type { HttpClient } from '../http/HttpClient';
 import { isNotFound, parseContract } from '../http/parseContract';
-import { toAprovacao, toAprovacaoPatchDto, toFiltroQuery } from './aprovacaoMapper';
+import { toAprovacao, toAprovacaoDto, toAprovacaoPatchDto, toFiltroQuery } from './aprovacaoMapper';
 import { aprovacoesResponseSchema, aprovConfigSchema } from './aprovacaoSchema';
 
 const APROVACOES = '/aprovacoes';
@@ -42,6 +43,15 @@ export class HttpAprovacaoRepository implements AprovacaoRepository {
 
   async listEmUso(): Promise<string[]> {
     return parseContract(aprovConfigSchema, await this.http.get(CONFIG), CONFIG).APROV_INGERIDOS;
+  }
+
+  async create(aprovacao: Aprovacao): Promise<void> {
+    await this.http.post(APROVACOES, toAprovacaoDto(aprovacao));
+  }
+
+  async maiorId(): Promise<string | null> {
+    const { items } = await this.listPage(FILTRO_VAZIO, { page: 1, size: 1 });
+    return items[0]?.id ?? null;
   }
 
   async update(id: string, patch: AprovacaoPatch): Promise<void> {

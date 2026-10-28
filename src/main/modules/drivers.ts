@@ -8,6 +8,7 @@ import { ListDrivers } from '@application/drivers/ListDrivers';
 import { SearchLaboratorios } from '@application/drivers/SearchLaboratorios';
 import { SearchMarcas } from '@application/drivers/SearchMarcas';
 import { UpdateDriver } from '@application/drivers/UpdateDriver';
+import { HttpAprovacaoRepository } from '@infrastructure/aprovacoes/HttpAprovacaoRepository';
 import { HttpProductCatalogRepository } from '@infrastructure/catalogo/HttpProductCatalogRepository';
 import { CryptoIdGenerator } from '@infrastructure/drivers/CryptoIdGenerator';
 import { HttpDriverLookupRepository } from '@infrastructure/drivers/HttpDriverLookupRepository';
@@ -24,7 +25,12 @@ export function createDriversModule(
   return {
     formLookups: new GetDriverFormLookups(lookups, catalog),
     getForForm: new GetDriverForForm(drivers, catalog),
-    create: new CreateDriver(drivers, new CryptoIdGenerator()),
+    create: new CreateDriver(
+      drivers,
+      new CryptoIdGenerator(),
+      new HttpAprovacaoRepository(http),
+      clock,
+    ),
     update: new UpdateDriver(drivers),
     searchLaboratorios: new SearchLaboratorios(lookups),
     searchMarcas: new SearchMarcas(lookups),

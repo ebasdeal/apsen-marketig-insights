@@ -82,7 +82,15 @@ describe('useCreateDriverMutation / useUpdateDriverMutation (CA-10, CA-13)', () 
     const { useCases, queryClient, wrapper } = setup();
     const invalidate = vi.spyOn(queryClient, 'invalidateQueries');
     const create = renderHook(() => useCreateDriverMutation(), { wrapper });
-    const input = { draft: makeDraft(), campos: [] };
+    const input = {
+      draft: makeDraft(),
+      campos: [],
+      registro: {
+        registrante: { nome: 'Ana', perfil: 'admin' as const },
+        tipoLabel: 'TV',
+        categoria: 'midia',
+      },
+    };
     await act(() => create.result.current.mutateAsync(input));
     expect(useCases.drivers.create.execute).toHaveBeenCalledWith(input);
     expect(invalidate.mock.calls.map(([filters]) => filters?.queryKey)).toEqual([

@@ -15,5 +15,7 @@ export function createFakeAprovacaoRepository(): Mocked<AprovacaoRepository> {
     countPendentes: vi.fn(async () => 2),
     listEmUso: vi.fn(async () => [...APROV_INGERIDOS_FIXTURE]),
     update: vi.fn(async () => undefined),
+    create: vi.fn(async () => undefined),
+    maiorId: vi.fn(async () => 'DRV-2026-034'),
   } as Mocked<AprovacaoRepository>;
 }

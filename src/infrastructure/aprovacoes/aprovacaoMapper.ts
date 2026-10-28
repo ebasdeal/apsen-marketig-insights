@@ -77,3 +77,25 @@ export function toFiltroQuery(filtro: AprovFiltro): QueryParams {
   });
   return query;
 }
+
+export function toAprovacaoDto(item: Aprovacao): Record<string, unknown> {
+  return {
+    id: item.id,
+    modo: item.modo,
+    produto: item.produto,
+    molecula: item.molecula,
+    tipo: item.tipo,
+    cat: item.cat,
+    periodo: { ini: item.periodo.ini, fim: item.periodo.fim },
+    intensidade: item.intensidade,
+    registrante: item.registrante,
+    data_reg: item.dataReg,
+    status: item.status,
+    params: item.params,
+    motivo_rejeicao: item.motivoRejeicao,
+    justificativa_rejeicao: item.justificativaRejeicao,
+    ...(item.decisao === null
+      ? {}
+      : toAprovacaoPatchDto({ status: item.status, decisao: item.decisao })),
+  };
+}

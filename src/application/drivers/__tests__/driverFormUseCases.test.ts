@@ -1,3 +1,4 @@
+import { createFakeAprovacaoRepository } from '@test/fakes/aprovacaoRepository';
 import { makeFamilia, makeFranquia } from '@test/factories/catalogo';
 import { CATEGORIAS, makeCamposTipo, makeDraft, makeDriver } from '@test/factories/drivers';
 import {
@@ -68,24 +69,39 @@ describe('GetDriverForForm (CA-12, CA-13, CA-14)', () => {
   });
 });
 
-describe('CreateDriver (CA-10, RN-02, RN-06, RN-15)', () => {
+describe('CreateDriver (CA-10, RN-02, RN-06, RN-15, RN-TIP-05)', () => {
   const ids = { next: () => 'uuid-novo' };
+  const relogio = () => new Date('2026-10-28T14:05:00.000Z');
+  const contexto = (perfil: 'area' | 'planejador' | 'admin') => ({
+    registrante: { nome: 'Fernanda', perfil },
+    tipoLabel: '💻 Digital / Redes',
+    categoria: 'midia',
+  });
+  const criar = (
+    drivers = createFakeDriverRepository(),
+    aprovacoes = createFakeAprovacaoRepository(),
+  ) => ({ aprovacoes, useCase: new CreateDriver(drivers, ids, aprovacoes, relogio) });
 
   it('valida antes de gravar e lança DriverValidationError', async () => {
     const drivers = createFakeDriverRepository();
-    const useCase = new CreateDriver(drivers, ids);
+    const { useCase, aprovacoes } = criar(drivers);
     const erro = await useCase
-      .execute({ draft: makeDraft({ sku: null }), campos: CAMPOS })
+      .execute({ draft: makeDraft({ sku: null }), campos: CAMPOS, registro: contexto('area') })
       .catch((error: unknown) => error);
     expect(erro).toBeInstanceOf(DriverValidationError);
     expect(erro).toMatchObject({ field: 'sku', message: '⚠️ Selecione um Produto / SKU.' });
     expect(drivers.create).not.toHaveBeenCalled();
+    expect(aprovacoes.create).not.toHaveBeenCalled();
   });
 
   it('modo Família grava com UUID e sem lista de SKUs (DRV-15)', async () => {
     const drivers = createFakeDriverRepository();
     const draft = makeDraft({ modo: 'familia', sku: null, familia: 'LEVOXIN' });
-    const driver = await new CreateDriver(drivers, ids).execute({ draft, campos: CAMPOS });
+    const driver = await criar(drivers).useCase.execute({
+      draft,
+      campos: CAMPOS,
+      registro: contexto('admin'),
+    });
     expect(driver).toMatchObject({
       id: 'uuid-novo',
       produto: 'LEVOXIN (Família)',
@@ -96,27 +112,71 @@ describe('CreateDriver (CA-10, RN-02, RN-06, RN-15)', () => {
 
   it('modo Franquia grava só o nível, sem lista de SKUs (DRV-15)', async () => {
     const draft = makeDraft({ modo: 'franquia', sku: null, franquia: 'ASTER' });
-    const driver = await new CreateDriver(createFakeDriverRepository(), ids).execute({
+    const driver = await criar().useCase.execute({
       draft,
       campos: CAMPOS,
+      registro: contexto('admin'),
     });
     expect(driver).toMatchObject({ produto: 'ASTER (Franquia)', skusAfetadosIa: [] });
   });
 
   it('modo SKU grava o código do SKU', async () => {
-    const driver = await new CreateDriver(createFakeDriverRepository(), ids).execute({
+    const driver = await criar().useCase.execute({
       draft: makeDraft(),
       campos: CAMPOS,
+      registro: contexto('admin'),
     });
     expect(driver.codigo).toBe('2300');
   });
 
   it('Data Fim em branco grava 1 ano após o início', async () => {
-    const driver = await new CreateDriver(createFakeDriverRepository(), ids).execute({
+    const driver = await criar().useCase.execute({
       draft: makeDraft({ inicio: '2026-07-01', fim: '' }),
       campos: CAMPOS,
+      registro: contexto('admin'),
     });
     expect(driver.periodo).toEqual({ inicio: '2026-07-01', fim: '2027-07-01' });
+  });
+
+  it('Área registra e o driver entra na Fila como pendente', async () => {
+    const { useCase, aprovacoes } = criar();
+    await useCase.execute({ draft: makeDraft(), campos: CAMPOS, registro: contexto('area') });
+    expect(aprovacoes.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'DRV-2026-035',
+        status: 'pendente',
+        registrante: 'Fernanda',
+        dataReg: '2026-10-28',
+        tipo: '💻 Digital / Redes',
+        cat: 'midia',
+        decisao: null,
+      }),
+    );
+  });
+
+  it.each(['planejador', 'admin'] as const)(
+    '%s registra e o driver já nasce aprovado, com ele como aprovador',
+    async (perfil) => {
+      const { useCase, aprovacoes } = criar();
+      await useCase.execute({ draft: makeDraft(), campos: CAMPOS, registro: contexto(perfil) });
+      expect(aprovacoes.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: 'aprovado',
+          decisao: { tipo: 'aprovado', por: 'Fernanda', em: '2026-10-28T14:05:00.000Z' },
+        }),
+      );
+    },
+  );
+
+  it('primeiro registro do ano começa em 001', async () => {
+    const aprovacoes = createFakeAprovacaoRepository();
+    aprovacoes.maiorId.mockResolvedValue(null);
+    await criar(createFakeDriverRepository(), aprovacoes).useCase.execute({
+      draft: makeDraft(),
+      campos: CAMPOS,
+      registro: contexto('area'),
+    });
+    expect(aprovacoes.create).toHaveBeenCalledWith(expect.objectContaining({ id: 'DRV-2026-001' }));
   });
 });
 

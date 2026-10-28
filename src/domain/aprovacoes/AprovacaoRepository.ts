@@ -6,4 +6,6 @@ export interface AprovacaoRepository {
   countPendentes(filtro?: AprovFiltro): Promise<number>;
   listEmUso(): Promise<string[]>;
   update(id: string, patch: AprovacaoPatch): Promise<void>;
+  create(aprovacao: Aprovacao): Promise<void>;
+  maiorId(): Promise<string | null>;
 }

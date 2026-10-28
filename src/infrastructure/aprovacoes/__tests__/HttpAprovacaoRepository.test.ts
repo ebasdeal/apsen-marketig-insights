@@ -106,3 +106,32 @@ describe('HttpAprovacaoRepository', () => {
     );
   });
 });
+
+describe('HttpAprovacaoRepository — registro de driver', () => {
+  it('maiorId devolve o id mais alto ou null; create faz POST do DTO com autoria', async () => {
+    const { fetchFn, calls } = createFakeFetch({
+      '/aprovacoes': { body: APROVACOES_API.slice(0, 1), headers: { 'X-Total-Count': '14' } },
+    });
+    const repository = new HttpAprovacaoRepository(new FetchHttpClient({ baseUrl: BASE, fetchFn }));
+    await expect(repository.maiorId()).resolves.toBe(APROVACOES[0]?.id);
+    const vazio = createFakeFetch({
+      '/aprovacoes': { body: [], headers: { 'X-Total-Count': '0' } },
+    });
+    await expect(
+      new HttpAprovacaoRepository(
+        new FetchHttpClient({ baseUrl: BASE, fetchFn: vazio.fetchFn }),
+      ).maiorId(),
+    ).resolves.toBeNull();
+    await repository.create({
+      ...APROVACOES[0]!,
+      status: 'aprovado',
+      decisao: { tipo: 'aprovado', por: 'Ana', em: '2026-10-28T10:00:00.000Z' },
+    });
+    const post = calls.find((call) => call.init?.method === 'POST');
+    expect(JSON.parse(String(post?.init?.body))).toMatchObject({
+      status: 'aprovado',
+      data_reg: APROVACOES[0]?.dataReg,
+      aprovado_por: 'Ana',
+    });
+  });
+});
