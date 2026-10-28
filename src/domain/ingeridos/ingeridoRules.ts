@@ -5,10 +5,16 @@ const CSS_VAR = /^var\(--([a-z-]+)\)$/;
 const BADGE_PREFIX = 'db-';
 
 export const INGERIDOS_CATEGORIAS: readonly string[] = [
-  'Regulatório',
-  'Concorrência',
-  'Supply',
   'Mídia',
+  'Comercial',
+  'Produto',
+  'Supply',
+  'Logística',
+  'Concorrência',
+  'Regulatório',
+  'Sazonalidade',
+  'Social',
+  'Macro',
 ];
 
 export const INGERIDOS_PAGE_SIZE = 10;

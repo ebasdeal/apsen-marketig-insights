@@ -23,7 +23,19 @@ describe('IngeridosScreen — CA-01 CA-03', () => {
       within(categoria)
         .getAllByRole('option')
         .map((o) => o.textContent),
-    ).toEqual(['Todas as categorias', 'Regulatório', 'Concorrência', 'Supply', 'Mídia']);
+    ).toEqual([
+      'Todas as categorias',
+      'Mídia',
+      'Comercial',
+      'Produto',
+      'Supply',
+      'Logística',
+      'Concorrência',
+      'Regulatório',
+      'Sazonalidade',
+      'Social',
+      'Macro',
+    ]);
     expect(await screen.findByText('4 drivers')).toBeInTheDocument();
     expect(linhas()).toHaveLength(4);
     expect(screen.getByText('DRF-2026-027')).toHaveClass('text-apsen-teal');

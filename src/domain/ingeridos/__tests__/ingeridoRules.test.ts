@@ -29,9 +29,10 @@ describe('ingeridoRules (RN-02)', () => {
     expect(resumoIngeridos(4)).toBe('4 drivers');
   });
 
-  it('categorias espelham config.opcoes sem "Todas"', () => {
-    expect(['Todas as categorias', ...INGERIDOS_CATEGORIAS]).toEqual(
-      mockConfigOpcoes().ingeridosCategorias,
+  it('categorias são as 10 do catálogo (RN-DRV-05), incluindo as da massa', () => {
+    expect(INGERIDOS_CATEGORIAS).toHaveLength(10);
+    expect(INGERIDOS_CATEGORIAS).toEqual(
+      expect.arrayContaining(['Sazonalidade', 'Comercial', 'Social', 'Macro']),
     );
     expect(INGERIDOS_PAGE_SIZE).toBe(10);
     expect(INGERIDO_FILTRO_VAZIO).toEqual({ q: '', categoria: '' });
