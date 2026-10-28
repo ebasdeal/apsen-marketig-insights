@@ -1,4 +1,4 @@
-import type { Comparacao, LinhaComparacao } from '@domain/analises/Analise';
+import type { Comparacao, FaixaIncerteza, LinhaComparacao } from '@domain/analises/Analise';
 import { formatarDelta, formatarDeltaPct, formatarUnidades, tomDelta } from '../analiseFormat';
 
 const TH =
@@ -6,9 +6,11 @@ const TH =
 
 function Linha({
   linha,
+  faixa,
   total = false,
 }: {
   linha: Omit<LinhaComparacao, 'mes'> & { mes: string };
+  faixa: FaixaIncerteza;
   total?: boolean;
 }) {
   const td = `text-[13px] ${total ? 'px-[10px] py-[9px]' : 'px-[10px] py-[7px]'}`;
@@ -26,6 +28,9 @@ function Linha({
       <td className={`${td} text-right ${tom} ${total ? '' : 'font-semibold'}`}>
         {formatarDeltaPct(linha.deltaPct)}
       </td>
+      <td className={`${td} whitespace-nowrap text-right text-apsen-muted`}>
+        {formatarUnidades(faixa.min)} – {formatarUnidades(faixa.max)}
+      </td>
     </tr>
   );
 }
@@ -33,7 +38,7 @@ function Linha({
 export function ComparacaoTable({ comparacao }: { comparacao: Comparacao }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[560px] border-collapse text-[12.5px]">
+      <table className="w-full min-w-[640px] border-collapse text-[12.5px]">
         <caption className="sr-only">Previsão mês a mês com e sem drivers</caption>
         <thead>
           <tr className="border-b-2 border-apsen-border bg-apsen-bg">
@@ -52,13 +57,24 @@ export function ComparacaoTable({ comparacao }: { comparacao: Comparacao }) {
             <th scope="col" className={`${TH} text-right text-apsen-muted`}>
               Δ %
             </th>
+            <th scope="col" className={`${TH} text-right text-apsen-muted`}>
+              Intervalo ({comparacao.incerteza.nivel}%)
+            </th>
           </tr>
         </thead>
         <tbody>
-          {comparacao.linhas.map((linha) => (
-            <Linha key={linha.mes} linha={linha} />
+          {comparacao.linhas.map((linha, i) => (
+            <Linha
+              key={linha.mes}
+              linha={linha}
+              faixa={comparacao.incerteza.linhas[i] ?? comparacao.incerteza.total}
+            />
           ))}
-          <Linha linha={{ ...comparacao.total, mes: 'Total' }} total />
+          <Linha
+            linha={{ ...comparacao.total, mes: 'Total' }}
+            faixa={comparacao.incerteza.total}
+            total
+          />
         </tbody>
       </table>
     </div>

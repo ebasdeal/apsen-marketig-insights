@@ -72,3 +72,25 @@ describe('comparacaoComVsSemDrivers (CA-11 / RN-08)', () => {
     expect(linhaComparacao('Mar', 0, 10).deltaPct).toBeNull();
   });
 });
+
+describe('incerteza da previsão (ANL-20, RN §2.1)', () => {
+  it('toda linha traz faixa de 80% em torno da previsão com drivers, crescendo com o horizonte', () => {
+    const { linhas, incerteza } = comparacaoComVsSemDrivers(buildAnalise());
+    expect(incerteza.nivel).toBe(80);
+    expect(incerteza.linhas).toHaveLength(linhas.length);
+    incerteza.linhas.forEach((faixa, i) => {
+      expect(faixa.min).toBeLessThan(linhas[i]!.com);
+      expect(faixa.max).toBeGreaterThan(linhas[i]!.com);
+    });
+    const largura = (i: number) => incerteza.linhas[i]!.max - incerteza.linhas[i]!.min;
+    expect(largura(11) / linhas[11]!.com).toBeGreaterThan(largura(0) / linhas[0]!.com);
+    expect(incerteza.total.min).toBe(incerteza.linhas.reduce((soma, faixa) => soma + faixa.min, 0));
+  });
+
+  it('é determinística', () => {
+    const analise = buildAnalise();
+    expect(comparacaoComVsSemDrivers(analise).incerteza).toEqual(
+      comparacaoComVsSemDrivers(analise).incerteza,
+    );
+  });
+});

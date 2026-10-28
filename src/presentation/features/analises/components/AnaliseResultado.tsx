@@ -36,6 +36,10 @@ export function AnaliseResultado({ analise }: { analise: AnaliseDetailOutput }) 
         <div className="relative mb-[18px] h-[250px]">
           <ComparacaoChart comparacao={analise.comparacao} />
         </div>
+        <p className="mb-[10px] text-[11.5px] text-apsen-muted">
+          Linhas pontilhadas: intervalo de {analise.comparacao.incerteza.nivel}% da previsão com
+          drivers. A incerteza cresce com o horizonte.
+        </p>
         <ComparacaoTable comparacao={analise.comparacao} />
       </Section>
       <Section variant="detail" title="📋 Justificativas">

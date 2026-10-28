@@ -112,9 +112,21 @@ export interface LinhaComparacao {
   deltaPct: number | null;
 }
 
+export interface FaixaIncerteza {
+  min: number;
+  max: number;
+}
+
+export interface Incerteza {
+  nivel: number;
+  linhas: FaixaIncerteza[];
+  total: FaixaIncerteza;
+}
+
 export interface Comparacao {
   linhas: LinhaComparacao[];
   total: Omit<LinhaComparacao, 'mes'>;
+  incerteza: Incerteza;
 }
 
 export interface SegmentoTexto {

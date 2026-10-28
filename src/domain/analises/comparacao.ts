@@ -1,4 +1,4 @@
-import type { Analise, Comparacao, LinhaComparacao } from './Analise';
+import type { Analise, Comparacao, FaixaIncerteza, LinhaComparacao } from './Analise';
 import { CRESCIMENTO, IMPACTO_PADRAO, MESES } from './analiseConstants';
 
 function seedDe(codigo: string): number {
@@ -16,6 +16,16 @@ function deltaPct(delta: number, sem: number): number | null {
 function fatorImpacto(impactoTotal: number, mes: number): number {
   const rampa = Math.max(0.3, Math.min(1, (mes + 3) / 8));
   return 1 + (impactoTotal / 100) * rampa;
+}
+
+export const NIVEL_INCERTEZA = 80;
+
+const MARGEM_BASE = 0.05;
+const MARGEM_POR_MES = 0.01;
+
+export function faixaDaPrevisao(com: number, mes: number): FaixaIncerteza {
+  const margem = MARGEM_BASE + MARGEM_POR_MES * mes;
+  return { min: Math.round(com * (1 - margem)), max: Math.round(com * (1 + margem)) };
 }
 
 export function linhaComparacao(mes: string, sem: number, com: number): LinhaComparacao {
@@ -44,7 +54,16 @@ export function comparacaoComVsSemDrivers(
   const sem = linhas.reduce((soma, item) => soma + item.sem, 0);
   const com = linhas.reduce((soma, item) => soma + item.com, 0);
   const totalLinha = linhaComparacao('', sem, com);
+  const faixas = linhas.map((linha, i) => faixaDaPrevisao(linha.com, i));
   return {
+    incerteza: {
+      nivel: NIVEL_INCERTEZA,
+      linhas: faixas,
+      total: {
+        min: faixas.reduce((soma, faixa) => soma + faixa.min, 0),
+        max: faixas.reduce((soma, faixa) => soma + faixa.max, 0),
+      },
+    },
     linhas,
     total: {
       sem: totalLinha.sem,

@@ -68,6 +68,8 @@ describe('AnaliseViewScreen', () => {
     expect(
       screen.getByRole('table', { name: 'Previsão mês a mês com e sem drivers' }),
     ).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: 'Intervalo (80%)' })).toBeInTheDocument();
+    expect(screen.getByText(/intervalo de 80% da previsão/)).toBeInTheDocument();
     expect(await screen.findByRole('img', { name: /Gráfico de previsão/ })).toBeInTheDocument();
     expect(await screen.findByRole('log', { name: 'Conversa com a IA' })).toHaveTextContent(
       'Concorrência madura.',

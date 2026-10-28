@@ -8,6 +8,8 @@ import {
   tickMilhar,
 } from '../analiseFormat';
 
+const PREFIXO_LIMITE = 'Limite ';
+
 export interface CoresGrafico {
   blue: string;
   muted2: string;
@@ -59,6 +61,7 @@ export function valLabelsPlugin(cores: CoresGrafico): Plugin<'line'> {
       chart.data.datasets.forEach((dataset, index) => {
         const meta = chart.getDatasetMeta(index);
         if (meta.hidden) return;
+        if (dataset.label?.startsWith(PREFIXO_LIMITE) === true) return;
         meta.data.forEach((ponto, i) => {
           const valor = Number(dataset.data[i] ?? 0);
           ctx.save();
@@ -100,6 +103,20 @@ export function buildComparacaoChart(comparacao: Comparacao, cores: CoresGrafico
         pointHoverRadius: 4,
         fill: false,
       },
+      ...(['superior', 'inferior'] as const).map((lado) => ({
+        label: `${PREFIXO_LIMITE}${lado} (${comparacao.incerteza.nivel}%)`,
+        data: comparacao.incerteza.linhas.map((faixa) =>
+          lado === 'superior' ? faixa.max : faixa.min,
+        ),
+        borderColor: cores.muted,
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderDash: [2, 3],
+        tension: 0.35,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        fill: false,
+      })),
     ],
   };
   const options: ChartOptions<'line'> = {

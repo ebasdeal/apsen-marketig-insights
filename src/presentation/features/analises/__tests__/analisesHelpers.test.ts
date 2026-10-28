@@ -68,6 +68,12 @@ describe('buildComparacaoChart (CA-11)', () => {
       borderDash: [6, 4],
       fill: false,
     });
+    expect(data.datasets.slice(2).map((dataset) => dataset.label)).toEqual([
+      'Limite superior (80%)',
+      'Limite inferior (80%)',
+    ]);
+    expect(data.datasets[2]?.data).toEqual(comparacao.incerteza.linhas.map((faixa) => faixa.max));
+    expect(data.datasets[3]?.data).toEqual(comparacao.incerteza.linhas.map((faixa) => faixa.min));
     expect(options.plugins?.legend?.display).toBe(false);
     expect(options.maintainAspectRatio).toBe(false);
     expect(options.scales?.y?.grid?.color).toBe('G');
