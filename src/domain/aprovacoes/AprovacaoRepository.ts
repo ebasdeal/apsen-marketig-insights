@@ -8,4 +8,5 @@ export interface AprovacaoRepository {
   update(id: string, patch: AprovacaoPatch): Promise<void>;
   create(aprovacao: Aprovacao): Promise<void>;
   maiorId(): Promise<string | null>;
+  removerPorDriver(driverId: string): Promise<void>;
 }

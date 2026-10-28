@@ -17,5 +17,6 @@ export function createFakeAprovacaoRepository(): Mocked<AprovacaoRepository> {
     update: vi.fn(async () => undefined),
     create: vi.fn(async () => undefined),
     maiorId: vi.fn(async () => 'DRV-2026-034'),
+    removerPorDriver: vi.fn(async () => undefined),
   } as Mocked<AprovacaoRepository>;
 }

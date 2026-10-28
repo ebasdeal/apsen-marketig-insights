@@ -204,6 +204,12 @@ server.post('/auth/token', (req, res) => {
   }
   const token = randomUUID();
   sessions.set(token, usuario.id);
+  const agora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  router.db
+    .get('usuarios')
+    .find({ id: usuario.id })
+    .assign({ ultimoAcesso: `Hoje ${agora}` })
+    .write();
   res.json({ token, usuario: publicUser(usuario) });
 });
 
@@ -211,6 +217,39 @@ server.post('/auth/logout', (req, res) => {
   sessions.delete(bearerToken(req));
   res.status(204).end();
 });
+
+// Autorização por perfil nas escritas (matriz de permissões): nível mínimo por recurso.
+// admin 4 · planejador 3 · área 2 · visualizador 1. Recurso fora da tabela exige nível 2.
+const NIVEL_PERFIL = { admin: 4, planejador: 3, area: 2, viewer: 1 };
+const NIVEL_ESCRITA = {
+  usuarios: 4,
+  agentes: 4,
+  tipos: 3,
+  camposTipo: 3,
+  categorias: 3,
+  ciclos: 3,
+  fontes: 3,
+  ingeridos: 3,
+  restricoes: 3,
+  planoItens: 3,
+  perfis: 3,
+  permissoes: 4,
+  config: 3,
+  intensidades: 3,
+};
+
+function nivelDoPerfil(perfil) {
+  return NIVEL_PERFIL[perfil] ?? 1;
+}
+
+function nivelMinimoEscrita(req) {
+  const [recurso] = req.path.split('/').filter(Boolean);
+  // Decidir (aprovar, rejeitar, reabrir) é do Planejador em diante; registrar cria a pendência.
+  if (recurso === 'aprovacoes') {
+    return req.method === 'POST' || req.method === 'DELETE' ? 2 : 3;
+  }
+  return NIVEL_ESCRITA[recurso] ?? 2;
+}
 
 // Toda rota de dados exige sessão válida, como o backend real vai exigir.
 server.use((req, res, next) => {
@@ -231,6 +270,14 @@ server.use((req, res, next) => {
     return;
   }
   req.usuario = usuario;
+  const minimo = nivelMinimoEscrita(req);
+  if (req.method !== 'GET' && nivelDoPerfil(usuario.perfil) < minimo) {
+    res.status(403).json({
+      codigo: 'sem_permissao',
+      message: 'Seu perfil não tem permissão para esta ação.',
+    });
+    return;
+  }
   next();
 });
 
@@ -300,6 +347,65 @@ server.get('/dashboard', (_req, res) => {
       itens: pendentes.slice(0, 4).map(({ id, produto, tipo }) => ({ id, produto, tipo })),
     },
   });
+});
+
+// Aprovado vira driver ingerido (pipeline do Data Lake simulado); rejeitar, reabrir ou apagar tira.
+function semEmoji(texto) {
+  return String(texto ?? '')
+    .replace(/^[^\p{L}\p{N}]+/u, '')
+    .trim();
+}
+
+function dataCurta(iso) {
+  const [ano, mes, dia] = String(iso).split('-');
+  return `${dia}/${mes}/${ano}`;
+}
+
+function ingeridoDaAprovacao(aprovacao) {
+  const db = router.db;
+  const tipo = db.get('tipos').find({ label: aprovacao.tipo }).value();
+  const driver =
+    aprovacao.driver_id === undefined
+      ? undefined
+      : db.get('drivers').find({ id: aprovacao.driver_id }).value();
+  const badges = ['tv', 'digital', 'pdv', 'campo', 'medico', 'preco', 'conc', 'sazo', 'supply'];
+  return {
+    id: aprovacao.id,
+    produto: aprovacao.produto,
+    sku: driver?.codigo ?? '—',
+    tipo: aprovacao.tipo,
+    badge: `db-${badges.includes(tipo?.slug) ? tipo.slug : 'outro'}`,
+    periodo: `${dataCurta(aprovacao.periodo.ini)} → ${dataCurta(aprovacao.periodo.fim)}`,
+    feature: tipo?.feature ?? '—',
+    featureCor: 'var(--blue)',
+    area: tipo?.dono ?? '—',
+    validadoPor: aprovacao.aprovado_por ?? '—',
+    categoria: semEmoji(tipo?.catL) || aprovacao.cat,
+    idCor: 'var(--blue)',
+  };
+}
+
+function sincronizarIngeridos(req, res) {
+  const [recurso, id] = req.path.split('/').filter(Boolean);
+  const ok = res.statusCode >= 200 && res.statusCode < 300;
+  if (recurso !== 'aprovacoes' || id === undefined || !ok) {
+    return;
+  }
+  const ingeridos = router.db.get('ingeridos');
+  const aprovacao = router.db.get('aprovacoes').find({ id }).value();
+  const atual = ingeridos.find({ id }).value();
+  if (aprovacao?.status === 'aprovado' && atual === undefined) {
+    ingeridos.push(ingeridoDaAprovacao(aprovacao)).write();
+  } else if (aprovacao?.status !== 'aprovado' && atual !== undefined) {
+    ingeridos.remove({ id }).write();
+  }
+}
+
+server.use((req, res, next) => {
+  if (['PATCH', 'PUT', 'DELETE'].includes(req.method)) {
+    res.on('finish', () => sincronizarIngeridos(req, res));
+  }
+  next();
 });
 
 server.use(router);

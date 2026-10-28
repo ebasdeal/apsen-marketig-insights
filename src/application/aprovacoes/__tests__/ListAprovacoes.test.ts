@@ -48,6 +48,7 @@ describe('AprovacaoCardDto (CA-04)', () => {
       statusTone: 'yellow',
       meta: 'Registrado por Fernanda Marketing · 20/06/2026',
       produto: 'Baricitinibe (todos os SKUs)',
+      titulo: '',
       molecula: 'Baricitinibe',
       tipo: '🚫 Restrição ANVISA',
       periodo: '18/06/2026 → 31/12/2099',

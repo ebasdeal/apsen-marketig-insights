@@ -53,6 +53,8 @@ export function aprovacaoDoDriver(
     params: paramsTexto(driver.parametros),
     motivoRejeicao: '',
     justificativaRejeicao: '',
+    driverId: driver.id,
+    titulo: driver.titulo,
     decisao:
       status === 'aprovado'
         ? { tipo: 'aprovado', por: contexto.registrante.nome, em: agora.toISOString() }

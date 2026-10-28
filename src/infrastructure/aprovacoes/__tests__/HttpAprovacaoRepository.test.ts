@@ -135,3 +135,26 @@ describe('HttpAprovacaoRepository — registro de driver', () => {
     });
   });
 });
+
+describe('HttpAprovacaoRepository: remoção por driver', () => {
+  it('apaga cada aprovação ligada ao driver e ignora 404', async () => {
+    const http = createFakeHttpClient({
+      getPage: async () => ({
+        data: [
+          { ...APROVACOES_API[0]!, driver_id: '9' },
+          { ...APROVACOES_API[1]!, driver_id: '9' },
+        ],
+        total: 2,
+      }),
+      delete: vi
+        .fn()
+        .mockResolvedValueOnce(undefined)
+        .mockRejectedValueOnce(new HttpError(404, '/aprovacoes/x', null)),
+    });
+    await new HttpAprovacaoRepository(http).removerPorDriver('9');
+    expect(http.getPage).toHaveBeenCalledWith('/aprovacoes', {
+      query: { driver_id: '9', _page: '1', _limit: '100' },
+    });
+    expect(http.delete).toHaveBeenCalledTimes(2);
+  });
+});

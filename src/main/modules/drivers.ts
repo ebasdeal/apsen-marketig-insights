@@ -22,20 +22,16 @@ export function createDriversModule(
   const drivers = new HttpDriverRepository(http);
   const lookups = new HttpDriverLookupRepository(http);
   const catalog = new HttpProductCatalogRepository(http);
+  const aprovacoes = new HttpAprovacaoRepository(http);
   return {
     formLookups: new GetDriverFormLookups(lookups, catalog),
     getForForm: new GetDriverForForm(drivers, catalog),
-    create: new CreateDriver(
-      drivers,
-      new CryptoIdGenerator(),
-      new HttpAprovacaoRepository(http),
-      clock,
-    ),
+    create: new CreateDriver(drivers, new CryptoIdGenerator(), aprovacoes, clock),
     update: new UpdateDriver(drivers),
     searchLaboratorios: new SearchLaboratorios(lookups),
     searchMarcas: new SearchMarcas(lookups),
     list: new ListDrivers(drivers, lookups),
-    remove: new DeleteDriver(drivers),
+    remove: new DeleteDriver(drivers, aprovacoes),
     export: new GetDriversExport(drivers, lookups, clock),
   };
 }

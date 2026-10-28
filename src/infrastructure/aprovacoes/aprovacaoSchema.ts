@@ -17,6 +17,8 @@ export const aprovacaoDtoSchema = z.object({
   params: z.string(),
   motivo_rejeicao: z.string(),
   justificativa_rejeicao: z.string().optional(),
+  driver_id: z.string().optional(),
+  titulo: z.string().optional(),
   aprovado_por: z.string().optional(),
   aprovado_em: z.string().optional(),
   rejeitado_por: z.string().optional(),

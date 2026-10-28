@@ -1,8 +1,12 @@
+import type { AprovacaoRepository } from '@domain/aprovacoes/AprovacaoRepository';
 import type { DriverRepository } from '@domain/drivers/DriverRepository';
 import { NotFoundError } from '@domain/shared/DomainError';
 
 export class DeleteDriver {
-  constructor(private readonly drivers: DriverRepository) {}
+  constructor(
+    private readonly drivers: DriverRepository,
+    private readonly aprovacoes: AprovacaoRepository,
+  ) {}
 
   async execute(id: string): Promise<void> {
     try {
@@ -12,5 +16,7 @@ export class DeleteDriver {
         throw error;
       }
     }
+    // A aprovação nasce com o driver; sem ele ficaria órfã na Fila e inflaria os contadores.
+    await this.aprovacoes.removerPorDriver(id);
   }
 }

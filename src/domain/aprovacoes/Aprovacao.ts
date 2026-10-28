@@ -33,6 +33,9 @@ export interface Aprovacao {
   motivoRejeicao: string;
   justificativaRejeicao: string;
   decisao: DecisaoRegistrada | null;
+  // Origem: id do driver registrado e seu título (ausentes nas aprovações legadas).
+  driverId?: string;
+  titulo?: string;
 }
 
 export interface AprovFiltro {

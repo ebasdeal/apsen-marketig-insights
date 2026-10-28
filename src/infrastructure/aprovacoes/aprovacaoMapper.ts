@@ -38,6 +38,8 @@ export function toAprovacao(dto: AprovacaoApiDto): Aprovacao {
     motivoRejeicao: dto.motivo_rejeicao,
     justificativaRejeicao: dto.justificativa_rejeicao ?? '',
     decisao: decisaoDoDto(dto),
+    ...(dto.driver_id === undefined ? {} : { driverId: dto.driver_id }),
+    ...(dto.titulo === undefined || dto.titulo === '' ? {} : { titulo: dto.titulo }),
   };
 }
 
@@ -94,6 +96,8 @@ export function toAprovacaoDto(item: Aprovacao): Record<string, unknown> {
     params: item.params,
     motivo_rejeicao: item.motivoRejeicao,
     justificativa_rejeicao: item.justificativaRejeicao,
+    ...(item.driverId === undefined ? {} : { driver_id: item.driverId }),
+    ...(item.titulo === undefined ? {} : { titulo: item.titulo }),
     ...(item.decisao === null
       ? {}
       : toAprovacaoPatchDto({ status: item.status, decisao: item.decisao })),

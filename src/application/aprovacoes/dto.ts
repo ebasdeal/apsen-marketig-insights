@@ -21,6 +21,7 @@ export interface AprovacaoCardDto {
   statusTone: AprovTone;
   meta: string;
   produto: string;
+  titulo: string;
   molecula: string;
   tipo: string;
   periodo: string;
@@ -73,6 +74,7 @@ export function toAprovacaoCardDto(item: Aprovacao, emUso: boolean): AprovacaoCa
     statusTone: status.tone,
     meta: `Registrado por ${item.registrante} · ${formatDataBr(item.dataReg)}`,
     produto: item.produto,
+    titulo: item.titulo ?? '',
     molecula: item.molecula,
     tipo: item.tipo,
     periodo: formatPeriodo(item.periodo),

@@ -49,6 +49,12 @@ export function ApprovalCard({ card, ...acoes }: ApprovalCardProps) {
       <div className="mb-[12px] grid grid-cols-[2fr_1fr_1fr_1fr] gap-[16px] max-[800px]:grid-cols-2 max-[560px]:grid-cols-1">
         <Campo label="Produto / Molécula">
           {card.produto}
+          {card.titulo === '' ? null : (
+            <>
+              <br />
+              <span className="text-[11.5px] font-medium text-apsen-slate-3">{card.titulo}</span>
+            </>
+          )}
           <br />
           <span className="text-[11px] text-apsen-muted">{card.molecula}</span>
         </Campo>

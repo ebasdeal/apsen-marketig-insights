@@ -1,3 +1,4 @@
+import { createFakeAprovacaoRepository } from '@test/fakes/aprovacaoRepository';
 import { makeDriver } from '@test/factories/drivers';
 import {
   createFakeDriverRepository,
@@ -73,9 +74,11 @@ describe('ListDrivers (CA-02, CA-03, RN-01, RN-03)', () => {
 describe('DeleteDriver (CA-04, RN-04)', () => {
   it('remove pelo id e trata 404 como sucesso', async () => {
     const drivers = createFakeDriverRepository();
-    const useCase = new DeleteDriver(drivers);
+    const aprovacoes = createFakeAprovacaoRepository();
+    const useCase = new DeleteDriver(drivers, aprovacoes);
     await useCase.execute('1');
     expect(drivers.remove).toHaveBeenCalledWith('1');
+    expect(aprovacoes.removerPorDriver).toHaveBeenCalledWith('1');
     drivers.remove.mockRejectedValueOnce(new NotFoundError('Driver', '1'));
     await expect(useCase.execute('1')).resolves.toBeUndefined();
     drivers.remove.mockRejectedValueOnce(new Error('500'));

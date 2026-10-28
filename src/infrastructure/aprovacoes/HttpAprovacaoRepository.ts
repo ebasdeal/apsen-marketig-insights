@@ -54,6 +54,22 @@ export class HttpAprovacaoRepository implements AprovacaoRepository {
     return items[0]?.id ?? null;
   }
 
+  async removerPorDriver(driverId: string): Promise<void> {
+    const { data } = await this.http.getPage(APROVACOES, {
+      query: { driver_id: driverId, _page: '1', _limit: '100' },
+    });
+    const itens = parseContract(aprovacoesResponseSchema, data, APROVACOES);
+    await Promise.all(
+      itens.map((item) =>
+        this.http.delete(`${APROVACOES}/${encodeURIComponent(item.id)}`).catch((error: unknown) => {
+          if (!isNotFound(error)) {
+            throw error;
+          }
+        }),
+      ),
+    );
+  }
+
   async update(id: string, patch: AprovacaoPatch): Promise<void> {
     try {
       await this.http.patch(`${APROVACOES}/${encodeURIComponent(id)}`, toAprovacaoPatchDto(patch));
