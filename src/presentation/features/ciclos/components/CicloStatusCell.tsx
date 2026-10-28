@@ -17,6 +17,7 @@ export function CicloStatusCell({ ciclo, pending, onToggle }: CicloStatusCellPro
   return (
     <div className="flex items-center gap-[8px]">
       <Toggle
+        escrita
         checked={ativo}
         disabled={pending}
         aria-label={`Ciclo ${ciclo.codigo} ativo`}

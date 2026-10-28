@@ -47,6 +47,7 @@ export function CiclosScreen() {
         description="Períodos de planejamento de produção vinculados ao pipeline de drivers"
         actions={
           <Button
+            escrita
             variant="orange"
             size="sm"
             disabled={resumo === undefined}

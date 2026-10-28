@@ -82,7 +82,7 @@ export function CicloModal({ mode, resumo, onClose }: CicloModalProps) {
             <Button variant="ghost" size="sm" onClick={requestClose}>
               Cancelar
             </Button>
-            <Button variant="orange" size="sm" loading={save.isPending} onClick={submit}>
+            <Button escrita variant="orange" size="sm" loading={save.isPending} onClick={submit}>
               {novo ? 'Criar Ciclo' : 'Salvar alterações'}
             </Button>
           </>

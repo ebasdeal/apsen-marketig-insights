@@ -68,7 +68,9 @@ describe('AppShell', () => {
     expect(screen.getByRole('button', { name: /Restrições & Alertas/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Controle de Acesso/ })).toBeInTheDocument();
     expect(screen.queryByRole('link', { name: 'Usuários', hidden: true })).not.toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Perfis de Acesso', hidden: true })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: 'Perfis de Acesso', hidden: true }),
+    ).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Agentes de IA/ })).not.toBeInTheDocument();
   });
 

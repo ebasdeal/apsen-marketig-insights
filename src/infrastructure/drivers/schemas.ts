@@ -31,6 +31,7 @@ export const tipoStatusSchema = z.object({
   id: z.string(),
   slug: z.string(),
   ativo: z.boolean(),
+  dono: z.string().optional(),
 });
 
 const campoOptionSchema = z.union([z.string(), z.object({ label: z.string(), group: z.string() })]);

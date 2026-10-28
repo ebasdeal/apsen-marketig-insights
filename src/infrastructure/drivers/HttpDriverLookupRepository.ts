@@ -32,7 +32,11 @@ export class HttpDriverLookupRepository implements DriverLookupRepository {
 
   async listTipos(): Promise<TipoStatus[]> {
     const tipos = await this.read('/tipos', z.array(tipoStatusSchema));
-    return tipos.map(({ slug, ativo }) => ({ slug, ativo }));
+    return tipos.map(({ slug, ativo, dono }) => ({
+      slug,
+      ativo,
+      ...(dono === undefined ? {} : { dono }),
+    }));
   }
 
   async listCamposTipo(): Promise<CamposTipo[]> {

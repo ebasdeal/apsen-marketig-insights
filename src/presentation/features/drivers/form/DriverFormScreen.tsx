@@ -2,12 +2,14 @@
 
 import type { DriverForFormDto, DriverFormLookupsDto } from '@application/drivers/dto';
 import { draftDeDriver, draftInicial, type DriverDraft } from '@domain/drivers/draft';
+import { podeEditarDriver } from '@domain/drivers/permissaoEdicao';
 import { NotFoundError } from '@domain/shared/DomainError';
-import { ApsenLoader, ErrorState } from '@presentation/components/ui';
+import { Alert, ApsenLoader, ErrorState } from '@presentation/components/ui';
 import { toUserMessage } from '@presentation/format/errorMessage';
 import { useFamiliaSkus } from '@presentation/hooks/catalogo/useProdutoSkus';
 import { useDriverForForm } from '@presentation/hooks/drivers/useDriverForForm';
 import { useDriverFormLookups } from '@presentation/hooks/drivers/useDriverFormLookups';
+import { useSessaoStore } from '@presentation/stores/sessaoStore';
 import { notFound } from 'next/navigation';
 import { catalogoFamiliaRoute, DRIVERS_ROUTE } from '../driverRoutes';
 import { DriverForm } from './DriverForm';
@@ -46,6 +48,7 @@ export function DriverFormScreen({ mode, driverId, familia }: DriverFormScreenPr
   const lookups = useDriverFormLookups();
   const form = useDriverForForm(novo ? undefined : driverId);
   const contexto = useFamiliaSkus(novo ? (familia ?? '') : '');
+  const usuario = useSessaoStore((state) => state.sessao?.usuario);
 
   if (!novo && (driverId === undefined || form.error instanceof NotFoundError)) {
     notFound();
@@ -73,15 +76,29 @@ export function DriverFormScreen({ mode, driverId, familia }: DriverFormScreenPr
   const familiaValida = novo ? ((contexto.data?.length ?? 0) > 0 ? familia : undefined) : familia;
   const destino = familiaValida === undefined ? DRIVERS_ROUTE : catalogoFamiliaRoute(familiaValida);
 
+  const driver = form.data?.driver;
+  const foraDaArea =
+    mode === 'edit' &&
+    usuario !== undefined &&
+    driver !== undefined &&
+    !podeEditarDriver(usuario.perfil, usuario.area, lookups.data.donoPorTipo[driver.tipo]);
+  const inativo = usuario?.ativo === false && mode !== 'view';
+
   return (
     <>
       <DriverFormHeader mode={mode} driverId={driverId} familia={familiaValida} />
+      {foraDaArea ? (
+        <Alert tone="warning">
+          Você só edita os drivers da sua área: este está em modo leitura.
+        </Alert>
+      ) : null}
       <DriverForm
         mode={mode}
         lookups={lookups.data}
         inicial={draftDe(lookups.data, form.data, novo ? familiaValida : undefined)}
         original={form.data?.driver}
         destino={destino}
+        somenteLeitura={foraDaArea || inativo}
       />
     </>
   );

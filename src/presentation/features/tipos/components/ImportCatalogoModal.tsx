@@ -37,6 +37,7 @@ export function ImportCatalogoModal({ onClose }: ImportCatalogoModalProps) {
             Cancelar
           </Button>
           <Button
+            escrita
             variant="teal"
             size="sm"
             loading={importar.isPending}

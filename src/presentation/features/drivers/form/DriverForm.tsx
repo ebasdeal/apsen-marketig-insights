@@ -26,6 +26,8 @@ interface DriverFormProps {
   inicial: DriverDraft;
   original: Driver | undefined;
   destino: Route;
+  // Edição bloqueada (usuário inativo ou driver de outra área): campos desabilitados, sem salvar.
+  somenteLeitura?: boolean;
 }
 
 const GUARD = {
@@ -39,14 +41,21 @@ function errosDe(erro: DraftErro): FieldErrors {
   return { [erro.campo]: erro.campo === 'fim' ? '' : erro.mensagem };
 }
 
-export function DriverForm({ mode, lookups, inicial, original, destino }: DriverFormProps) {
+export function DriverForm({
+  mode,
+  lookups,
+  inicial,
+  original,
+  destino,
+  somenteLeitura = false,
+}: DriverFormProps) {
   const [baseline] = useState(inicial);
   const [draft, setDraft] = useState(baseline);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [versao, setVersao] = useState(0);
   const [salvo, setSalvo] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const disabled = mode === 'view';
+  const disabled = mode === 'view' || somenteLeitura;
   const campos = lookups.camposPorTipo[draft.tipo];
   const guard = useUnsavedChangesGuard(!disabled && !salvo && isDraftSujo(draft, baseline), GUARD);
   const { submit, pending } = useDriverSubmit({

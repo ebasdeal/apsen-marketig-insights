@@ -82,7 +82,7 @@ export function TiposScreen() {
         description="Define quais tipos estão disponíveis no Driver Form · Feature engineering configurável"
         actions={
           <>
-            <Button variant="ghost" size="sm" onClick={() => setImportando(true)}>
+            <Button escrita variant="ghost" size="sm" onClick={() => setImportando(true)}>
               Importar JSON
             </Button>
             <ButtonLink href={TIPO_NOVO_ROUTE} variant="teal" size="sm">

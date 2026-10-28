@@ -30,7 +30,7 @@ export function TipoStatusCard({
         <Button variant="ghost" onClick={onCancelar} disabled={salvando}>
           Cancelar
         </Button>
-        <Button variant="teal" onClick={onSalvar} loading={salvando}>
+        <Button escrita variant="teal" onClick={onSalvar} loading={salvando}>
           Salvar Tipo
         </Button>
       </FormActions>

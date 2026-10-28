@@ -22,6 +22,9 @@ export class GetDriverFormLookups {
     return {
       categorias: ordenadas,
       tiposAtivos: slugsAtivos(ordenadas, tipos),
+      donoPorTipo: Object.fromEntries(
+        tipos.flatMap((tipo) => (tipo.dono === undefined ? [] : [[tipo.slug, tipo.dono]])),
+      ),
       camposPorTipo: Object.fromEntries(
         camposTipo.map((campos) => [campos.id, comObrigatoriedadeDoTipo(campos)]),
       ),

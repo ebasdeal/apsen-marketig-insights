@@ -234,6 +234,7 @@ export function makeLookups(overrides: Partial<DriverFormLookupsDto> = {}): Driv
   return {
     categorias: CATEGORIAS,
     tiposAtivos: ['tv', 'digital', 'pdv', 'preco', 'concorrente'],
+    donoPorTipo: { tv: 'Marketing', digital: 'Marketing', pdv: 'Comercial' },
     camposPorTipo: { concorrente: makeCamposTipo(), preco: CAMPOS_PRECO },
     intensidades: INTENSIDADES,
     config: CONFIG,

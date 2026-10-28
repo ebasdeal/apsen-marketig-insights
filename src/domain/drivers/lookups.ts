@@ -15,6 +15,7 @@ export interface Categoria {
 export interface TipoStatus {
   readonly slug: string;
   readonly ativo: boolean;
+  readonly dono?: string;
 }
 
 export interface OpcaoAgrupada {

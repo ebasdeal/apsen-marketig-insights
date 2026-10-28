@@ -10,7 +10,7 @@ interface KpiCardProps {
   icon?: string;
   tone?: KpiTone;
   hintTone?: KpiTone | 'yellow';
-  href?: Route;
+  href?: Route | undefined;
   className?: string;
 }
 

@@ -1,5 +1,8 @@
+'use client';
+
 import type { Route } from 'next';
 import Link from 'next/link';
+import { usePodeEscrever } from '../../hooks/usePodeEscrever';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 export type IconButtonTone = 'blue' | 'red' | 'teal' | 'green';
@@ -22,15 +25,26 @@ interface IconButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 
   'aria-label': string;
   className?: string;
   tone?: IconButtonTone;
+  escrita?: boolean;
 }
 
 export function IconButton({
   className = '',
   type = 'button',
   tone = 'blue',
+  escrita = false,
+  disabled,
   ...rest
 }: IconButtonProps) {
-  return <button type={type} className={iconClasses(tone, className)} {...rest} />;
+  const podeEscrever = usePodeEscrever();
+  return (
+    <button
+      type={type}
+      className={iconClasses(tone, className)}
+      disabled={disabled || (escrita && !podeEscrever)}
+      {...rest}
+    />
+  );
 }
 
 interface IconLinkProps<T extends string> {

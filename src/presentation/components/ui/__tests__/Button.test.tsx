@@ -1,8 +1,10 @@
 import { renderWithProviders } from '@test/renderWithProviders';
+import { loginAs } from '@test/resetStores';
 import { screenHref } from '@presentation/navigation/screens';
 import type { Route } from 'next';
 import { render, screen } from '@testing-library/react';
 import { Button, ButtonLink } from '../Button';
+import { useSessaoStore } from '../../../stores/sessaoStore';
 import { buttonClasses, type ButtonVariant } from '../buttonClasses';
 
 const VARIANT_CASES: readonly (readonly [ButtonVariant, string])[] = [
@@ -138,5 +140,22 @@ describe('variantes do protótipo', () => {
     expect(screen.getByRole('button', { name: 'Enviando…' })).toBeDisabled();
     rerender(<Button>Salvar</Button>);
     expect(screen.getByRole('button', { name: 'Salvar' })).not.toHaveAttribute('aria-busy');
+  });
+});
+
+describe('Button escrita (usuário inativo só visualiza)', () => {
+  it('fica desabilitado para usuário inativo e habilitado para ativo', () => {
+    useSessaoStore.setState((estado) =>
+      estado.sessao === null
+        ? estado
+        : { sessao: { ...estado.sessao, usuario: { ...estado.sessao.usuario, ativo: false } } },
+    );
+    const { rerender } = render(<Button escrita>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeDisabled();
+    rerender(<Button>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeEnabled();
+    loginAs('admin');
+    rerender(<Button escrita>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeEnabled();
   });
 });

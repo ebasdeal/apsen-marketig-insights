@@ -1,6 +1,9 @@
+'use client';
+
 import type { Route } from 'next';
 import Link from 'next/link';
 import type { ButtonHTMLAttributes, ReactNode, Ref } from 'react';
+import { usePodeEscrever } from '../../hooks/usePodeEscrever';
 import { buttonClasses, type ButtonSize, type ButtonVariant } from './buttonClasses';
 
 interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
@@ -10,6 +13,7 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'cla
   dashed?: boolean;
   loading?: boolean;
   loadingLabel?: string;
+  escrita?: boolean;
   ref?: Ref<HTMLButtonElement>;
 }
 
@@ -26,14 +30,16 @@ export function Button({
   loading = false,
   loadingLabel = 'Salvando…',
   disabled,
+  escrita = false,
   children,
   ...rest
 }: ButtonProps) {
+  const podeEscrever = usePodeEscrever();
   return (
     <button
       type={type}
       className={buttonClasses(variant, size, extraClasses(dashed, className))}
-      disabled={loading || disabled}
+      disabled={loading || disabled || (escrita && !podeEscrever)}
       aria-busy={loading ? true : undefined}
       {...rest}
     >

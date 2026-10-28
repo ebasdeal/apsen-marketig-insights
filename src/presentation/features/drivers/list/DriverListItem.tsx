@@ -58,6 +58,7 @@ export function DriverListItem({ item, onRemove }: DriverListItemProps) {
         </div>
       </div>
       <Button
+        escrita
         variant="danger"
         size="sm"
         className="mt-[4px] shrink-0"

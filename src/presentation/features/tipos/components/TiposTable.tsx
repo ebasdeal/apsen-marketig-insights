@@ -71,6 +71,7 @@ function columns(onToggle: TiposTableProps['onToggle']): TableColumn<TipoRowDto>
       header: 'Ativo',
       render: (row) => (
         <Toggle
+          escrita
           checked={row.ativo}
           aria-label={`Tipo ${row.slug} ativo`}
           onChange={(ativo) => onToggle(row, ativo)}
@@ -99,6 +100,7 @@ export function TiposTable({ rows, footer, onToggle, onDelete }: TiposTableProps
             <EditIcon />
           </IconLink>
           <IconButton
+            escrita
             tone="red"
             aria-label={`Excluir tipo ${row.slug}`}
             onClick={() => onDelete(row)}

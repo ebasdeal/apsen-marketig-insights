@@ -15,6 +15,8 @@ import type { ParametroResumo } from '@domain/drivers/resumoDriver';
 export interface DriverFormLookupsDto {
   categorias: Categoria[];
   tiposAtivos: string[];
+  // Dono de área de cada tipo (slug -> área); base da regra PRG-DRV-23.
+  donoPorTipo: Record<string, string>;
   camposPorTipo: Record<string, CamposTipo>;
   intensidades: IntensidadeInfo[];
   config: DriverConfig;
