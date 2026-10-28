@@ -25,6 +25,7 @@ const COLUMNS: readonly TableColumn<RestricaoItemOutput>[] = [
   },
   {
     key: 'desc',
+    wrap: true,
     header: 'Descrição',
     render: (r) => (
       <>
@@ -35,6 +36,7 @@ const COLUMNS: readonly TableColumn<RestricaoItemOutput>[] = [
   },
   {
     key: 'produto',
+    wrap: true,
     header: 'Produto / Linha',
     className: 'text-[12.5px]',
     render: (r) => r.produto,

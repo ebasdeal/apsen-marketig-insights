@@ -25,6 +25,7 @@ function columns(onToggle: TiposTableProps['onToggle']): TableColumn<TipoRowDto>
   return [
     {
       key: 'tipo',
+      wrap: true,
       header: <TipoSlugHeader />,
       render: (row) => (
         <>

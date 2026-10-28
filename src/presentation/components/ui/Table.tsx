@@ -8,6 +8,7 @@ export interface TableColumn<T> {
   render: (row: T) => ReactNode;
   headerClassName?: string;
   className?: string;
+  wrap?: boolean;
 }
 
 interface TableProps<T> {
@@ -25,6 +26,11 @@ interface TableProps<T> {
 const TH =
   'whitespace-nowrap px-[14px] py-[10px] text-left text-[11.5px] font-semibold tracking-[.02em]';
 const TD = 'border-b border-apsen-bg px-[14px] py-[12px] align-middle text-[13px]';
+const NOWRAP = 'whitespace-nowrap';
+
+function cellClass<T>(column: TableColumn<T>): string {
+  return [TD, column.wrap === true ? '' : NOWRAP, column.className ?? ''].filter(Boolean).join(' ');
+}
 
 export function Table<T>({
   caption,
@@ -76,12 +82,12 @@ export function Table<T>({
                   className={`hover:bg-apsen-row-hover [&:last-child>td]:border-b-0 ${rowClassName?.(row) ?? ''}`.trim()}
                 >
                   {columns.map((column) => (
-                    <td key={column.key} className={`${TD} ${column.className ?? ''}`.trim()}>
+                    <td key={column.key} className={cellClass(column)}>
                       {column.render(row)}
                     </td>
                   ))}
                   {actions === undefined ? null : (
-                    <td className={TD}>
+                    <td className={`${TD} ${NOWRAP}`}>
                       <ActionGroup>{actions(row)}</ActionGroup>
                     </td>
                   )}

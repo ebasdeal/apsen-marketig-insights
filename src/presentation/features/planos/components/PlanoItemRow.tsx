@@ -14,6 +14,7 @@ interface PlanoItemRowProps {
 }
 
 const TD = 'border-b border-apsen-bg px-[14px] py-[12px] align-middle text-[13px]';
+const TD_CURTO = `${TD} whitespace-nowrap`;
 
 export function PlanoItemRow({
   item,
@@ -35,7 +36,7 @@ export function PlanoItemRow({
           onChange={onSelecionar}
         />
       </td>
-      <td className={TD}>
+      <td className={TD_CURTO}>
         <span className="font-mono text-[12px] font-semibold text-apsen-blue">{item.codigo}</span>
       </td>
       <td className={TD}>
@@ -44,21 +45,21 @@ export function PlanoItemRow({
           {item.apres} · SKU {item.skuCurto}
         </div>
       </td>
-      <td className={TD}>
+      <td className={TD_CURTO}>
         <ColorPill color={tomDaFamilia(item.familia)}>● {item.familia}</ColorPill>
       </td>
-      <td className={`${TD} font-semibold`}>
+      <td className={`${TD_CURTO} font-semibold`}>
         {formatInteger(item.qtd)}
         <span className="text-[11px] font-normal text-apsen-muted"> cp</span>
       </td>
-      <td className={`${TD} text-[12.5px]`}>{item.linha}</td>
-      <td className={`${TD} text-[12.5px]`}>{item.semana}</td>
-      <td className={TD}>
+      <td className={`${TD_CURTO} text-[12.5px]`}>{item.linha}</td>
+      <td className={`${TD_CURTO} text-[12.5px]`}>{item.semana}</td>
+      <td className={TD_CURTO}>
         <span className={`text-[12px] font-semibold ${STATUS_COR[item.status]}`}>
           ● {item.statusLabel}
         </span>
       </td>
-      <td className={TD}>
+      <td className={TD_CURTO}>
         <ActionGroup>
           <IconLink href={href} aria-label={`Visualizar ${item.codigo}`}>
             <EyeIcon />

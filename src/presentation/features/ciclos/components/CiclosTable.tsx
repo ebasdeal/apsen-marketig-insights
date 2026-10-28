@@ -41,6 +41,7 @@ function columns(
     },
     {
       key: 'descricao',
+      wrap: true,
       header: 'Descrição',
       render: (row) => (
         <>

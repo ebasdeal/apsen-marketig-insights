@@ -59,6 +59,7 @@ function columns(
   return [
     {
       key: 'papel',
+      wrap: true,
       header: 'Nome / Papel C4',
       render: (row) => (
         <>

@@ -31,6 +31,7 @@ function columns(familia: string): CardTableColumn<FamiliaDriverRowDto>[] {
     { key: 'tipo', header: 'Tipo', render: (row) => <DriverTypeBadge badge={row.badge} /> },
     {
       key: 'titulo',
+      wrap: true,
       header: 'Título / Produto',
       render: (row) => (
         <>

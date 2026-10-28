@@ -6,6 +6,7 @@ export interface CardTableColumn<T> {
   render: (row: T) => ReactNode;
   center?: boolean;
   className?: string;
+  wrap?: boolean;
 }
 
 interface CardTableProps<T> {
@@ -55,7 +56,9 @@ export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: Card
                 {columns.map((column) => (
                   <td
                     key={column.key}
-                    className={`${TD} ${align(column)} ${column.className ?? ''}`.trim()}
+                    className={`${TD} ${column.wrap === true ? '' : 'whitespace-nowrap'} ${align(column)} ${column.className ?? ''}`
+                      .replace(/s+/g, ' ')
+                      .trim()}
                   >
                     {column.render(row)}
                   </td>

@@ -30,6 +30,7 @@ const COLUMNS: TableColumn<IngeridoRowDto>[] = [
   },
   {
     key: 'produto',
+    wrap: true,
     header: 'Produto',
     render: (row) => (
       <>
