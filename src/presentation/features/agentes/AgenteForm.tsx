@@ -119,26 +119,26 @@ export function AgenteForm({ id, draft: initial, extras }: AgenteFormProps) {
             checked={draft.ativo}
             onChange={(ativo) => change({ ativo })}
           />
-          <FormActions className="mt-[14px]">
-            <Button variant="ghost" onClick={() => guard.confirmLeave(AGENTES_ROUTE)}>
-              Cancelar
-            </Button>
-            <Button variant="outline" size="sm" onClick={testar}>
-              <PulseIcon className="size-[13px]" />
-              Testar Conexão
-            </Button>
-            <Button
-              type="submit"
-              variant="purple"
-              size="sm"
-              disabled={!podeEscrever}
-              loading={save.isPending}
-              loadingLabel="Salvando…"
-            >
-              Salvar Agente
-            </Button>
-          </FormActions>
         </Card>
+        <FormActions page>
+          <Button variant="ghost" onClick={() => guard.confirmLeave(AGENTES_ROUTE)}>
+            Cancelar
+          </Button>
+          <Button variant="outline" size="sm" onClick={testar}>
+            <PulseIcon className="size-[13px]" />
+            Testar Conexão
+          </Button>
+          <Button
+            type="submit"
+            variant="purple"
+            size="sm"
+            disabled={!podeEscrever}
+            loading={save.isPending}
+            loadingLabel="Salvando…"
+          >
+            Salvar Agente
+          </Button>
+        </FormActions>
       </form>
       {guard.dialog}
     </>

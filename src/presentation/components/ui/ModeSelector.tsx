@@ -23,7 +23,7 @@ interface ModeSelectorProps<T extends string> {
 }
 
 const OPTION =
-  'flex flex-1 cursor-pointer flex-col items-center gap-[3px] rounded-apsen border-2 font-[inherit] transition-all duration-[150ms] focus-ring disabled:cursor-default';
+  'flex flex-1 cursor-pointer flex-col items-center gap-[3px] rounded-apsen border-2 font-[inherit] transition-all duration-[150ms] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-apsen-slate disabled:cursor-default';
 const INACTIVE = 'border-apsen-border bg-apsen-white text-apsen-muted';
 const ACTIVE = {
   blue: 'border-apsen-blue bg-apsen-blue text-white',

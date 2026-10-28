@@ -31,7 +31,7 @@ interface PlanoItemCamposProps {
 const opcoes = (valores: readonly string[]) => valores.map((value) => ({ value, label: value }));
 const STATUS_ORDEM: readonly PlanoStatus[] = ['pendente', 'revisao', 'aprovado', 'bloqueado'];
 const STATUS_OPCOES = STATUS_ORDEM.map((value) => ({ value, label: PLANO_STATUS_LABEL[value] }));
-const CAMPOS = 'flex flex-col';
+const CAMPOS = 'flex flex-col gap-[12px]';
 
 export function PlanoItemCampos({
   item,

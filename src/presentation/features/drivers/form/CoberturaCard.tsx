@@ -79,7 +79,7 @@ function IntensidadeBloco({ draft, update, disabled, lookups }: CardProps) {
   );
 }
 
-export function CoberturaCard({ actions, ...props }: CardProps & { actions: ReactNode }) {
+export function CoberturaCard({ actions, ...props }: CardProps & { actions?: ReactNode }) {
   const { draft, update, disabled, lookups } = props;
   const { regioes, canais } = lookups.config;
   return (

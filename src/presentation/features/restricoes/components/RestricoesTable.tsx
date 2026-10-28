@@ -28,6 +28,7 @@ const COLUMNS: readonly TableColumn<RestricaoItemOutput>[] = [
     mobile: 'title',
     wrap: true,
     header: 'Descrição',
+    className: 'min-w-[220px]',
     render: (r) => (
       <>
         <div className="text-[13px] font-medium">{r.desc}</div>
@@ -40,11 +41,13 @@ const COLUMNS: readonly TableColumn<RestricaoItemOutput>[] = [
     mobile: 'hidden',
     wrap: true,
     header: 'Produto / Linha',
-    className: 'text-[12.5px]',
+    className: 'min-w-[130px] max-w-[160px] text-[12.5px]',
     render: (r) => r.produto,
   },
   {
     key: 'impacto',
+    wrap: true,
+    className: 'max-w-[120px]',
     header: 'Impacto',
     render: (r) => (
       <span className={`text-[12px] font-semibold ${IMPACTO_COR[r.impCor]}`}>{r.impacto}</span>

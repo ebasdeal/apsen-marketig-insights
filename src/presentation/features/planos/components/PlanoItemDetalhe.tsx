@@ -4,10 +4,12 @@ import type { PlanoItemDetailOutput } from '@application/planos/dto';
 import { PlanoInvalidoError } from '@domain/planos/PlanoErrors';
 import { formularioAlterado, validarEdicao } from '@domain/planos/planoRules';
 import {
+  Alert,
   Breadcrumb,
   Button,
   focusFirstInvalid,
   FormActions,
+  PageHeader,
   useUnsavedChangesGuard,
 } from '@presentation/components/ui';
 import { mensagemDeFalha } from '@presentation/hooks/mutationFeedback';
@@ -76,6 +78,17 @@ export function PlanoItemDetalhe({ item }: { item: PlanoItemDetailOutput }) {
         items={[{ label: 'Planos de Produção', href: PLANOS_ROUTE }, { label: item.codigo }]}
         backHref={PLANOS_ROUTE}
       />
+      <PageHeader
+        title={`Item ${item.codigo}`}
+        description={`${item.nome} · ${item.statusLabel}`}
+      />
+      {item.status === 'aprovado' ? (
+        <Alert tone="info" title="Item aprovado — somente leitura.">
+          {podeEditar
+            ? 'Use “Reabrir para revisão” para voltar o item a Em Revisão e editá-lo.'
+            : 'Apenas Planejador ou Admin podem reabri-lo para revisão.'}
+        </Alert>
+      ) : null}
       <PlanoItemCampos
         item={item}
         form={form}
@@ -85,7 +98,7 @@ export function PlanoItemDetalhe({ item }: { item: PlanoItemDetailOutput }) {
         acoes={
           <FormActions>
             <Button variant="ghost" onClick={() => guard.confirmLeave(PLANOS_ROUTE)}>
-              Cancelar
+              {somenteLeitura ? 'Voltar' : 'Cancelar'}
             </Button>
             {item.status === 'aprovado' && podeEditar ? (
               <Button

@@ -27,7 +27,7 @@ describe('Breadcrumb', () => {
     expect(current).toHaveAttribute('aria-current', 'page');
     expect(current).toHaveClass('font-medium', 'text-apsen-slate');
     const back = screen.getByRole('link', { name: '← Voltar ao Catálogo' });
-    expect(back).toHaveClass('mb-[16px]', 'border-apsen-border', 'px-[12px]', 'py-[5px]');
+    expect(back).toHaveClass('mb-[16px]', 'border-apsen-blue', 'min-h-[32px]');
   });
 
   it('usa o rótulo padrão e a variante crumb', () => {

@@ -4,12 +4,7 @@ import type { DriverFormLookupsDto } from '@application/drivers/dto';
 import type { Driver } from '@domain/drivers/Driver';
 import { isDraftSujo, limpar, type DriverDraft } from '@domain/drivers/draft';
 import { validarDraft, type DraftErro } from '@domain/drivers/validarDraft';
-import {
-  Button,
-  FormActions,
-  focusFirstInvalid,
-  useUnsavedChangesGuard,
-} from '@presentation/components/ui';
+import { Button, focusFirstInvalid, useUnsavedChangesGuard } from '@presentation/components/ui';
 import type { Route } from 'next';
 import { useRef, useState } from 'react';
 import { CheckIcon } from '../components/driverIcons';
@@ -90,7 +85,7 @@ export function DriverForm({
   }
 
   const acoes = disabled ? null : (
-    <FormActions>
+    <div className="sticky bottom-0 z-10 -mx-[24px] -mb-[22px] flex flex-wrap justify-end gap-[8px] border-t border-apsen-border bg-apsen-bg px-[24px] py-[12px]">
       <Button variant="ghost" onClick={limparTudo} disabled={pending}>
         Limpar
       </Button>
@@ -98,7 +93,7 @@ export function DriverForm({
         <CheckIcon />
         {mode === 'edit' ? 'Salvar alterações' : 'Adicionar Registro'}
       </Button>
-    </FormActions>
+    </div>
   );
 
   return (
@@ -115,7 +110,8 @@ export function DriverForm({
       {draft.tipo !== '' && campos !== undefined ? (
         <DynamicFieldsCard key={`dyn-${draft.tipo}`} {...props} config={campos} />
       ) : null}
-      {draft.tipo === '' ? null : <CoberturaCard {...props} actions={acoes} />}
+      <CoberturaCard {...props} />
+      {acoes}
       {guard.dialog}
     </form>
   );

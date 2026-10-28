@@ -36,13 +36,13 @@ describe('ToastProvider', () => {
     vi.useRealTimers();
   });
 
-  it('fica no topo à direita abaixo da topbar', () => {
+  it('fica embaixo à direita, sem cobrir os botões do topo da página', () => {
     renderToasts();
     expect(region()).toHaveClass(
       'fixed',
-      'top-[calc(var(--spacing-topbar)+16px)]',
-      'right-[24px]',
-      'max-[560px]:top-[16px]',
+      'bottom-[22px]',
+      'right-[22px]',
+      'max-[560px]:bottom-[16px]',
       'max-[560px]:left-[16px]',
     );
   });

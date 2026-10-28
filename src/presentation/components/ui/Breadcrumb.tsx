@@ -44,7 +44,12 @@ export function Breadcrumb({
         ))}
       </nav>
       {backHref === undefined ? null : (
-        <ButtonLink href={backHref as Route} variant="ghost" size="sm" className="mb-[16px]">
+        <ButtonLink
+          href={backHref as Route}
+          variant="outline"
+          size="sm"
+          className="mb-[16px] min-h-[32px]"
+        >
           {backLabel}
         </ButtonLink>
       )}

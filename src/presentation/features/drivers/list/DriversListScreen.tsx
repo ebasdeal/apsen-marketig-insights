@@ -102,7 +102,7 @@ export function DriversListScreen() {
       <ConfirmDialog
         open={pendente !== null}
         title="Remover registro"
-        message="Remover este registro?"
+        message={pendente === null ? '' : `Remover o registro ${pendente.titulo}?`}
         confirmLabel="Remover"
         onCancel={() => setPendente(null)}
         onConfirm={confirmar}

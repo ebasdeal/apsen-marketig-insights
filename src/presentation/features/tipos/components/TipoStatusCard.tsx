@@ -18,15 +18,17 @@ export function TipoStatusCard({
   onSalvar,
 }: TipoStatusCardProps) {
   return (
-    <Card>
-      <CardTitle>Status</CardTitle>
-      <StatusField
-        title="Ativo no Driver Form"
-        description="Tipos inativos ficam ocultos no formulário das áreas mas preservam os registros históricos."
-        checked={ativo}
-        onChange={onAtivoChange}
-      />
-      <FormActions className="mt-[14px]">
+    <>
+      <Card>
+        <CardTitle>Status</CardTitle>
+        <StatusField
+          title="Ativo no Driver Form"
+          description="Tipos inativos ficam ocultos no formulário das áreas mas preservam os registros históricos."
+          checked={ativo}
+          onChange={onAtivoChange}
+        />
+      </Card>
+      <FormActions page>
         <Button variant="ghost" onClick={onCancelar} disabled={salvando}>
           Cancelar
         </Button>
@@ -34,6 +36,6 @@ export function TipoStatusCard({
           Salvar Tipo
         </Button>
       </FormActions>
-    </Card>
+    </>
   );
 }

@@ -66,7 +66,7 @@ describe('DriversListScreen (meus-registros CA-01..04)', () => {
     const botao = await screen.findByRole('button', { name: /^Remover Baricitinibe/ });
     await user.click(botao);
     let dialog = screen.getByRole('dialog', { name: 'Remover registro' });
-    expect(within(dialog).getByText('Remover este registro?')).toBeInTheDocument();
+    expect(within(dialog).getByText(/^Remover o registro /)).toBeInTheDocument();
     await user.click(within(dialog).getByRole('button', { name: 'Cancelar' }));
     expect(remove).not.toHaveBeenCalled();
     await user.click(botao);

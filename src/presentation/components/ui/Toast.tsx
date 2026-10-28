@@ -29,7 +29,7 @@ export function ToastRegion({ children }: { children: ReactNode }) {
   return (
     <section
       aria-label="Notificações"
-      className="pointer-events-none fixed top-[calc(var(--spacing-topbar)+16px)] right-[24px] z-[9500] flex flex-col gap-[10px] max-[560px]:top-[16px] max-[560px]:right-[16px] max-[560px]:left-[16px]"
+      className="pointer-events-none fixed right-[22px] bottom-[22px] z-[9500] flex flex-col gap-[10px] max-[560px]:right-[16px] max-[560px]:bottom-[16px] max-[560px]:left-[16px]"
     >
       {children}
     </section>

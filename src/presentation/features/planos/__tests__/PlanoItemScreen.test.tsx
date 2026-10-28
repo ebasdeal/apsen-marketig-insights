@@ -91,7 +91,7 @@ describe('PlanoItemScreen', () => {
     });
     expect(await screen.findByRole('spinbutton', { name: 'Qtd. Planejada' })).toBeDisabled();
     expect(screen.queryByRole('button', { name: 'Salvar Alterações' })).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Cancelar' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Voltar' })).toBeInTheDocument();
   });
 
   it('PRG-PLN-11: Planejador reabre item aprovado para Em Revisão; Área não vê o botão', async () => {

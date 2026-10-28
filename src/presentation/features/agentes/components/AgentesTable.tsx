@@ -73,17 +73,19 @@ function columns(
     },
     {
       key: 'provedor',
+      wrap: true,
       header: 'Provedor',
       render: (row) => <ProviderPill provedor={row.provedor} />,
     },
     {
       key: 'endpoint',
+      wrap: true,
       mobile: 'hidden',
       header: 'Endpoint',
       render: (row) => (
         <span
           title={row.endpoint}
-          className="block max-w-[132px] truncate text-[11.5px] text-apsen-slate"
+          className="block max-w-[100px] truncate text-[11.5px] text-apsen-slate"
         >
           {row.endpoint}
         </span>
@@ -91,6 +93,7 @@ function columns(
     },
     {
       key: 'secret',
+      wrap: true,
       mobile: 'hidden',
       header: 'Secret (Key Vault ref.)',
       render: (row) => (
@@ -105,22 +108,28 @@ function columns(
     },
     {
       key: 'modelo',
+      wrap: true,
       header: 'Modelo',
-      render: (row) => <CodeTag>{row.modelo}</CodeTag>,
+      render: (row) => (
+        <CodeTag className="max-w-[92px] whitespace-normal! break-all">{row.modelo}</CodeTag>
+      ),
     },
     {
       key: 'schedule',
+      wrap: true,
       mobile: 'hidden',
       header: 'Schedule',
       render: (row) => <SchedulePill schedule={row.schedule} />,
     },
     {
       key: 'ambiente',
+      wrap: true,
       header: 'Ambiente',
       render: (row) => <EnvironmentPill agente={row} />,
     },
     {
       key: 'teste',
+      wrap: true,
       header: 'Último Teste',
       render: (row) => <LastTestCell teste={row.ultimoTeste} />,
     },
@@ -148,6 +157,7 @@ export function AgentesTable({
       rows={rows}
       rowKey={(row) => row.id}
       emptyText="Nenhum agente cadastrado."
+      compact
       footer={footer}
       actions={(row) => (
         <>

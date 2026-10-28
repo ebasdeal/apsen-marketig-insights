@@ -7,19 +7,38 @@ export function focusableElements(container: HTMLElement): HTMLElement[] {
   return Array.from(container.querySelectorAll<HTMLElement>(FOCUSABLE));
 }
 
+let ultimoFoco: HTMLElement | null = null;
+
+function acompanharFoco(): void {
+  if (typeof document === 'undefined') {
+    return;
+  }
+  document.addEventListener('focusin', (event) => {
+    const alvo = event.target;
+    if (alvo instanceof HTMLElement && alvo.closest('[role="dialog"]') === null) {
+      ultimoFoco = alvo;
+    }
+  });
+}
+acompanharFoco();
+
 export function useFocusTrap(
   ref: RefObject<HTMLElement | null>,
   onClose: () => void,
   initialFocus?: RefObject<HTMLElement | null>,
 ): (event: KeyboardEvent<HTMLElement>) => void {
   useEffect(() => {
-    const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const ativo = document.activeElement;
+    const previous = ativo instanceof HTMLElement && ativo !== document.body ? ativo : ultimoFoco;
+    const rotulo = previous?.getAttribute('aria-label') ?? null;
     if (ref.current !== null) {
       (initialFocus?.current ?? focusableElements(ref.current)[0])?.focus();
     }
     return () => {
       if (previous?.isConnected === true) {
         previous.focus();
+      } else if (rotulo !== null) {
+        document.querySelector<HTMLElement>(`[aria-label="${CSS.escape(rotulo)}"]`)?.focus();
       }
     };
   }, [ref, initialFocus]);

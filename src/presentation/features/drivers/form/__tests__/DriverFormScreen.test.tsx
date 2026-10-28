@@ -65,7 +65,8 @@ describe('DriverFormScreen — novo (CA-01, CA-05, CA-10, CA-11, CA-15)', () => 
     ).toBeInTheDocument();
     expect(screen.getByText('Identificação do Evento')).toBeInTheDocument();
     expect(screen.queryByText(/Parâmetros:/)).not.toBeInTheDocument();
-    expect(screen.queryByText('Cobertura, Canal & Impacto')).not.toBeInTheDocument();
+    expect(screen.getByText('Cobertura, Canal & Impacto')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Adicionar Registro' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: /SKU/ })).toHaveAttribute('aria-checked', 'true');
     expect(screen.getByRole('combobox', { name: /Tipo específico/ })).toBeDisabled();
   });
@@ -87,7 +88,7 @@ describe('DriverFormScreen — novo (CA-01, CA-05, CA-10, CA-11, CA-15)', () => 
     expect(screen.queryByRole('option', { name: '👥 Força de Vendas' })).not.toBeInTheDocument();
     await user.selectOptions(screen.getByRole('combobox', { name: /Categoria/ }), '0');
     expect(screen.queryByText(/selecionado$/)).not.toBeInTheDocument();
-    expect(screen.queryByText('Cobertura, Canal & Impacto')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Parâmetros:/)).not.toBeInTheDocument();
   });
 
   it('enviar sem SKU: toast, campo inválido e foco', async () => {
