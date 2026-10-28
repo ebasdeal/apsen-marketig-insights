@@ -1,6 +1,7 @@
 import { CAMPOS_PRECO, CATEGORIAS, makeCamposTipo } from '@test/factories/drivers';
 import type { CampoTipo } from '../lookups';
 import {
+  comObrigatoriedadeDoTipo,
   montarParametros,
   moleculaHerdada,
   opcoesDoSelect,
@@ -118,5 +119,34 @@ describe('opcoesDoSelect (CA-06)', () => {
       type: 'select',
     };
     expect(opcoesDoSelect(semOpcoes).soltas).toEqual([]);
+  });
+});
+
+describe('comObrigatoriedadeDoTipo (RN-DRV-06)', () => {
+  const campo = (param: string) => ({
+    label: param,
+    required: false,
+    id: `d_${param}`,
+    param,
+    type: 'text' as const,
+  });
+
+  it('marca os parâmetros fixos dos 3 tipos como obrigatórios', () => {
+    const config = {
+      id: 'posicionamento',
+      title: 'x',
+      layout: 'g2' as const,
+      campos: [campo('publico_posic'), campo('posic_antes'), campo('posic_depois')],
+    };
+    expect(comObrigatoriedadeDoTipo(config).campos.map((c) => c.required)).toEqual([
+      true,
+      false,
+      true,
+    ]);
+  });
+
+  it('não altera os demais tipos', () => {
+    const config = { id: 'tv', title: 'x', layout: 'g2' as const, campos: [campo('canal')] };
+    expect(comObrigatoriedadeDoTipo(config)).toBe(config);
   });
 });

@@ -11,6 +11,29 @@ export const PARAM_MOLECULA_HERDADA: Readonly<Record<string, string>> = {
   conc_lanc: 'cl_molecula',
 };
 
+// RN-DRV-06 / PRG-DRV-05: nestes 3 tipos alguns parâmetros são sempre obrigatórios, mesmo que o
+// Catálogo de Tipos os marque como opcionais; nos demais vale a configuração do Admin.
+export const PARAMS_OBRIGATORIOS_RN_DRV_06: Readonly<Record<string, readonly string[]>> = {
+  presc_digital: ['plat_presc', 'presc_medicos', 'presc_conv'],
+  protocolo_clin: ['prot_inst', 'prot_linha', 'prot_vidas'],
+  posicionamento: ['publico_posic', 'posic_depois'],
+};
+
+export function comObrigatoriedadeDoTipo<T extends { id: string; campos: readonly CampoTipo[] }>(
+  config: T,
+): T {
+  const obrigatorios = PARAMS_OBRIGATORIOS_RN_DRV_06[config.id];
+  if (obrigatorios === undefined) {
+    return config;
+  }
+  return {
+    ...config,
+    campos: config.campos.map((campo) =>
+      obrigatorios.includes(campo.param) ? { ...campo, required: true } : campo,
+    ),
+  };
+}
+
 export interface DraftMolecula {
   modo: 'franquia' | 'familia' | 'sku';
   familia: string;

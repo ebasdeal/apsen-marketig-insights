@@ -1,4 +1,4 @@
-import type { DraftCampo, DriverDraft } from './draft';
+import { REGIAO_NACIONAL, type DraftCampo, type DriverDraft } from './draft';
 import type { CampoTipo } from './lookups';
 import { mensagemPeriodo, validarPeriodo } from './periodo';
 
@@ -56,11 +56,28 @@ function erroDosCampos(draft: DriverDraft, campos: readonly CampoTipo[]): DraftE
   );
 }
 
+function erroDaCobertura(draft: DriverDraft): DraftErro | null {
+  if (draft.regioes.includes(REGIAO_NACIONAL) && draft.regioes.length > 1) {
+    return erro('regioes', 'Nacional não combina com regiões: escolha uma das duas opções.');
+  }
+  return null;
+}
+
+function erroDaVerba(draft: DriverDraft): DraftErro | null {
+  const verba = draft.verba.trim();
+  if (verba !== '' && !(Number(verba) >= 0)) {
+    return erro('verba', 'A verba não pode ser negativa.');
+  }
+  return null;
+}
+
 export function validarDraft(draft: DriverDraft, campos: readonly CampoTipo[]): DraftErro | null {
   return (
     erroDoProduto(draft) ??
     erroDoTipo(draft) ??
     erroDoPeriodo(draft) ??
-    erroDosCampos(draft, campos)
+    erroDosCampos(draft, campos) ??
+    erroDaCobertura(draft) ??
+    erroDaVerba(draft)
   );
 }

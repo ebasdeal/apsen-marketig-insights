@@ -1,7 +1,7 @@
 'use client';
 
 import { isIntensidade } from '@domain/drivers/Driver';
-import { definirIntensidade, editarUplift } from '@domain/drivers/draft';
+import { definirIntensidade, definirRegioes, editarUplift } from '@domain/drivers/draft';
 import { dicaUplift, infoIntensidade, legendaIntensidade } from '@domain/drivers/intensidade';
 import {
   Card,
@@ -92,7 +92,7 @@ export function CoberturaCard({ actions, ...props }: CardProps & { actions: Reac
           options={regioes}
           selected={draft.regioes}
           disabled={disabled}
-          onChange={(next) => update((d) => ({ ...d, regioes: next }))}
+          onChange={(next) => update((d) => definirRegioes(d, next))}
         />
         <ChipMultiSelect
           label="Canal impactado"
@@ -107,6 +107,7 @@ export function CoberturaCard({ actions, ...props }: CardProps & { actions: Reac
         <IntensidadeBloco {...props} />
         <FormField
           label="Verba / Investimento R$"
+          error={props.errors.verba}
           tip={<DriverTooltip tip="verba" rotulo="Verba / Investimento R$" />}
         >
           <TextInput

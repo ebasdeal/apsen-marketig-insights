@@ -75,3 +75,18 @@ describe('validarDraft (RN-03, CA-10)', () => {
     });
   });
 });
+
+describe('validarDraft: cobertura, verba e RN-DRV-06', () => {
+  it('verba negativa é recusada; zero e vazio passam (PRG-DRV-09)', () => {
+    expect(validarDraft(makeDraft({ verba: '-1' }), CAMPOS)).toMatchObject({ campo: 'verba' });
+    expect(validarDraft(makeDraft({ verba: '0' }), CAMPOS)).toBeNull();
+    expect(validarDraft(makeDraft({ verba: '' }), CAMPOS)).toBeNull();
+  });
+
+  it('Nacional não combina com regiões (PRG-DRV-10/11)', () => {
+    expect(validarDraft(makeDraft({ regioes: ['nacional', 'sul'] }), CAMPOS)).toMatchObject({
+      campo: 'regioes',
+    });
+    expect(validarDraft(makeDraft({ regioes: ['sul', 'sudeste'] }), CAMPOS)).toBeNull();
+  });
+});

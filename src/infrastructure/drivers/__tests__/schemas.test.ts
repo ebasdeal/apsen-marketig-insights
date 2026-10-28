@@ -1,6 +1,6 @@
 import { makeDriver } from '@test/factories/drivers';
 import { toDriver, toDriverDto } from '../driverMapper';
-import { driverDtoSchema } from '../schemas';
+import { camposTipoSchema, driverDtoSchema } from '../schemas';
 import { DRIVER_API_3 } from './driverApiFixtures';
 
 describe('driverDtoSchema e mapper (contrato)', () => {
@@ -21,5 +21,13 @@ describe('driverDtoSchema e mapper (contrato)', () => {
   it('ida e volta preservam o driver', () => {
     const driver = makeDriver({ id: 'uuid-1', parametros: { a: '1' } });
     expect(toDriver(driverDtoSchema.parse(toDriverDto(driver)))).toEqual(driver);
+  });
+});
+
+describe('camposTipoSchema', () => {
+  it('aceita tipo sem nenhum campo (não pode quebrar o formulário de driver)', () => {
+    expect(
+      camposTipoSchema.safeParse({ id: 'novo', title: 'Novo', layout: 'g2', campos: [] }).success,
+    ).toBe(true);
   });
 });

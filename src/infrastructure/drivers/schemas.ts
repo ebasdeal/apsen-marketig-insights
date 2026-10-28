@@ -60,7 +60,7 @@ export const camposTipoSchema = z.object({
   id: z.string().min(1),
   title: z.string(),
   layout: z.enum(['g2', 'g3']),
-  campos: z.array(campoSchema).min(1),
+  campos: z.array(campoSchema),
 });
 
 export const intensidadeSchema = z.object({

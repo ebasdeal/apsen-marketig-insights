@@ -12,6 +12,7 @@ import {
 import {
   definirIntensidade,
   definirParametro,
+  definirRegioes,
   draftDeDriver,
   draftInicial,
   editarUplift,
@@ -249,5 +250,15 @@ describe('isDraftSujo (RN-17)', () => {
     expect(
       isDraftSujo({ ...inicial, regioes: {} as unknown as string[] }, { ...inicial, regioes: [] }),
     ).toBe(true);
+  });
+});
+
+describe('definirRegioes (PRG-DRV-10/11)', () => {
+  it('Nacional limpa as regiões e uma região tira o Nacional', () => {
+    const base = makeDraft({ regioes: ['sul'] });
+    expect(definirRegioes(base, ['sul', 'nacional']).regioes).toEqual(['nacional']);
+    const nacional = makeDraft({ regioes: ['nacional'] });
+    expect(definirRegioes(nacional, ['nacional', 'sul']).regioes).toEqual(['sul']);
+    expect(definirRegioes(nacional, []).regioes).toEqual([]);
   });
 });

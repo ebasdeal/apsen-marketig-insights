@@ -14,7 +14,16 @@ import type { CampoTipo, CamposTipo, Categoria, ChipOpcao, IntensidadeInfo } fro
 import { variacaoPreco } from './variacaoPreco';
 
 export type DraftCampo =
-  'sku' | 'familia' | 'franquia' | 'categoria' | 'tipo' | 'inicio' | 'fim' | `param:${string}`;
+  | 'sku'
+  | 'familia'
+  | 'franquia'
+  | 'categoria'
+  | 'tipo'
+  | 'inicio'
+  | 'fim'
+  | 'regioes'
+  | 'verba'
+  | `param:${string}`;
 
 export interface DriverDraft {
   modo: Granularidade;
@@ -139,6 +148,18 @@ export function definirIntensidade(
 
 export function editarUplift(draft: DriverDraft, uplift: string): DriverDraft {
   return { ...draft, uplift, upliftManual: true };
+}
+
+export const REGIAO_NACIONAL = 'nacional';
+
+// PRG-DRV-10/11: Nacional não combina com regiões; o último chip clicado vence.
+export function definirRegioes(draft: DriverDraft, proximas: readonly string[]): DriverDraft {
+  const clicouNacional =
+    proximas.includes(REGIAO_NACIONAL) && !draft.regioes.includes(REGIAO_NACIONAL);
+  const regioes = clicouNacional
+    ? [REGIAO_NACIONAL]
+    : proximas.filter((regiao) => regiao !== REGIAO_NACIONAL || proximas.length === 1);
+  return { ...draft, regioes };
 }
 
 export function ordenarChips(valores: readonly string[], opcoes: readonly ChipOpcao[]): string[] {

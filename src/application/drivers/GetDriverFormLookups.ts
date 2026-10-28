@@ -1,5 +1,5 @@
 import type { ProductCatalogRepository } from '@domain/catalogo/ProductCatalogRepository';
-import { slugsAtivos } from '@domain/drivers/camposDinamicos';
+import { comObrigatoriedadeDoTipo, slugsAtivos } from '@domain/drivers/camposDinamicos';
 import type { DriverLookupRepository } from '@domain/drivers/DriverLookupRepository';
 import type { DriverFormLookupsDto } from './dto';
 
@@ -22,7 +22,9 @@ export class GetDriverFormLookups {
     return {
       categorias: ordenadas,
       tiposAtivos: slugsAtivos(ordenadas, tipos),
-      camposPorTipo: Object.fromEntries(camposTipo.map((campos) => [campos.id, campos])),
+      camposPorTipo: Object.fromEntries(
+        camposTipo.map((campos) => [campos.id, comObrigatoriedadeDoTipo(campos)]),
+      ),
       intensidades: [...intensidades].sort((a, b) => a.id - b.id),
       config,
       franquias,
