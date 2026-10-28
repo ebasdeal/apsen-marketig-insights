@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { PageSkeleton } from '../ui/Skeleton';
+import { ApsenLoader } from '../ui/ApsenLoader';
 
 export function ShellSkeleton({ label }: { label: string }) {
   return (
@@ -24,7 +24,7 @@ export function ShellSkeleton({ label }: { label: string }) {
         className="fixed top-0 right-0 left-sidebar z-20 h-topbar border-b border-apsen-border bg-apsen-white max-[800px]:left-0"
       />
       <main className="mt-topbar ml-sidebar h-[calc(100vh-var(--spacing-topbar))] overflow-y-auto px-[24px] py-[22px] max-[800px]:ml-0">
-        <PageSkeleton label={label} />
+        <ApsenLoader variant="content" label={label} />
       </main>
     </>
   );
