@@ -1,7 +1,7 @@
 import {
   CodigoInvalidoError,
   SsoNaoConfiguradoError,
-  UsuarioInativoError,
+  UsuarioNaoCadastradoError,
 } from '@domain/auth/AuthErrors';
 import { SESSOES } from '@test/fixtures/sessao';
 import { navigationState, routerMock } from '@test/nextNavigation';
@@ -54,8 +54,8 @@ describe('AuthCallbackScreen', () => {
     ],
     [
       'code=x&state=%2Fplanos',
-      new UsuarioInativoError(),
-      'Usuário inativo. Fale com o administrador do sistema.',
+      new UsuarioNaoCadastradoError(),
+      'Seu acesso ao Demand Intelligence ainda não foi liberado. Solicite o cadastro ao administrador.',
     ],
     [
       'code=x&state=%2Fplanos',

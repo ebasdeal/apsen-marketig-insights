@@ -2,7 +2,6 @@
 
 import { conexaoFalhaToast, testandoToast } from '@application/agentes/agenteToasts';
 import {
-  AGENTE_FALHA_TOAST,
   type AgentesResumoDto,
   type SaveAgenteInput,
   type TestarAgenteDto,
@@ -11,6 +10,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '../../providers/ToastProvider';
 import { useUseCases } from '../../providers/UseCasesContext';
+import { mensagemDeFalha } from '../mutationFeedback';
 import {
   aplicarAtivoNoResumo,
   atualizarLinhas,
@@ -53,9 +53,9 @@ export function useToggleAgenteMutation() {
       return snapshot;
     },
     onSuccess: (result) => show(result.toast),
-    onError: (_error, _change, snapshot) => {
+    onError: (error, _change, snapshot) => {
       restaurarAgentes(queryClient, snapshot);
-      show(AGENTE_FALHA_TOAST);
+      show(mensagemDeFalha(error));
     },
     onSettled: () => invalidarAgentes(queryClient),
   });

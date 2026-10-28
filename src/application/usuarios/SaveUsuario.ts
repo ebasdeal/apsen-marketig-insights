@@ -19,16 +19,21 @@ export class SaveUsuario {
     private readonly repository: UsuarioRepository,
     private readonly perfis: PerfilRepository,
     private readonly newId: () => string,
+    private readonly now: () => Date,
   ) {}
 
-  async execute({ id, draft }: SaveUsuarioInput): Promise<UsuarioToastDto> {
+  async execute({ id, draft, alteradoPor }: SaveUsuarioInput): Promise<UsuarioToastDto> {
     const email = normalizarEmail(draft.email);
     const emailEmUso = emailValido(email) && (await this.emailEmUso(email, id));
     const erros = validateUsuarioDraft(draft, { emailEmUso });
     if (Object.keys(erros).length > 0) {
       throw new UsuarioValidationError(erros);
     }
-    const campos = await this.campos(draft, email, draft.perfil as PerfilId);
+    const campos = {
+      ...(await this.campos(draft, email, draft.perfil as PerfilId)),
+      alteradoPor,
+      alteradoEm: this.now().toISOString(),
+    };
     if (id === undefined) {
       await this.repository.create({
         id: this.newId(),
@@ -51,7 +56,7 @@ export class SaveUsuario {
     draft: UsuarioDraft,
     email: string,
     perfilId: PerfilId,
-  ): Promise<Required<UsuarioPatch>> {
+  ): Promise<Required<Omit<UsuarioPatch, 'alteradoPor' | 'alteradoEm'>>> {
     const perfil = (await this.perfis.list()).find((candidate) => candidate.id === perfilId);
     if (perfil === undefined) {
       throw new InvalidValueError('Perfil de acesso desconhecido');

@@ -1,4 +1,5 @@
 import type { UsuarioRepository } from '@domain/usuarios/UsuarioRepository';
+import { descreverAlteracao } from '@domain/usuarios/usuarioRules';
 import { USUARIO_AREAS } from '@domain/usuarios/vocabulario';
 import type { UsuarioFormDto } from './dto';
 
@@ -18,6 +19,7 @@ export class GetUsuarioForm {
         ativo: usuario.ativo,
       },
       areaExtra: areaConhecida ? null : usuario.area,
+      alteracao: descreverAlteracao(usuario.alteradoPor, usuario.alteradoEm),
     };
   }
 }

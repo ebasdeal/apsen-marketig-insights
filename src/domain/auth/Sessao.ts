@@ -7,6 +7,7 @@ export interface UsuarioSessao {
   perfil: PerfilId;
   perfilLabel: string;
   area: string;
+  ativo: boolean;
 }
 
 export interface Sessao {

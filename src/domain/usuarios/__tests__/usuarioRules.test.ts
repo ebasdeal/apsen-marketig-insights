@@ -6,6 +6,8 @@ import {
   areaOptions,
   capacidades,
   categoriasDoPerfil,
+  descreverAlteracao,
+  formatarDataHora,
   EMAIL_REGEX,
   emailValido,
   normalizarEmail,
@@ -127,5 +129,15 @@ describe('erros de usuário', () => {
 
   it('UsuarioProtegidoError tem a mensagem do domínio', () => {
     expect(new UsuarioProtegidoError().message).toBe('Este usuário não pode ser removido.');
+  });
+});
+
+describe('auditoria de alterações (PRG-ACS-09)', () => {
+  it('descreve quem alterou e quando', () => {
+    const iso = new Date(2026, 9, 27, 14, 5).toISOString();
+    expect(descreverAlteracao('Ana Admin', iso)).toBe('Alterado por Ana Admin em 27/10/2026 14:05');
+    expect(descreverAlteracao(null, iso)).toBeNull();
+    expect(descreverAlteracao('Ana Admin', null)).toBeNull();
+    expect(formatarDataHora('inválida')).toBe('inválida');
   });
 });

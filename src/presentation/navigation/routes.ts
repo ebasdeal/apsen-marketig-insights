@@ -18,3 +18,12 @@ export const NOVA_ANALISE_ROUTE = '/analises/nova' satisfies Route;
 export function analiseRoute(id: string): Route {
   return `/analises/${encodeURIComponent(id)}` as Route;
 export const RELATORIOS_ROUTE = '/relatorios' satisfies Route;
+export const USUARIOS_ROUTE = '/acesso/usuarios' satisfies Route;
+export const USUARIO_NOVO_ROUTE = '/acesso/usuarios/novo' satisfies Route;
+export const usuarioEditarRoute = (id: string) =>
+  `/acesso/usuarios/${encodeURIComponent(id)}/editar` as Route;
+export const PERFIS_ROUTE = '/acesso/perfis' satisfies Route;
+export const AGENTES_ROUTE = '/agentes' satisfies Route;
+export const AGENTE_NOVO_ROUTE = '/agentes/novo' satisfies Route;
+export const agenteEditarRoute = (id: string) =>
+  `/agentes/${encodeURIComponent(id)}/editar` as Route;

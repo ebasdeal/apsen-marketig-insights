@@ -8,16 +8,21 @@ import type { HttpClient } from '@infrastructure/http/HttpClient';
 import { HttpPerfilRepository } from '@infrastructure/perfis/HttpPerfilRepository';
 import { HttpUsuarioRepository } from '@infrastructure/usuarios/HttpUsuarioRepository';
 
+export interface UsuariosModuleOptions {
+  now?: () => Date;
+  newId?: () => string;
+}
+
 export function createUsuariosModule(
   http: HttpClient,
-  newId: () => string = () => crypto.randomUUID(),
+  { now = () => new Date(), newId = () => crypto.randomUUID() }: UsuariosModuleOptions = {},
 ): UsuariosUseCases {
   const repository = new HttpUsuarioRepository(http);
   return {
     list: new ListUsuarios(repository),
     getForm: new GetUsuarioForm(repository),
-    save: new SaveUsuario(repository, new HttpPerfilRepository(http), newId),
-    toggle: new ToggleUsuarioAtivo(repository),
+    save: new SaveUsuario(repository, new HttpPerfilRepository(http), newId, now),
+    toggle: new ToggleUsuarioAtivo(repository, now),
     remove: new DeleteUsuario(repository),
   };
 }

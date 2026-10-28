@@ -11,6 +11,7 @@ export const SESSOES: Record<PerfilId, Sessao> = {
       perfil: 'admin',
       perfilLabel: 'Admin',
       area: 'S&OP',
+      ativo: true,
     },
   },
   planejador: {
@@ -22,6 +23,7 @@ export const SESSOES: Record<PerfilId, Sessao> = {
       perfil: 'planejador',
       perfilLabel: 'Planejador',
       area: 'S&OP',
+      ativo: true,
     },
   },
   area: {
@@ -33,6 +35,7 @@ export const SESSOES: Record<PerfilId, Sessao> = {
       perfil: 'area',
       perfilLabel: 'Área',
       area: 'Marketing',
+      ativo: true,
     },
   },
   viewer: {
@@ -44,6 +47,7 @@ export const SESSOES: Record<PerfilId, Sessao> = {
       perfil: 'viewer',
       perfilLabel: 'Visualizador',
       area: 'Financeiro',
+      ativo: true,
     },
   },
 };

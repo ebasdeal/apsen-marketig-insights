@@ -2,7 +2,7 @@ import {
   CodigoInvalidoError,
   SessaoExpiradaError,
   SsoNaoConfiguradoError,
-  UsuarioInativoError,
+  UsuarioNaoCadastradoError,
 } from '@domain/auth/AuthErrors';
 import { FetchHttpClient } from '@infrastructure/http/FetchHttpClient';
 import { HttpError, InvalidResponseError } from '@infrastructure/http/HttpClient';
@@ -44,7 +44,7 @@ describe('HttpAuthRepository', () => {
   it.each([
     [400, CodigoInvalidoError],
     [401, CodigoInvalidoError],
-    [403, UsuarioInativoError],
+    [403, UsuarioNaoCadastradoError],
   ])('troca com %i lança o erro de domínio', async (status, ErrorClass) => {
     const { repository } = repositoryFor({ '/auth/token': { status, body: { message: 'x' } } });
     await expect(repository.trocarCodigo('c')).rejects.toBeInstanceOf(ErrorClass);

@@ -64,6 +64,30 @@ export function resumoUsuarios(n: number): string {
   return n === 1 ? '1 usuário' : `${n} usuários`;
 }
 
+function doisDigitos(n: number): string {
+  return String(n).padStart(2, '0');
+}
+
+export function formatarDataHora(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) {
+    return iso;
+  }
+  const dia = [date.getDate(), date.getMonth() + 1].map(doisDigitos).join('/');
+  const hora = [date.getHours(), date.getMinutes()].map(doisDigitos).join(':');
+  return `${dia}/${date.getFullYear()} ${hora}`;
+}
+
+export function descreverAlteracao(
+  alteradoPor: string | null,
+  alteradoEm: string | null,
+): string | null {
+  if (alteradoPor === null || alteradoEm === null) {
+    return null;
+  }
+  return `Alterado por ${alteradoPor} em ${formatarDataHora(alteradoEm)}`;
+}
+
 export function areaOptions(atual: string): string[] {
   const areas = [...USUARIO_AREAS];
   return atual.trim() === '' || areas.includes(atual) ? areas : [...areas, atual];

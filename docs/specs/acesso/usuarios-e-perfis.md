@@ -1,5 +1,5 @@
 ---
-status: IN_PROGRESS
+status: REVIEW
 fase: 41
 area: acesso
 feature: usuarios-e-perfis
@@ -27,12 +27,22 @@ Onda 4, fase provisória 41 (onda 4 → 4x). Inventário §2.13–2.15.
 - Status pelo toggle da tabela grava `ativo` (otimista) sem toast (o protótipo não tem toast).
 - Exclusão confirma (`Remover o usuário "{nome}"?`).
 
+**Decisões do usuário de 27/10/2026 (prevalecem sobre o resto desta spec; ver [login](../platform/login.md) §1.1 e `docs/perguntas/acesso-e-agentes.md`):**
+
+- Só entra quem o Admin cadastrou. "+ Novo Usuário" é o **pré-cadastro** (nome, e-mail corporativo, perfil, área); conta não cadastrada recebe 403 `nao_cadastrado` no login. Não há criação automática no primeiro acesso.
+- **Inativar** (toggle desligando) e **excluir** sempre abrem `ConfirmDialog` "Tem certeza?" com o texto `Inativar o usuário "{nome}"? Ele passará a ter acesso somente para visualização.` / `Remover o usuário "{nome}"?`. Ativar grava direto.
+- Usuário **inativo entra só para visualizar**: aviso fixo no shell "Seu usuário está inativo: acesso somente para visualização.", ações de escrita escondidas/desabilitadas (`useSessao().podeEscrever`) e a API devolve 403 `somente_leitura` em escritas (vira `SomenteLeituraError` no `FetchHttpClient` e toast).
+- Toda escrita de usuário grava `alteradoPor` (nome de quem alterou, da sessão) e `alteradoEm` (ISO). A lista mostra "Alterado por {nome} em dd/mm/aaaa HH:MM" sob o status e o formulário de edição mostra o mesmo texto sob o `StatusField` (PRG-ACS-09).
+- Pode registrar / pode validar / admin são sempre derivados do perfil.
+- Exclusão: Admin (a tela é nível 4). O Planejador também poderia excluir "por enquanto" (PRG-ACS-01), mas a UI mantém só o Admin.
+- Badge "Usuários" = total cadastrado.
+
 **Perguntas em aberto:**
 
 - PO: RN-ACS-02 prevê perfis/grupos e permissões configuráveis pela aplicação (ex.: Colaboradores, Gestores, Diretores, Admins); o protótipo tem 4 perfis fixos e matriz só leitura. Mantido o protótipo.
 - PO: a matriz não cobre análises, restrições, ciclos, agentes e fontes, e contradiz `SCREEN_ROLES` em alguns pontos (INVENTARIO §6 #11); exibida como está nos dados.
 - PO: `perfis` é nível 3 mas o menu só aparece para Admin (`setRole`); seguida a ARQUITETURA §4 (acesso por `SCREEN_ROLES`, menu por `setRole`).
-- PO: usuários inativos "não conseguem acessar o módulo" — sem efeito real enquanto não há SSO (PBI 39032).
+- ~~PO: usuários inativos "não conseguem acessar o módulo"~~ — respondido em 27/10: inativo entra só para visualizar (texto do `StatusField` mantido do protótipo).
 
 ## 2. Critérios de aceite
 
