@@ -3,6 +3,7 @@
 import type { PlanoItemRowOutput } from '@application/planos/dto';
 import type { PlanoOrdem, PlanoOrdemCampo } from '@domain/planos/PlanoItem';
 import { useState } from 'react';
+import { STACK_BODY, STACK_HEAD, STACK_TABLE, STACK_WRAP } from '@presentation/components/ui';
 import { PlanoItemRow } from './PlanoItemRow';
 
 interface PlanoItensTableProps {
@@ -43,10 +44,12 @@ export function PlanoItensTable({
     });
 
   return (
-    <div className="overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm">
-      <table className="w-full min-w-[560px] border-collapse">
+    <div
+      className={`overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm ${STACK_WRAP}`}
+    >
+      <table className={`w-full min-w-[560px] border-collapse ${STACK_TABLE}`}>
         <caption className="sr-only">Itens do plano de produção</caption>
-        <thead>
+        <thead className={STACK_HEAD}>
           <tr className="border-b border-apsen-border bg-apsen-bg">
             <th scope="col" className={`${TH} w-[32px]`}>
               <input
@@ -89,7 +92,7 @@ export function PlanoItensTable({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={STACK_BODY}>
           {itens.length === 0 ? (
             <tr>
               <td colSpan={9} className="p-[30px] text-center text-[13px] text-apsen-muted">

@@ -22,7 +22,7 @@ describe('Sidebar', () => {
     expect(screen.getByText('Demand')).toHaveClass('text-[12px]', 'font-bold');
     expect(screen.getByText('Intelligence')).toHaveClass('text-[10.5px]', 'text-apsen-muted');
     expect(sidebar).toHaveTextContent('Apsen FarmacêuticaPLP Agent · Demand Intelligence');
-    expect(screen.getByTestId('nav-backdrop')).toHaveClass('hidden', 'max-[800px]:block');
+    expect(screen.getByTestId('nav-backdrop')).toHaveClass('hidden', 'max-[1023px]:block');
     await screen.findByRole('button', { name: /Planos de Produção/ });
   });
 });

@@ -13,7 +13,7 @@ export type ButtonVariant =
 export type ButtonSize = 'md' | 'sm' | 'xs';
 
 const BASE =
-  'inline-flex cursor-pointer items-center gap-[6px] whitespace-nowrap rounded-apsen-pill border font-semibold leading-none transition-all focus-ring disabled:cursor-default disabled:opacity-[.35]';
+  'inline-flex cursor-pointer items-center gap-[6px] whitespace-nowrap rounded-apsen-pill border font-semibold leading-none transition-all focus-ring max-md:min-h-[44px] max-md:justify-center disabled:cursor-default disabled:opacity-[.35]';
 
 const SIZES: Record<ButtonSize, string> = {
   md: 'px-[20px] py-[9px] text-[13px]',

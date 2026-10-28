@@ -11,7 +11,7 @@ export function Topbar() {
   const { crumb } = useCurrentScreen();
   return (
     <header
-      className={`fixed top-0 right-0 z-20 flex h-topbar items-center gap-[14px] border-b border-apsen-border bg-apsen-white px-[22px] transition-[left] duration-200 motion-reduce:transition-none ${open ? 'left-sidebar max-[800px]:left-0' : 'left-0'}`}
+      className={`fixed top-0 right-0 z-20 flex h-topbar items-center gap-[14px] border-b border-apsen-border bg-apsen-white px-[22px] max-md:gap-[6px] max-md:px-[10px] transition-[left] duration-200 motion-reduce:transition-none ${open ? 'left-sidebar max-[1023px]:left-0' : 'left-0'}`}
     >
       <button
         id={BURGER_ID}
@@ -20,17 +20,17 @@ export function Topbar() {
         aria-expanded={open}
         aria-controls={SIDEBAR_ID}
         onClick={toggle}
-        className="cursor-pointer select-none rounded-[4px] p-[4px] text-[17px] leading-none text-apsen-muted transition-[background-color] hover:bg-apsen-bg hover:text-apsen-slate focus-ring"
+        className="cursor-pointer select-none rounded-[4px] p-[4px] text-[17px] leading-none max-md:min-h-[44px] max-md:min-w-[44px] text-apsen-muted transition-[background-color] hover:bg-apsen-bg hover:text-apsen-slate focus-ring"
       >
         ☰
       </button>
       <nav
         aria-label="Trilha"
-        className="flex items-center gap-[5px] text-[12.5px] text-apsen-muted"
+        className="flex min-w-0 items-center gap-[5px] text-[12.5px] text-apsen-muted"
       >
-        <span>Demand Intelligence</span>
-        <CrumbChevronIcon />
-        <strong aria-current="page" className="font-medium text-apsen-slate">
+        <span className="max-md:hidden">Demand Intelligence</span>
+        <CrumbChevronIcon className="max-md:hidden" />
+        <strong aria-current="page" className="truncate font-medium text-apsen-slate">
           {crumb}
         </strong>
       </nav>

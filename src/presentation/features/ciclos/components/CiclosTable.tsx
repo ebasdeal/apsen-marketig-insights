@@ -34,6 +34,7 @@ function columns(
   return [
     {
       key: 'codigo',
+      mobile: 'title',
       header: 'Código',
       render: (row) => (
         <span className={`font-mono text-[12px] ${codigoClass(row)}`}>{row.codigo}</span>

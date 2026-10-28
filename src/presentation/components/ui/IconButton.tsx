@@ -5,7 +5,7 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 export type IconButtonTone = 'blue' | 'red' | 'teal' | 'green';
 
 const ICON_BUTTON =
-  'inline-flex size-[28px] cursor-pointer items-center justify-center rounded-[5px] border-0 bg-transparent transition-all duration-[130ms] focus-ring disabled:cursor-default disabled:opacity-[.3] disabled:hover:bg-transparent';
+  'inline-flex size-[28px] max-md:size-[44px] cursor-pointer items-center justify-center rounded-[5px] border-0 bg-transparent transition-all duration-[130ms] focus-ring disabled:cursor-default disabled:opacity-[.3] disabled:hover:bg-transparent';
 
 const TONES: Record<IconButtonTone, string> = {
   blue: 'text-apsen-muted hover:bg-apsen-blue-bg hover:text-apsen-blue',

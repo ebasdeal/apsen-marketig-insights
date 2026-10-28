@@ -1,4 +1,11 @@
 import type { Comparacao, FaixaIncerteza, LinhaComparacao } from '@domain/analises/Analise';
+import {
+  STACK_BODY,
+  STACK_HEAD,
+  STACK_ROW,
+  STACK_TABLE,
+  StackedCell,
+} from '@presentation/components/ui';
 import { formatarDelta, formatarDeltaPct, formatarUnidades, tomDelta } from '../analiseFormat';
 
 const TH =
@@ -16,31 +23,49 @@ function Linha({
   const td = `text-[13px] ${total ? 'px-[10px] py-[9px]' : 'px-[10px] py-[7px]'}`;
   const tom = tomDelta(linha.deltaUn);
   return (
-    <tr className={total ? 'border-t-2 border-apsen-border font-bold' : 'border-b border-apsen-bg'}>
-      <th scope="row" className={`${td} text-left ${total ? '' : 'font-medium'}`}>
+    <tr
+      className={`${total ? 'border-t-2 border-apsen-border font-bold' : 'border-b border-apsen-bg'} ${STACK_ROW}`}
+    >
+      <th
+        scope="row"
+        className={`${td} text-left ${total ? '' : 'font-medium'} max-md:block max-md:px-0 max-md:pt-0 max-md:pb-[6px] max-md:text-[14px] max-md:font-semibold`}
+      >
         {linha.mes}
       </th>
-      <td className={`${td} text-right text-apsen-muted`}>{formatarUnidades(linha.sem)}</td>
-      <td className={`${td} text-right text-apsen-blue ${total ? '' : 'font-semibold'}`}>
+      <StackedCell label="Sem drivers" className={`${td} text-right text-apsen-muted`}>
+        {formatarUnidades(linha.sem)}
+      </StackedCell>
+      <StackedCell
+        label="Com drivers"
+        className={`${td} text-right text-apsen-blue ${total ? '' : 'font-semibold'}`}
+      >
         {formatarUnidades(linha.com)}
-      </td>
-      <td className={`${td} text-right ${tom}`}>{formatarDelta(linha.deltaUn)}</td>
-      <td className={`${td} text-right ${tom} ${total ? '' : 'font-semibold'}`}>
+      </StackedCell>
+      <StackedCell label="Δ un." className={`${td} text-right ${tom}`}>
+        {formatarDelta(linha.deltaUn)}
+      </StackedCell>
+      <StackedCell
+        label="Δ %"
+        className={`${td} text-right ${tom} ${total ? '' : 'font-semibold'}`}
+      >
         {formatarDeltaPct(linha.deltaPct)}
-      </td>
-      <td className={`${td} whitespace-nowrap text-right text-apsen-muted`}>
+      </StackedCell>
+      <StackedCell
+        label="Intervalo"
+        className={`${td} whitespace-nowrap text-right text-apsen-muted`}
+      >
         {formatarUnidades(faixa.min)} – {formatarUnidades(faixa.max)}
-      </td>
+      </StackedCell>
     </tr>
   );
 }
 
 export function ComparacaoTable({ comparacao }: { comparacao: Comparacao }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[640px] border-collapse text-[12.5px]">
+    <div className="overflow-x-auto max-md:overflow-visible">
+      <table className={`w-full min-w-[640px] border-collapse text-[12.5px] ${STACK_TABLE}`}>
         <caption className="sr-only">Previsão mês a mês com e sem drivers</caption>
-        <thead>
+        <thead className={STACK_HEAD}>
           <tr className="border-b-2 border-apsen-border bg-apsen-bg">
             <th scope="col" className={`${TH} text-left text-apsen-muted`}>
               Mês
@@ -62,7 +87,7 @@ export function ComparacaoTable({ comparacao }: { comparacao: Comparacao }) {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className={STACK_BODY}>
           {comparacao.linhas.map((linha, i) => (
             <Linha
               key={linha.mes}

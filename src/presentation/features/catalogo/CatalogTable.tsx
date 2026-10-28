@@ -8,16 +8,19 @@ import { FranquiaPill } from './FranquiaPill';
 const COLUMNS: readonly CardTableColumn<CatalogRowDto>[] = [
   {
     key: 'franquia',
+    mobile: 'field',
     header: 'Franquia',
     render: (row) => <FranquiaPill franquia={row.franquia} />,
   },
   {
     key: 'familia',
+    mobile: 'title',
     header: 'Família',
     render: (row) => <span className="font-medium text-apsen-slate">{row.familia}</span>,
   },
   {
     key: 'skus',
+    mobile: 'field',
     header: 'SKUs',
     center: true,
     render: (row) => <span className="text-apsen-muted">{row.nSkus}</span>,

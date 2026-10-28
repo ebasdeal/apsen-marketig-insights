@@ -46,6 +46,15 @@ export { SelectableCard } from './SelectableCard';
 export { EmptyState, ErrorState, InlineEmpty, LoadingState } from './StateViews';
 export { StatusDistributionRow } from './StatusDistributionRow';
 export { StatusField } from './StatusField';
+export { StackedCell } from './StackedCell';
+export {
+  STACK_BODY,
+  STACK_HEAD,
+  STACK_ROW,
+  STACK_TABLE,
+  STACK_WRAP,
+  type StackedPriority,
+} from './stackedTable';
 export { Table, type TableColumn } from './Table';
 export { Tabs, type TabCountTone, type TabItem, type TabsTone } from './Tabs';
 export { TextArea, TextInput } from './TextInput';

@@ -48,3 +48,4 @@ next-env.d.ts
 
 # worktrees de agentes (Claude Code)
 /.claude/worktrees/
+responsive-shots

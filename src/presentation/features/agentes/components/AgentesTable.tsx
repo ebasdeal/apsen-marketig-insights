@@ -59,6 +59,7 @@ function columns(
   return [
     {
       key: 'papel',
+      mobile: 'title',
       wrap: true,
       header: 'Nome / Papel C4',
       render: (row) => (
@@ -75,6 +76,7 @@ function columns(
     },
     {
       key: 'endpoint',
+      mobile: 'hidden',
       header: 'Endpoint',
       render: (row) => (
         <span
@@ -87,6 +89,7 @@ function columns(
     },
     {
       key: 'secret',
+      mobile: 'hidden',
       header: 'Secret (Key Vault ref.)',
       render: (row) => (
         <>
@@ -101,6 +104,7 @@ function columns(
     { key: 'modelo', header: 'Modelo', render: (row) => <CodeTag>{row.modelo}</CodeTag> },
     {
       key: 'schedule',
+      mobile: 'hidden',
       header: 'Schedule',
       render: (row) => <SchedulePill schedule={row.schedule} />,
     },

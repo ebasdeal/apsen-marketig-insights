@@ -45,7 +45,7 @@ function ModalDialog({
         aria-modal="true"
         aria-labelledby={titleId}
         onKeyDown={onKeyDown}
-        className={`flex max-h-[90vh] max-w-[95vw] flex-col rounded-apsen-lg bg-apsen-white shadow-apsen-modal ${WIDTH[size]}`}
+        className={`flex max-h-[90vh] max-w-[95vw] flex-col max-md:max-h-[100dvh] max-md:w-full max-md:max-w-full rounded-apsen-lg bg-apsen-white shadow-apsen-modal ${WIDTH[size]}`}
       >
         <div className="flex items-center justify-between border-b border-apsen-border px-[20px] pt-[16px] pb-[13px]">
           <h3 id={titleId} className="text-[14.5px] font-semibold text-apsen-slate">

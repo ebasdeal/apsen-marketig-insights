@@ -39,7 +39,7 @@ describe('NavContext', () => {
     consoleError.mockRestore();
   });
 
-  describe('gaveta abaixo de 800 px', () => {
+  describe('gaveta abaixo de 1024 px', () => {
     beforeEach(() => {
       mockViewport(true);
     });
