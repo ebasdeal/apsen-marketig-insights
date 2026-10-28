@@ -7,7 +7,7 @@ interface FormActionsProps {
 }
 
 const BASE =
-  'sticky bottom-0 z-10 flex flex-wrap justify-end gap-[8px] border-t border-apsen-border';
+  'sticky -bottom-[22px] z-10 flex flex-wrap justify-end gap-[8px] border-t border-apsen-border';
 const CARD = 'bg-apsen-white pt-[14px] pb-[8px]';
 const PAGE = '-mx-[24px] -mb-[22px] bg-apsen-bg px-[24px] py-[12px]';
 

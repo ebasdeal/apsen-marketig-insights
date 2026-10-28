@@ -33,7 +33,7 @@ describe('rotas de análises e relatórios', () => {
     const page = await AnalisePage({ params: Promise.resolve({ id: 'a%20b' }) });
     renderWithProviders(page, createFakeUseCases({ analises: { get: { execute } } }));
     expect(await screen.findByRole('heading', { level: 1 })).toBeInTheDocument();
-    expect(execute).toHaveBeenCalledWith('a b');
+    expect(execute.mock.calls[0]?.[0]).toBe('a b');
   });
 
   it('loading, not-found e relatórios', () => {

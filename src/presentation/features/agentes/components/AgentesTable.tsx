@@ -81,6 +81,9 @@ function columns(
       key: 'endpoint',
       wrap: true,
       mobile: 'hidden',
+      // abaixo de 1440 px o endpoint fica só no Visualizar, para as ações caberem sem rolagem
+      className: 'max-[1440px]:hidden',
+      headerClassName: 'text-apsen-muted max-[1440px]:hidden',
       header: 'Endpoint',
       render: (row) => (
         <span
@@ -98,11 +101,19 @@ function columns(
       header: 'Secret (Key Vault ref.)',
       render: (row) => (
         <>
-          <div className="flex items-center gap-[5px] text-[12px] text-apsen-muted">
-            <LockIcon size={11} strokeWidth={1.5} />
-            {row.secret}
+          <div
+            className="flex max-w-[150px] items-center gap-[5px] text-[12px] text-apsen-muted"
+            title={row.secret}
+          >
+            <LockIcon size={11} strokeWidth={1.5} className="shrink-0" />
+            <span className="truncate">{row.secret}</span>
           </div>
-          <div className="mt-[2px] text-[10.5px] text-apsen-muted-2">vault: {row.vault}</div>
+          <div
+            className="mt-[2px] max-w-[150px] truncate text-[10.5px] text-apsen-muted-2"
+            title={row.vault}
+          >
+            vault: {row.vault}
+          </div>
         </>
       ),
     },
@@ -110,9 +121,7 @@ function columns(
       key: 'modelo',
       wrap: true,
       header: 'Modelo',
-      render: (row) => (
-        <CodeTag className="max-w-[92px] whitespace-normal! break-all">{row.modelo}</CodeTag>
-      ),
+      render: (row) => <CodeTag className="whitespace-nowrap">{row.modelo}</CodeTag>,
     },
     {
       key: 'schedule',

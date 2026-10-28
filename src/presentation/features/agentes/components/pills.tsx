@@ -17,7 +17,7 @@ const ENV_TONES: Record<AmbienteTone, string> = {
 export function ProviderPill({ provedor }: { provedor: Provedor }) {
   return (
     <span
-      className={`inline-flex w-fit max-w-[84px] shrink-0 items-center break-all rounded-[8px] border px-[8px] py-[2px] text-[11px] font-bold ${PROVIDER_TONES[provedor]}`}
+      className={`inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-[8px] border px-[8px] py-[2px] text-[11px] font-bold ${PROVIDER_TONES[provedor]}`}
     >
       {provedor}
     </span>
