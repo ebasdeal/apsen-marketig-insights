@@ -9,5 +9,3 @@ export const analisesKeys = {
   skusCiclo: (ciclo: string) => ['analises', 'skusCiclo', ciclo] as const,
   driversSugeridos: () => ['analises', 'driversSugeridos'] as const,
 };
-
-export const DASHBOARD_ROOT_KEY = ['dashboard'] as const;

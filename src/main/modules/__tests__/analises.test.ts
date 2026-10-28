@@ -1,6 +1,7 @@
 import { FetchHttpClient } from '@infrastructure/http/FetchHttpClient';
 import { createFakeFetch } from '@test/fakeFetch';
 import { ANALISE_001_API, buildNovaAnaliseForm } from '@test/fixtures/analises';
+import { readMockDb } from '@test/fixtures/mockDb';
 import { createContainer } from '../../container';
 import { createAnalisesModule, esperarMs } from '../analises';
 
@@ -17,15 +18,20 @@ const CONFIG = {
   chatRespostas: [{ gatilhos: [], resposta: 'Ciclo {ciclo}, modelo {modelo}' }],
 };
 
+const TOTAL_1 = { 'X-Total-Count': '1' };
+
+const APROVADOS = (readMockDb().aprovacoes as { status: string; id: string; intensidade: number }[])
+  .filter((aprovacao) => aprovacao.status === 'aprovado')
+  .slice(0, 1);
+
 describe('createAnalisesModule', () => {
   it('compõe os casos de uso sobre o HttpClient', async () => {
     const { fetchFn, calls } = createFakeFetch({
       '/analises': { body: [ANALISE_001_API], headers: { 'X-Total-Count': '2' } },
       '/analises?_sort=codigo': { body: [{ codigo: 'ANL-002' }] },
       '/config': { body: CONFIG },
-      '/ciclos': {
-        body: [{ id: 'PLP-2026-07', descricao: 'Planejamento Julho 2026', status: 'ativo' }],
-      },
+      '/ciclos': { body: (readMockDb().ciclos as unknown[]).slice(0, 1), headers: TOTAL_1 },
+      '/aprovacoes': { body: APROVADOS, headers: { 'X-Total-Count': '9' } },
       '/modelosGuiados': { body: [] },
     });
     const http = new FetchHttpClient({ baseUrl: BASE, fetchFn });
@@ -41,6 +47,15 @@ describe('createAnalisesModule', () => {
     await expect(analises.opcoes.execute()).resolves.toMatchObject({
       ciclos: [{ label: 'PLP-2026-07 · Julho 2026 (ativo)' }],
     });
+    await expect(analises.driversSugeridos.execute()).resolves.toMatchObject({
+      total: 9,
+      itens: [{ id: APROVADOS[0]?.id, intensidade: APROVADOS[0]?.intensidade }],
+    });
+    expect(
+      calls.some(
+        (call) => call.url.includes('/aprovacoes?') && call.url.includes('status=aprovado'),
+      ),
+    ).toBe(true);
     await expect(
       analises.responderChat.execute({ pergunta: 'oi', ciclo: 'PLP-2026-07', modelo: 'SARIMAX' }),
     ).resolves.toBe('Ciclo PLP-2026-07, modelo SARIMAX');

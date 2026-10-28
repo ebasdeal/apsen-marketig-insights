@@ -1,5 +1,66 @@
-import { PageHeader } from '../../components/ui/PageHeader';
+'use client';
+
+import { ErrorState, PageHeader } from '@presentation/components/ui';
+import { toUserMessage } from '../../format/errorMessage';
+import { useDashboardOverview } from '../../hooks/dashboard/useDashboard';
+import { useSessao } from '../../hooks/useSessao';
+import { BarrasPanel } from './components/BarrasPanel';
+import { DashboardKpis } from './components/DashboardKpis';
+import { DashboardSkeleton } from './components/DashboardSkeleton';
+import { PendentesPanel } from './components/PendentesPanel';
+import { PerfilBanner } from './components/PerfilBanner';
+import { PlanoStatusPanel } from './components/PlanoStatusPanel';
+import { COR_CATEGORIA, COR_RESTRICAO } from './dashboardStyles';
+
+const GRADE = 'grid grid-cols-2 gap-x-[16px] max-[800px]:grid-cols-1';
+
+export function formatarAtualizadoEm(iso: string | undefined): string {
+  return iso === undefined ? '—' : new Date(iso).toLocaleString('pt-BR');
+}
 
 export function DashboardScreen() {
-  return <PageHeader title="Dashboard — Demand Intelligence" />;
+  const { nivel } = useSessao();
+  const query = useDashboardOverview();
+  const dados = query.data;
+  return (
+    <>
+      <PageHeader
+        title="Dashboard — Demand Intelligence"
+        description={`Visão geral do ciclo ativo · ${dados?.ciclo ?? '—'}`}
+        actions={
+          <span aria-live="polite" className="text-[12px] text-apsen-muted">
+            Atualizado em <strong>{formatarAtualizadoEm(dados?.atualizadoEm)}</strong>
+          </span>
+        }
+      />
+      <PerfilBanner nivel={nivel} />
+      {query.isPending ? <DashboardSkeleton /> : null}
+      {query.isError ? (
+        <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />
+      ) : null}
+      {dados === undefined || query.isError ? null : (
+        <>
+          <DashboardKpis dados={dados} />
+          <div className={`${GRADE} mb-[16px]`}>
+            <BarrasPanel
+              title="Drivers por Categoria"
+              barras={dados.categorias}
+              cores={COR_CATEGORIA}
+              vazio="Nenhum driver registrado"
+            />
+            <BarrasPanel
+              title="Restrições Ativas por Tipo"
+              barras={dados.restricoesPorTipo}
+              cores={COR_RESTRICAO}
+              vazio="✅ Nenhuma restrição ativa"
+            />
+          </div>
+          <div className={GRADE}>
+            <PendentesPanel pendentes={dados.pendentes} />
+            <PlanoStatusPanel plano={dados.plano} ciclo={dados.ciclo} />
+          </div>
+        </>
+      )}
+    </>
+  );
 }

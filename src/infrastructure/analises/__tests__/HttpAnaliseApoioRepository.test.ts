@@ -2,7 +2,6 @@ import { FetchHttpClient } from '@infrastructure/http/FetchHttpClient';
 import { HttpError, InvalidResponseError } from '@infrastructure/http/HttpClient';
 import { createFakeFetch, type FakeRoute } from '@test/fakeFetch';
 import { HttpAnaliseApoioRepository } from '../HttpAnaliseApoioRepository';
-import { HttpAnaliseFontesRepository } from '../HttpAnaliseFontesRepository';
 
 const BASE = 'http://localhost:3001';
 
@@ -25,7 +24,6 @@ function setup(routes: Record<string, FakeRoute>) {
   const http = new FetchHttpClient({ baseUrl: BASE, fetchFn });
   return {
     apoio: new HttpAnaliseApoioRepository(http),
-    fontes: new HttpAnaliseFontesRepository(http),
     calls,
   };
 }
@@ -97,62 +95,5 @@ describe('HttpAnaliseApoioRepository', () => {
     await expect(vazio.apoio.configuracao()).rejects.toBeInstanceOf(InvalidResponseError);
     const raiz = setup({ '/config': { body: [] } });
     await expect(raiz.apoio.configuracao()).rejects.toThrow('(raiz)');
-  });
-});
-
-describe('HttpAnaliseFontesRepository', () => {
-  it('listCiclos lê /ciclos', async () => {
-    const { fontes } = setup({
-      '/ciclos': {
-        body: [
-          {
-            id: 'PLP-2026-07',
-            descricao: 'Planejamento Julho 2026',
-            status: 'ativo',
-            responsavel: 'Ana',
-          },
-        ],
-      },
-    });
-    await expect(fontes.listCiclos()).resolves.toEqual([
-      { id: 'PLP-2026-07', descricao: 'Planejamento Julho 2026', status: 'ativo' },
-    ]);
-  });
-
-  it('listAprovados pede status=aprovado, página 1 e o limite', async () => {
-    const { fontes, calls } = setup({
-      '/aprovacoes': {
-        body: [
-          {
-            id: 'DRV-2026-032',
-            modo: 'SKU',
-            produto: 'Baricitinibe 2mg',
-            tipo: '📺 TV',
-            intensidade: 4,
-            params: 'Canal: Globo',
-            status: 'aprovado',
-          },
-          { id: 'DRV-2026-030', produto: 'Apixabana', tipo: '🛒 PDV', intensidade: 2 },
-        ],
-        headers: { 'X-Total-Count': '9' },
-      },
-    });
-    const page = await fontes.listAprovados(50);
-    expect(calls[0]?.url).toBe(`${BASE}/aprovacoes?status=aprovado&_page=1&_limit=50`);
-    expect(page).toEqual({
-      items: [
-        {
-          id: 'DRV-2026-032',
-          produto: 'Baricitinibe 2mg',
-          tipo: '📺 TV',
-          intensidade: 4,
-          params: 'Canal: Globo',
-        },
-        { id: 'DRV-2026-030', produto: 'Apixabana', tipo: '🛒 PDV', intensidade: 2, params: '' },
-      ],
-      total: 9,
-      page: 1,
-      limit: 50,
-    });
   });
 });

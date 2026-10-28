@@ -11,7 +11,7 @@ import {
 } from '@test/renderWithProviders';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { queryKeys } from '../../queryKeys';
-import { analisesKeys, DASHBOARD_ROOT_KEY } from '../analisesKeys';
+import { analisesKeys } from '../analisesKeys';
 import {
   useAnalise,
   useAnalises,
@@ -53,7 +53,6 @@ describe('analisesKeys', () => {
     expect(analisesKeys.opcoes()).toEqual(['analises', 'opcoes']);
     expect(analisesKeys.skusCiclo('PLP-2026-07')).toEqual(['analises', 'skusCiclo', 'PLP-2026-07']);
     expect(analisesKeys.driversSugeridos()).toEqual(['analises', 'driversSugeridos']);
-    expect(DASHBOARD_ROOT_KEY).toEqual(['dashboard']);
   });
 });
 

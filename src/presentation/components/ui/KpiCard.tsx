@@ -9,6 +9,7 @@ interface KpiCardProps {
   hint?: string;
   icon?: string;
   tone?: KpiTone;
+  hintTone?: KpiTone | 'yellow';
   href?: Route;
   className?: string;
 }
@@ -24,7 +25,8 @@ const ICON_BG: Record<KpiTone, string> = {
   red: 'bg-apsen-kpi-red',
 };
 
-const TONE_TEXT: Record<KpiTone, string> = {
+const TONE_TEXT: Record<KpiTone | 'yellow', string> = {
+  yellow: 'text-apsen-yellow',
   blue: 'text-apsen-blue',
   green: 'text-apsen-green',
   orange: 'text-apsen-orange',
@@ -37,6 +39,7 @@ export function KpiCard({
   hint,
   icon,
   tone = 'blue',
+  hintTone,
   href,
   className = '',
 }: KpiCardProps) {
@@ -57,7 +60,7 @@ export function KpiCard({
       <h3 className="text-[12.5px] font-medium text-apsen-muted">{label}</h3>
       {hint === undefined ? null : (
         <p className="mt-[2px] text-[11.5px]">
-          <span className={`font-semibold ${TONE_TEXT[tone]}`}>{hint}</span>
+          <span className={`font-semibold ${TONE_TEXT[hintTone ?? tone]}`}>{hint}</span>
         </p>
       )}
     </article>

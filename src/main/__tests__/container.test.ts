@@ -107,6 +107,7 @@ describe('createContainerFromProcessEnv', () => {
       'tipos',
       'aprovacoes',
       'ingeridos',
+      'dashboard',
     ]);
   });
 });
