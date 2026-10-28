@@ -35,6 +35,7 @@ export function AuthCallbackScreen() {
     const title = container.current?.querySelector<HTMLElement>('h3');
     if (erro !== null && title) {
       title.tabIndex = -1;
+      title.classList.add('outline-none');
       title.focus();
     }
   }, [erro]);
