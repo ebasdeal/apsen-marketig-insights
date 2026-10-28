@@ -11,7 +11,8 @@ import { statusAoSalvar } from '@domain/analises/analiseRules';
 import { useMutation, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { useUseCases } from '../../providers/UseCasesContext';
 import { queryKeys } from '../queryKeys';
-import { analisesKeys, DASHBOARD_ROOT_KEY } from './analisesKeys';
+import { dashboardKeys } from '../dashboard/dashboardKeys';
+import { analisesKeys } from './analisesKeys';
 
 interface Snapshot {
   anterior: AnaliseDetailOutput | undefined;
@@ -20,7 +21,7 @@ interface Snapshot {
 function invalidarAfetados(queryClient: QueryClient): Promise<unknown> {
   return Promise.all([
     queryClient.invalidateQueries({ queryKey: analisesKeys.all }),
-    queryClient.invalidateQueries({ queryKey: DASHBOARD_ROOT_KEY }),
+    queryClient.invalidateQueries({ queryKey: dashboardKeys.all }),
     queryClient.invalidateQueries({ queryKey: queryKeys.navegacao.badges() }),
   ]);
 }

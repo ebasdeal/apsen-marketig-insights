@@ -79,24 +79,6 @@ export const analiseConfigDtoSchema = z.object({
   chatRespostas: z.array(z.object({ gatilhos: z.array(z.string()), resposta: z.string() })).min(1),
 });
 
-export const cicloResumoDtoSchema = z.object({
-  id: z.string().min(1),
-  descricao: z.string(),
-  status: z.string(),
-});
-
-export const ciclosResumoDtoSchema = z.array(cicloResumoDtoSchema);
-
-export const driverAprovadoDtoSchema = z.object({
-  id: z.string().min(1),
-  tipo: z.string(),
-  produto: z.string(),
-  params: z.string().default(''),
-  intensidade: z.number(),
-});
-
-export const driversAprovadosDtoSchema = z.array(driverAprovadoDtoSchema);
-
 export type AnaliseApiDto = z.infer<typeof analiseDtoSchema>;
 
 export type AnaliseConfigApiDto = z.infer<typeof analiseConfigDtoSchema>;

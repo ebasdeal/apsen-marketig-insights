@@ -4,6 +4,7 @@ import type { ListAnalisesInput } from '@application/analises/dto';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { CATALOG_STALE_TIME, DEFAULT_STALE_TIME } from '../../providers/queryClient';
 import { useUseCases } from '../../providers/UseCasesContext';
+import { retryExcetoNotFound } from '../retryExcetoNotFound';
 import { analisesKeys } from './analisesKeys';
 
 export function useAnalises(input: ListAnalisesInput) {
@@ -31,6 +32,7 @@ export function useAnalise(id: string) {
     queryKey: analisesKeys.detail(id),
     queryFn: () => analises.get.execute(id),
     staleTime: DEFAULT_STALE_TIME,
+    retry: retryExcetoNotFound,
   });
 }
 

@@ -1,5 +1,5 @@
 ---
-status: READY
+status: REVIEW
 fase: 55
 area: dashboard
 feature: dashboard-demand-intelligence

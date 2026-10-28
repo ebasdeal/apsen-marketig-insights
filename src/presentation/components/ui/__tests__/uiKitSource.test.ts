@@ -85,8 +85,10 @@ describe('código-fonte dos componentes base', () => {
     };
     expect(Object.keys(pkg.dependencies).sort()).toEqual([
       '@tanstack/react-query',
+      'chart.js',
       'next',
       'react',
+      'react-chartjs-2',
       'react-dom',
       'zod',
       'zustand',

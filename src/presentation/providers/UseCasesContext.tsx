@@ -21,6 +21,7 @@ import type { PermissoesUseCases } from '@application/permissoes/permissoesUseCa
 import type { AgentesUseCases } from '@application/agentes/agentesUseCases';
 import type { AprovacoesUseCases } from '@application/aprovacoes/aprovacoesUseCases';
 import type { IngeridosUseCases } from '@application/ingeridos/ingeridosUseCases';
+import type { DashboardUseCases } from '@application/dashboard/dashboardUseCases';
 import type { TiposUseCases } from '@application/tipos/tiposUseCases';
 import { createContext, useContext, type ReactNode } from 'react';
 
@@ -47,6 +48,7 @@ export interface UseCases {
   tipos: TiposUseCases;
   aprovacoes: AprovacoesUseCases;
   ingeridos: IngeridosUseCases;
+  dashboard: DashboardUseCases;
 }
 
 const UseCasesContext = createContext<UseCases | null>(null);

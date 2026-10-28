@@ -1,5 +1,5 @@
 ---
-status: READY
+status: REVIEW
 fase: 54
 area: relatorios
 feature: relatorios

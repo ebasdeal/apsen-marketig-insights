@@ -4,6 +4,7 @@ interface BarRowProps {
   max: number;
   valueLabel: string;
   fillClassName?: string;
+  valueWidth?: 'wide' | 'compact';
 }
 
 function percentOf(value: number, max: number): number {
@@ -17,6 +18,7 @@ export function BarRow({
   max,
   valueLabel,
   fillClassName = 'bg-apsen-blue',
+  valueWidth = 'wide',
 }: BarRowProps) {
   const width = percentOf(value, max);
   return (
@@ -33,7 +35,11 @@ export function BarRow({
       >
         <div className={`h-full rounded-[4px] ${fillClassName}`} style={{ width: `${width}%` }} />
       </div>
-      <span className="min-w-[72px] text-right text-[12px] text-apsen-muted">{valueLabel}</span>
+      <span
+        className={`${valueWidth === 'compact' ? 'w-[24px]' : 'min-w-[72px]'} text-right text-[12px] text-apsen-muted`}
+      >
+        {valueLabel}
+      </span>
     </div>
   );
 }

@@ -13,9 +13,11 @@ import { ListSkusDoCiclo } from '@application/analises/ListSkusDoCiclo';
 import { ResponderChat } from '@application/analises/ResponderChat';
 import { SalvarAnalise } from '@application/analises/SalvarAnalise';
 import { HttpAnaliseApoioRepository } from '@infrastructure/analises/HttpAnaliseApoioRepository';
-import { HttpAnaliseFontesRepository } from '@infrastructure/analises/HttpAnaliseFontesRepository';
 import { HttpAnaliseRepository } from '@infrastructure/analises/HttpAnaliseRepository';
+import { HttpAprovacaoRepository } from '@infrastructure/aprovacoes/HttpAprovacaoRepository';
+import { HttpCicloRepository } from '@infrastructure/ciclos/HttpCicloRepository';
 import type { HttpClient } from '@infrastructure/http/HttpClient';
+import { cicloFonte, driverAprovadoFonte } from './analisesFontes';
 
 export interface AnalisesModuleDeps {
   now: () => Date;
@@ -38,15 +40,16 @@ export function createAnalisesModule(
   const { now, gerarId, esperar } = { ...DEFAULT_DEPS, ...overrides };
   const repository = new HttpAnaliseRepository(http);
   const apoio = new HttpAnaliseApoioRepository(http);
-  const fontes = new HttpAnaliseFontesRepository(http);
   return {
     list: new ListAnalises(repository),
     contar: new ContarAnalises(repository),
     resumo: new GetResumoAnalises(repository),
     get: new GetAnalise(repository),
-    opcoes: new GetNovaAnaliseOpcoes(fontes, apoio),
+    opcoes: new GetNovaAnaliseOpcoes(cicloFonte(new HttpCicloRepository(http)), apoio),
     skusDoCiclo: new ListSkusDoCiclo(apoio),
-    driversSugeridos: new ListDriversSugeridos(fontes),
+    driversSugeridos: new ListDriversSugeridos(
+      driverAprovadoFonte(new HttpAprovacaoRepository(http)),
+    ),
     executar: new ExecutarAnalise(repository, apoio, now, gerarId, esperar),
     salvar: new SalvarAnalise(repository, now),
     exportarPdf: new ExportarPdfAnalise(repository),

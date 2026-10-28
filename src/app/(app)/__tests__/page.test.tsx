@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { renderWithProviders } from '@test/renderWithProviders';
+import { screen } from '@testing-library/react';
 import DashboardPage, { metadata } from '../page';
 
 describe('app/page', () => {
@@ -6,10 +7,11 @@ describe('app/page', () => {
     expect(metadata.title).toBe('Dashboard');
   });
 
-  it('renderiza o Dashboard provisório', () => {
-    render(<DashboardPage />);
+  it('renderiza o Dashboard', async () => {
+    renderWithProviders(<DashboardPage />);
     expect(
       screen.getByRole('heading', { level: 1, name: 'Dashboard — Demand Intelligence' }),
     ).toBeInTheDocument();
+    expect(await screen.findByText('Drivers por Categoria')).toBeInTheDocument();
   });
 });

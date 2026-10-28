@@ -5,6 +5,7 @@ interface StatusDistributionRowProps {
   count: number;
   pct: number;
   tone: DistributionTone;
+  pctLabel?: string;
 }
 
 const TONES: Record<DistributionTone, { bg: string; text: string }> = {
@@ -14,7 +15,13 @@ const TONES: Record<DistributionTone, { bg: string; text: string }> = {
   muted: { bg: 'bg-apsen-muted', text: 'text-apsen-muted' },
 };
 
-export function StatusDistributionRow({ label, count, pct, tone }: StatusDistributionRowProps) {
+export function StatusDistributionRow({
+  label,
+  count,
+  pct,
+  tone,
+  pctLabel,
+}: StatusDistributionRowProps) {
   const color = TONES[tone];
   const width = Math.min(Math.max(pct, 0), 100);
   return (
@@ -33,7 +40,9 @@ export function StatusDistributionRow({ label, count, pct, tone }: StatusDistrib
       >
         <div className={`h-full ${color.bg}`} style={{ width: `${width}%` }} />
       </div>
-      <span className="min-w-[28px] text-right text-[11px] text-apsen-muted">{`${width}%`}</span>
+      <span className="min-w-[28px] text-right text-[11px] text-apsen-muted">
+        {pctLabel ?? `${width}%`}
+      </span>
     </div>
   );
 }

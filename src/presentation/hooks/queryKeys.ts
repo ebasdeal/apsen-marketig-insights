@@ -10,6 +10,7 @@ import { driversKeys } from './drivers/driversKeys';
 import { aprovacoesKeys } from './aprovacoes/aprovacoesKeys';
 import { ingeridosKeys } from './ingeridos/ingeridosKeys';
 import { tiposKeys } from './tipos/tiposKeys';
+import { dashboardKeys } from './dashboard/dashboardKeys';
 
 export const queryKeys = {
   auth: {
@@ -35,4 +36,5 @@ export const queryKeys = {
   tipos: tiposKeys,
   aprovacoes: aprovacoesKeys,
   ingeridos: ingeridosKeys,
+  dashboard: dashboardKeys,
 };
