@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Toast, ToastRegion, type ToastVisualTone } from '../Toast';
 
 function renderToast(tone: ToastVisualTone, extra: { paused?: boolean; leaving?: boolean } = {}) {
@@ -57,5 +58,38 @@ describe('Toast', () => {
     expect(screen.getByTestId('toast-progress')).toHaveClass('[animation-play-state:paused]');
     expect(screen.getByRole('status')).toHaveClass('opacity-0');
     expect(screen.getByRole('status')).toHaveAttribute('data-state', 'leaving');
+  });
+
+  it('a região ignora cliques e só o cartão recebe eventos, no topo central', () => {
+    renderToast('success');
+    expect(screen.getByRole('region', { name: 'Notificações' })).toHaveClass(
+      'pointer-events-none',
+      'fixed',
+      'top-[calc(var(--spacing-topbar)+8px)]',
+      'left-1/2',
+      'w-[420px]',
+    );
+    expect(screen.getByRole('status')).toHaveClass('pointer-events-auto');
+  });
+
+  it('o botão fechar dispara onClose', async () => {
+    const onClose = vi.fn();
+    render(
+      <ToastRegion>
+        <Toast
+          tone="info"
+          title="T"
+          message="M"
+          durationMs={4000}
+          paused={false}
+          leaving={false}
+          onClose={onClose}
+          onPause={vi.fn()}
+          onResume={vi.fn()}
+        />
+      </ToastRegion>,
+    );
+    await userEvent.click(screen.getByRole('button', { name: 'Fechar notificação' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

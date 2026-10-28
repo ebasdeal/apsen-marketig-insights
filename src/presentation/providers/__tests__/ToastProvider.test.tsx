@@ -36,15 +36,20 @@ describe('ToastProvider', () => {
     vi.useRealTimers();
   });
 
-  it('fica embaixo à direita, sem cobrir os botões do topo da página', () => {
+  it('fica no topo central logo abaixo da topbar, sem cobrir os botões à direita', () => {
     renderToasts();
     expect(region()).toHaveClass(
       'fixed',
-      'bottom-[22px]',
-      'right-[22px]',
-      'max-[560px]:bottom-[16px]',
+      'pointer-events-none',
+      'top-[calc(var(--spacing-topbar)+8px)]',
+      'left-1/2',
+      '-translate-x-1/2',
+      'w-[420px]',
+      'flex-col',
+      'max-[560px]:right-[16px]',
       'max-[560px]:left-[16px]',
     );
+    expect(region()).not.toHaveClass('right-[22px]', 'bottom-[22px]');
   });
 
   it('infere o tom pelo prefixo, remove o emoji e some após 4 s', () => {
