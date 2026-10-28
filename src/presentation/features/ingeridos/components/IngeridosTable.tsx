@@ -81,7 +81,12 @@ export function IngeridosTable({ rows, footer, onVer, onRemover }: IngeridosTabl
           <IconButton aria-label={`Ver ${row.id}`} onClick={() => onVer(row)}>
             <EyeIcon className="size-[14px]" />
           </IconButton>
-          <IconButton tone="red" aria-label={`Remover ${row.id}`} onClick={() => onRemover(row)}>
+          <IconButton
+            escrita
+            tone="red"
+            aria-label={`Remover ${row.id}`}
+            onClick={() => onRemover(row)}
+          >
             <TrashIcon />
           </IconButton>
         </>

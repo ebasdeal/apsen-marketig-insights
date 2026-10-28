@@ -43,7 +43,7 @@ export function FontesScreen() {
         title="Fontes de Dados / APIs"
         description="Configuração de integrações externas · Admin DI"
         actions={
-          <Button variant="primary" size="sm" onClick={() => open({ modo: 'nova' })}>
+          <Button escrita variant="primary" size="sm" onClick={() => open({ modo: 'nova' })}>
             + Nova Fonte de Dados
           </Button>
         }

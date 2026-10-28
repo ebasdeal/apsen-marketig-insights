@@ -43,6 +43,7 @@ export function FonteCard({ fonte, onConfigure, onRemove }: FonteCardProps) {
           </Button>
           {fonte.removivel ? (
             <Button
+              escrita
               variant="ghost"
               size="sm"
               className="text-apsen-red!"

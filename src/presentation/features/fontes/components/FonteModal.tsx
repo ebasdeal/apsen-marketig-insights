@@ -43,6 +43,18 @@ export function FonteModal({ mode, onClose }: FonteModalProps) {
   const change = (patch: Partial<FonteFormState>) =>
     setForm((current) => ({ ...current, ...patch }));
 
+  // Erro de um campo some assim que ele passa a ser válido (não espera o próximo envio).
+  useEffect(() => {
+    if (mode.modo === 'config') return;
+    setErrors((atuais) => {
+      if (Object.keys(atuais).length === 0) return atuais;
+      const restantes = validateFonteDraft(form, { nova: true, nomesExistentes: [] });
+      return Object.fromEntries(
+        Object.entries(atuais).filter(([campo]) => campo in restantes),
+      ) as FonteErrors;
+    });
+  }, [form, mode.modo]);
+
   useEffect(() => {
     if (attempt > 0) focusFirstInvalid(bodyRef.current);
   }, [attempt]);
@@ -93,7 +105,7 @@ export function FonteModal({ mode, onClose }: FonteModalProps) {
             <Button variant="ghost" size="sm" onClick={requestClose}>
               Cancelar
             </Button>
-            <Button variant="primary" size="sm" loading={pending} onClick={submit}>
+            <Button escrita variant="primary" size="sm" loading={pending} onClick={submit}>
               Salvar configuração
             </Button>
           </>

@@ -80,7 +80,7 @@ describe('RestricaoModal', () => {
     expect(corpo.getByRole('textbox', { name: 'Impacto' })).toHaveValue('Bloqueio total');
     expect(corpo.getByLabelText('Prazo')).toHaveValue('2026-07-05');
     expect(corpo.getByRole('textbox', { name: 'Observações' })).toHaveValue(item.form.obs);
-    await user.click(corpo.getByRole('button', { name: 'Registrar Restrição' }));
+    await user.click(corpo.getByRole('button', { name: 'Salvar Alterações' }));
     expect(useCases.restricoes.atualizar.execute).toHaveBeenCalledWith(item, item.form);
     expect(useCases.restricoes.registrar.execute).not.toHaveBeenCalled();
   });
@@ -89,7 +89,7 @@ describe('RestricaoModal', () => {
     const { user, dialog } = setup(restricaoItemFixture(), {
       atualizar: { execute: vi.fn(() => new Promise<void>(() => undefined)) },
     });
-    await user.click(within(dialog()).getByRole('button', { name: 'Registrar Restrição' }));
+    await user.click(within(dialog()).getByRole('button', { name: 'Salvar Alterações' }));
     expect(within(dialog()).getByRole('button', { name: 'Salvando…' })).toBeDisabled();
     await user.click(within(dialog()).getByRole('button', { name: 'Fechar' }));
     expect(screen.getAllByRole('dialog')).toHaveLength(1);
@@ -116,7 +116,7 @@ describe('RestricaoModal', () => {
     const { user, dialog, onClose } = setup(restricaoItemFixture(), {
       atualizar: { execute: vi.fn().mockRejectedValue(new Error('500')) },
     });
-    await user.click(within(dialog()).getByRole('button', { name: 'Registrar Restrição' }));
+    await user.click(within(dialog()).getByRole('button', { name: 'Salvar Alterações' }));
     expect(
       await screen.findByText('Não foi possível salvar. Tente novamente.'),
     ).toBeInTheDocument();

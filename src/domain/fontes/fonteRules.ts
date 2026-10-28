@@ -10,6 +10,7 @@ import { CACHE_PADRAO } from './vocabulario';
 export const FONTE_MESSAGES = {
   nome: '⚠️ Informe o nome da fonte.',
   url: '⚠️ Informe a URL do endpoint para o modo API.',
+  urlInvalida: '⚠️ Informe uma URL válida, começando com http:// ou https://.',
   nomeRepetido: '⚠️ Já existe uma fonte com este nome.',
 } as const;
 
@@ -63,6 +64,15 @@ export function optionLabel(fonte: Pick<Fonte, 'icon' | 'nome' | 'modo'>): strin
   return `${fonte.icon} ${fonte.nome} ${isApi(fonte) ? '(API ativa)' : '(mock)'}`;
 }
 
+function urlHttpValida(valor: string): boolean {
+  try {
+    const { protocol, hostname } = new URL(valor.trim());
+    return (protocol === 'http:' || protocol === 'https:') && hostname !== '';
+  } catch {
+    return false;
+  }
+}
+
 export function validateFonteDraft(
   draft: Pick<FonteDraft, 'nome' | 'modo' | 'url'>,
   context: { nova: boolean; nomesExistentes: readonly string[] },
@@ -81,6 +91,8 @@ export function validateFonteDraft(
   }
   if (draft.modo === 'api' && draft.url.trim() === '') {
     errors.url = FONTE_MESSAGES.url;
+  } else if (draft.modo === 'api' && !urlHttpValida(draft.url)) {
+    errors.url = FONTE_MESSAGES.urlInvalida;
   }
   return errors;
 }

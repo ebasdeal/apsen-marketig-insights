@@ -118,3 +118,13 @@ describe('erros', () => {
     expect(protegida.fonteId).toBe('concorrentes');
   });
 });
+
+describe('validateFonteDraft: URL do endpoint', () => {
+  it('recusa URL que não seja http(s) válida no modo API', () => {
+    const base = { nome: 'Nova', modo: 'api' as const };
+    const ctx = { nova: true, nomesExistentes: [] };
+    expect(validateFonteDraft({ ...base, url: 'abc' }, ctx).url).toContain('URL válida');
+    expect(validateFonteDraft({ ...base, url: 'ftp://x.com' }, ctx).url).toContain('URL válida');
+    expect(validateFonteDraft({ ...base, url: 'https://api.apsen.com.br/v1' }, ctx)).toEqual({});
+  });
+});

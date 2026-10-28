@@ -77,15 +77,21 @@ export default function RestricaoModal({ item, onClose }: RestricaoModalProps) {
       <Modal
         open
         size="lg"
-        title="Registrar Restrição"
+        title={item === null ? 'Registrar Restrição' : 'Editar Restrição'}
         onClose={fechar}
         footer={
           <>
             <Button variant="ghost" size="sm" onClick={fechar} disabled={salvando}>
               Cancelar
             </Button>
-            <Button variant="red" size="sm" loading={salvando} onClick={() => void salvar()}>
-              Registrar Restrição
+            <Button
+              escrita
+              variant="red"
+              size="sm"
+              loading={salvando}
+              onClick={() => void salvar()}
+            >
+              {item === null ? 'Registrar Restrição' : 'Salvar Alterações'}
             </Button>
           </>
         }

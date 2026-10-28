@@ -84,6 +84,7 @@ export function RestricoesTable({
           <PencilIcon />
         </IconButton>
         <IconButton
+          escrita
           tone="green"
           aria-label={`Marcar ${r.desc} como resolvida`}
           title="Resolvida"

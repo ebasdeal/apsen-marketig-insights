@@ -81,7 +81,8 @@ export function IngeridosScreen() {
       ) : (
         <BusyRegion busy={query.isPlaceholderData}>
           <p className="mb-[12px] text-[13px] text-apsen-muted">
-            <strong>{query.data.resumo}</strong> ingeridos no Data Lake
+            <strong>{query.data.resumo}</strong>{' '}
+            {query.data.resumo.startsWith('1 ') ? 'ingerido' : 'ingeridos'} no Data Lake
           </p>
           <IngeridosTable
             rows={query.data.rows}

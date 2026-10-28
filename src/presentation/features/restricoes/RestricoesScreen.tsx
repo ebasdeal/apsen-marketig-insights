@@ -67,7 +67,7 @@ export function RestricoesScreen() {
         title="Restrições & Alertas"
         description="Impedimentos operacionais que afetam a execução do plano de produção"
         actions={
-          <Button variant="red" size="sm" onClick={() => setModal({ item: null })}>
+          <Button escrita variant="red" size="sm" onClick={() => setModal({ item: null })}>
             + Registrar Restrição
           </Button>
         }
