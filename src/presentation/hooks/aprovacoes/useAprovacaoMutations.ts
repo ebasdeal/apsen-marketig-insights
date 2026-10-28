@@ -19,7 +19,13 @@ import {
 } from './aprovacoesCache';
 import { aprovacoesKeys } from './aprovacoesKeys';
 
-const AFETADAS = [aprovacoesKeys.all, queryKeys.navegacao.badges()];
+// a decisão também cria ou apaga o driver ingerido e muda os números do Dashboard
+const AFETADAS = [
+  aprovacoesKeys.all,
+  queryKeys.navegacao.badges(),
+  queryKeys.ingeridos.all,
+  queryKeys.dashboard.all,
+];
 
 function aplicarOtimista(queryClient: QueryClient, input: DecisaoInput): void {
   const paginas = queryClient

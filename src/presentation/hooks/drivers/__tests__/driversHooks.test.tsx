@@ -78,7 +78,7 @@ describe('useDriverFormLookups / useDriverForForm', () => {
 });
 
 describe('useCreateDriverMutation / useUpdateDriverMutation (CA-10, CA-13)', () => {
-  it('chamam o caso de uso e invalidam drivers, catálogo e badges', async () => {
+  it('chamam o caso de uso e invalidam drivers, catálogo, badges, aprovações, ingeridos e dashboard', async () => {
     const { useCases, queryClient, wrapper } = setup();
     const invalidate = vi.spyOn(queryClient, 'invalidateQueries');
     const create = renderHook(() => useCreateDriverMutation(), { wrapper });
@@ -97,12 +97,15 @@ describe('useCreateDriverMutation / useUpdateDriverMutation (CA-10, CA-13)', () 
       ['drivers'],
       ['catalogo'],
       ['navegacao', 'badges'],
+      ['aprovacoes'],
+      ['ingeridos'],
+      ['dashboard'],
     ]);
     const update = renderHook(() => useUpdateDriverMutation(), { wrapper });
     const updateInput = { ...input, id: '3', original: makeDriver() };
     await act(() => update.result.current.mutateAsync(updateInput));
     expect(useCases.drivers.update.execute).toHaveBeenCalledWith(updateInput);
-    expect(invalidate).toHaveBeenCalledTimes(6);
+    expect(invalidate).toHaveBeenCalledTimes(12);
   });
 });
 
@@ -176,6 +179,9 @@ describe('useDeleteDriverMutation (CA-04, RN-04)', () => {
       ['drivers'],
       ['catalogo'],
       ['navegacao', 'badges'],
+      ['aprovacoes'],
+      ['ingeridos'],
+      ['dashboard'],
     ]);
   });
 
