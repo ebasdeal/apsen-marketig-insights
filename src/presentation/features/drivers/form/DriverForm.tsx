@@ -85,7 +85,7 @@ export function DriverForm({
   }
 
   const acoes = disabled ? null : (
-    <div className="sticky bottom-0 z-10 -mx-[24px] -mb-[22px] flex flex-wrap justify-end gap-[8px] border-t border-apsen-border bg-apsen-bg px-[24px] py-[12px]">
+    <div className="sticky -bottom-[22px] z-10 -mx-[24px] -mb-[22px] flex flex-wrap justify-end gap-[8px] border-t border-apsen-border bg-apsen-bg px-[24px] py-[12px]">
       <Button variant="ghost" onClick={limparTudo} disabled={pending}>
         Limpar
       </Button>
