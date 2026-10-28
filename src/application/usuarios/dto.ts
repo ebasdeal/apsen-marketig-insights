@@ -15,6 +15,7 @@ export interface UsuarioRowDto {
   ultimoAcesso: string;
   ativo: boolean;
   removivel: boolean;
+  alteracao: string | null;
 }
 
 export interface UsuariosPageDto {
@@ -32,16 +33,19 @@ export interface ListUsuariosInput extends UsuarioFiltro {
 export interface UsuarioFormDto {
   draft: UsuarioDraft;
   areaExtra: string | null;
+  alteracao: string | null;
 }
 
 export interface SaveUsuarioInput {
   id?: string;
   draft: UsuarioDraft;
+  alteradoPor: string;
 }
 
 export interface ToggleUsuarioInput {
   id: string;
   ativo: boolean;
+  alteradoPor: string;
 }
 
 export interface UsuarioToastDto {

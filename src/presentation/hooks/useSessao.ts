@@ -11,6 +11,7 @@ import { usePerfilAtual, type PerfilAtual } from './usePerfilAtual';
 export interface SessaoAtual extends PerfilAtual {
   usuario: UsuarioSessao | undefined;
   nivel: NivelAcesso | undefined;
+  podeEscrever: boolean;
   concluirLogin: (code: string | null) => Promise<void>;
   sair: () => Promise<void>;
 }
@@ -45,5 +46,12 @@ export function useSessao(): SessaoAtual {
     }
   }, [useCases, queryClient, encerrar, cancelarSaida]);
 
-  return { ...perfilAtual, usuario, nivel: perfilAtual.perfil?.nivel, concluirLogin, sair };
+  return {
+    ...perfilAtual,
+    usuario,
+    nivel: perfilAtual.perfil?.nivel,
+    podeEscrever: usuario?.ativo !== false,
+    concluirLogin,
+    sair,
+  };
 }

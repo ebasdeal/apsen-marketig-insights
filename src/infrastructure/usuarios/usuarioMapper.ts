@@ -16,5 +16,7 @@ export function toUsuario(dto: UsuarioApiDto): Usuario {
     ativo: dto.ativo,
     removivel: dto.removivel,
     categorias: dto.categorias ?? [],
+    alteradoPor: dto.alteradoPor ?? null,
+    alteradoEm: dto.alteradoEm ?? null,
   };
 }

@@ -1,7 +1,7 @@
 import { pageCountOf } from '@domain/shared/Page';
 import type { Usuario } from '@domain/usuarios/Usuario';
 import type { UsuarioRepository } from '@domain/usuarios/UsuarioRepository';
-import { resumoUsuarios } from '@domain/usuarios/usuarioRules';
+import { descreverAlteracao, resumoUsuarios } from '@domain/usuarios/usuarioRules';
 import { PERFIL_BADGE_TONE, USUARIO_PAGE_SIZE } from '@domain/usuarios/vocabulario';
 import type { ListUsuariosInput, UsuarioRowDto, UsuariosPageDto } from './dto';
 
@@ -20,6 +20,7 @@ export function toUsuarioRowDto(usuario: Usuario): UsuarioRowDto {
     ultimoAcesso: usuario.ultimoAcesso,
     ativo: usuario.ativo,
     removivel: usuario.removivel,
+    alteracao: descreverAlteracao(usuario.alteradoPor, usuario.alteradoEm),
   };
 }
 

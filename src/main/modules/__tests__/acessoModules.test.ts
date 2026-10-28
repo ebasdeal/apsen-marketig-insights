@@ -51,6 +51,7 @@ describe('módulos de acesso e agentes', () => {
       post: async (_path, body) => body,
     });
     await createUsuariosModule(fake).save.execute({
+      alteradoPor: 'Ana Admin',
       draft: {
         nome: 'Ana',
         email: 'ana@apsen.com.br',

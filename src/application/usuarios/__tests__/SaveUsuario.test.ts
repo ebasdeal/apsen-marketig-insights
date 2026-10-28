@@ -5,8 +5,11 @@ import {
   createFakePerfilRepository,
   createFakeUsuarioRepository,
 } from '@test/fakes/acessoRepositories';
+import type { SaveUsuarioInput } from '../dto';
 import { SaveUsuario } from '../SaveUsuario';
 
+const AUTOR = 'Ana Admin';
+const AGORA = new Date('2026-10-27T17:05:00.000Z');
 const UUID = 'c0a8-0000-4000-8000-000000000001';
 
 const ANA_PAULA: UsuarioDraft = {
@@ -21,7 +24,16 @@ const ANA_PAULA: UsuarioDraft = {
 function setup() {
   const repository = createFakeUsuarioRepository();
   const perfis = createFakePerfilRepository();
-  const save = new SaveUsuario(repository, perfis, () => UUID);
+  const useCase = new SaveUsuario(
+    repository,
+    perfis,
+    () => UUID,
+    () => AGORA,
+  );
+  const save = {
+    execute: (input: Omit<SaveUsuarioInput, 'alteradoPor'>) =>
+      useCase.execute({ ...input, alteradoPor: AUTOR }),
+  };
   return { repository, perfis, save };
 }
 
@@ -46,6 +58,8 @@ describe('SaveUsuario — novo (RN-04, CA-07)', () => {
       ativo: true,
       removivel: true,
       categorias: ['midia', 'comercial'],
+      alteradoPor: 'Ana Admin',
+      alteradoEm: '2026-10-27T17:05:00.000Z',
     });
   });
 
@@ -103,6 +117,8 @@ describe('SaveUsuario — edição (CA-08)', () => {
     expect(Object.keys(patch).sort()).toEqual(
       [
         'admin',
+        'alteradoEm',
+        'alteradoPor',
         'area',
         'ativo',
         'categorias',

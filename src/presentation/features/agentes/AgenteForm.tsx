@@ -25,6 +25,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useSaveAgenteMutation } from '../../hooks/agentes/useAgenteMutations';
 import { FALHA_SALVAR } from '../../hooks/mutationFeedback';
+import { useSessao } from '../../hooks/useSessao';
 import { useToast } from '../../providers/ToastProvider';
 import { sameDraft, useFocusOnErrors } from '../usuarios/useFocusOnErrors';
 import {
@@ -43,6 +44,7 @@ export function AgenteForm({ id, draft: initial, extras }: AgenteFormProps) {
   const { show } = useToast();
   const save = useSaveAgenteMutation();
   const testar = useTesteConexaoForm();
+  const { podeEscrever } = useSessao();
   const [draft, setDraft] = useState(initial);
   const [erros, setErros] = useState<AgenteErros>({});
   const { ref, focusErrors } = useFocusOnErrors<HTMLFormElement>();
@@ -91,8 +93,8 @@ export function AgenteForm({ id, draft: initial, extras }: AgenteFormProps) {
       <ScreenDesc icon="🛠️">
         <strong>Configura um agente de coleta automática de drivers.</strong> O campo{' '}
         <em>Secret Name</em> armazena apenas a referência ao secret no Azure Key Vault — nunca o
-        valor real. O <em>limiar de confiança</em> define o que vai para a Fila de Aprovação e o que
-        é descartado automaticamente.
+        valor real. O limiar de confiança define o que vai para a Fila de Aprovação e o que é
+        descartado automaticamente.
       </ScreenDesc>
       <form
         ref={ref}
@@ -129,6 +131,7 @@ export function AgenteForm({ id, draft: initial, extras }: AgenteFormProps) {
               type="submit"
               variant="purple"
               size="sm"
+              disabled={!podeEscrever}
               loading={save.isPending}
               loadingLabel="Salvando…"
             >

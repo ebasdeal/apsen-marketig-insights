@@ -13,6 +13,7 @@ import {
 } from '@presentation/components/ui';
 import { USUARIO_NOVO_ROUTE } from '@presentation/navigation/routes';
 import { useState } from 'react';
+import { useSessao } from '../../hooks/useSessao';
 import {
   useDeleteUsuarioMutation,
   useToggleUsuarioMutation,
@@ -24,18 +25,36 @@ import { useUsuariosFiltro } from './useUsuariosFiltro';
 
 const HEADERS = ['Nome', 'E-mail', 'Perfil', 'Área', 'Pode registrar', 'Pode validar', 'Admin'];
 
-function UsuariosResults() {
+type Pendente = { acao: 'inativar' | 'remover'; row: UsuarioRowDto } | null;
+
+export function confirmacaoTexto(pendente: NonNullable<Pendente>): string {
+  return pendente.acao === 'remover'
+    ? `Remover o usuário "${pendente.row.nome}"?`
+    : `Inativar o usuário "${pendente.row.nome}"? Ele passará a ter acesso somente para visualização.`;
+}
+
+function UsuariosResults({ podeEscrever }: { podeEscrever: boolean }) {
   const filtro = useUsuariosFiltro();
   const query = useUsuariosPage(filtro.filtro, { page: filtro.page });
   const toggle = useToggleUsuarioMutation();
   const remove = useDeleteUsuarioMutation();
-  const [removendo, setRemovendo] = useState<UsuarioRowDto | null>(null);
+  const [pendente, setPendente] = useState<Pendente>(null);
 
   const confirmar = () => {
-    if (removendo !== null) {
-      remove.mutate(removendo.id);
+    if (pendente?.acao === 'remover') {
+      remove.mutate(pendente.row.id);
+    } else if (pendente?.acao === 'inativar') {
+      toggle.mutate({ id: pendente.row.id, ativo: false });
     }
-    setRemovendo(null);
+    setPendente(null);
+  };
+
+  const alternar = (row: UsuarioRowDto, ativo: boolean) => {
+    if (ativo) {
+      toggle.mutate({ id: row.id, ativo });
+    } else {
+      setPendente({ acao: 'inativar', row });
+    }
   };
 
   return (
@@ -60,8 +79,9 @@ function UsuariosResults() {
           </p>
           <UsuariosTable
             rows={query.data.rows}
-            onToggle={(row, ativo) => toggle.mutate({ id: row.id, ativo })}
-            onRemove={setRemovendo}
+            podeEscrever={podeEscrever}
+            onToggle={alternar}
+            onRemove={(row) => setPendente({ acao: 'remover', row })}
             footer={
               query.data.totalPages > 1 ? (
                 <Pagination
@@ -75,27 +95,33 @@ function UsuariosResults() {
         </BusyRegion>
       )}
       <ConfirmDialog
-        open={removendo !== null}
-        title={`Remover o usuário "${removendo?.nome ?? ''}"?`}
-        confirmLabel="Remover"
+        open={pendente !== null}
+        title="Tem certeza?"
+        message={pendente === null ? undefined : confirmacaoTexto(pendente)}
+        confirmLabel={pendente?.acao === 'inativar' ? 'Inativar' : 'Remover'}
         onConfirm={confirmar}
-        onCancel={() => setRemovendo(null)}
+        onCancel={() => setPendente(null)}
       />
     </>
   );
 }
 
 export function UsuariosScreen() {
+  const { podeEscrever } = useSessao();
   return (
     <>
       <PageHeader
         title="Usuários"
         description="Controle de acesso ao módulo Demand Intelligence"
-        actions={
-          <ButtonLink href={USUARIO_NOVO_ROUTE} variant="purple" size="sm">
-            + Novo Usuário
-          </ButtonLink>
-        }
+        {...(podeEscrever
+          ? {
+              actions: (
+                <ButtonLink href={USUARIO_NOVO_ROUTE} variant="purple" size="sm">
+                  + Novo Usuário
+                </ButtonLink>
+              ),
+            }
+          : {})}
       />
       <ScreenDesc icon="👥">
         <strong>Gerencia quem pode registrar, revisar e administrar drivers.</strong> O modelo de
@@ -103,7 +129,7 @@ export function UsuariosScreen() {
         Planejador revisa e valida; Admin configura o catálogo, tipos e acesso. Cada ação no sistema
         é rastreada pelo usuário responsável.
       </ScreenDesc>
-      <UsuariosResults />
+      <UsuariosResults podeEscrever={podeEscrever} />
     </>
   );
 }

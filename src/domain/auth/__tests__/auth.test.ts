@@ -3,14 +3,17 @@ import {
   CodigoInvalidoError,
   SessaoExpiradaError,
   SsoNaoConfiguradoError,
-  UsuarioInativoError,
+  UsuarioNaoCadastradoError,
   isAuthError,
 } from '../AuthErrors';
 
 describe('erros de autenticação', () => {
   it.each([
     [new CodigoInvalidoError(), 'Não foi possível concluir o login. Tente novamente.'],
-    [new UsuarioInativoError(), 'Usuário inativo. Fale com o administrador do sistema.'],
+    [
+      new UsuarioNaoCadastradoError(),
+      'Seu acesso ao Demand Intelligence ainda não foi liberado. Solicite o cadastro ao administrador.',
+    ],
     [new SessaoExpiradaError(), 'Sua sessão expirou. Entre novamente.'],
     [
       new SsoNaoConfiguradoError(),

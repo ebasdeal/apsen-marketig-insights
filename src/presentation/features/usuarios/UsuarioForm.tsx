@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { FALHA_SALVAR } from '../../hooks/mutationFeedback';
 import { useCategorias } from '../../hooks/tipos/useTipos';
 import { usePerfis } from '../../hooks/usePerfis';
+import { useSessao } from '../../hooks/useSessao';
 import { useSaveUsuarioMutation } from '../../hooks/usuarios/useUsuarioMutations';
 import { useToast } from '../../providers/ToastProvider';
 import { CategoriasAutorizadas } from './components/CategoriasAutorizadas';
@@ -33,14 +34,16 @@ interface UsuarioFormProps {
   id?: string;
   initial: UsuarioDraft;
   areaExtra: string | null;
+  alteracao?: string | null;
 }
 
-export function UsuarioForm({ id, initial, areaExtra }: UsuarioFormProps) {
+export function UsuarioForm({ id, initial, areaExtra, alteracao = null }: UsuarioFormProps) {
   const router = useRouter();
   const { show } = useToast();
   const save = useSaveUsuarioMutation();
   const perfis = usePerfis();
   const categorias = useCategorias();
+  const { podeEscrever } = useSessao();
   const [draft, setDraft] = useState(initial);
   const [erros, setErros] = useState<UsuarioErros>({});
   const { ref, focusErrors } = useFocusOnErrors<HTMLFormElement>();
@@ -125,6 +128,9 @@ export function UsuarioForm({ id, initial, areaExtra }: UsuarioFormProps) {
               checked={draft.ativo}
               onChange={(ativo) => change({ ativo })}
             />
+            {alteracao === null ? null : (
+              <p className="mt-[6px] text-[11px] text-apsen-muted-2">{alteracao}</p>
+            )}
           </div>
           <FormActions className="mt-[14px]">
             <Button variant="ghost" onClick={() => guard.confirmLeave(USUARIOS_ROUTE)}>
@@ -133,6 +139,7 @@ export function UsuarioForm({ id, initial, areaExtra }: UsuarioFormProps) {
             <Button
               type="submit"
               variant="purple"
+              disabled={!podeEscrever}
               loading={save.isPending}
               loadingLabel="Salvando…"
             >

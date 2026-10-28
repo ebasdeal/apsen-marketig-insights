@@ -19,6 +19,7 @@ import { EnvironmentPill, LastTestCell, ProviderPill, SchedulePill } from './pil
 interface AgentesTableProps {
   rows: readonly AgenteRowDto[];
   testando: string | null;
+  podeEscrever: boolean;
   onToggle: (row: AgenteRowDto, ativo: boolean) => void;
   onTestar: (row: AgenteRowDto) => void;
   onVer: (row: AgenteRowDto) => void;
@@ -28,15 +29,18 @@ interface AgentesTableProps {
 function StatusCell({
   row,
   onToggle,
+  disabled,
 }: {
   row: AgenteRowDto;
   onToggle: AgentesTableProps['onToggle'];
+  disabled: boolean;
 }) {
   return (
     <div className="flex items-center gap-[8px]">
       <Toggle
         checked={row.ativo}
         onChange={(ativo) => onToggle(row, ativo)}
+        disabled={disabled}
         aria-label={`Agente ${row.papel} ativo`}
       />
       <span
@@ -48,7 +52,10 @@ function StatusCell({
   );
 }
 
-function columns(onToggle: AgentesTableProps['onToggle']): TableColumn<AgenteRowDto>[] {
+function columns(
+  onToggle: AgentesTableProps['onToggle'],
+  podeEscrever: boolean,
+): TableColumn<AgenteRowDto>[] {
   return [
     {
       key: 'papel',
@@ -68,8 +75,14 @@ function columns(onToggle: AgentesTableProps['onToggle']): TableColumn<AgenteRow
     {
       key: 'endpoint',
       header: 'Endpoint',
-      className: 'max-w-[160px] truncate text-[11.5px] text-apsen-slate',
-      render: (row) => <span title={row.endpoint}>{row.endpoint}</span>,
+      render: (row) => (
+        <span
+          title={row.endpoint}
+          className="block max-w-[132px] truncate text-[11.5px] text-apsen-slate"
+        >
+          {row.endpoint}
+        </span>
+      ),
     },
     {
       key: 'secret',
@@ -99,7 +112,7 @@ function columns(onToggle: AgentesTableProps['onToggle']): TableColumn<AgenteRow
     {
       key: 'status',
       header: 'Status',
-      render: (row) => <StatusCell row={row} onToggle={onToggle} />,
+      render: (row) => <StatusCell row={row} onToggle={onToggle} disabled={!podeEscrever} />,
     },
   ];
 }
@@ -107,6 +120,7 @@ function columns(onToggle: AgentesTableProps['onToggle']): TableColumn<AgenteRow
 export function AgentesTable({
   rows,
   testando,
+  podeEscrever,
   onToggle,
   onTestar,
   onVer,
@@ -115,7 +129,7 @@ export function AgentesTable({
   return (
     <Table
       caption="Agentes de IA cadastrados"
-      columns={columns(onToggle)}
+      columns={columns(onToggle, podeEscrever)}
       rows={rows}
       rowKey={(row) => row.id}
       emptyText="Nenhum agente cadastrado."
@@ -125,7 +139,7 @@ export function AgentesTable({
           <IconButton
             aria-label={`Testar conexão — ${row.papel}`}
             title="Testar conexão"
-            disabled={testando === row.id}
+            disabled={!podeEscrever || testando === row.id}
             onClick={() => onTestar(row)}
           >
             <PulseIcon className="size-[14px]" />

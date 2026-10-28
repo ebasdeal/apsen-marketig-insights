@@ -7,6 +7,7 @@ export const usuarioSessaoSchema = z.object({
   perfil: z.enum(['admin', 'planejador', 'area', 'viewer']),
   perfilLabel: z.string().min(1),
   area: z.string(),
+  ativo: z.boolean().default(true),
 });
 
 export const tokenResponseSchema = z.object({

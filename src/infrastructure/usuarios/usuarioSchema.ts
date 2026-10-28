@@ -16,6 +16,8 @@ export const usuarioDtoSchema = z.object({
   ativo: z.boolean(),
   removivel: z.boolean(),
   categorias: z.array(z.string()).optional(),
+  alteradoPor: z.string().nullable().optional(),
+  alteradoEm: z.string().nullable().optional(),
 });
 
 export const usuariosDtoSchema = z.array(usuarioDtoSchema);

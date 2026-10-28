@@ -50,7 +50,10 @@ describe('useSaveUsuarioMutation', () => {
     const { result } = renderHook(() => useSaveUsuarioMutation(), { wrapper });
     const draft = USUARIO_FORM_FIXTURE.draft;
     await act(() => result.current.mutateAsync({ draft }));
-    expect(useCases.usuarios.save.execute).toHaveBeenCalledWith({ draft });
+    expect(useCases.usuarios.save.execute).toHaveBeenCalledWith({
+      draft,
+      alteradoPor: 'Ana Admin',
+    });
     expect(invalidatedKeys(invalidate)).toEqual([['usuarios'], ['navegacao', 'badges']]);
   });
 });

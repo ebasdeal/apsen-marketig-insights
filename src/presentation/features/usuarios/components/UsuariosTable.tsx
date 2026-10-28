@@ -12,26 +12,33 @@ interface UsuariosTableProps {
   rows: readonly UsuarioRowDto[];
   onToggle: (row: UsuarioRowDto, ativo: boolean) => void;
   onRemove: (row: UsuarioRowDto) => void;
+  podeEscrever: boolean;
   footer?: ReactNode;
 }
 
 const CENTER = 'text-center';
 
-function columns(onToggle: UsuariosTableProps['onToggle']): TableColumn<UsuarioRowDto>[] {
+function columns(
+  onToggle: UsuariosTableProps['onToggle'],
+  podeEscrever: boolean,
+): TableColumn<UsuarioRowDto>[] {
   return [
     { key: 'nome', header: 'Nome', render: (row) => <div className="font-medium">{row.nome}</div> },
     {
       key: 'email',
       header: 'E-mail',
-      className: 'text-[12px] text-apsen-muted',
-      render: (row) => row.email,
+      render: (row) => <span className="text-[12px] text-apsen-muted">{row.email}</span>,
     },
     {
       key: 'perfil',
       header: 'Perfil',
       render: (row) => <Badge tone={row.perfilTone}>{row.perfilLabel}</Badge>,
     },
-    { key: 'area', header: 'Área', className: 'text-[12px]', render: (row) => row.area },
+    {
+      key: 'area',
+      header: 'Área',
+      render: (row) => <span className="text-[12px]">{row.area}</span>,
+    },
     {
       key: 'registrar',
       header: 'Pode registrar',
@@ -53,8 +60,7 @@ function columns(onToggle: UsuariosTableProps['onToggle']): TableColumn<UsuarioR
     {
       key: 'acesso',
       header: 'Último acesso',
-      className: 'text-[12px]',
-      render: (row) => row.ultimoAcesso,
+      render: (row) => <span className="text-[12px]">{row.ultimoAcesso}</span>,
     },
     {
       key: 'status',
@@ -63,6 +69,8 @@ function columns(onToggle: UsuariosTableProps['onToggle']): TableColumn<UsuarioR
         <UsuarioStatusCell
           nome={row.nome}
           ativo={row.ativo}
+          alteracao={row.alteracao}
+          disabled={!podeEscrever}
           onChange={(ativo) => onToggle(row, ativo)}
         />
       ),
@@ -70,11 +78,17 @@ function columns(onToggle: UsuariosTableProps['onToggle']): TableColumn<UsuarioR
   ];
 }
 
-export function UsuariosTable({ rows, onToggle, onRemove, footer }: UsuariosTableProps) {
+export function UsuariosTable({
+  rows,
+  onToggle,
+  onRemove,
+  podeEscrever,
+  footer,
+}: UsuariosTableProps) {
   return (
     <Table
       caption="Usuários do módulo Demand Intelligence"
-      columns={columns(onToggle)}
+      columns={columns(onToggle, podeEscrever)}
       rows={rows}
       rowKey={(row) => row.id}
       emptyText="Nenhum usuário encontrado."
@@ -84,7 +98,7 @@ export function UsuariosTable({ rows, onToggle, onRemove, footer }: UsuariosTabl
           <IconLink href={usuarioEditarRoute(row.id)} aria-label={`Editar ${row.nome}`}>
             <PencilIcon />
           </IconLink>
-          {row.removivel ? (
+          {row.removivel && podeEscrever ? (
             <IconButton tone="red" aria-label={`Remover ${row.nome}`} onClick={() => onRemove(row)}>
               <TrashIcon />
             </IconButton>

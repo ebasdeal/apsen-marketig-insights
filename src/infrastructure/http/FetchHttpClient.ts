@@ -1,3 +1,4 @@
+import { SomenteLeituraError } from '@domain/auth/AuthErrors';
 import {
   HttpError,
   InvalidResponseError,
@@ -26,6 +27,17 @@ export interface FetchHttpClientOptions {
 const UNAUTHORIZED = 401;
 
 const TOKEN_PATH = '/auth/token';
+
+const FORBIDDEN = 403;
+
+function isSomenteLeitura(status: number, payload: unknown): boolean {
+  return (
+    status === FORBIDDEN &&
+    typeof payload === 'object' &&
+    payload !== null &&
+    (payload as { codigo?: unknown }).codigo === 'somente_leitura'
+  );
+}
 
 interface SentRequest {
   payload: unknown;
@@ -158,6 +170,9 @@ export class FetchHttpClient implements HttpClient {
     if (!response.ok) {
       if (response.status === UNAUTHORIZED && relative !== TOKEN_PATH) {
         this.onUnauthorized();
+      }
+      if (isSomenteLeitura(response.status, payload)) {
+        throw new SomenteLeituraError();
       }
       throw new HttpError(response.status, url, payload);
     }

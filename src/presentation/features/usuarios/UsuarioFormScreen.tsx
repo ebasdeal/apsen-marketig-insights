@@ -23,7 +23,14 @@ function EditarUsuario({ id }: { id: string }) {
       />
     );
   }
-  return <UsuarioForm id={id} initial={query.data.draft} areaExtra={query.data.areaExtra} />;
+  return (
+    <UsuarioForm
+      id={id}
+      initial={query.data.draft}
+      areaExtra={query.data.areaExtra}
+      alteracao={query.data.alteracao}
+    />
+  );
 }
 
 export function UsuarioFormScreen({ id }: { id?: string }) {

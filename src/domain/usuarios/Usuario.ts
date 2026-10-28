@@ -18,6 +18,8 @@ export interface Usuario {
   ativo: boolean;
   removivel: boolean;
   categorias: string[];
+  alteradoPor: string | null;
+  alteradoEm: string | null;
 }
 
 export interface UsuarioDraft {

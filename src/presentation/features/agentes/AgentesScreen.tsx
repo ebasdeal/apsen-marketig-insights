@@ -15,6 +15,7 @@ import { AGENTE_NOVO_ROUTE } from '@presentation/navigation/routes';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useAgentesPage, useAgentesResumo } from '../../hooks/agentes/useAgentes';
+import { useSessao } from '../../hooks/useSessao';
 import {
   useTestarAgenteMutation,
   useToggleAgenteMutation,
@@ -47,7 +48,7 @@ function AgentesResumo() {
   );
 }
 
-function AgentesLista() {
+function AgentesLista({ podeEscrever }: { podeEscrever: boolean }) {
   const [url, setUrl] = useUrlState(SPEC);
   const query = useAgentesPage(url.page);
   const toggle = useToggleAgenteMutation();
@@ -71,6 +72,7 @@ function AgentesLista() {
       <AgentesTable
         rows={query.data.rows}
         testando={testando}
+        podeEscrever={podeEscrever}
         onToggle={(row, ativo) =>
           toggle.mutate({ id: row.id, papel: row.papel, schedule: row.schedule, ativo })
         }
@@ -92,16 +94,21 @@ function AgentesLista() {
 }
 
 export function AgentesScreen() {
+  const { podeEscrever } = useSessao();
   return (
     <>
       <PageHeader
         title="Agentes de IA"
         description="AI Agent Engine & Crawler · monitoramento e configuração dos agentes de coleta"
-        actions={
-          <ButtonLink href={AGENTE_NOVO_ROUTE} variant="purple" size="sm">
-            + Novo Agente
-          </ButtonLink>
-        }
+        {...(podeEscrever
+          ? {
+              actions: (
+                <ButtonLink href={AGENTE_NOVO_ROUTE} variant="purple" size="sm">
+                  + Novo Agente
+                </ButtonLink>
+              ),
+            }
+          : {})}
       />
       <ScreenDesc icon="🤖">
         <strong>Gerencia os robôs de coleta automática de drivers externos.</strong> Cada agente
@@ -111,7 +118,7 @@ export function AgentesScreen() {
         Managed Identity.
       </ScreenDesc>
       <AgentesResumo />
-      <AgentesLista />
+      <AgentesLista podeEscrever={podeEscrever} />
     </>
   );
 }

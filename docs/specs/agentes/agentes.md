@@ -1,5 +1,5 @@
 ---
-status: IN_PROGRESS
+status: REVIEW
 fase: 42
 area: agentes
 feature: agentes
@@ -15,6 +15,8 @@ Porta o módulo Agentes de IA do protótipo (`docs/Negócio/di-drivers-v2_84.htm
 Onda 4, fase provisória 42. Inventário §2.16, §2.17 e §3 (`modal-agente-ver`).
 
 **Dependências:** as da spec [ciclos](../admin/ciclos.md) §1 (plataforma, onda 1, `useListSearchParams`, `IdGenerator`); `CodeTag` ([tipos](../admin/tipos.md)); `DetailField` ([ingeridos](../admin/ingeridos.md)); `useUnsavedChangesGuard` ([tipos](../admin/tipos.md)); da onda 1 `Breadcrumb`, `StatusField`, `FormActions`, `RangeSlider` (`accent="purple"`), `FormSelect` com `groups` (optgroup) e `placeholder`, `Tooltip` com `ReactNode`, `Modal size="lg"`.
+
+**Decisões do usuário de 27/10/2026 ([login](../platform/login.md) §1.1):** usuário inativo vê a tela só para leitura — "+ Novo Agente" some, Toggle e "Testar conexão" ficam desabilitados e "Salvar Agente" desabilitado; escrita recusada pela API (403 `somente_leitura`) mostra o toast de erro. A pill do provedor anthropic usa o token existente `apsen-yellow-soft` (`#FFF8EC`), sem token novo.
 
 **Decisões [derivado]:**
 

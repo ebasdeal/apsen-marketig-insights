@@ -1,7 +1,7 @@
 import {
   CodigoInvalidoError,
   SessaoExpiradaError,
-  UsuarioInativoError,
+  UsuarioNaoCadastradoError,
 } from '@domain/auth/AuthErrors';
 import type { AuthRepository } from '@domain/auth/AuthRepository';
 import type { Sessao, UsuarioSessao } from '@domain/auth/Sessao';
@@ -14,7 +14,7 @@ export const TOKEN_PATH = '/auth/token';
 const TOKEN_ERRORS: Record<number, () => Error> = {
   400: () => new CodigoInvalidoError(),
   401: () => new CodigoInvalidoError(),
-  403: () => new UsuarioInativoError(),
+  403: () => new UsuarioNaoCadastradoError(),
 };
 
 function parse<T extends z.ZodType>(schema: T, payload: unknown, path: string): z.infer<T> {

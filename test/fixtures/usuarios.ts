@@ -20,6 +20,8 @@ export const USUARIOS_FIXTURE: Usuario[] = [
     ativo: true,
     removivel: false,
     categorias: [],
+    alteradoPor: null,
+    alteradoEm: null,
   },
   {
     id: '2',
@@ -35,6 +37,8 @@ export const USUARIOS_FIXTURE: Usuario[] = [
     ativo: true,
     removivel: true,
     categorias: [],
+    alteradoPor: null,
+    alteradoEm: null,
   },
   {
     id: '3',
@@ -50,6 +54,8 @@ export const USUARIOS_FIXTURE: Usuario[] = [
     ativo: true,
     removivel: true,
     categorias: [],
+    alteradoPor: null,
+    alteradoEm: null,
   },
   {
     id: '4',
@@ -65,6 +71,8 @@ export const USUARIOS_FIXTURE: Usuario[] = [
     ativo: false,
     removivel: true,
     categorias: [],
+    alteradoPor: null,
+    alteradoEm: null,
   },
 ];
 
@@ -88,6 +96,7 @@ export const USUARIO_FORM_FIXTURE: UsuarioFormDto = {
     ativo: true,
   },
   areaExtra: null,
+  alteracao: null,
 };
 
 const LINHA = { viewer: '—', area: '—', planejador: '✓', admin: '✓' };

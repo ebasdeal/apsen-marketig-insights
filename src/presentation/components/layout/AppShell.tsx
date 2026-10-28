@@ -1,6 +1,7 @@
 import { Suspense, type ReactNode } from 'react';
 import { AccessGuard } from './AccessGuard';
 import { NavProvider } from './NavContext';
+import { ReadOnlyBanner } from './ReadOnlyBanner';
 import { RouteProgress } from './RouteProgress';
 import { ShellMain } from './ShellMain';
 import { Sidebar } from './Sidebar';
@@ -19,6 +20,7 @@ export function AppShell({ children }: AppShellProps) {
       <Sidebar />
       <Topbar />
       <ShellMain>
+        <ReadOnlyBanner />
         <AccessGuard>{children}</AccessGuard>
       </ShellMain>
     </NavProvider>
