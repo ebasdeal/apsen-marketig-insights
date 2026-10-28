@@ -40,6 +40,7 @@ describe('createContainer com restrições e planos', () => {
   it('registra os módulos sobre o mesmo cliente HTTP com token', async () => {
     const { fetchFn, calls } = createFakeFetch({
       '/restricoes': { body: [RESTRICAO], headers: { 'X-Total-Count': '8' } },
+      '/ciclos': { body: [CICLO_DTOS_FIXTURE[0]], headers: { 'X-Total-Count': '1' } },
       '/planoItens': { body: [ITEM], headers: { 'X-Total-Count': '247' } },
     });
     const { useCases } = createContainer(ENV, { fetchFn });

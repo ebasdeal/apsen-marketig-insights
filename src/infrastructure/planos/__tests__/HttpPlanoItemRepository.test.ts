@@ -42,16 +42,19 @@ const LISTA: FakeRoute = { body: [DTO], headers: { 'X-Total-Count': '247' } };
 describe('HttpPlanoItemRepository', () => {
   it('lista com q, familia, status, _sort, _order, _page e _limit', async () => {
     const { repository, calls } = repositoryWith({ '/planoItens': LISTA });
-    const page = await repository.listPage({
-      busca: ' bari ',
-      familia: 'Imunologia',
-      status: 'aprovado',
-      ordem: { campo: 'codigo', direcao: 'asc' },
-      pagina: 1,
-      tamanho: 10,
-    });
+    const page = await repository.listPage(
+      {
+        busca: ' bari ',
+        familia: 'Imunologia',
+        status: 'aprovado',
+        ordem: { campo: 'codigo', direcao: 'asc' },
+        pagina: 1,
+        tamanho: 10,
+      },
+      'PLP-2026-07',
+    );
     expect(calls[0]?.url).toBe(
-      `${BASE}/planoItens?q=bari&familia=Imunologia&status=aprovado&_sort=codigo&_order=asc&_page=1&_limit=10`,
+      `${BASE}/planoItens?codigo_like=%5EPLP-2026-07-&q=bari&familia=Imunologia&status=aprovado&_sort=codigo&_order=asc&_page=1&_limit=10`,
     );
     expect(page).toMatchObject({ total: 247, page: 1, limit: 10 });
     expect(page.items[0]).toMatchObject({ id: 'PLP-2026-07-001', codigo: 'PLP-2026-07-001' });
@@ -59,15 +62,15 @@ describe('HttpPlanoItemRepository', () => {
 
   it('omite filtros vazios e sem ordem', async () => {
     const { repository, calls } = repositoryWith({ '/planoItens': LISTA });
-    await repository.listPage({ ...FILTRO_VAZIO, pagina: 3, tamanho: 25 });
-    expect(calls[0]?.url).toBe(`${BASE}/planoItens?_page=3&_limit=25`);
+    await repository.listPage({ ...FILTRO_VAZIO, pagina: 3, tamanho: 25 }, 'PLP-2026-07');
+    expect(calls[0]?.url).toBe(`${BASE}/planoItens?codigo_like=%5EPLP-2026-07-&_page=3&_limit=25`);
   });
 
   it('payload inválido ou sem X-Total-Count gera InvalidResponseError', async () => {
     const invalido = repositoryWith({
       '/planoItens': { body: [{ ...DTO, qtd: -1 }], headers: { 'X-Total-Count': '1' } },
     });
-    await expect(invalido.repository.listPage(FILTRO_VAZIO)).rejects.toThrow(
+    await expect(invalido.repository.listPage(FILTRO_VAZIO, 'PLP-2026-07')).rejects.toThrow(
       new InvalidResponseError('Resposta inválida de /planoItens'),
     );
     const semTotal = repositoryWith({ '/planoItens': { body: [] } });
@@ -77,10 +80,10 @@ describe('HttpPlanoItemRepository', () => {
   it('conta total e por status com _limit=1', async () => {
     const { repository, calls } = repositoryWith({ '/planoItens': LISTA });
     await expect(repository.count()).resolves.toBe(247);
-    await repository.count({ status: 'aprovado' });
+    await repository.count({ status: 'aprovado', ciclo: 'PLP-2026-07' });
     expect(calls.map((call) => call.url)).toEqual([
       `${BASE}/planoItens?_limit=1`,
-      `${BASE}/planoItens?status=aprovado&_limit=1`,
+      `${BASE}/planoItens?status=aprovado&codigo_like=%5EPLP-2026-07-&_limit=1`,
     ]);
   });
 

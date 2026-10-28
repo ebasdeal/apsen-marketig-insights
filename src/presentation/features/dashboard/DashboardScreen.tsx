@@ -4,6 +4,7 @@ import { ApsenLoader, ErrorState, PageHeader } from '@presentation/components/ui
 import { toUserMessage } from '../../format/errorMessage';
 import { useDashboardOverview } from '../../hooks/dashboard/useDashboard';
 import { useSessao } from '../../hooks/useSessao';
+import { SemCicloAtivo } from '../ciclos/components/SemCicloAtivo';
 import { BarrasPanel } from './components/BarrasPanel';
 import { DashboardKpis } from './components/DashboardKpis';
 import { PendentesPanel } from './components/PendentesPanel';
@@ -25,7 +26,11 @@ export function DashboardScreen() {
     <>
       <PageHeader
         title="Dashboard — Demand Intelligence"
-        description={`Visão geral do ciclo ativo · ${dados?.ciclo ?? '—'}`}
+        description={
+          dados === undefined || dados.ciclo !== null
+            ? `Visão geral do ciclo ativo${dados === undefined ? '' : ` · ${dados.ciclo}`}`
+            : 'Visão geral do ciclo ativo · Nenhum ciclo ativo'
+        }
         actions={
           <span aria-live="polite" className="text-[12px] text-apsen-muted">
             Atualizado em <strong>{formatarAtualizadoEm(dados?.atualizadoEm)}</strong>
@@ -39,6 +44,9 @@ export function DashboardScreen() {
       ) : null}
       {dados === undefined || query.isError ? null : (
         <>
+          {dados.ciclo === null ? (
+            <SemCicloAtivo contexto="Os indicadores de plano, drivers e análises são do ciclo ativo." />
+          ) : null}
           <DashboardKpis dados={dados} />
           <div className={`${GRADE} mb-[16px]`}>
             <BarrasPanel

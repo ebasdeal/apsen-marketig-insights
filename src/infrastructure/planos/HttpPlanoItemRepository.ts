@@ -12,8 +12,9 @@ const PATH = 'planoItens';
 const RECURSO = 'Item do plano';
 const NOT_FOUND = 404;
 
-function listQuery(filtro: PlanoFiltro): QueryParams {
+function listQuery(filtro: PlanoFiltro, ciclo: string): QueryParams {
   return {
+    codigo_like: padraoDoPrefixo(ciclo),
     q: filtro.busca.trim(),
     familia: filtro.familia,
     status: filtro.status,
@@ -27,8 +28,8 @@ function listQuery(filtro: PlanoFiltro): QueryParams {
 export class HttpPlanoItemRepository implements PlanoItemRepository {
   constructor(private readonly http: HttpClient) {}
 
-  async listPage(filtro: PlanoFiltro): Promise<Page<PlanoItem>> {
-    const { data, total } = await this.http.getPage(PATH, { query: listQuery(filtro) });
+  async listPage(filtro: PlanoFiltro, ciclo: string): Promise<Page<PlanoItem>> {
+    const { data, total } = await this.http.getPage(PATH, { query: listQuery(filtro, ciclo) });
     return {
       items: parseResponse(planoItemListSchema, data, PATH).map(toPlanoItem),
       total,
@@ -39,7 +40,11 @@ export class HttpPlanoItemRepository implements PlanoItemRepository {
 
   async count(filtro: PlanoContagemFiltro = {}): Promise<number> {
     const { total } = await this.http.getPage(PATH, {
-      query: { status: filtro.status, _limit: '1' },
+      query: {
+        status: filtro.status,
+        codigo_like: filtro.ciclo === undefined ? undefined : padraoDoPrefixo(filtro.ciclo),
+        _limit: '1',
+      },
     });
     return total;
   }

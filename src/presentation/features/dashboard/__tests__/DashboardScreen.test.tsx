@@ -63,7 +63,32 @@ describe('DashboardScreen', () => {
     expect(await screen.findByText('✅ Nenhuma restrição ativa')).toBeInTheDocument();
     expect(screen.getByText('✅ Nenhum driver pendente')).toBeInTheDocument();
     expect(screen.getAllByText('—').length).toBeGreaterThanOrEqual(4);
-    expect(screen.getByText('0 itens · —')).toBeInTheDocument();
+    expect(screen.getByText('0 itens · sem ciclo ativo')).toBeInTheDocument();
+  });
+
+  it.each([
+    ['viewer', false],
+    ['planejador', true],
+  ] as const)('sem ciclo ativo (%s): estado claro com link para ciclos', async (perfil, dica) => {
+    loginAs(perfil);
+    const semCiclo = buildDashboardOutput({ cicloAtivo: null });
+    renderWithProviders(
+      <DashboardScreen />,
+      createFakeUseCases({
+        dashboard: { overview: { execute: vi.fn().mockResolvedValue(semCiclo) } },
+      }),
+    );
+    expect(await screen.findByText('Nenhum ciclo ativo.')).toBeInTheDocument();
+    expect(screen.getByText('Visão geral do ciclo ativo · Nenhum ciclo ativo')).toBeInTheDocument();
+    expect(
+      screen.getByRole('article', { name: 'Itens no plano (sem ciclo ativo): 247' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Ver ciclos de planejamento' })).toHaveAttribute(
+      'href',
+      '/admin/ciclos',
+    );
+    expect(screen.queryByText(/Ative um ciclo/) !== null).toBe(dica);
+    expect(screen.queryByText(/·s*—/)).not.toBeInTheDocument();
   });
 
   it('CA-08: carregando, erro com Tentar novamente e recarga', async () => {

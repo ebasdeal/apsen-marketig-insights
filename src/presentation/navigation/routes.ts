@@ -30,3 +30,5 @@ export const AGENTES_ROUTE = '/agentes' satisfies Route;
 export const AGENTE_NOVO_ROUTE = '/agentes/novo' satisfies Route;
 export const agenteEditarRoute = (id: string) =>
   `/agentes/${encodeURIComponent(id)}/editar` as Route;
+
+export const CICLOS_ROUTE = '/admin/ciclos' satisfies Route;

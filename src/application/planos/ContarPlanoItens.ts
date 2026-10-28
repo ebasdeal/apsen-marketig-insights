@@ -1,9 +1,13 @@
-import type { PlanoItemRepository } from '@domain/planos/PlanoItemRepository';
+import type { CicloAtivoRepository, PlanoItemRepository } from '@domain/planos/PlanoItemRepository';
 
 export class ContarPlanoItens {
-  constructor(private readonly itens: PlanoItemRepository) {}
+  constructor(
+    private readonly itens: PlanoItemRepository,
+    private readonly ciclos: CicloAtivoRepository,
+  ) {}
 
-  execute(): Promise<number> {
-    return this.itens.count();
+  async execute(): Promise<number> {
+    const ciclo = await this.ciclos.cicloAtivoId();
+    return ciclo === null ? 0 : this.itens.count({ ciclo });
   }
 }

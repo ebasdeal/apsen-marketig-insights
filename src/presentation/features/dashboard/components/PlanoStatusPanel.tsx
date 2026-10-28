@@ -29,7 +29,7 @@ export function PlanoStatusPanel({ plano, ciclo }: PlanoStatusPanelProps) {
         />
       ))}
       <p className="border-t border-apsen-border pt-[8px] text-[12px] text-apsen-muted">
-        {`${plano.total} itens · ${ciclo ?? '—'}`}
+        {`${plano.total} itens · ${ciclo ?? 'sem ciclo ativo'}`}
       </p>
     </Section>
   );

@@ -3,10 +3,11 @@ import type { PlanoFiltro, PlanoItem, PlanoItemPatch, PlanoStatus, SkuMeta } fro
 
 export interface PlanoContagemFiltro {
   status?: PlanoStatus;
+  ciclo?: string;
 }
 
 export interface PlanoItemRepository {
-  listPage(filtro: PlanoFiltro): Promise<Page<PlanoItem>>;
+  listPage(filtro: PlanoFiltro, ciclo: string): Promise<Page<PlanoItem>>;
   count(filtro?: PlanoContagemFiltro): Promise<number>;
   get(id: string): Promise<PlanoItem>;
   maiorCodigo(prefixo?: string): Promise<string | null>;

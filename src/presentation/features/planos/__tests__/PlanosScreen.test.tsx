@@ -49,9 +49,15 @@ describe('PlanosScreen', () => {
     expect(screen.getByText('acurácia deste plano').tagName).toBe('EM');
   });
 
-  it('CA-01: sem ciclo ativo, título sem sufixo e "Ciclo —"', async () => {
+  it('CA-01: sem ciclo ativo, título sem sufixo e estado "Nenhum ciclo ativo" com link', async () => {
     setup({ list: { execute: vi.fn().mockResolvedValue(planoListFixture({ ciclo: null })) } });
-    expect(await screen.findByText(/itens no plano · Ciclo —/)).toBeInTheDocument();
+    expect(await screen.findByText('Nenhum ciclo ativo.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Ver ciclos de planejamento' })).toHaveAttribute(
+      'href',
+      '/admin/ciclos',
+    );
+    expect(screen.getByText(/Ative um ciclo/)).toBeInTheDocument();
+    expect(screen.queryByText(/Ciclo —/)).not.toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Planos de Produção' })).toBeInTheDocument();
   });
 

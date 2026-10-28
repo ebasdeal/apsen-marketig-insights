@@ -32,12 +32,12 @@ export function createPlanosModule(
   const ciclos = cicloAtivoDe(new HttpCicloRepository(http));
   return {
     list: new ListPlanoItens(itens, ciclos),
-    contar: new ContarPlanoItens(itens),
+    contar: new ContarPlanoItens(itens, ciclos),
     get: new GetPlanoItem(itens),
     skusInclusao: new ListSkusInclusao(skuMeta),
     incluir: new IncluirPlanoItem(itens, skuMeta, ciclos, gerarId),
     atualizar: new AtualizarPlanoItem(itens),
     excluir: new ExcluirPlanoItem(itens),
-    resumo: new ResumirPlano(itens),
+    resumo: new ResumirPlano(itens, ciclos),
   };
 }

@@ -5,7 +5,6 @@ import { formatInteger } from '../../../format/formatters';
 import { ANALISES_ROUTE } from '../../../navigation/routes';
 
 export function DashboardKpis({ dados }: { dados: DashboardOverviewOutput }) {
-  const ciclo = dados.ciclo ?? '—';
   return (
     <div className="kpi-grid">
       <KpiCard
@@ -29,7 +28,11 @@ export function DashboardKpis({ dados }: { dados: DashboardOverviewOutput }) {
         icon="📋"
         tone="green"
         value={formatInteger(dados.plano.total)}
-        label={`Itens no plano ${ciclo}`}
+        label={
+          dados.ciclo === null
+            ? 'Itens no plano (sem ciclo ativo)'
+            : `Itens no plano ${dados.ciclo}`
+        }
         hint={`${dados.plano.aprovados} aprovados`}
         href={'/planos' as Route}
       />

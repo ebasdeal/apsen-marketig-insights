@@ -239,14 +239,31 @@ server.get('/auth/me', (req, res) => {
 });
 
 // Agregado do Dashboard (no real: endpoint do BFF), para a tela não baixar coleções inteiras.
+// Os números de plano, pipeline de drivers e análises são do CICLO ATIVO (sem ciclo ativo, zerados):
+// - item do plano pertence ao ciclo pelo prefixo do código (PLP-2026-07-001 -> PLP-2026-07);
+// - driver do pipeline pertence ao ciclo cuja janela se sobrepõe ao período do driver;
+// - análise pertence ao ciclo gravado nela. Restrições não têm ciclo: contam as ativas.
+function noCiclo(periodo, ciclo) {
+  return periodo.ini <= ciclo.fim && periodo.fim >= ciclo.inicio;
+}
+
 server.get('/dashboard', (_req, res) => {
   const db = router.db;
   const config = db.get('config').value();
-  const aprovacoes = db.get('aprovacoes').value();
-  const restricoes = db.get('restricoes').value();
-  const itens = db.get('planoItens').value();
-  const analises = db.get('analises').value();
   const ciclo = db.get('ciclos').find({ status: 'ativo' }).value();
+  const aprovacoes = db
+    .get('aprovacoes')
+    .value()
+    .filter((a) => ciclo !== undefined && noCiclo(a.periodo, ciclo));
+  const restricoes = db.get('restricoes').value();
+  const itens = db
+    .get('planoItens')
+    .value()
+    .filter((i) => ciclo !== undefined && i.codigo.startsWith(`${ciclo.id}-`));
+  const analises = db
+    .get('analises')
+    .value()
+    .filter((a) => ciclo !== undefined && a.ciclo === ciclo.id);
   const count = (list, predicate) => list.filter(predicate).length;
   const ativas = restricoes.filter((r) => r.status === 'ativa');
   const pendentes = aprovacoes.filter((a) => a.status === 'pendente');

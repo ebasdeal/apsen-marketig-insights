@@ -88,10 +88,10 @@ function createCiclos(id: string | null = 'PLP-2026-07') {
 }
 
 describe('ListPlanoItens', () => {
-  it('lista a página e o ciclo ativo em paralelo', async () => {
+  it('lista a página do ciclo ativo (PLN-01)', async () => {
     const itens = createItens();
     const result = await new ListPlanoItens(itens, createCiclos()).execute(FILTRO);
-    expect(itens.listPage).toHaveBeenCalledWith(FILTRO);
+    expect(itens.listPage).toHaveBeenCalledWith(FILTRO, 'PLP-2026-07');
     expect(result).toMatchObject({ total: 247, pagina: 3, tamanho: 25, ciclo: 'PLP-2026-07' });
     expect(result.itens[0]).toMatchObject({
       skuCurto: '00312',
@@ -100,24 +100,38 @@ describe('ListPlanoItens', () => {
     });
   });
 
-  it('sem ciclo ativo devolve ciclo null', async () => {
-    const result = await new ListPlanoItens(createItens(), createCiclos(null)).execute(FILTRO);
-    expect(result.ciclo).toBeNull();
+  it('sem ciclo ativo devolve lista vazia e ciclo null, sem consultar itens', async () => {
+    const itens = createItens();
+    const result = await new ListPlanoItens(itens, createCiclos(null)).execute(FILTRO);
+    expect(result).toMatchObject({ itens: [], total: 0, ciclo: null });
+    expect(itens.listPage).not.toHaveBeenCalled();
   });
 });
 
 describe('ContarPlanoItens e ResumirPlano', () => {
-  it('conta o total do plano', async () => {
-    await expect(new ContarPlanoItens(createItens()).execute()).resolves.toBe(247);
+  it('conta o total do plano do ciclo ativo', async () => {
+    const itens = createItens();
+    await expect(new ContarPlanoItens(itens, createCiclos()).execute()).resolves.toBe(247);
+    expect(itens.count).toHaveBeenCalledWith({ ciclo: 'PLP-2026-07' });
+  });
+
+  it('sem ciclo ativo conta e resume zero', async () => {
+    const itens = createItens();
+    await expect(new ContarPlanoItens(itens, createCiclos(null)).execute()).resolves.toBe(0);
+    await expect(new ResumirPlano(itens, createCiclos(null)).execute()).resolves.toEqual({
+      total: 0,
+      porStatus: { aprovado: 0, revisao: 0, bloqueado: 0, pendente: 0 },
+    });
+    expect(itens.count).not.toHaveBeenCalled();
   });
 
   it('resume total e contagem por status para o dashboard', async () => {
     const itens = createItens();
-    await expect(new ResumirPlano(itens).execute()).resolves.toEqual({
+    await expect(new ResumirPlano(itens, createCiclos()).execute()).resolves.toEqual({
       total: 247,
       porStatus: { aprovado: 107, revisao: 70, bloqueado: 35, pendente: 35 },
     });
-    expect(itens.count).toHaveBeenCalledWith({ status: 'aprovado' });
+    expect(itens.count).toHaveBeenCalledWith({ status: 'aprovado', ciclo: 'PLP-2026-07' });
   });
 });
 

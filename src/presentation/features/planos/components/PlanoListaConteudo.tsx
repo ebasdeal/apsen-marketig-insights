@@ -7,6 +7,7 @@ import { pageCountOf } from '@domain/shared/Page';
 import { BusyRegion, ErrorState, LoadingState, Pagination } from '@presentation/components/ui';
 import { toUserMessage } from '@presentation/format/errorMessage';
 import type { usePlanoItens } from '@presentation/hooks/planos/usePlanos';
+import { SemCicloAtivo } from '../../ciclos/components/SemCicloAtivo';
 import { PlanoItensTable } from './PlanoItensTable';
 
 interface PlanoListaConteudoProps {
@@ -43,10 +44,13 @@ export function PlanoListaConteudo({
     return <LoadingState label="Carregando itens do plano…" />;
   }
   const { itens, total, pagina, tamanho, ciclo } = estado.data;
+  if (ciclo === null) {
+    return <SemCicloAtivo contexto="O plano de produção é gerido por ciclo." />;
+  }
   return (
     <>
       <p aria-live="polite" className="mb-[12px] text-[13px] text-apsen-muted">
-        <strong>{total}</strong> itens no plano · Ciclo {ciclo ?? '—'}
+        <strong>{total}</strong> itens no plano · Ciclo {ciclo}
       </p>
       <BusyRegion busy={estado.isPlaceholderData}>
         <PlanoItensTable
