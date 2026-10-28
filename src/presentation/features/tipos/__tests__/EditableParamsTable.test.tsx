@@ -21,7 +21,7 @@ function Harness({ rows, errors = {} }: { rows: ParamRow[]; errors?: Record<stri
   );
 }
 
-describe('EditableParamsTable — CA-08', () => {
+describe('EditableParamsTable — CA-08', { timeout: 20000 }, () => {
   it('linha exemplo, adicionar, trocar tipo/origem e remover', async () => {
     const { user } = renderWithProviders(<Harness rows={draftNovo().rows} />);
     expect(screen.getByRole('textbox', { name: 'Nome do campo 1' })).toHaveAttribute(

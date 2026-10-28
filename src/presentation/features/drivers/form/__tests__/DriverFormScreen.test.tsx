@@ -175,6 +175,7 @@ describe('DriverFormScreen — datas (DRV-01) e guarda de saída', () => {
     const link = document.createElement('a');
     link.href = '/planos';
     link.textContent = 'Ir para planos';
+    link.addEventListener('click', (event) => event.preventDefault());
     document.body.append(link);
     await user.click(link);
     expect(screen.queryByRole('dialog', { name: 'Sair sem salvar?' })).not.toBeInTheDocument();
