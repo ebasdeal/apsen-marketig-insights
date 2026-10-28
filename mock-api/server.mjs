@@ -172,6 +172,11 @@ server.post('/sso/authorize', (req, res) => {
 
 server.get('/sso/logout', (req, res) => {
   const back = safeAppUrl(req.query.post_logout_redirect_uri);
+  // Com retorno válido, volta direto para a tela de entrada do app; sem retorno, mostra a página de saída.
+  if (back !== undefined) {
+    res.redirect(302, back.href);
+    return;
+  }
   res.send(
     page(
       'Você saiu',
