@@ -20,6 +20,7 @@ export const BURGER_ID = 'app-burger';
 
 interface NavContextValue {
   open: boolean;
+  settled: boolean;
   toggle: () => void;
   close: () => void;
   closeOnMobile: () => void;
@@ -38,6 +39,18 @@ function isMobileViewport(): boolean {
 }
 
 function isServerMobile(): boolean {
+  return false;
+}
+
+function subscribeToNothing(): () => void {
+  return () => undefined;
+}
+
+function isSettledOnClient(): boolean {
+  return true;
+}
+
+function isSettledOnServer(): boolean {
   return false;
 }
 
@@ -76,6 +89,7 @@ export function NavProvider({ children }: { children: ReactNode }) {
   const choice = useSidebarStore((state) => state.openChoice);
   const setChoice = useSidebarStore((state) => state.setOpenChoice);
   const open = choice ?? !mobile;
+  const settled = useSyncExternalStore(subscribeToNothing, isSettledOnClient, isSettledOnServer);
 
   const toggle = useCallback(() => setChoice(!open), [open, setChoice]);
   const close = useCallback(() => setChoice(false), [setChoice]);
@@ -88,8 +102,8 @@ export function NavProvider({ children }: { children: ReactNode }) {
   useDrawerFocus(open, mobile, close);
 
   const value = useMemo(
-    () => ({ open, toggle, close, closeOnMobile }),
-    [open, toggle, close, closeOnMobile],
+    () => ({ open, settled, toggle, close, closeOnMobile }),
+    [open, settled, toggle, close, closeOnMobile],
   );
   return <NavContext.Provider value={value}>{children}</NavContext.Provider>;
 }

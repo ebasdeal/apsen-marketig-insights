@@ -1,5 +1,6 @@
 import { renderWithProviders } from '@test/renderWithProviders';
 import { render, screen } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { useSidebarStore } from '../../../stores/sidebarStore';
 import { NavProvider, useNav } from '../NavContext';
 import { Sidebar } from '../Sidebar';
@@ -91,5 +92,25 @@ describe('NavContext', () => {
     await user.click(screen.getByRole('link', { name: 'Dashboard' }));
     await user.keyboard('{Escape}');
     expect(burger).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('antes da hidratação o provedor ainda não está assentado', () => {
+    mockViewport(true);
+    function Probe() {
+      const { settled } = useNav();
+      return <p>{settled ? 'assentado' : 'inicial'}</p>;
+    }
+    const html = renderToString(
+      <NavProvider>
+        <Probe />
+      </NavProvider>,
+    );
+    expect(html).toContain('inicial');
+    renderWithProviders(
+      <NavProvider>
+        <Probe />
+      </NavProvider>,
+    );
+    expect(screen.getByText('assentado')).toBeInTheDocument();
   });
 });
