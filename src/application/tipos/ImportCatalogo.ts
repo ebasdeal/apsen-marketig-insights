@@ -3,7 +3,7 @@ import { parseCatalogoImport, type ImportTipo } from '@domain/tipos/catalogoImpo
 import { CatalogoImportError } from '@domain/tipos/errors';
 import type { Categoria, Tipo, TipoPatch } from '@domain/tipos/Tipo';
 import type { TipoRepository } from '@domain/tipos/TipoRepository';
-import { catLabelCurto } from '@domain/tipos/tipoRules';
+import { autoria, catLabelCurto } from '@domain/tipos/tipoRules';
 import { sincronizarCategorias } from './categoriaSync';
 import type { ImportCatalogoResult } from './dto';
 
@@ -11,8 +11,11 @@ export const CATALOGO_IMPORTADO = '✅ Catálogo importado!';
 
 const OPCIONAIS = ['feature', 'lag', 'ativo', 'desc', 'impacto', 'perm', 'nota'] as const;
 
-function patchDoItem(item: ImportTipo): TipoPatch {
+type Autoria = Pick<Tipo, 'alteradoPor' | 'alteradoEm'>;
+
+function patchDoItem(item: ImportTipo, quem: Autoria): TipoPatch {
   const patch: TipoPatch = {
+    ...quem,
     label: item.label,
     cat: item.cat,
     catL: catLabelCurto(item.cat),
@@ -29,7 +32,7 @@ function patchDoItem(item: ImportTipo): TipoPatch {
   return patch;
 }
 
-function tipoNovo(id: string, item: ImportTipo): Tipo {
+function tipoNovo(id: string, item: ImportTipo, quem: Autoria): Tipo {
   return {
     id,
     slug: item.slug,
@@ -45,6 +48,7 @@ function tipoNovo(id: string, item: ImportTipo): Tipo {
     impacto: item.impacto ?? 'aumento',
     perm: item.perm ?? 'temporario',
     nota: item.nota ?? '',
+    ...quem,
   };
 }
 
@@ -52,9 +56,11 @@ export class ImportCatalogo {
   constructor(
     private readonly repository: TipoRepository,
     private readonly ids: IdGenerator,
+    private readonly clock: () => Date = () => new Date(),
   ) {}
 
-  async execute(texto: string): Promise<ImportCatalogoResult> {
+  async execute(texto: string, por: string): Promise<ImportCatalogoResult> {
+    const quem = autoria(por, this.clock());
     const parsed = parseCatalogoImport(texto);
     if (!parsed.ok) {
       throw new CatalogoImportError(parsed.erro);
@@ -64,10 +70,10 @@ export class ImportCatalogo {
     for (const item of parsed.tipos) {
       const existente = await this.repository.findBySlug(item.slug);
       if (existente === null) {
-        await this.inserir(item);
+        await this.inserir(item, quem);
         inseridos += 1;
       } else {
-        await this.atualizar(existente, item);
+        await this.atualizar(existente, item, quem);
       }
       categorias = await this.sincronizar(categorias, item, existente);
     }
@@ -78,8 +84,8 @@ export class ImportCatalogo {
     };
   }
 
-  private async inserir(item: ImportTipo): Promise<void> {
-    const tipo = tipoNovo(this.ids.next(), item);
+  private async inserir(item: ImportTipo, quem: Autoria): Promise<void> {
+    const tipo = tipoNovo(this.ids.next(), item, quem);
     await this.repository.create(tipo);
     await this.repository.saveCampos(
       { id: tipo.id, title: tipo.label, layout: 'g2', campos: item.campos ?? [] },
@@ -87,8 +93,8 @@ export class ImportCatalogo {
     );
   }
 
-  private async atualizar(existente: Tipo, item: ImportTipo): Promise<void> {
-    await this.repository.update(existente.id, patchDoItem(item));
+  private async atualizar(existente: Tipo, item: ImportTipo, quem: Autoria): Promise<void> {
+    await this.repository.update(existente.id, patchDoItem(item, quem));
     if (item.campos === undefined) {
       return;
     }

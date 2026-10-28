@@ -31,7 +31,7 @@ describe('ImportCatalogoModal — CA-06', () => {
     expect(campo).not.toHaveAttribute('aria-invalid');
     await user.click(screen.getByRole('button', { name: 'Importar' }));
     expect(await screen.findByText('Catálogo importado!', { exact: false })).toBeInTheDocument();
-    expect(importar).toHaveBeenLastCalledWith('xy');
+    expect(importar).toHaveBeenLastCalledWith('xy', expect.any(String));
     expect(onClose).toHaveBeenCalled();
   });
 

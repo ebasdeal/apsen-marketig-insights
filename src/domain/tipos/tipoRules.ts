@@ -247,3 +247,16 @@ export function aplicarCategoriaPatches(
     return patch === undefined ? categoria : { ...categoria, tipos: patch.tipos };
   });
 }
+
+export function autoria(por: string, agora: Date): { alteradoPor: string; alteradoEm: string } {
+  return { alteradoPor: por, alteradoEm: agora.toISOString() };
+}
+
+export function textoAlteracao(tipo: { alteradoPor: string; alteradoEm: string }): string | null {
+  if (tipo.alteradoPor === '' || tipo.alteradoEm === '') {
+    return null;
+  }
+  const [data = '', hora = ''] = tipo.alteradoEm.split('T');
+  const dataBr = data.split('-').reverse().join('/');
+  return `Última alteração por ${tipo.alteradoPor} em ${dataBr} ${hora.slice(0, 5)}`.trim();
+}

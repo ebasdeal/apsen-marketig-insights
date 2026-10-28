@@ -32,6 +32,8 @@ export interface Tipo {
   impacto: string;
   perm: string;
   nota: string;
+  alteradoPor: string;
+  alteradoEm: string;
 }
 
 export type TipoPatch = Partial<Omit<Tipo, 'id' | 'slug'>>;

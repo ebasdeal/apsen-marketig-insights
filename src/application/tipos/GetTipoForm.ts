@@ -1,6 +1,6 @@
 import type { CamposTipo, Tipo, TipoDraft } from '@domain/tipos/Tipo';
 import type { TipoRepository } from '@domain/tipos/TipoRepository';
-import { camposToRows } from '@domain/tipos/tipoRules';
+import { camposToRows, textoAlteracao } from '@domain/tipos/tipoRules';
 import { FEATURE_TIPOS } from '@domain/tipos/vocabulario';
 import type { TipoFormDto } from './dto';
 
@@ -34,6 +34,7 @@ export class GetTipoForm {
       draft: tipoToDraft(tipo, campos),
       campos,
       featureExtra: conhecida ? null : tipo.feature,
+      alteracao: textoAlteracao(tipo),
     };
   }
 }

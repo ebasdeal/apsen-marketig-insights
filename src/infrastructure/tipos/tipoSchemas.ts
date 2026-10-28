@@ -28,6 +28,8 @@ export const tipoDtoSchema = z.object({
   impacto: z.string().optional(),
   perm: z.string().optional(),
   nota: z.string().optional(),
+  alteradoPor: z.string().optional(),
+  alteradoEm: z.string().optional(),
 });
 
 const opcao = z.union([z.string(), z.object({ label: z.string(), group: z.string() })]);

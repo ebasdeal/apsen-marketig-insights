@@ -40,6 +40,7 @@ export function TipoFormScreen({ id }: TipoFormScreenProps) {
       id={id}
       inicial={form.data?.draft ?? draftNovo()}
       featureExtra={form.data?.featureExtra ?? null}
+      alteracao={form.data?.alteracao ?? null}
       categorias={categorias.data}
       fontes={fontes.data ?? []}
     />

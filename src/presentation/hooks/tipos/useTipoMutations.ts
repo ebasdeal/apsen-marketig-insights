@@ -3,11 +3,13 @@
 import type {
   ListTiposResult,
   SaveTipoInput,
+  SemPor,
   TipoRefInput,
   ToggleTipoInput,
 } from '@application/tipos/dto';
 import { useMutation, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { useToast } from '../../providers/ToastProvider';
+import { useSessao } from '../useSessao';
 import { useUseCases } from '../../providers/UseCasesContext';
 import { FALHA_SALVAR, mensagemDeFalha } from '../mutationFeedback';
 import { restoreSnapshot, snapshotQueries, type QuerySnapshot } from '../optimistic';
@@ -42,8 +44,9 @@ function useTiposContext() {
 
 export function useToggleTipoMutation() {
   const { useCases, queryClient, toast } = useTiposContext();
-  return useMutation<{ toast: string }, Error, ToggleTipoInput, QuerySnapshot>({
-    mutationFn: (input) => useCases.tipos.toggle.execute(input),
+  const por = useSessao().usuario?.nome ?? '';
+  return useMutation<{ toast: string }, Error, SemPor<ToggleTipoInput>, QuerySnapshot>({
+    mutationFn: (input) => useCases.tipos.toggle.execute({ ...input, por }),
     onMutate: async (input) => {
       const snapshot = await snapshotQueries(queryClient, LISTAS);
       atualizarListas(queryClient, (result) => aplicarToggle(result, input));
@@ -79,8 +82,9 @@ export function useDeleteTipoMutation() {
 
 export function useSaveTipoMutation() {
   const { useCases, queryClient, toast } = useTiposContext();
+  const por = useSessao().usuario?.nome ?? '';
   return useMutation({
-    mutationFn: (input: SaveTipoInput) => useCases.tipos.save.execute(input),
+    mutationFn: (input: SemPor<SaveTipoInput>) => useCases.tipos.save.execute({ ...input, por }),
     onError: (error) => toast.show(mensagemDeFalha(error)),
     onSuccess: async (result) => {
       toast.show(result.toast);
@@ -91,8 +95,9 @@ export function useSaveTipoMutation() {
 
 export function useImportCatalogoMutation() {
   const { useCases, queryClient, toast } = useTiposContext();
+  const por = useSessao().usuario?.nome ?? '';
   return useMutation({
-    mutationFn: (texto: string) => useCases.tipos.importar.execute(texto),
+    mutationFn: (texto: string) => useCases.tipos.importar.execute(texto, por),
     onError: (error) => toast.show(mensagemDeFalha(error)),
     onSuccess: async (result) => {
       toast.show(result.toast);

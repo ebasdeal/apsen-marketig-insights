@@ -18,7 +18,7 @@ export function listTiposResult(page = 1, size = DEFAULT_PAGE_SIZE): ListTiposRe
 export function tipoFormFixture(id = 'tv'): TipoFormDto {
   const campos = camposFixture(id);
   const tipo = tipoFixture(id);
-  return { draft: tipoToDraft(tipo, campos), campos, featureExtra: tipo.feature };
+  return { draft: tipoToDraft(tipo, campos), campos, featureExtra: tipo.feature, alteracao: null };
 }
 
 export function createFakeTiposUseCases(overrides: Partial<TiposUseCases> = {}): TiposUseCases {

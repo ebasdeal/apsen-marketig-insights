@@ -57,7 +57,7 @@ export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: Card
                   <td
                     key={column.key}
                     className={`${TD} ${column.wrap === true ? '' : 'whitespace-nowrap'} ${align(column)} ${column.className ?? ''}`
-                      .replace(/s+/g, ' ')
+                      .replace(/\s+/g, ' ')
                       .trim()}
                   >
                     {column.render(row)}

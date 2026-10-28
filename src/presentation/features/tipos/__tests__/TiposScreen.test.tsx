@@ -77,7 +77,12 @@ describe('TiposScreen — CA-04 CA-05', () => {
     const { user } = setup({ tipos: { toggle: { execute: toggle } } });
     const chave = await screen.findByRole('switch', { name: 'Tipo tv ativo' });
     await user.click(chave);
-    expect(toggle).toHaveBeenCalledWith({ id: 'tv', slug: 'tv', ativo: false });
+    expect(toggle).toHaveBeenCalledWith({
+      id: 'tv',
+      slug: 'tv',
+      ativo: false,
+      por: expect.any(String),
+    });
     expect(await screen.findByText('"tv" desativado.', { exact: false })).toBeInTheDocument();
     await user.click(screen.getByRole('switch', { name: 'Tipo tv_paga ativo' }));
     expect(

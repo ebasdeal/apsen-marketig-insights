@@ -1,6 +1,6 @@
 'use client';
 
-import type { SaveTipoInput } from '@application/tipos/dto';
+import type { SaveTipoInput, SemPor } from '@application/tipos/dto';
 import { TipoValidationError, type TipoValidation } from '@domain/tipos/errors';
 import type { Categoria, TipoDraft } from '@domain/tipos/Tipo';
 import {
@@ -24,13 +24,21 @@ interface TipoFormProps {
   id: string | undefined;
   inicial: TipoDraft;
   featureExtra: string | null;
+  alteracao?: string | null;
   categorias: readonly Categoria[];
   fontes: readonly SelectOption<string>[];
 }
 
 const SEM_ERROS: TipoValidation = { fields: {}, rows: {} };
 
-export function TipoForm({ id, inicial, featureExtra, categorias, fontes }: TipoFormProps) {
+export function TipoForm({
+  id,
+  inicial,
+  featureExtra,
+  alteracao = null,
+  categorias,
+  fontes,
+}: TipoFormProps) {
   const router = useRouter();
   const [draft, dispatch] = useReducer(tipoFormReducer, inicial);
   const [errors, setErrors] = useState<TipoValidation>(SEM_ERROS);
@@ -60,7 +68,7 @@ export function TipoForm({ id, inicial, featureExtra, categorias, fontes }: Tipo
   };
 
   const salvar = () => {
-    const input: SaveTipoInput =
+    const input: SemPor<SaveTipoInput> =
       id === undefined ? { modo: 'novo', draft } : { modo: 'editar', id, draft };
     save.mutate(input, {
       onSuccess: () => {
@@ -89,6 +97,9 @@ export function TipoForm({ id, inicial, featureExtra, categorias, fontes }: Tipo
         variável contínua (GRP, impressões), dummy com lag/decaimento ou flag de demanda censurada.
         Configuração errada aqui propaga erro para o forecast.
       </ScreenDesc>
+      {alteracao === null ? null : (
+        <p className="mb-[12px] text-[12px] text-apsen-muted">{alteracao}</p>
+      )}
       <TipoIdentificacaoCard
         draft={draft}
         set={set}

@@ -1,8 +1,8 @@
-import type { ListTiposResult, ToggleTipoInput } from '@application/tipos/dto';
+import type { ListTiposResult, SemPor, ToggleTipoInput } from '@application/tipos/dto';
 
 export function aplicarToggle(
   result: ListTiposResult | undefined,
-  { id, ativo }: ToggleTipoInput,
+  { id, ativo }: SemPor<ToggleTipoInput>,
 ): ListTiposResult | undefined {
   if (result === undefined) {
     return undefined;

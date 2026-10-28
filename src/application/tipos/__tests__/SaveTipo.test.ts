@@ -30,12 +30,15 @@ function draftNovoValido(overrides: Partial<TipoDraft> = {}): TipoDraft {
   };
 }
 
+const RELOGIO = () => new Date('2026-10-28T14:05:00.000Z');
+
 describe('SaveTipo — novo (RN-06, CA-09)', () => {
   it('grava tipo, campos e categoria nessa ordem', async () => {
     const repository = createFakeTipoRepository();
-    const result = await new SaveTipo(repository, sequentialIds()).execute({
+    const result = await new SaveTipo(repository, sequentialIds(), RELOGIO).execute({
       modo: 'novo',
       draft: draftNovoValido(),
+      por: 'Ana P.',
     });
     expect(result).toEqual({ toast: '✅ Tipo salvo!' });
     expect(repository.escritas).toEqual([
@@ -58,6 +61,8 @@ describe('SaveTipo — novo (RN-06, CA-09)', () => {
       impacto: 'aumento',
       perm: 'temporario',
       nota: '',
+      alteradoPor: 'Ana P.',
+      alteradoEm: '2026-10-28T14:05:00.000Z',
     });
     expect(repository.saveCampos).toHaveBeenCalledWith(
       {
@@ -91,8 +96,8 @@ describe('SaveTipo — novo (RN-06, CA-09)', () => {
 
   it('slug existente lança TipoValidationError sem gravar (RN-04)', async () => {
     const repository = createFakeTipoRepository();
-    const erro = await new SaveTipo(repository, sequentialIds())
-      .execute({ modo: 'novo', draft: draftNovoValido({ slug: 'tv' }) })
+    const erro = await new SaveTipo(repository, sequentialIds(), RELOGIO)
+      .execute({ modo: 'novo', draft: draftNovoValido({ slug: 'tv' }), por: 'x' })
       .catch((error: unknown) => error);
     expect(erro).toBeInstanceOf(TipoValidationError);
     expect((erro as TipoValidationError).fields.slug).toBe('⚠️ Já existe um tipo com este slug.');
@@ -104,7 +109,7 @@ describe('SaveTipo — novo (RN-06, CA-09)', () => {
     const repository = createFakeTipoRepository();
     const draft = draftNovoValido({ rows: [{ ...EXEMPLO_ROW, nome: 'x', label: '' }] });
     await expect(
-      new SaveTipo(repository, sequentialIds()).execute({ modo: 'novo', draft }),
+      new SaveTipo(repository, sequentialIds(), RELOGIO).execute({ modo: 'novo', draft, por: 'x' }),
     ).rejects.toMatchObject({
       message: '⚠️ Campo 1: informe o nome e o label.',
       rows: { 'row-1': '⚠️ Campo 1: informe o nome e o label.' },
@@ -115,9 +120,10 @@ describe('SaveTipo — novo (RN-06, CA-09)', () => {
   it('slug vazio não consulta o servidor', async () => {
     const repository = createFakeTipoRepository();
     await expect(
-      new SaveTipo(repository, sequentialIds()).execute({
+      new SaveTipo(repository, sequentialIds(), RELOGIO).execute({
         modo: 'novo',
         draft: draftNovoValido({ slug: '' }),
+        por: 'x',
       }),
     ).rejects.toMatchObject({ message: '⚠️ Informe o slug.' });
     expect(repository.findBySlug).not.toHaveBeenCalled();
@@ -128,10 +134,11 @@ describe('SaveTipo — editar (RN-06, CA-10)', () => {
   it('troca de categoria faz PATCH sem slug, PUT mantendo layout e duas categorias', async () => {
     const repository = createFakeTipoRepository();
     const { draft } = await new GetTipoForm(repository).execute('tv');
-    await new SaveTipo(repository, sequentialIds()).execute({
+    await new SaveTipo(repository, sequentialIds(), RELOGIO).execute({
       modo: 'editar',
       id: 'tv',
       draft: { ...draft, cat: 'comercial', label: 'TV', lag: '-1' },
+      por: 'Carlos L.',
     });
     expect(repository.escritas).toEqual([
       'PATCH /tipos/tv',
@@ -146,6 +153,8 @@ describe('SaveTipo — editar (RN-06, CA-10)', () => {
       cat: 'comercial',
       catL: '🛒 Comercial',
       lag: -1,
+      alteradoPor: 'Carlos L.',
+      alteradoEm: '2026-10-28T14:05:00.000Z',
       params: 6,
       feature: 'continua_grp',
     });
@@ -161,7 +170,12 @@ describe('SaveTipo — editar (RN-06, CA-10)', () => {
     repository.getCampos.mockResolvedValueOnce(null);
     const { draft } = await new GetTipoForm(repository).execute('radio');
     repository.getCampos.mockResolvedValueOnce(null);
-    await new SaveTipo(repository, sequentialIds()).execute({ modo: 'editar', id: 'radio', draft });
+    await new SaveTipo(repository, sequentialIds(), RELOGIO).execute({
+      modo: 'editar',
+      id: 'radio',
+      draft,
+      por: 'x',
+    });
     expect(repository.saveCampos).toHaveBeenCalledWith(
       { id: 'radio', title: draft.label, layout: 'g2', campos: [] },
       false,

@@ -17,6 +17,8 @@ export function toTipo(dto: TipoApiDto): Tipo {
     impacto: dto.impacto ?? 'aumento',
     perm: dto.perm ?? 'temporario',
     nota: dto.nota ?? '',
+    alteradoPor: dto.alteradoPor ?? '',
+    alteradoEm: dto.alteradoEm ?? '',
   };
 }
 

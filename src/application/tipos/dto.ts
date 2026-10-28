@@ -32,10 +32,14 @@ export interface TipoFormDto {
   draft: TipoDraft;
   campos: CamposTipo | null;
   featureExtra: string | null;
+  alteracao: string | null;
 }
 
-export type SaveTipoInput =
-  { modo: 'novo'; draft: TipoDraft } | { modo: 'editar'; id: string; draft: TipoDraft };
+export type SemPor<T> = T extends unknown ? Omit<T, 'por'> : never;
+
+export type SaveTipoInput = (
+  { modo: 'novo'; draft: TipoDraft } | { modo: 'editar'; id: string; draft: TipoDraft }
+) & { por: string };
 
 export interface TipoRefInput {
   id: string;
@@ -44,6 +48,7 @@ export interface TipoRefInput {
 
 export interface ToggleTipoInput extends TipoRefInput {
   ativo: boolean;
+  por: string;
 }
 
 export interface ToastDto {

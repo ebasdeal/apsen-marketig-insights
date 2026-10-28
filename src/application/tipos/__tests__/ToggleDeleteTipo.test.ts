@@ -5,12 +5,20 @@ import { ToggleTipoAtivo } from '../ToggleTipoAtivo';
 describe('ToggleTipoAtivo (RN-03, CA-04)', () => {
   it('grava só ativo e devolve o toast', async () => {
     const repository = createFakeTipoRepository();
-    const toggle = new ToggleTipoAtivo(repository);
-    await expect(toggle.execute({ id: 'tv', slug: 'tv', ativo: false })).resolves.toEqual({
+    const toggle = new ToggleTipoAtivo(repository, () => new Date('2026-10-28T14:05:00.000Z'));
+    await expect(
+      toggle.execute({ id: 'tv', slug: 'tv', ativo: false, por: 'Ana P.' }),
+    ).resolves.toEqual({
       toast: '⏸ "tv" desativado.',
     });
-    expect(repository.update).toHaveBeenCalledWith('tv', { ativo: false });
-    await expect(toggle.execute({ id: 'tv', slug: 'tv', ativo: true })).resolves.toEqual({
+    expect(repository.update).toHaveBeenCalledWith('tv', {
+      ativo: false,
+      alteradoPor: 'Ana P.',
+      alteradoEm: '2026-10-28T14:05:00.000Z',
+    });
+    await expect(
+      toggle.execute({ id: 'tv', slug: 'tv', ativo: true, por: 'Ana P.' }),
+    ).resolves.toEqual({
       toast: '✅ "tv" ativado.',
     });
   });

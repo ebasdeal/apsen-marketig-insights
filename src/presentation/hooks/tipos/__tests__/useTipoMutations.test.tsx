@@ -111,7 +111,11 @@ describe('useSaveTipoMutation e useImportCatalogoMutation (CA-06, CA-09)', () =>
     const { useCases, invalidate, wrapper } = setup();
     const { result } = renderHook(() => useSaveTipoMutation(), { wrapper });
     await act(() => result.current.mutateAsync({ modo: 'novo', draft: draftNovo() }));
-    expect(useCases.tipos.save.execute).toHaveBeenCalledWith({ modo: 'novo', draft: draftNovo() });
+    expect(useCases.tipos.save.execute).toHaveBeenCalledWith({
+      modo: 'novo',
+      draft: draftNovo(),
+      por: expect.any(String),
+    });
     expect(await screen.findByText('Tipo salvo!', { exact: false })).toBeInTheDocument();
     expect(invalidate).toHaveBeenCalledWith({ queryKey: tiposKeys.all });
   });

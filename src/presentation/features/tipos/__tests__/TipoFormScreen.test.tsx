@@ -93,6 +93,7 @@ describe('TipoFormScreen — salvar (CA-09)', () => {
     expect(save).toHaveBeenCalledWith({
       modo: 'novo',
       draft: expect.objectContaining({ slug: 'novo_tipo' }) as unknown,
+      por: expect.any(String) as unknown,
     });
     resolver({ toast: '✅ Tipo salvo!' });
     expect(await screen.findByText('Tipo salvo!', { exact: false })).toBeInTheDocument();
