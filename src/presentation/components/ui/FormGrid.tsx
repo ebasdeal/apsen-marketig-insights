@@ -4,9 +4,9 @@ export type FormGridColumns = 1 | 2 | 3 | 4;
 
 const COLUMNS: Record<FormGridColumns, string> = {
   1: 'grid-cols-1',
-  2: 'grid-cols-2 max-[1023px]:grid-cols-1',
-  3: 'grid-cols-3 max-[1279px]:grid-cols-2 max-[1023px]:grid-cols-1',
-  4: 'grid-cols-4 max-[1279px]:grid-cols-2 max-[1023px]:grid-cols-1',
+  2: 'grid-cols-2 max-[560px]:grid-cols-1',
+  3: 'grid-cols-3 max-[800px]:grid-cols-2 max-[560px]:grid-cols-1',
+  4: 'grid-cols-4 max-[800px]:grid-cols-2 max-[560px]:grid-cols-1',
 };
 
 interface FormGridProps {

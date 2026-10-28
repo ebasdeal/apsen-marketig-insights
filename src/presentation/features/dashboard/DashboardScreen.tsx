@@ -12,7 +12,7 @@ import { PerfilBanner } from './components/PerfilBanner';
 import { PlanoStatusPanel } from './components/PlanoStatusPanel';
 import { COR_CATEGORIA, COR_RESTRICAO } from './dashboardStyles';
 
-const GRADE = 'grid grid-cols-2 gap-x-[16px] max-[1023px]:grid-cols-1';
+const GRADE = 'grid grid-cols-2 gap-x-[16px] max-[800px]:grid-cols-1';
 
 export function formatarAtualizadoEm(iso: string | undefined): string {
   return iso === undefined ? '—' : new Date(iso).toLocaleString('pt-BR');

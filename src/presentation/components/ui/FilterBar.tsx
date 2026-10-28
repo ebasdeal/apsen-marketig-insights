@@ -15,7 +15,7 @@ export function FilterBar({
     <div
       role="search"
       aria-label={label}
-      className={`mb-[16px] grid items-end gap-[10px] rounded-apsen-lg border border-apsen-border bg-apsen-white px-[16px] py-[14px] ${columnsClassName} max-[1023px]:grid-cols-2 max-[560px]:grid-cols-1`}
+      className={`mb-[16px] grid items-end gap-[10px] rounded-apsen-lg border border-apsen-border bg-apsen-white px-[16px] py-[14px] ${columnsClassName} max-[800px]:grid-cols-2 max-[560px]:grid-cols-1`}
     >
       {children}
     </div>

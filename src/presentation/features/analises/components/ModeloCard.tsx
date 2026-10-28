@@ -44,7 +44,7 @@ export function ModeloCard({ state, modelosGuiados, erroHorizonte, dispatch }: M
         <div
           role="radiogroup"
           aria-label="Modelo guiado"
-          className="grid grid-cols-3 gap-[10px] max-[1023px]:grid-cols-2 max-[560px]:grid-cols-1"
+          className="grid grid-cols-3 gap-[10px] max-[800px]:grid-cols-2 max-[560px]:grid-cols-1"
         >
           {modelosGuiados.map((modelo) => (
             <SelectableCard
