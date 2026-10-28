@@ -26,8 +26,4 @@ export const skuMetaDtoSchema = z.object({
 
 export const skuMetaListSchema = z.array(skuMetaDtoSchema);
 
-export const cicloResumoListSchema = z.array(
-  z.object({ id: z.string().min(1), status: z.string() }),
-);
-
 export type PlanoItemDto = z.infer<typeof planoItemDtoSchema>;

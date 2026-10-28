@@ -1,5 +1,5 @@
 ---
-status: READY
+status: REVIEW
 fase: 51
 area: restricoes
 feature: restricoes
@@ -374,6 +374,14 @@ Usar o token da onda 1 com o mesmo valor, se existir; senão criar no `@theme` e
 | RN-08 | Resolvidas mostram só os 40 primeiros caracteres de `resolucao` e não têm ações.                                                                                                                                                         |
 | RN-09 | Cores: crítica vermelho, atenção âmbar `#B45309`, em análise azul; prazo vermelho só se `sev === 'critica'`.                                                                                                                             |
 | RN-10 | Aba e página ficam na URL (`aba`, `pagina`); mudar de aba volta à página 1; valores inválidos caem no padrão.                                                                                                                            |
+
+### Ajustes da implementação (fase B)
+
+- Chaves e hooks em `src/presentation/hooks/restricoes/` (`restricoesKeys`, `useRestricoes`, `useRestricaoMutations`); mutações invalidam `restricoes`, `['dashboard']` e `navegacao.badges`. Casos de uso extras: `resumo` (ativas, críticas e ativas por tipo, para o dashboard).
+- Rota `src/app/(app)/restricoes/`; `RESTRICOES_ROUTE` e o estado na URL em `features/restricoes/restricoesUrl.ts` sobre o `urlState` compartilhado.
+- Fechar o modal com alterações usa o `ConfirmDialog` do UI kit ("Sair sem salvar?" · "Há alterações não salvas. Deseja sair mesmo assim?") no lugar de `window.confirm`.
+- Tokens: nenhum novo. `red-soft`/`red-ink` = `apsen-danger-b-soft`/`apsen-danger-ink`; âmbar `#B45309` = `apsen-attention`; fundo/borda da severidade Atenção = `apsen-cat-pdv-bg`/`apsen-cat-pdv-b` (mesmos hex `#FFFBEB`/`#FCD34D`); borda "Em análise" = `apsen-blue-soft-b`.
+- Página além do total mostra "Mostrando 0–0 de n" com a paginação.
 
 ## 11. Requisitos não funcionais
 

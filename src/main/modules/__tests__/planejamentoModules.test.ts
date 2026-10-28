@@ -2,6 +2,8 @@ import { formularioInclusaoVazio } from '@domain/planos/planoRules';
 import { formularioVazio } from '@domain/restricoes/restricaoRules';
 import { createFakeHttpClient } from '@test/fakeHttpClient';
 import { createFakeFetch } from '@test/fakeFetch';
+import { PLANO_FILTRO_PADRAO } from '@test/fakes/planos';
+import { CICLO_DTOS_FIXTURE } from '@test/fixtures/ciclos';
 import { createContainer } from '../../container';
 import { createPlanosModule } from '../planos';
 import { createRestricoesModule } from '../restricoes';
@@ -39,7 +41,6 @@ describe('createContainer com restrições e planos', () => {
     const { fetchFn, calls } = createFakeFetch({
       '/restricoes': { body: [RESTRICAO], headers: { 'X-Total-Count': '8' } },
       '/planoItens': { body: [ITEM], headers: { 'X-Total-Count': '247' } },
-      '/ciclos': { body: [{ id: 'PLP-2026-07', status: 'ativo' }] },
     });
     const { useCases } = createContainer(ENV, { fetchFn });
     await expect(useCases.restricoes.contar.execute()).resolves.toEqual({
@@ -88,11 +89,11 @@ describe('createPlanosModule', () => {
   it('inclui com UUID padrão e código do ciclo ativo', async () => {
     const respostas: Record<string, unknown> = {
       'skuMeta?id=SKU-00058': [META],
-      ciclos: [{ id: 'PLP-2026-07', status: 'ativo' }],
       planoItens: [ITEM],
     };
     const http = createFakeHttpClient({
       get: async (path) => respostas[path] ?? [],
+      getPage: async () => ({ data: [CICLO_DTOS_FIXTURE[0]], total: 1 }),
       post: async (_path, body) => body,
     });
     const modulo = createPlanosModule(http);
@@ -107,6 +108,11 @@ describe('createPlanosModule', () => {
       'planoItens',
       expect.objectContaining({ status: 'pendente', familia: 'Cardio' }),
     );
+    expect(http.getPage).toHaveBeenCalledWith('/ciclos', expect.anything());
+    http.getPage.mockImplementation(async (path: string) =>
+      path === '/ciclos' ? { data: [], total: 0 } : { data: [ITEM], total: 1 },
+    );
+    await expect(modulo.list.execute(PLANO_FILTRO_PADRAO)).resolves.toMatchObject({ ciclo: null });
     expect(Object.keys(modulo)).toEqual([
       'list',
       'contar',

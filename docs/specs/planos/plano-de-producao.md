@@ -1,5 +1,5 @@
 ---
-status: READY
+status: REVIEW
 fase: 52
 area: planos
 feature: plano-de-producao
@@ -25,7 +25,7 @@ Perguntas em aberto:
 
 - PO: RN-PLN-03 pede indicador visual de restrição nos itens afetados; o protótipo não tem e não há vínculo item ↔ restrição nos dados. Não implementado.
 - PO: RN-PLN-01 diz que o plano é gerido por ciclo, mas `planoItens` não tem ciclo; a tela lista todos os itens e usa o ciclo ativo só nos textos e no prefixo do código novo (lacuna 21).
-- PO: decisão 11 — "+ Incluir Item", editar e excluir aparecem para todos os perfis (fiel); o banner do perfil Área diz que planos são do Planejador.
+- ~~PO: decisão 11 — ações de escrita para todos os perfis~~ **Respondida pela RN §3** (Visualizador consulta o plano só para leitura; o Planejador gerencia o plano): "+ Incluir Item", ✏️ Editar e 🗑 Excluir só aparecem para nível ≥ 3 (Planejador, Admin); para Visualizador e Área o detalhe abre sempre em modo leitura (RN-11 abaixo).
 - PO: o protótipo mantém a quantidade anterior quando o campo fica vazio no detalhe; o app exige quantidade > 0 (§7.4), com a mensagem do modal "⚠️ Informe a quantidade.".
 - Divergência técnica: a busca usa `q=` do json-server, que procura em todos os campos (o protótipo procura só em código, nome, SKU e linha).
 
@@ -346,6 +346,16 @@ Erros: schema inválido ou `X-Total-Count` ausente → `InvalidResponseError`; `
 | RN-08 | Textos do ciclo ("Planos de Produção — …", "Ciclo …") vêm do ciclo ativo de `/ciclos` (decisão 21); sem ciclo ativo, sem sufixo no título e "—" no contador.                               |
 | RN-09 | O checkbox do cabeçalho seleciona só os itens da página; não há ação em lote (decisão 17).                                                                                                 |
 | RN-10 | Filtros, ordem, página e tamanho ficam na URL; valores inválidos caem no padrão; tamanhos 10/25/50 (padrão 10).                                                                            |
+
+| RN-11 | Escrita no plano (incluir, editar, excluir) só para nível ≥ 3 (RN §3: Visualizador só lê; o Planejador gerencia o plano). Níveis 1–2 veem a lista e o detalhe em modo leitura, sem "+ Incluir Item", ✏️ e 🗑. |
+
+### Ajustes da implementação (fase B)
+
+- Ciclo ativo: `CicloAtivoRepository` (porta do módulo) adaptado no `createPlanosModule` sobre o `HttpCicloRepository.findAtivo()` do módulo de ciclos (código do ciclo `ativo`).
+- Chaves e hooks em `src/presentation/hooks/planos/` (`planosKeys`, `usePlanos`, `usePlanoMutations`); mutações invalidam `planos`, `['dashboard']` e `navegacao.badges`.
+- Rotas: `src/app/(app)/planos/...` e `PLANOS_ROUTE`/`planoItemRoute` em `features/planos/planoRoutes.ts` (fora do `routes.ts` compartilhado).
+- Confirmações de saída com alterações usam o `ConfirmDialog` do UI kit ("Sair sem salvar?" · "Há alterações não salvas. Deseja sair mesmo assim?") e o `useUnsavedChangesGuard` do kit no detalhe, no lugar de `window.confirm`.
+- A tabela é um componente da feature (o `Table` do kit não aceita `aria-sort`); classes idênticas às do `Table`.
 
 ## 11. Requisitos não funcionais
 

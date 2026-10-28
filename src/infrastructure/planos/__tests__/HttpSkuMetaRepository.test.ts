@@ -1,7 +1,6 @@
 import { FetchHttpClient } from '@infrastructure/http/FetchHttpClient';
 import { InvalidResponseError } from '@infrastructure/http/HttpClient';
 import { createFakeFetch, type FakeRoute } from '@test/fakeFetch';
-import { HttpCicloAtivoRepository } from '../HttpCicloAtivoRepository';
 import { HttpSkuMetaRepository } from '../HttpSkuMetaRepository';
 
 const BASE = 'http://localhost:3001';
@@ -32,17 +31,5 @@ describe('HttpSkuMetaRepository', () => {
     await expect(repository.listByIds([])).resolves.toEqual([]);
     expect(calls).toHaveLength(0);
     await expect(repository.listByIds(['SKU-1'])).rejects.toBeInstanceOf(InvalidResponseError);
-  });
-});
-
-describe('HttpCicloAtivoRepository', () => {
-  it('devolve o id do ciclo ativo ou null', async () => {
-    const { http, calls } = httpWith({
-      '/ciclos': { body: [{ id: 'PLP-2026-07', status: 'ativo', descricao: 'Julho' }] },
-    });
-    await expect(new HttpCicloAtivoRepository(http).cicloAtivoId()).resolves.toBe('PLP-2026-07');
-    expect(calls[0]?.url).toBe(`${BASE}/ciclos?status=ativo`);
-    const vazio = httpWith({ '/ciclos': { body: [{ id: 'PLP-2026-06', status: 'encerrado' }] } });
-    await expect(new HttpCicloAtivoRepository(vazio.http).cicloAtivoId()).resolves.toBeNull();
   });
 });
