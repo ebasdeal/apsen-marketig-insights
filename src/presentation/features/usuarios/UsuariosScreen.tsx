@@ -2,6 +2,7 @@
 
 import type { UsuarioRowDto } from '@application/usuarios/dto';
 import {
+  ApsenLoader,
   BusyRegion,
   ButtonLink,
   ConfirmDialog,
@@ -9,7 +10,6 @@ import {
   PageHeader,
   Pagination,
   ScreenDesc,
-  TableSkeleton,
 } from '@presentation/components/ui';
 import { USUARIO_NOVO_ROUTE } from '@presentation/navigation/routes';
 import { useState } from 'react';
@@ -22,8 +22,6 @@ import { useUsuariosPage } from '../../hooks/usuarios/useUsuarios';
 import { UsuariosTable } from './components/UsuariosTable';
 import { UsuariosToolbar } from './components/UsuariosToolbar';
 import { useUsuariosFiltro } from './useUsuariosFiltro';
-
-const HEADERS = ['Nome', 'E-mail', 'Perfil', 'Área', 'Pode registrar', 'Pode validar', 'Admin'];
 
 type Pendente = { acao: 'inativar' | 'remover'; row: UsuarioRowDto } | null;
 
@@ -66,7 +64,7 @@ function UsuariosResults({ podeEscrever }: { podeEscrever: boolean }) {
         onPerfil={filtro.setPerfil}
       />
       {query.isPending ? (
-        <TableSkeleton columns={HEADERS.length} headers={HEADERS} rows={4} />
+        <ApsenLoader variant="content" label="Carregando usuários…" />
       ) : query.isError ? (
         <ErrorState
           message="Não foi possível carregar os usuários."

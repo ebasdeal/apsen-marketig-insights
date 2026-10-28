@@ -1,5 +1,5 @@
-import { AnalisesListSkeleton } from '@presentation/features/analises/components/AnalisesSkeleton';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function AnalisesLoading() {
-  return <AnalisesListSkeleton />;
+  return <ApsenLoader variant="content" label="Carregando análises…" />;
 }

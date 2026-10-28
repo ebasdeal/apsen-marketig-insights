@@ -1,5 +1,5 @@
-import { TableSkeleton } from '@presentation/components/ui';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function CatalogoLoading() {
-  return <TableSkeleton columns={5} label="Carregando catálogo…" />;
+  return <ApsenLoader variant="content" label="Carregando catálogo…" />;
 }

@@ -3,7 +3,7 @@
 import type { DriverForFormDto, DriverFormLookupsDto } from '@application/drivers/dto';
 import { draftDeDriver, draftInicial, type DriverDraft } from '@domain/drivers/draft';
 import { NotFoundError } from '@domain/shared/DomainError';
-import { ErrorState } from '@presentation/components/ui';
+import { ApsenLoader, ErrorState } from '@presentation/components/ui';
 import { toUserMessage } from '@presentation/format/errorMessage';
 import { useFamiliaSkus } from '@presentation/hooks/catalogo/useProdutoSkus';
 import { useDriverForForm } from '@presentation/hooks/drivers/useDriverForForm';
@@ -12,7 +12,6 @@ import { notFound } from 'next/navigation';
 import { catalogoFamiliaRoute, DRIVERS_ROUTE } from '../driverRoutes';
 import { DriverForm } from './DriverForm';
 import { DriverFormHeader } from './DriverFormHeader';
-import { DriverFormSkeleton } from './DriverFormSkeleton';
 import type { FormMode } from './formTypes';
 
 interface DriverFormScreenProps {
@@ -68,7 +67,7 @@ export function DriverFormScreen({ mode, driverId, familia }: DriverFormScreenPr
     );
   }
   if (carregando || lookups.data === undefined) {
-    return <DriverFormSkeleton />;
+    return <ApsenLoader variant="content" label="Carregando formulário…" />;
   }
 
   const familiaValida = novo ? ((contexto.data?.length ?? 0) > 0 ? familia : undefined) : familia;

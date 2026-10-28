@@ -2,7 +2,7 @@
 
 import { NotFoundError } from '@domain/shared/DomainError';
 import { draftNovo } from '@domain/tipos/vocabulario';
-import { ErrorState, LoadingState } from '@presentation/components/ui';
+import { ApsenLoader, ErrorState } from '@presentation/components/ui';
 import { useFonteOptions } from '@presentation/hooks/fontes/useFontes';
 import { useCategorias, useTipoForm } from '@presentation/hooks/tipos/useTipos';
 import { notFound } from 'next/navigation';
@@ -22,7 +22,7 @@ export function TipoFormScreen({ id }: TipoFormScreenProps) {
   }
   const carregando = (id !== undefined && form.isPending) || categorias.isPending;
   if (carregando) {
-    return <LoadingState />;
+    return <ApsenLoader variant="content" label="Carregando tipo…" />;
   }
   if (form.isError || categorias.isError) {
     return (

@@ -1,7 +1,14 @@
 'use client';
 
 import type { DriversSugeridosOutput } from '@application/analises/dto';
-import { Alert, Button, Card, CardTitle, CheckboxCard } from '@presentation/components/ui';
+import {
+  Alert,
+  ApsenLoader,
+  Button,
+  Card,
+  CardTitle,
+  CheckboxCard,
+} from '@presentation/components/ui';
 
 interface DriversCardProps {
   dados: DriversSugeridosOutput | undefined;
@@ -20,8 +27,7 @@ function DriversLista({
   onToggle,
   onRetry,
 }: DriversCardProps) {
-  if (carregando)
-    return <p className="p-[10px] text-[13px] text-apsen-muted">Carregando drivers…</p>;
+  if (carregando) return <ApsenLoader variant="inline" label="Carregando drivers…" />;
   if (falhou || dados === undefined) {
     return (
       <Alert tone="error">

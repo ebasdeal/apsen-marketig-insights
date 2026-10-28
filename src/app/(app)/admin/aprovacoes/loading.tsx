@@ -1,5 +1,5 @@
-import { CardsPageSkeleton } from '@presentation/features/adminDi/AdminDiSkeletons';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function Loading() {
-  return <CardsPageSkeleton />;
+  return <ApsenLoader variant="content" />;
 }

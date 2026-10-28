@@ -156,7 +156,7 @@ describe('TipoFormScreen — editar (CA-10, CA-12)', () => {
   it('carregando e erro com Tentar novamente', async () => {
     const categorias = vi.fn().mockRejectedValueOnce(new Error('500')).mockResolvedValue([]);
     const { user } = novo({ tipos: { categorias: { execute: categorias } } });
-    expect(screen.getByText('Carregando…')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando tipo…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Identificação do Tipo')).toBeInTheDocument();
   });

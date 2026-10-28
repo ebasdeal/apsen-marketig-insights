@@ -1,13 +1,13 @@
 'use client';
 
 import {
+  ApsenLoader,
   Card,
   CardTitle,
   ErrorState,
   InlineEmpty,
   PageHeader,
   ScreenDesc,
-  SkeletonText,
 } from '@presentation/components/ui';
 import { usePermissoes } from '../../hooks/usuarios/useUsuarios';
 import { PermissionMatrix } from './components/PermissionMatrix';
@@ -15,11 +15,7 @@ import { PermissionMatrix } from './components/PermissionMatrix';
 function MatrizContent() {
   const query = usePermissoes();
   if (query.isPending) {
-    return (
-      <div role="status" aria-label="Carregando…">
-        <SkeletonText lines={8} />
-      </div>
-    );
+    return <ApsenLoader variant="inline" label="Carregando permissões…" />;
   }
   if (query.isError) {
     return (

@@ -1,5 +1,5 @@
-import { FontesSkeleton } from '@presentation/features/fontes/FontesSkeleton';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function FontesLoading() {
-  return <FontesSkeleton />;
+  return <ApsenLoader variant="content" label="Carregando fontes…" />;
 }

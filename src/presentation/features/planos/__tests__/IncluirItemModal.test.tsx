@@ -101,8 +101,8 @@ describe('IncluirItemModal', () => {
       skusInclusao: { execute },
       incluir: { execute: vi.fn().mockRejectedValue(new Error('500')) },
     });
-    expect(within(dialog()).getByRole('combobox', { name: 'Produto / SKU' })).toBeDisabled();
-    expect(screen.getByRole('option', { name: 'Carregando SKUs…' })).toBeInTheDocument();
+    expect(within(dialog()).getByRole('status', { name: 'Carregando SKUs…' })).toBeInTheDocument();
+    expect(within(dialog()).getByTestId('loader-logo')).toBeInTheDocument();
     expect(await screen.findByText('Não foi possível carregar os SKUs.')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Tentar novamente' }));
     await screen.findByRole('option', { name: BARI });

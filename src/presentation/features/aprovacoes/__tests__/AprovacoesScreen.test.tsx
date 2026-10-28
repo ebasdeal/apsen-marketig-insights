@@ -145,7 +145,7 @@ describe('AprovacoesScreen — CA-10 estados', () => {
       .mockRejectedValueOnce(new Error('500'))
       .mockResolvedValue({ cards: [], total: 0, totalPages: 1, pendentesNoResultado: 0 });
     const { user } = setup({ aprovacoes: { list: { execute: list } } });
-    expect(screen.getAllByRole('status', { name: 'Carregando…' })).toHaveLength(3);
+    expect(screen.getByRole('status', { name: 'Carregando aprovações…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Nenhum registro encontrado')).toBeInTheDocument();
     expect(screen.getByText('Tente ajustar os filtros.')).toBeInTheDocument();

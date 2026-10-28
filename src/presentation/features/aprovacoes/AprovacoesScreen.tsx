@@ -4,10 +4,10 @@ import type { ListAprovacoesResult } from '@application/aprovacoes/dto';
 import type { AprovFiltro, AprovStatus } from '@domain/aprovacoes/Aprovacao';
 import { pluralPendentes, resumoTexto } from '@domain/aprovacoes/aprovacaoRules';
 import {
+  ApsenLoader,
   Badge,
   BusyRegion,
   Button,
-  CardSkeleton,
   EmptyState,
   ErrorState,
   PageHeader,
@@ -106,11 +106,7 @@ export function AprovacoesScreen() {
         onChange={(patch) => setUrl(patch)}
       />
       {query.isPending ? (
-        <div className="flex flex-col gap-[14px]">
-          <CardSkeleton lines={4} />
-          <CardSkeleton lines={4} />
-          <CardSkeleton lines={4} />
-        </div>
+        <ApsenLoader variant="content" label="Carregando aprovações…" />
       ) : query.isError ? (
         <ErrorState onRetry={() => void query.refetch()} />
       ) : (

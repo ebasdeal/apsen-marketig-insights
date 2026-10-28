@@ -2,12 +2,12 @@
 
 import { NotFoundError } from '@domain/shared/DomainError';
 import {
+  ApsenLoader,
   ButtonLink,
   Card,
   EmptyState,
   ErrorState,
   PageHeader,
-  PageSkeleton,
   Pagination,
   ScreenDesc,
 } from '@presentation/components/ui';
@@ -32,7 +32,7 @@ export function FamiliaDriversScreen({ familia }: { familia: string }) {
     notFound();
   }
   if (query.isPending) {
-    return <PageSkeleton label="Carregando drivers da família…" />;
+    return <ApsenLoader variant="content" label="Carregando drivers da família…" />;
   }
   if (query.isError) {
     return <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />;

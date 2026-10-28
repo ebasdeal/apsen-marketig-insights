@@ -131,7 +131,7 @@ describe('AgentesScreen', { timeout: 20000 }, () => {
       }),
     };
     const { user } = setup({ list, resumo });
-    expect(screen.getByRole('status', { name: 'Carregando…' })).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando agentes…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Nenhum agente cadastrado.')).toBeInTheDocument();
     expect(screen.getByText(/nenhuma execução agendada/)).toBeInTheDocument();

@@ -99,7 +99,7 @@ O protótipo é um HTML único que carrega tudo de uma vez. O app precisa tratar
 ### 7.2 Roteamento e carregamento
 
 - Cada tela é uma rota do App Router (code splitting por rota automático). **Nada de "uma página que troca de tela"** como o `goScreen` do protótipo.
-- `loading.tsx` por segmento com skeleton fiel ao layout da tela; `error.tsx` por segmento com "Tentar novamente"; `not-found` para id inexistente (detalhe e edição).
+- `loading.tsx` por segmento com o loader da Apsen (`ApsenLoader variant="content"`, sem skeleton); `error.tsx` por segmento com "Tentar novamente"; `not-found` para id inexistente (detalhe e edição).
 - **Lazy loading** com `next/dynamic` para o que é pesado ou só aparece sob ação: gráfico (chart.js, `ssr: false`), modais, chat da análise e editor de importação JSON.
 - Prefetch dos links da sidebar (padrão do `<Link>`) e prefetch da próxima página nas listas paginadas.
 - Rotas protegidas por perfil não carregam dados de uma tela que o perfil não pode ver (a guarda roda antes das queries).

@@ -40,8 +40,6 @@ const SERVER = [
   'CategoryTag.tsx',
   'PendingItemRow.tsx',
   'StatusDistributionRow.tsx',
-  'Skeleton.tsx',
-  'TableSkeleton.tsx',
   'DetailField.tsx',
   'CodeTag.tsx',
 ];

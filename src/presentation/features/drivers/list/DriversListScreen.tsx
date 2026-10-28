@@ -2,6 +2,7 @@
 
 import type { DriverListItemDto } from '@application/drivers/dto';
 import {
+  ApsenLoader,
   BusyRegion,
   ButtonLink,
   ConfirmDialog,
@@ -18,7 +19,6 @@ import { useEffect, useState } from 'react';
 import { NOVO_DRIVER_ROUTE } from '../driverRoutes';
 import { lastPage, PAGE_SIZE_SELECTOR_MIN, PAGE_SPEC, pageInfo } from '../pageParams';
 import { DriverListItem } from './DriverListItem';
-import { DriversListSkeleton } from './DriversListSkeleton';
 
 function EmptyList() {
   return (
@@ -73,7 +73,7 @@ export function DriversListScreen() {
         <em>FeatureEngineer</em> do ApsenPLPEngine transformará o driver em variável exógena para o
         modelo.
       </ScreenDesc>
-      {query.isPending ? <DriversListSkeleton /> : null}
+      {query.isPending ? <ApsenLoader variant="content" label="Carregando registros…" /> : null}
       {query.isError ? (
         <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />
       ) : null}

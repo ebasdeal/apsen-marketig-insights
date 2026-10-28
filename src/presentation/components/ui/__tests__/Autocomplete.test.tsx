@@ -63,7 +63,9 @@ describe('Autocomplete', () => {
     fireEvent.focus(input);
     expect(input).toHaveAttribute('aria-expanded', 'true');
     expect(input).toHaveAttribute('aria-autocomplete', 'list');
-    expect(screen.getByText('⟳ Consultando base de concorrentes...')).toBeInTheDocument();
+    expect(
+      screen.getByRole('status', { name: 'Consultando base de concorrentes...' }),
+    ).toBeInTheDocument();
     await flush(299);
     expect(search).not.toHaveBeenCalled();
     await flush(1);

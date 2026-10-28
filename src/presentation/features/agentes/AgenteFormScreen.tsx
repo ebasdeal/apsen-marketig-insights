@@ -2,7 +2,7 @@
 
 import { novoAgenteDraft } from '@domain/agentes/agenteRules';
 import { NotFoundError } from '@domain/shared/DomainError';
-import { CardSkeleton, ErrorState } from '@presentation/components/ui';
+import { ApsenLoader, ErrorState } from '@presentation/components/ui';
 import { notFound } from 'next/navigation';
 import { useAgenteForm } from '../../hooks/agentes/useAgentes';
 import { AgenteForm } from './AgenteForm';
@@ -10,7 +10,7 @@ import { AgenteForm } from './AgenteForm';
 function EditarAgente({ id }: { id: string }) {
   const query = useAgenteForm(id);
   if (query.isPending) {
-    return <CardSkeleton />;
+    return <ApsenLoader variant="content" label="Carregando agente…" />;
   }
   if (query.isError) {
     if (query.error instanceof NotFoundError) {

@@ -13,10 +13,10 @@ describe('app/(app)/admin/ciclos', () => {
     expect(await screen.findByText('3 ciclos')).toBeInTheDocument();
   });
 
-  it('loading mostra o skeleton com os cabeçalhos da tabela', () => {
+  it('loading mostra o loader da Apsen', () => {
     render(<CiclosLoading />);
     expect(screen.getByRole('status', { name: 'Carregando ciclos…' })).toBeInTheDocument();
-    expect(screen.getByText('Responsável')).toBeInTheDocument();
+    expect(screen.getByTestId('loader-logo')).toBeInTheDocument();
   });
 
   it('error mostra "Tentar novamente" e chama reset', async () => {

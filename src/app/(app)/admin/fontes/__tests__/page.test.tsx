@@ -13,10 +13,10 @@ describe('app/(app)/admin/fontes', () => {
     expect(await screen.findByRole('heading', { name: 'Distribuidores' })).toBeInTheDocument();
   });
 
-  it('loading mostra o skeleton de 3 cards', () => {
-    const { container } = render(<FontesLoading />);
+  it('loading mostra o loader da Apsen', () => {
+    render(<FontesLoading />);
     expect(screen.getByRole('status', { name: 'Carregando fontes…' })).toBeInTheDocument();
-    expect(container.querySelectorAll('.shadow-apsen-sm')).toHaveLength(3);
+    expect(screen.getByTestId('loader-logo')).toBeInTheDocument();
   });
 
   it('error mostra "Tentar novamente" e chama reset', async () => {

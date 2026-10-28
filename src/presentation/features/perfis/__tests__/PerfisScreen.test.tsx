@@ -30,7 +30,7 @@ describe('PerfisScreen', () => {
       .mockRejectedValueOnce(new Error('rede'))
       .mockResolvedValueOnce({ grupos: [] });
     const { user } = setup(execute);
-    expect(screen.getByRole('status', { name: 'Carregando…' })).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando permissões…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Nenhuma permissão cadastrada.')).toBeInTheDocument();
   });

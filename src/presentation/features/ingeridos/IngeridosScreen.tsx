@@ -2,6 +2,7 @@
 
 import type { IngeridoRowDto } from '@application/ingeridos/dto';
 import {
+  ApsenLoader,
   BusyRegion,
   Button,
   ConfirmDialog,
@@ -9,7 +10,6 @@ import {
   PageHeader,
   Pagination,
   ScreenDesc,
-  TableSkeleton,
 } from '@presentation/components/ui';
 import {
   useDeleteIngeridoMutation,
@@ -75,7 +75,7 @@ export function IngeridosScreen() {
         onCategoria={(categoria) => setUrl({ categoria })}
       />
       {query.isPending ? (
-        <TableSkeleton columns={8} rows={4} label="Carregando…" />
+        <ApsenLoader variant="content" label="Carregando ingeridos…" />
       ) : query.isError ? (
         <ErrorState onRetry={() => void query.refetch()} />
       ) : (

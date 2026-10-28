@@ -1,5 +1,5 @@
-import { CardSkeleton } from '@presentation/components/ui';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function ExportarLoading() {
-  return <CardSkeleton lines={8} label="Gerando JSON…" />;
+  return <ApsenLoader variant="content" label="Gerando JSON…" />;
 }

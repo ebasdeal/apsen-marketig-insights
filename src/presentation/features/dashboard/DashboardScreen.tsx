@@ -1,12 +1,11 @@
 'use client';
 
-import { ErrorState, PageHeader } from '@presentation/components/ui';
+import { ApsenLoader, ErrorState, PageHeader } from '@presentation/components/ui';
 import { toUserMessage } from '../../format/errorMessage';
 import { useDashboardOverview } from '../../hooks/dashboard/useDashboard';
 import { useSessao } from '../../hooks/useSessao';
 import { BarrasPanel } from './components/BarrasPanel';
 import { DashboardKpis } from './components/DashboardKpis';
-import { DashboardSkeleton } from './components/DashboardSkeleton';
 import { PendentesPanel } from './components/PendentesPanel';
 import { PerfilBanner } from './components/PerfilBanner';
 import { PlanoStatusPanel } from './components/PlanoStatusPanel';
@@ -34,7 +33,7 @@ export function DashboardScreen() {
         }
       />
       <PerfilBanner nivel={nivel} />
-      {query.isPending ? <DashboardSkeleton /> : null}
+      {query.isPending ? <ApsenLoader variant="content" label="Carregando dashboard…" /> : null}
       {query.isError ? (
         <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />
       ) : null}

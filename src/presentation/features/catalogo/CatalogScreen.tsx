@@ -1,13 +1,13 @@
 'use client';
 
 import {
+  ApsenLoader,
   BusyRegion,
   ErrorState,
   PageHeader,
   Pagination,
   ResultSummary,
   ScreenDesc,
-  TableSkeleton,
 } from '@presentation/components/ui';
 import { toUserMessage } from '@presentation/format/errorMessage';
 import { useCatalogFamilias } from '@presentation/hooks/catalogo/useCatalogFamilias';
@@ -18,8 +18,6 @@ import { lastPage, pageInfo } from '../drivers/pageParams';
 import { CatalogFilters } from './CatalogFilters';
 import { CatalogTable } from './CatalogTable';
 import { useCatalogParams } from './useCatalogParams';
-
-export const CATALOG_HEADERS = ['Franquia', 'Família', 'SKUs', 'Drivers', 'Ações'];
 
 export function CatalogScreen() {
   const filtros = useCatalogFilters();
@@ -51,9 +49,7 @@ export function CatalogScreen() {
         onFamilia={params.setFamilia}
         filtros={filtros.data}
       />
-      {lista.isPending ? (
-        <TableSkeleton columns={5} headers={CATALOG_HEADERS} label="Carregando catálogo…" />
-      ) : null}
+      {lista.isPending ? <ApsenLoader variant="content" label="Carregando catálogo…" /> : null}
       {lista.isError && data === undefined ? (
         <ErrorState message={toUserMessage(lista.error)} onRetry={() => void lista.refetch()} />
       ) : null}

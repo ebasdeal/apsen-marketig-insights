@@ -1,5 +1,5 @@
-import { PageSkeleton } from '@presentation/components/ui';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function UsuariosLoading() {
-  return <PageSkeleton />;
+  return <ApsenLoader variant="content" />;
 }

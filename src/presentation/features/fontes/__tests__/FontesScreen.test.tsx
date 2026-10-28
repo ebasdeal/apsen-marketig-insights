@@ -116,7 +116,7 @@ describe('FontesScreen', () => {
 
   it('CA-08 carregando, erro e vazio', async () => {
     const pending = render({ list: { execute: vi.fn(() => new Promise<never>(() => undefined)) } });
-    expect(screen.getByText('Carregando…')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando fontes…' })).toBeInTheDocument();
     pending.unmount();
     const execute = vi.fn().mockRejectedValue(new HttpError(500, '/fontes', {}));
     const failing = render({ list: { execute } });

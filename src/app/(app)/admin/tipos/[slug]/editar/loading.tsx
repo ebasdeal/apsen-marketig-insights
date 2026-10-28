@@ -1,5 +1,5 @@
-import { FormPageSkeleton } from '@presentation/features/adminDi/AdminDiSkeletons';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function Loading() {
-  return <FormPageSkeleton />;
+  return <ApsenLoader variant="content" />;
 }

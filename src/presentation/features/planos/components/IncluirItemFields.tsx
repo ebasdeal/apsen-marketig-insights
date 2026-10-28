@@ -3,7 +3,14 @@
 import type { SkuOpcaoOutput } from '@application/planos/dto';
 import type { InclusaoForm } from '@domain/planos/PlanoItem';
 import { LINHAS, RESPONSAVEIS_PLANO, SEMANAS } from '@domain/planos/planoConstants';
-import { Alert, Button, FormField, FormSelect, TextInput } from '@presentation/components/ui';
+import {
+  Alert,
+  ApsenLoader,
+  Button,
+  FormField,
+  FormSelect,
+  TextInput,
+} from '@presentation/components/ui';
 import { mensagemDoCampo, type PlanoCampoErro } from '../planoErro';
 
 interface SkusEstado {
@@ -35,12 +42,14 @@ function SkuSelect({ form, skus, onChange }: Omit<IncluirItemFieldsProps, 'erro'
       </Alert>
     );
   }
+  if (skus.opcoes === undefined) {
+    return <ApsenLoader variant="inline" label="Carregando SKUs…" />;
+  }
   return (
     <FormSelect
       value={form.sku}
-      disabled={skus.opcoes === undefined}
-      placeholder={skus.opcoes === undefined ? 'Carregando SKUs…' : 'Selecione o SKU...'}
-      options={skus.opcoes ?? []}
+      placeholder="Selecione o SKU..."
+      options={skus.opcoes}
       onChange={(sku) => onChange({ sku })}
     />
   );

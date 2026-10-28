@@ -5,6 +5,7 @@ import { PAGE_SIZES, DEFAULT_PAGE_SIZE } from '@domain/shared/Page';
 import { isCategoriaSlug } from '@domain/tipos/Tipo';
 import { TIPO_CAT_FILTERS, type TipoCatFiltro } from '@domain/tipos/vocabulario';
 import {
+  ApsenLoader,
   BusyRegion,
   Button,
   ButtonLink,
@@ -14,7 +15,6 @@ import {
   PageHeader,
   Pagination,
   ScreenDesc,
-  TableSkeleton,
 } from '@presentation/components/ui';
 import {
   useDeleteTipoMutation,
@@ -108,7 +108,7 @@ export function TiposScreen() {
         />
       </div>
       {query.isPending ? (
-        <TableSkeleton columns={8} label="Carregando…" />
+        <ApsenLoader variant="content" label="Carregando tipos…" />
       ) : query.isError ? (
         <ErrorState onRetry={() => void query.refetch()} />
       ) : (

@@ -2,7 +2,7 @@
 
 import type { MensagemChat } from '@domain/analises/Analise';
 import { ultimaInteracao } from '@domain/analises/chatRules';
-import { Button } from '@presentation/components/ui';
+import { ApsenLoader, Button } from '@presentation/components/ui';
 import { useEffect, useRef, useState } from 'react';
 import {
   useDocumentarInteracaoMutation,
@@ -75,7 +75,7 @@ export default function ChatPanel({ analiseId, ciclo, modelo, iniciais }: ChatPa
           ))}
           {responder.isPending ? (
             <ChatBubble papel="ia" muted>
-              ⟳ Analisando...
+              <ApsenLoader variant="inline" label="Analisando…" />
             </ChatBubble>
           ) : null}
         </div>

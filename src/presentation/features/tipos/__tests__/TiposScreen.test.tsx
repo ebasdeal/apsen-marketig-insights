@@ -126,7 +126,7 @@ describe('TiposScreen — CA-06 CA-12', () => {
       .mockRejectedValueOnce(new Error('500'))
       .mockResolvedValueOnce({ ...listTiposResult(), rows: [], filtrados: 0, totalPages: 1 });
     const { user } = setup({ tipos: { list: { execute: list } } });
-    expect(screen.getByRole('status', { name: 'Carregando…' })).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando tipos…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Nenhum tipo nesta categoria.')).toBeInTheDocument();
     expect(screen.getByText('0 tipos')).toBeInTheDocument();

@@ -1,5 +1,5 @@
-import { CiclosSkeleton } from '@presentation/features/ciclos/CiclosSkeleton';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function CiclosLoading() {
-  return <CiclosSkeleton />;
+  return <ApsenLoader variant="content" label="Carregando ciclos…" />;
 }

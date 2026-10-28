@@ -2,7 +2,7 @@
 
 import { NotFoundError } from '@domain/shared/DomainError';
 import { novoUsuarioDraft } from '@domain/usuarios/Usuario';
-import { CardSkeleton, ErrorState } from '@presentation/components/ui';
+import { ApsenLoader, ErrorState } from '@presentation/components/ui';
 import { notFound } from 'next/navigation';
 import { useUsuarioForm } from '../../hooks/usuarios/useUsuarios';
 import { UsuarioForm } from './UsuarioForm';
@@ -10,7 +10,7 @@ import { UsuarioForm } from './UsuarioForm';
 function EditarUsuario({ id }: { id: string }) {
   const query = useUsuarioForm(id);
   if (query.isPending) {
-    return <CardSkeleton />;
+    return <ApsenLoader variant="content" label="Carregando usuário…" />;
   }
   if (query.isError) {
     if (query.error instanceof NotFoundError) {

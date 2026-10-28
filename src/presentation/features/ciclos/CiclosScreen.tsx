@@ -2,10 +2,10 @@
 
 import type { CicloRowDto } from '@application/ciclos/dto';
 import {
+  ApsenLoader,
   BusyRegion,
   Button,
   ErrorState,
-  LoadingState,
   PageHeader,
   Pagination,
 } from '@presentation/components/ui';
@@ -65,7 +65,7 @@ export function CiclosScreen() {
           }}
         />
       ) : pageQuery.data === undefined || resumo === undefined ? (
-        <LoadingState />
+        <ApsenLoader variant="content" label="Carregando ciclos…" />
       ) : (
         <>
           <ActiveCicloAlert ativo={resumo.ativo} />

@@ -19,7 +19,7 @@ function render(extra: Parameters<typeof createFakeUseCases>[0] = {}, iniciais =
 }
 
 describe('ChatPanel', () => {
-  it('CA-13: boas-vindas, Enter envia com "⟳ Analisando..." e mostra a resposta', async () => {
+  it('CA-13: boas-vindas, Enter envia com o loader "Analisando…" e mostra a resposta', async () => {
     let responder: (texto: string) => void = () => undefined;
     const execute = vi.fn(() => new Promise<string>((resolve) => (responder = resolve)));
     const { user } = render({ analises: { responderChat: { execute } } });
@@ -30,7 +30,7 @@ describe('ChatPanel', () => {
     await user.clear(campo);
     await user.type(campo, 'qual o lag?{Enter}');
     expect(screen.getByText('qual o lag?')).toBeInTheDocument();
-    expect(screen.getByText('⟳ Analisando...')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Analisando…' })).toBeInTheDocument();
     expect(execute).toHaveBeenCalledWith({
       pergunta: 'qual o lag?',
       ciclo: 'PLP-2026-07',
@@ -38,7 +38,7 @@ describe('ChatPanel', () => {
     });
     responder('O lag de +1 mês…');
     expect(await screen.findByText('O lag de +1 mês…')).toBeInTheDocument();
-    expect(screen.queryByText('⟳ Analisando...')).not.toBeInTheDocument();
+    expect(screen.queryByRole('status', { name: 'Analisando…' })).not.toBeInTheDocument();
   });
 
   it('texto vazio não envia; botão Enviar envia', async () => {

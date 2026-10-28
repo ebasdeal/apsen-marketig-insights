@@ -2,7 +2,7 @@
 
 import type { AnaliseDetailOutput } from '@application/analises/dto';
 import { NotFoundError } from '@domain/shared/DomainError';
-import { Breadcrumb, ErrorState, LoadingState } from '@presentation/components/ui';
+import { ApsenLoader, Breadcrumb, ErrorState, LoadingState } from '@presentation/components/ui';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { useAnalise } from '../../hooks/analises/useAnalises';
@@ -20,7 +20,9 @@ import { mensagemFalhaAnalise } from './falhaEscrita';
 const ChatPanel = dynamic(() => import('./components/ChatPanel'), {
   ssr: false,
   loading: () => (
-    <div className="h-[420px] rounded-[10px] border border-apsen-border bg-apsen-white" />
+    <div className="flex h-[420px] items-center justify-center rounded-[10px] border border-apsen-border bg-apsen-white">
+      <ApsenLoader variant="inline" label="Carregando chat…" />
+    </div>
   ),
 });
 

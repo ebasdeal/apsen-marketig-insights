@@ -122,7 +122,7 @@ describe('CiclosScreen', () => {
 
   it('CA-10 carregando', () => {
     render({ list: { execute: vi.fn(() => new Promise<never>(() => undefined)) } });
-    expect(screen.getByText('Carregando…')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando ciclos…' })).toBeInTheDocument();
   });
 
   it('CA-10 erro com "Tentar novamente" refaz a busca', async () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import type { AnaliseDetailOutput } from '@application/analises/dto';
-import { NumberedList, Section } from '@presentation/components/ui';
+import { ApsenLoader, NumberedList, Section } from '@presentation/components/ui';
 import dynamic from 'next/dynamic';
 import { ComparacaoResumo } from './ComparacaoResumo';
 import { ComparacaoTable } from './ComparacaoTable';
@@ -11,7 +11,11 @@ import { RichText } from './RichText';
 
 const ComparacaoChart = dynamic(() => import('../chart/ComparacaoChart'), {
   ssr: false,
-  loading: () => <div className="h-[250px]" />,
+  loading: () => (
+    <div className="flex h-[250px] items-center justify-center">
+      <ApsenLoader variant="inline" label="Carregando gráfico…" />
+    </div>
+  ),
 });
 
 export function AnaliseResultado({ analise }: { analise: AnaliseDetailOutput }) {

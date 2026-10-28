@@ -1,6 +1,6 @@
 'use client';
 
-import { Alert, Button, Card, CardTitle } from '@presentation/components/ui';
+import { Alert, ApsenLoader, Button, Card, CardTitle } from '@presentation/components/ui';
 import type { Ref } from 'react';
 import { useSkusDoCiclo } from '../../../hooks/analises/useAnalises';
 import { SkuGrupo } from './SkuGrupo';
@@ -23,7 +23,7 @@ function SkusCorpo({
 }: Omit<SkusCardProps, 'erro' | 'listaRef' | 'onSelecionar'>) {
   const query = useSkusDoCiclo(ciclo);
   if (ciclo === '') return <div className={AVISO}>Selecione um ciclo para carregar os SKUs.</div>;
-  if (query.isPending) return <div className={AVISO}>Carregando SKUs…</div>;
+  if (query.isPending) return <ApsenLoader variant="inline" label="Carregando SKUs…" />;
   if (query.isError) {
     return (
       <Alert tone="error">

@@ -1,5 +1,6 @@
 'use client';
 
+import { ApsenLoader } from './ApsenLoader';
 import { PulseIcon } from './icons';
 import type { AutocompleteItem, AutocompleteStatus } from './useAutocomplete';
 
@@ -61,11 +62,11 @@ export function AutocompleteMenu({
             ))
           : null}
       </ul>
+      {status === 'loading' || status === 'idle' ? (
+        <ApsenLoader variant="inline" label={loadingText} />
+      ) : null}
       <div role="status" aria-live="polite">
         {status === 'blocked' ? <p className={MESSAGE}>{disabledMessage}</p> : null}
-        {status === 'loading' || status === 'idle' ? (
-          <p className={MESSAGE}>{`⟳ ${loadingText}`}</p>
-        ) : null}
         {ready && items.length === 0 ? (
           <p className={MESSAGE}>Nenhum resultado. Você pode digitar um valor novo.</p>
         ) : null}

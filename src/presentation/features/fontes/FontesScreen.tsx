@@ -2,11 +2,11 @@
 
 import type { FonteCardDto } from '@application/fontes/dto';
 import {
+  ApsenLoader,
   BusyRegion,
   Button,
   ConfirmDialog,
   ErrorState,
-  LoadingState,
   PageHeader,
   Pagination,
   ScreenDesc,
@@ -57,7 +57,7 @@ export function FontesScreen() {
       {query.isError ? (
         <ErrorState onRetry={() => void query.refetch()} />
       ) : data === undefined ? (
-        <LoadingState />
+        <ApsenLoader variant="content" label="Carregando fontes…" />
       ) : (
         <BusyRegion busy={query.isPlaceholderData}>
           <FontesList

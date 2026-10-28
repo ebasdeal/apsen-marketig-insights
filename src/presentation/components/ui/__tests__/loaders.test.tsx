@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import { ApsenLoader } from '../ApsenLoader';
 import { BusyRegion } from '../BusyRegion';
 import { FullScreenLoader } from '../FullScreenLoader';
 
@@ -13,6 +14,39 @@ describe('FullScreenLoader', () => {
       'border-t-apsen-blue',
       'motion-safe:animate-spin',
     );
+  });
+});
+
+describe('ApsenLoader', () => {
+  it('usa a variante de conteúdo e o rótulo padrão', () => {
+    render(<ApsenLoader />);
+    const status = screen.getByRole('status');
+    expect(status).toHaveTextContent('Carregando…');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveAttribute('data-variant', 'content');
+    expect(status).toHaveClass('min-h-[60vh]', 'items-center', 'justify-center');
+    expect(status).not.toHaveClass('fixed');
+    expect(screen.getByTestId('loader-logo')).toHaveClass(
+      'h-[48px]',
+      'motion-safe:animate-pulse',
+      'dark:brightness-0',
+      'dark:invert',
+    );
+    expect(screen.getByTestId('loader-logo')).toHaveAttribute('src');
+    expect(screen.getByTestId('loader-spinner')).toHaveClass(
+      'border-apsen-blue-light',
+      'border-t-apsen-blue',
+    );
+  });
+
+  it('variante inline é compacta e horizontal', () => {
+    render(<ApsenLoader variant="inline" label="Carregando SKUs…" />);
+    const status = screen.getByRole('status');
+    expect(status).toHaveTextContent('Carregando SKUs…');
+    expect(status).not.toHaveClass('min-h-[60vh]', 'flex-col');
+    expect(screen.getByTestId('loader-logo')).toHaveClass('h-[24px]');
+    expect(screen.getByTestId('loader-spinner')).toHaveClass('size-[18px]');
+    expect(screen.getByText('Carregando SKUs…')).toHaveClass('text-[12px]', 'text-apsen-muted');
   });
 });
 

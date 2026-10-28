@@ -119,7 +119,7 @@ describe('IngeridosScreen — CA-06', () => {
       .mockRejectedValueOnce(new Error('500'))
       .mockResolvedValue({ rows: [], total: 0, totalPages: 1, resumo: '0 drivers' });
     const { user } = setup({ ingeridos: { list: { execute: list } } });
-    expect(screen.getByRole('status', { name: 'Carregando…' })).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando ingeridos…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Nenhum driver ingerido encontrado.')).toBeInTheDocument();
     expect(screen.getByText('0 drivers')).toBeInTheDocument();

@@ -2,14 +2,13 @@
 
 import type { AgenteRowDto } from '@application/agentes/dto';
 import {
+  ApsenLoader,
   BusyRegion,
   ButtonLink,
   ErrorState,
   PageHeader,
   Pagination,
   ScreenDesc,
-  Skeleton,
-  TableSkeleton,
 } from '@presentation/components/ui';
 import { AGENTE_NOVO_ROUTE } from '@presentation/navigation/routes';
 import dynamic from 'next/dynamic';
@@ -30,15 +29,13 @@ const AgenteViewModal = dynamic(() =>
 
 const SPEC = { page: { kind: 'int', default: 1, min: 1 } } as const;
 
-const HEADERS = ['Nome / Papel C4', 'Provedor', 'Endpoint', 'Secret (Key Vault ref.)', 'Modelo'];
-
 function AgentesResumo() {
   const resumo = useAgentesResumo();
   if (resumo.isError) {
     return null;
   }
   if (resumo.data === undefined) {
-    return <Skeleton className="mb-[16px] h-[38px] w-full" />;
+    return <ApsenLoader variant="inline" label="Carregando resumo…" />;
   }
   return (
     <>
@@ -57,7 +54,7 @@ function AgentesLista({ podeEscrever }: { podeEscrever: boolean }) {
   const testando = testar.isPending ? (testar.variables?.id ?? null) : null;
 
   if (query.isPending) {
-    return <TableSkeleton columns={HEADERS.length} headers={HEADERS} rows={5} />;
+    return <ApsenLoader variant="content" label="Carregando agentes…" />;
   }
   if (query.isError) {
     return (

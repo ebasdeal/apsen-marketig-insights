@@ -1,5 +1,5 @@
-import { NovaAnaliseSkeleton } from '@presentation/features/analises/components/AnalisesSkeleton';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function NovaAnaliseLoading() {
-  return <NovaAnaliseSkeleton />;
+  return <ApsenLoader variant="content" label="Carregando nova análise…" />;
 }

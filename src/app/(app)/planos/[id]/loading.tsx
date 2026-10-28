@@ -1,5 +1,5 @@
-import { PlanoItemSkeleton } from '@presentation/features/planos/components/PlanosSkeleton';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function PlanoItemLoading() {
-  return <PlanoItemSkeleton />;
+  return <ApsenLoader variant="content" label="Carregando item do plano…" />;
 }

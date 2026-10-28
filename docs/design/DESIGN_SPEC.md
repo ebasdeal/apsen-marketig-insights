@@ -582,7 +582,7 @@ export const NAV_MODULES: readonly NavModule[] = [
 - **Menu do usuário** (topbar): avatar 30 px com a letra e a cor do perfil (`purple`/`blue`/`teal`/`avatar-muted`) + nome; menu com nome, e-mail, perfil e "Sair".
 - **Acesso Restrito** (L3153-3161): 🔒, `h1` "Acesso Restrito", "Seu perfil ({label}) não tem acesso a esta funcionalidade.", texto de upgrade por nível com `<strong>` e botão outline "← Voltar ao Dashboard".
 - **Toast** (substitui o do protótipo, §13.2): canto superior direito abaixo da topbar, 380 px, faixa de 4 px na cor do tom, ícone em círculo, título por tom, ✕, barra de progresso; 4 s (erro 6 s), pausa no hover/foco, pilha de 3.
-- **Carregamento** (§13.3): `RouteProgress` de 3 px `apsen-blue` no topo (após 120 ms; indeterminado em buscas iniciais), `BusyRegion` (opacidade 60 % + `aria-busy`) e `FullScreenLoader` com o logo pulsando ("Verificando sua sessão…", "Redirecionando para o login…", "Entrando…").
+- **Carregamento** (§13.3): `RouteProgress` de 3 px `apsen-blue` no topo (após 120 ms; indeterminado em buscas iniciais), `BusyRegion` (opacidade 60 % + `aria-busy`) e o `ApsenLoader` (§3.40) como único visual de carregamento: `fullscreen` na sessão/login ("Verificando sua sessão…", "Redirecionando para o login…", "Entrando…"), `content` em `loading.tsx` e telas pendentes, `inline` dentro de cards, listas e menus.
 - **Token novo**: `--color-apsen-avatar-muted` `#6f6f6f` / escuro `#5c5c5c` (avatar do Visualizador; o `muted` clareia no escuro e o texto branco ficaria ilegível).
 
 ## 3. UI kit (`src/presentation/components/ui`)
@@ -870,18 +870,18 @@ A API e o ARIA atuais não mudam. A semântica de cor (vermelho acima de 100%) �
 
 ### 3.12 `StateViews`
 
-O protótipo não tem skeleton, spinner nem `@keyframes`. **Remover o `animate-spin`.**
+O carregamento usa o loader da Apsen (§3.40); não há skeletons.
 
 | Estado                                 | Origem                      | Markup                                                                                                                                                                                                                                                                                                                                                                                                      |
 | -------------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `LoadingState`                         | `.empty` + `.ac-loading`    | `<div role="status" class="px-[24px] py-[48px] text-center text-apsen-muted"><div aria-hidden class="mb-[10px] text-[36px]">⟳</div><p class="text-[12.5px]">{label}</p></div>`                                                                                                                                                                                                                              |
+| `LoadingState`                         | wrapper do `ApsenLoader`    | `<ApsenLoader variant="content" label={label} />` (padrão "Carregando…"); mesma API (`label?`)                                                                                                                                                                                                                                                                                                              |
 | `ErrorState`                           | `.access-denied` (L404-407) | `<div role="alert" class="flex h-[60vh] flex-col items-center justify-center gap-[10px] text-center text-apsen-muted"><div aria-hidden class="mb-[8px] text-[44px]">⚠️</div><h3 class="text-[16px] font-semibold text-apsen-slate">Não foi possível carregar os dados</h3><p class="text-[13px]">{message}</p>{onRetry && <Button variant="outline" className="mt-[16px]">Tentar novamente</Button>}</div>` |
 | `EmptyState`                           | `.empty` (L356-359)         | `<div class="px-[24px] py-[48px] text-center text-apsen-muted"><div aria-hidden class="mb-[10px] text-[36px]">{icon ?? '📣'}</div><p class="mb-[4px] text-[13.5px] font-medium text-apsen-slate">{title}</p><small class="text-[12px]">{description}</small>{action && <Button variant="outline" size="sm" className="mt-[16px]">{actionLabel}</Button>}</div>`                                             |
 | `InlineEmpty` (novo, dentro de painel) | vazio do dashboard          | `<p class="p-[20px] text-center text-[13px] text-apsen-muted">{text}</p>`                                                                                                                                                                                                                                                                                                                                   |
 
 - No `ErrorState`, o texto "Tentar novamente" e o `role="alert"` são mantidos (os testes dependem deles). O `h3` com o título e o `p` com a mensagem saem do layout do protótipo (`access-denied`), que tem `h3` 16px/600.
 - No `EmptyState`, a prop nova é `icon?: string`.
-- `app/loading.tsx`, `app/error.tsx` e `app/not-found.tsx` usam esses mesmos componentes. O not-found usa ícone 🔍, `h3` "Página não encontrada" e `Button outline` "← Voltar ao Dashboard".
+- `app/loading.tsx` (e todo `loading.tsx` de segmento) renderiza `<ApsenLoader variant="content" />`; `app/error.tsx` e `app/not-found.tsx` usam esses mesmos componentes. O not-found usa ícone 🔍, `h3` "Página não encontrada" e `Button outline` "← Voltar ao Dashboard".
 
 ### 3.13 Tabela da lista — `table` + `.table-wrap` (L224-233)
 
@@ -1056,14 +1056,14 @@ Linha `flex items-center` + `blue`: `mt-[3px] gap-[10px]` / `purple`: `mt-[4px] 
 
 ### 3.35 `Autocomplete` — `.ac-*` (L495-510, L5726-5734, L7065-7149)
 
-| Parte                          | Classes / comportamento                                                                                                                                                                                                         |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| input                          | `TextInput` `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-autocomplete="list"`, `aria-activedescendant`, `autoComplete="off"`                                                                                      |
-| lista                          | `absolute top-full right-0 left-0 z-50 mt-[2px] max-h-[220px] overflow-y-auto rounded-apsen border border-apsen-border bg-apsen-white shadow-apsen-dropdown`, `ul role="listbox"`                                               |
-| item                           | `role="option"` `flex cursor-pointer items-center gap-[8px] border-b border-apsen-bg px-[12px] py-[9px] text-[13px] transition-[background] duration-100 last:border-b-0 hover:bg-apsen-blue-bg aria-selected:bg-apsen-blue-bg` |
-| etiqueta                       | `ml-auto shrink-0 rounded-[8px] bg-apsen-bg px-[7px] py-[1px] text-[10px] font-semibold text-apsen-muted` (`itemTag` ou `item.tag`)                                                                                             |
-| carregando / vazio / bloqueado | `p-[12px] text-center text-[12.5px] text-apsen-muted` em `role="status"`: "⟳ {loadingText}" (padrão "Consultando..."), "Nenhum resultado. Você pode digitar um valor novo.", `disabledMessage`                                  |
-| fonte                          | `flex items-center gap-[5px] border-t border-apsen-border bg-apsen-bg px-[12px] py-[6px] text-[10.5px] text-apsen-muted` + `PulseIcon` 10px: "{n} resultado(s) · Fonte: {sourceLabel}" ou, no vazio, "Fonte: {sourceLabel}"     |
+| Parte                          | Classes / comportamento                                                                                                                                                                                                                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| input                          | `TextInput` `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-autocomplete="list"`, `aria-activedescendant`, `autoComplete="off"`                                                                                                                       |
+| lista                          | `absolute top-full right-0 left-0 z-50 mt-[2px] max-h-[220px] overflow-y-auto rounded-apsen border border-apsen-border bg-apsen-white shadow-apsen-dropdown`, `ul role="listbox"`                                                                                |
+| item                           | `role="option"` `flex cursor-pointer items-center gap-[8px] border-b border-apsen-bg px-[12px] py-[9px] text-[13px] transition-[background] duration-100 last:border-b-0 hover:bg-apsen-blue-bg aria-selected:bg-apsen-blue-bg`                                  |
+| etiqueta                       | `ml-auto shrink-0 rounded-[8px] bg-apsen-bg px-[7px] py-[1px] text-[10px] font-semibold text-apsen-muted` (`itemTag` ou `item.tag`)                                                                                                                              |
+| carregando / vazio / bloqueado | carregando: `<ApsenLoader variant="inline" label={loadingText} />` (padrão "Consultando..."); vazio/bloqueado: `p-[12px] text-center text-[12.5px] text-apsen-muted` em `role="status"`: "Nenhum resultado. Você pode digitar um valor novo.", `disabledMessage` |
+| fonte                          | `flex items-center gap-[5px] border-t border-apsen-border bg-apsen-bg px-[12px] py-[6px] text-[10.5px] text-apsen-muted` + `PulseIcon` 10px: "{n} resultado(s) · Fonte: {sourceLabel}" ou, no vazio, "Fonte: {sourceLabel}"                                      |
 
 Abre no foco, ao digitar e com seta; com `disabledMessage` mostra só a mensagem e não busca. `search(term)` roda após `debounceMs` (padrão 300, ARQUITETURA §7.1; o protótipo usa 250), termo vazio também busca e respostas antigas são descartadas (`useAutocomplete`). Setas movem o destaque, Enter escolhe, Esc e clique fora fecham; o texto digitado é o valor (`allowFreeText`, padrão `true`; com `false`, sair sem escolher limpa).
 
@@ -1093,17 +1093,17 @@ Abre no foco, ao digitar e com seta; com `disabledMessage` mostra só a mensagem
 
 `mb-[10px] flex items-center gap-[10px]`; bolinha `size-[9px] shrink-0 rounded-full`; rótulo `min-w-0 flex-1 text-[13px]`; contagem `text-[13px] font-semibold`; trilho `role="meter"` `h-[5px] w-[70px] overflow-hidden rounded-[3px] bg-apsen-bg` com fill `h-full` em `pct%` (limitado a 0–100); percentual `min-w-[28px] text-right text-[11px] text-apsen-muted`. Tom `green`/`orange`/`red`/`muted` pinta bolinha, contagem e fill.
 
-### 3.40 Skeletons [derivado] — ARQUITETURA §7.2
+### 3.40 `ApsenLoader` [derivado] — ARQUITETURA §7.2
 
-| Componente      | Classes / comportamento                                                                                                                                                                                   |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Skeleton`      | `max-w-full rounded-[6px] bg-apsen-border motion-safe:animate-pulse` + tamanho; `aria-hidden`                                                                                                             |
-| `SkeletonText`  | `lines` (padrão 3) barras `h-[12px]` com `gap-[8px]`, a última `w-3/5`                                                                                                                                    |
-| `TableSkeleton` | wrapper da `Table` (`overflow-x-auto rounded-apsen-lg border … shadow-apsen-sm`), cabeçalho `h-[38px] bg-apsen-bg` (barras ou `headers` reais), `rows` (padrão 10) linhas `h-[45px]` com `columns` barras |
-| `CardSkeleton`  | `surface` + barra de título `h-[14px] w-[180px]` + `SkeletonText`                                                                                                                                         |
-| `PageSkeleton`  | título `h-[22px] w-[260px]`, sub `h-[14px] w-[360px]`, bloco `ScreenDesc` `h-[58px]` e um card; usado em `src/app/loading.tsx`                                                                            |
+Único visual de carregamento do app (substitui os skeletons e o antigo "⟳ Carregando…"). Logo `/brand/apsen-logo.png` com `motion-safe:animate-pulse` (`dark:brightness-0 dark:invert`), spinner em anel `rounded-full border-apsen-blue-light border-t-apsen-blue motion-safe:animate-spin` e rótulo `font-medium text-apsen-muted`. Raiz `role="status" aria-live="polite" aria-label="{label}"`; `label` padrão "Carregando…". Test ids: `loader-logo`, `loader-spinner`.
 
-Cada skeleton (exceto os blocos) é um único `div role="status" aria-label="{label}" aria-busy="true"` com o rótulo em `sr-only` (padrão "Carregando…"); sem animação com `prefers-reduced-motion`.
+| `variant`    | Uso                                                      | Layout                                                                                         |
+| ------------ | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `fullscreen` | sessão e login (`AuthGate`, `SsoRedirect`, callback)     | `fixed inset-0 z-[9000] bg-apsen-bg`, coluna `gap-[18px]`; logo `h-[56px]`, spinner 28px, 13px |
+| `content`    | `loading.tsx`, fallbacks de `Suspense` e telas pendentes | `min-h-[60vh] w-full` centralizado, coluna `gap-[16px]`; logo `h-[48px]`, spinner 26px, 13px   |
+| `inline`     | dentro de cards, listas, selects e menus de autocomplete | linha `gap-[10px] py-[12px]` centralizada; logo `h-[24px]`, spinner 18px, rótulo 12px          |
+
+`FullScreenLoader` é um atalho de `variant="fullscreen"` e `LoadingState` de `variant="content"`. Trocas de página com `keepPreviousData` seguem com `BusyRegion`, e a navegação com `RouteProgress`.
 
 ### 3.41 `ConfirmDialog` [derivado] — ARQUITETURA §7.3
 
@@ -1272,7 +1272,7 @@ Abrir o protótipo e o app lado a lado em 1440x900, no tema claro. Cada item dev
 - [ ] `StatusBadge`: pílula com ponto de 5px, 11.5px/500, padding 3px/9px. Ativa verde (`#E7F1EA`/`#18A957`), Pausada laranja (`#FFF1EA`/`#DD7443`), Encerrada cinza (`#FAFAFA`/`#6F6F6F`, ponto `#8A8A8A`).
 - [ ] A barra de canal tem trilho de 7px `#FAFAFA` e radius 4px. O rótulo tem 110px. A maior barra ocupa 100%.
 - [ ] A barra de orçamento tem trilho de 7px `#E1E1E1`, fill azul e fica vermelha acima de 100%.
-- [ ] Os estados de carregamento, erro e vazio não têm spinner nem animação. O vazio tem ícone de 36px, título 13.5px/500 e padding 48px/24px. O erro usa o layout centralizado de 60vh com `h3` 16px/600.
+- [ ] O carregamento usa só o `ApsenLoader` (logo pulsando + spinner, `motion-safe`); erro e vazio não têm animação. O vazio tem ícone de 36px, título 13.5px/500 e padding 48px/24px. O erro usa o layout centralizado de 60vh com `h3` 16px/600.
 
 **Telas**
 

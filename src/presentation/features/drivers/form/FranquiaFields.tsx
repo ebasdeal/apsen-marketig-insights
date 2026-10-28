@@ -1,6 +1,6 @@
 'use client';
 
-import { FormField, FormGrid, FormSelect } from '@presentation/components/ui';
+import { ApsenLoader, FormField, FormGrid, FormSelect } from '@presentation/components/ui';
 import { useFranquiaSkus } from '@presentation/hooks/catalogo/useProdutoSkus';
 import { GridIcon } from '../components/driverIcons';
 import { DriverTooltip } from './driverFormTooltips';
@@ -16,7 +16,7 @@ export function FranquiaSkusBox({ franquia }: { franquia: string }) {
         <GridIcon />
         SKUs da franquia — somente leitura
       </div>
-      {query.isPending ? <p className="text-[12px] text-apsen-muted">⟳ Carregando SKUs…</p> : null}
+      {query.isPending ? <ApsenLoader variant="inline" label="Carregando SKUs…" /> : null}
       {!query.isPending && vazio ? (
         <p className="text-[12px] text-apsen-muted">Nenhum SKU encontrado.</p>
       ) : null}

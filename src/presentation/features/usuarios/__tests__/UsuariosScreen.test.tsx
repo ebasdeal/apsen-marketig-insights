@@ -153,7 +153,7 @@ describe('UsuariosScreen', { timeout: 20000 }, () => {
         .mockResolvedValueOnce({ rows: [], total: 0, totalPages: 1, resumo: '0 usuários' }),
     };
     const { user } = setup({ list });
-    expect(screen.getByRole('status', { name: 'Carregando…' })).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Carregando usuários…' })).toBeInTheDocument();
     await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
     expect(await screen.findByText('Nenhum usuário encontrado.')).toBeInTheDocument();
   });

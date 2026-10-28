@@ -14,10 +14,10 @@ describe('app/(app)/restricoes', () => {
     ).toBeInTheDocument();
   });
 
-  it('CA-11: loading renderiza o skeleton da tela', () => {
+  it('CA-11: loading renderiza o loader da Apsen', () => {
     render(<RestricoesLoading />);
     expect(screen.getByRole('status', { name: 'Carregando restrições…' })).toBeInTheDocument();
-    expect(screen.getByRole('note')).toBeInTheDocument();
+    expect(screen.getByTestId('loader-logo')).toBeInTheDocument();
   });
 
   it('CA-11: error chama reset em "Tentar novamente"', async () => {

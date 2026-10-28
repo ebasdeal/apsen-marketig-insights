@@ -1,5 +1,5 @@
-import { DriverFormSkeleton } from '@presentation/features/drivers/form/DriverFormSkeleton';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function DriverLoading() {
-  return <DriverFormSkeleton />;
+  return <ApsenLoader variant="content" label="Carregando formulário…" />;
 }

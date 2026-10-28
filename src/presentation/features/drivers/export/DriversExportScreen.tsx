@@ -3,9 +3,9 @@
 import type { DriversExportDto } from '@application/drivers/dto';
 import {
   Alert,
+  ApsenLoader,
   Button,
   Card,
-  CardSkeleton,
   CardTitle,
   CodeBlock,
   ErrorState,
@@ -73,7 +73,7 @@ export function DriversExportScreen() {
         sobre demanda censurada e nota metodológica para o analista. <em>Correlação ≠ causa</em> —
         valide sempre com backtesting e contrafactual.
       </ScreenDesc>
-      {query.isPending ? <CardSkeleton lines={8} label="Gerando JSON…" /> : null}
+      {query.isPending ? <ApsenLoader variant="content" label="Gerando JSON…" /> : null}
       {query.isError && query.data === undefined ? (
         <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />
       ) : null}
