@@ -13,11 +13,14 @@ export const TIPO_NOVO_ROUTE = '/admin/tipos/novo' as Route;
 export function tipoEditarRoute(id: string): Route {
   return `/admin/tipos/${encodeURIComponent(id)}/editar` as Route;
 }
+
 export const ANALISES_ROUTE = '/analises' satisfies Route;
 export const NOVA_ANALISE_ROUTE = '/analises/nova' satisfies Route;
 export function analiseRoute(id: string): Route {
   return `/analises/${encodeURIComponent(id)}` as Route;
+}
 export const RELATORIOS_ROUTE = '/relatorios' satisfies Route;
+
 export const USUARIOS_ROUTE = '/acesso/usuarios' satisfies Route;
 export const USUARIO_NOVO_ROUTE = '/acesso/usuarios/novo' satisfies Route;
 export const usuarioEditarRoute = (id: string) =>
