@@ -24,8 +24,8 @@ export function createDriversModule(
   return {
     formLookups: new GetDriverFormLookups(lookups, catalog),
     getForForm: new GetDriverForForm(drivers, catalog),
-    create: new CreateDriver(drivers, catalog, new CryptoIdGenerator()),
-    update: new UpdateDriver(drivers, catalog),
+    create: new CreateDriver(drivers, new CryptoIdGenerator()),
+    update: new UpdateDriver(drivers),
     searchLaboratorios: new SearchLaboratorios(lookups),
     searchMarcas: new SearchMarcas(lookups),
     list: new ListDrivers(drivers, lookups),

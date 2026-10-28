@@ -213,6 +213,13 @@ describe('NovaAnaliseScreen', () => {
     expect(await screen.findByText('Selecione o ciclo.', { selector: 'span' })).toBeInTheDocument();
   });
 
+  it('Cancelar sem alterações navega direto, sem confirmação', async () => {
+    const { user } = setup();
+    await user.click(await screen.findByRole('button', { name: 'Cancelar' }));
+    expect(screen.queryByRole('dialog', { name: 'Sair sem salvar?' })).not.toBeInTheDocument();
+    expect(routerMock.push).toHaveBeenCalledWith('/analises');
+  });
+
   it('Cancelar com alterações pede confirmação; estados de erro', async () => {
     const { user } = setup({
       driversSugeridos: { execute: vi.fn().mockRejectedValue(new Error('x')) },

@@ -119,6 +119,14 @@ describe('UsuarioFormScreen — cadastrar', { timeout: 20000 }, () => {
   });
 });
 
+describe('UsuarioFormScreen — guarda de saída', () => {
+  it('formulário intocado não pede confirmação ao voltar', async () => {
+    const { user } = setup();
+    await user.click(screen.getByRole('link', { name: '← Voltar' }));
+    expect(screen.queryByRole('dialog', { name: 'Descartar alterações?' })).not.toBeInTheDocument();
+  });
+});
+
 describe('UsuarioFormScreen — editar', { timeout: 20000 }, () => {
   afterEach(() => vi.mocked(console.error).mockRestore());
 

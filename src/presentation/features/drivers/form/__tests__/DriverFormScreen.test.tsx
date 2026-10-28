@@ -115,6 +115,7 @@ describe('DriverFormScreen — novo (CA-01, CA-05, CA-10, CA-11, CA-15)', () => 
     );
     await escolherTipo(user, '5', 'concorrente');
     await user.type(screen.getByRole('combobox', { name: /Laboratório/ }), 'EMS');
+    await user.type(screen.getByLabelText(/^Data Início/), '2026-07-01');
     await user.type(screen.getByLabelText(/^Data Fim/), '2026-08-31');
     await user.click(screen.getByRole('button', { name: /Adicionar Registro/ }));
     await waitFor(() => expect(routerMock.push).toHaveBeenCalledWith('/drivers/catalogo/LEVOXIN'));
@@ -148,6 +149,39 @@ describe('DriverFormScreen — novo (CA-01, CA-05, CA-10, CA-11, CA-15)', () => 
     await user.click(screen.getByRole('button', { name: 'Limpar' }));
     expect(screen.getByRole('textbox', { name: /Título/ })).toHaveValue('');
     expect(screen.getByRole('radio', { name: /Família/ })).toHaveAttribute('aria-checked', 'true');
+  });
+});
+
+describe('DriverFormScreen — datas (DRV-01) e guarda de saída', () => {
+  beforeEach(() => {
+    navigationState.pathname = '/drivers/novo';
+  });
+
+  it('Data Início é obrigatória; Data Fim é opcional e explica o padrão de 1 ano', async () => {
+    const { user } = renderForm({ mode: 'new' });
+    await screen.findByText('Identificação do Evento');
+    expect(screen.getByText('Data Início').parentElement).toHaveTextContent('*');
+    expect(screen.getByText('Data Fim').parentElement).not.toHaveTextContent('*');
+    expect(screen.getByText('Em branco = 1 ano após a data início.')).toBeInTheDocument();
+    await user.type(screen.getByLabelText(/^Data Início/), '2026-07-01');
+    expect(
+      screen.getByText('Em branco = 1 ano após a data início (01/07/2027).'),
+    ).toBeInTheDocument();
+  });
+
+  it('formulário intocado não pede confirmação ao navegar; sujo pede', async () => {
+    const { user } = renderForm({ mode: 'new' });
+    await screen.findByText('Identificação do Evento');
+    const link = document.createElement('a');
+    link.href = '/planos';
+    link.textContent = 'Ir para planos';
+    document.body.append(link);
+    await user.click(link);
+    expect(screen.queryByRole('dialog', { name: 'Sair sem salvar?' })).not.toBeInTheDocument();
+    await user.type(screen.getByRole('textbox', { name: /Título/ }), 'Rascunho');
+    await user.click(link);
+    expect(await screen.findByRole('dialog', { name: 'Sair sem salvar?' })).toBeInTheDocument();
+    link.remove();
   });
 });
 

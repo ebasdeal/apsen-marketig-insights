@@ -1,11 +1,11 @@
 import { montarParametros } from './camposDinamicos';
 import type { Driver } from './Driver';
 import type { DriverDraft } from './draft';
+import { dataFimMaxima } from './periodo';
 import type { CampoTipo } from './lookups';
 
 export interface ContextoDriver {
   campos: readonly CampoTipo[];
-  skus: readonly string[];
   preservar?: Readonly<Record<string, string>>;
 }
 
@@ -23,13 +23,13 @@ function numeroOuNulo(valor: string): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-function produtoDoDraft(draft: DriverDraft, skus: readonly string[]) {
+function produtoDoDraft(draft: DriverDraft) {
   if (draft.modo === 'franquia') {
     return {
       produto: `${draft.franquia} (Franquia)`,
       molecula: draft.franquia,
       codigo: '',
-      skusAfetadosIa: skus.map(codigoSku),
+      skusAfetadosIa: [],
     };
   }
   if (draft.modo === 'familia') {
@@ -37,7 +37,7 @@ function produtoDoDraft(draft: DriverDraft, skus: readonly string[]) {
       produto: `${draft.familia} (Família)`,
       molecula: draft.familia,
       codigo: '',
-      skusAfetadosIa: skus.map(codigoSku),
+      skusAfetadosIa: [],
     };
   }
   const label = draft.sku?.label ?? '';
@@ -49,13 +49,17 @@ function produtoDoDraft(draft: DriverDraft, skus: readonly string[]) {
   };
 }
 
+export function fimDoPeriodo(draft: DriverDraft): string {
+  return draft.fim === '' ? dataFimMaxima(draft.inicio) : draft.fim;
+}
+
 export function montarDriver(draft: DriverDraft, contexto: ContextoDriver, id: string): Driver {
   return {
     id,
     modo: draft.modo,
-    ...produtoDoDraft(draft, contexto.skus),
+    ...produtoDoDraft(draft),
     titulo: draft.titulo.trim(),
-    periodo: { inicio: draft.inicio, fim: draft.fim },
+    periodo: { inicio: draft.inicio, fim: fimDoPeriodo(draft) },
     tipo: draft.tipo,
     cobertura: { regioes: [...draft.regioes], canais: [...draft.canais] },
     intensidadeEsperada: draft.intensidade,

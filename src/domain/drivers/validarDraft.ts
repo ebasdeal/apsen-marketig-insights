@@ -35,8 +35,8 @@ function erroDoTipo(draft: DriverDraft): DraftErro | null {
 }
 
 function erroDoPeriodo(draft: DriverDraft): DraftErro | null {
-  if (draft.fim === '') {
-    return erro('fim', 'Informe a data fim.');
+  if (draft.inicio === '') {
+    return erro('inicio', 'Informe a data início.');
   }
   const mensagem = mensagemPeriodo(validarPeriodo(draft.inicio, draft.fim));
   return mensagem === null ? null : erro('fim', mensagem, PERIODO_TOAST);

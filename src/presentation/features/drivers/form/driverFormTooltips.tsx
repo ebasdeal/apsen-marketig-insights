@@ -35,16 +35,13 @@ const CONTEUDOS = {
   ),
   fim: (
     <>
-      <strong>Data em que o efeito do evento cessa</strong>.
+      <strong>Data em que o efeito do evento cessa</strong> (opcional).
       <br />
       <br />
-      Para eventos com efeito permanente (ex: mudança de classificação Rx→OTC, concorrente
-      descontinuado), use uma data distante como <em>31/12/2099</em> — o analista vai tratar como
-      dummy permanente.
+      Em branco, vale 1 ano a partir da data início. O fim nunca passa de 1 ano da data início.
       <br />
-      <br />
-      Para eventos ainda em curso sem data prevista de encerramento, use a data de revisão do
-      próximo ciclo.
+      <br />A permanência do efeito (ex: mudança de classificação Rx→OTC, concorrente descontinuado)
+      vem da configuração do tipo de driver, não da data fim.
     </>
   ),
   franquia: (

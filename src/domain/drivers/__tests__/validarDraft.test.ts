@@ -34,12 +34,13 @@ describe('validarDraft (RN-03, CA-10)', () => {
     );
   });
 
-  it('Data Fim obrigatória e período dentro de 1 ano', () => {
-    expect(validarDraft(makeDraft({ fim: '' }), CAMPOS)).toEqual({
-      campo: 'fim',
-      toast: '⚠️ Informe a data fim.',
-      mensagem: 'Informe a data fim.',
+  it('Data Início obrigatória, Data Fim opcional e período dentro de 1 ano', () => {
+    expect(validarDraft(makeDraft({ inicio: '' }), CAMPOS)).toEqual({
+      campo: 'inicio',
+      toast: '⚠️ Informe a data início.',
+      mensagem: 'Informe a data início.',
     });
+    expect(validarDraft(makeDraft({ fim: '' }), CAMPOS)).toBeNull();
     expect(validarDraft(makeDraft({ fim: '2027-07-02' }), CAMPOS)).toEqual({
       campo: 'fim',
       toast: '⚠️ Verifique a data fim (máximo 1 ano da data início).',
@@ -48,7 +49,6 @@ describe('validarDraft (RN-03, CA-10)', () => {
     expect(validarDraft(makeDraft({ fim: '2026-06-01' }), CAMPOS)?.mensagem).toBe(
       '⚠️ A data fim não pode ser anterior à data início.',
     );
-    expect(validarDraft(makeDraft({ inicio: '' }), CAMPOS)).toBeNull();
   });
 
   it('campo obrigatório do tipo vazio', () => {

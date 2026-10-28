@@ -73,7 +73,7 @@ describe('CreateDriver (CA-10, RN-02, RN-06, RN-15)', () => {
 
   it('valida antes de gravar e lança DriverValidationError', async () => {
     const drivers = createFakeDriverRepository();
-    const useCase = new CreateDriver(drivers, createFakeCatalogRepository(), ids);
+    const useCase = new CreateDriver(drivers, ids);
     const erro = await useCase
       .execute({ draft: makeDraft({ sku: null }), campos: CAMPOS })
       .catch((error: unknown) => error);
@@ -82,49 +82,41 @@ describe('CreateDriver (CA-10, RN-02, RN-06, RN-15)', () => {
     expect(drivers.create).not.toHaveBeenCalled();
   });
 
-  it('modo Família grava com UUID e os códigos dos SKUs da família', async () => {
+  it('modo Família grava com UUID e sem lista de SKUs (DRV-15)', async () => {
     const drivers = createFakeDriverRepository();
-    const catalog = createFakeCatalogRepository();
     const draft = makeDraft({ modo: 'familia', sku: null, familia: 'LEVOXIN' });
-    const driver = await new CreateDriver(drivers, catalog, ids).execute({ draft, campos: CAMPOS });
-    expect(catalog.getFamilia).toHaveBeenCalledWith('LEVOXIN');
+    const driver = await new CreateDriver(drivers, ids).execute({ draft, campos: CAMPOS });
     expect(driver).toMatchObject({
       id: 'uuid-novo',
       produto: 'LEVOXIN (Família)',
-      skusAfetadosIa: ['2298', '2299', '2300'],
+      skusAfetadosIa: [],
     });
     expect(drivers.create).toHaveBeenCalledWith(driver);
   });
 
-  it('modo Franquia agrega as famílias na ordem de franquias[f].familias', async () => {
-    const catalog = createFakeCatalogRepository();
-    catalog.listFranquias.mockResolvedValue([
-      makeFranquia({ id: 'LYRA', familias: [] }),
-      makeFranquia({ id: 'ASTER', familias: ['FEMELIV', 'LEVOXIN'] }),
-    ]);
-    catalog.listFamiliasDaFranquia.mockResolvedValue([
-      makeFamilia({ id: 'LEVOXIN', skus: ['L (2300)'] }),
-      makeFamilia({ id: 'NOVA', skus: ['N (1)'] }),
-      makeFamilia({ id: 'FEMELIV', skus: ['F (1000)', 'F2'] }),
-    ]);
+  it('modo Franquia grava só o nível, sem lista de SKUs (DRV-15)', async () => {
     const draft = makeDraft({ modo: 'franquia', sku: null, franquia: 'ASTER' });
-    const driver = await new CreateDriver(createFakeDriverRepository(), catalog, ids).execute({
+    const driver = await new CreateDriver(createFakeDriverRepository(), ids).execute({
       draft,
       campos: CAMPOS,
     });
-    expect(catalog.listFamiliasDaFranquia).toHaveBeenCalledWith('ASTER');
-    expect(driver.skusAfetadosIa).toEqual(['1000', 'F2', '2300', '1']);
+    expect(driver).toMatchObject({ produto: 'ASTER (Franquia)', skusAfetadosIa: [] });
   });
 
-  it('modo SKU não consulta o catálogo', async () => {
-    const catalog = createFakeCatalogRepository();
-    const driver = await new CreateDriver(createFakeDriverRepository(), catalog, ids).execute({
+  it('modo SKU grava o código do SKU', async () => {
+    const driver = await new CreateDriver(createFakeDriverRepository(), ids).execute({
       draft: makeDraft(),
       campos: CAMPOS,
     });
     expect(driver.codigo).toBe('2300');
-    expect(catalog.getFamilia).not.toHaveBeenCalled();
-    expect(catalog.listFranquias).not.toHaveBeenCalled();
+  });
+
+  it('Data Fim em branco grava 1 ano após o início', async () => {
+    const driver = await new CreateDriver(createFakeDriverRepository(), ids).execute({
+      draft: makeDraft({ inicio: '2026-07-01', fim: '' }),
+      campos: CAMPOS,
+    });
+    expect(driver.periodo).toEqual({ inicio: '2026-07-01', fim: '2027-07-01' });
   });
 });
 
@@ -137,7 +129,7 @@ describe('UpdateDriver (CA-13, RN-08, RN-15)', () => {
 
   it('PUT com o mesmo id preservando chaves antigas do mesmo tipo', async () => {
     const drivers = createFakeDriverRepository([original]);
-    const driver = await new UpdateDriver(drivers, createFakeCatalogRepository()).execute({
+    const driver = await new UpdateDriver(drivers).execute({
       id: '2',
       draft: makeDraft(),
       campos: CAMPOS,
@@ -149,10 +141,7 @@ describe('UpdateDriver (CA-13, RN-08, RN-15)', () => {
   });
 
   it('trocando o tipo, as chaves antigas somem', async () => {
-    const driver = await new UpdateDriver(
-      createFakeDriverRepository([original]),
-      createFakeCatalogRepository(),
-    ).execute({
+    const driver = await new UpdateDriver(createFakeDriverRepository([original])).execute({
       id: '2',
       draft: makeDraft(),
       campos: CAMPOS,
@@ -164,13 +153,13 @@ describe('UpdateDriver (CA-13, RN-08, RN-15)', () => {
   it('valida o draft', async () => {
     const drivers = createFakeDriverRepository([original]);
     await expect(
-      new UpdateDriver(drivers, createFakeCatalogRepository()).execute({
+      new UpdateDriver(drivers).execute({
         id: '2',
-        draft: makeDraft({ fim: '' }),
+        draft: makeDraft({ inicio: '' }),
         campos: CAMPOS,
         original,
       }),
-    ).rejects.toMatchObject({ field: 'fim' });
+    ).rejects.toMatchObject({ field: 'inicio' });
     expect(drivers.update).not.toHaveBeenCalled();
   });
 });

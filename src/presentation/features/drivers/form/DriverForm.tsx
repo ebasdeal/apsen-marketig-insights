@@ -36,19 +36,19 @@ const GUARD = {
 };
 
 function errosDe(erro: DraftErro): FieldErrors {
-  const periodo = erro.campo === 'fim' && erro.mensagem !== 'Informe a data fim.';
-  return { [erro.campo]: periodo ? '' : erro.mensagem };
+  return { [erro.campo]: erro.campo === 'fim' ? '' : erro.mensagem };
 }
 
 export function DriverForm({ mode, lookups, inicial, original, destino }: DriverFormProps) {
-  const [draft, setDraft] = useState(inicial);
+  const [baseline] = useState(inicial);
+  const [draft, setDraft] = useState(baseline);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [versao, setVersao] = useState(0);
   const [salvo, setSalvo] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const disabled = mode === 'view';
   const campos = lookups.camposPorTipo[draft.tipo];
-  const guard = useUnsavedChangesGuard(!disabled && !salvo && isDraftSujo(draft, inicial), GUARD);
+  const guard = useUnsavedChangesGuard(!disabled && !salvo && isDraftSujo(draft, baseline), GUARD);
   const { submit, pending } = useDriverSubmit({
     mode,
     original,

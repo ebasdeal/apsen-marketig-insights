@@ -12,6 +12,7 @@ import {
   TextInput,
   type ModeOption,
 } from '@presentation/components/ui';
+import { formatDate } from '@presentation/format/formatters';
 import { useId } from 'react';
 import { DriverTooltip } from './driverFormTooltips';
 import { FamiliaFields } from './FamiliaFields';
@@ -28,14 +29,18 @@ const MODOS: readonly ModeOption<Granularidade>[] = [
 const FIM_LABEL = (
   <>
     Data Fim
-    <span aria-hidden="true" className="text-apsen-red">
-      {' *'}
-    </span>
     <span className="ml-[4px] text-[11px] font-normal text-apsen-muted">
       (máx. 1 ano da data início)
     </span>
   </>
 );
+
+function dicaFim(inicio: string): string {
+  const padrao = dataFimMaxima(inicio);
+  return padrao === ''
+    ? 'Em branco = 1 ano após a data início.'
+    : `Em branco = 1 ano após a data início (${formatDate(padrao)}).`;
+}
 
 function DatasFields({ draft, update, errors, disabled }: Omit<CardProps, 'lookups'>) {
   const mensagemId = useId();
@@ -44,7 +49,12 @@ function DatasFields({ draft, update, errors, disabled }: Omit<CardProps, 'looku
   const erroFim = mensagem === null ? errors.fim : (errors.fim ?? '');
   return (
     <FormGrid columns={3} className="mb-[14px]">
-      <FormField label="Data Início" tip={<DriverTooltip tip="inicio" rotulo="Data Início" />}>
+      <FormField
+        label="Data Início"
+        required
+        tip={<DriverTooltip tip="inicio" rotulo="Data Início" />}
+        error={errors.inicio}
+      >
         <TextInput
           type="date"
           value={draft.inicio}
@@ -55,6 +65,7 @@ function DatasFields({ draft, update, errors, disabled }: Omit<CardProps, 'looku
       <FormField
         label={FIM_LABEL}
         tip={<DriverTooltip tip="fim" rotulo="Data Fim" />}
+        hint={dicaFim(draft.inicio)}
         error={erroFim}
       >
         <TextInput

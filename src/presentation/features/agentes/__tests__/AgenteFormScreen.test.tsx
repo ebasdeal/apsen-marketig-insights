@@ -121,6 +121,13 @@ describe('AgenteFormScreen — editar', { timeout: 20000 }, () => {
     expect(screen.getByRole('dialog', { name: 'Descartar alterações?' })).toBeInTheDocument();
   });
 
+  it('sem alterações, voltar não pede confirmação', async () => {
+    const { user } = setup('AG-005');
+    await screen.findByDisplayValue('Desenvolvimento');
+    await user.click(screen.getByRole('link', { name: '← Voltar' }));
+    expect(screen.queryByRole('dialog', { name: 'Descartar alterações?' })).not.toBeInTheDocument();
+  });
+
   it('schedule e modelo extras viram opções', async () => {
     setup('AG-003', {
       getForm: {

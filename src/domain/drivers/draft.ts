@@ -14,7 +14,7 @@ import type { CampoTipo, CamposTipo, Categoria, ChipOpcao, IntensidadeInfo } fro
 import { variacaoPreco } from './variacaoPreco';
 
 export type DraftCampo =
-  'sku' | 'familia' | 'franquia' | 'categoria' | 'tipo' | 'fim' | `param:${string}`;
+  'sku' | 'familia' | 'franquia' | 'categoria' | 'tipo' | 'inicio' | 'fim' | `param:${string}`;
 
 export interface DriverDraft {
   modo: Granularidade;
