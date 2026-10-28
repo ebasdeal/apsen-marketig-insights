@@ -15,7 +15,7 @@ interface PlanoItensTableProps {
 }
 
 const TH =
-  'whitespace-nowrap px-[14px] py-[10px] text-left text-[11.5px] font-semibold tracking-[.02em] text-apsen-muted';
+  'whitespace-nowrap px-[10px] py-[10px] text-left text-[11.5px] font-semibold tracking-[.02em] text-apsen-muted';
 const SORT = 'cursor-pointer border-0 bg-transparent p-0 font-semibold focus-ring';
 const HEADERS = ['Produto / Apresentação', 'Família'];
 const TRAILING = ['Linha', 'Semana Prod.', 'Status', 'Ações'];

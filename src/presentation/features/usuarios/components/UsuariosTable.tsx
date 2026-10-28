@@ -31,6 +31,7 @@ function columns(
     },
     {
       key: 'email',
+      wrap: true,
       header: 'E-mail',
       render: (row) => <span className="text-[12px] text-apsen-muted">{row.email}</span>,
     },
@@ -69,6 +70,7 @@ function columns(
     {
       key: 'acesso',
       mobile: 'hidden',
+      wrap: true,
       header: 'Último acesso',
       render: (row) => <span className="text-[12px]">{row.ultimoAcesso}</span>,
     },
@@ -102,6 +104,7 @@ export function UsuariosTable({
       rows={rows}
       rowKey={(row) => row.id}
       emptyText="Nenhum usuário encontrado."
+      compact
       footer={footer}
       actions={(row) => (
         <>

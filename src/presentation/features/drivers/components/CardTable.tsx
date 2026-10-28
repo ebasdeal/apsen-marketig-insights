@@ -33,6 +33,12 @@ const TH =
   'whitespace-nowrap border-b border-apsen-border px-[16px] py-[11px] text-[11px] font-semibold uppercase tracking-[.05em] text-apsen-muted';
 const TD = 'border-b border-apsen-bg px-[16px] py-[11px] align-middle text-[13px]';
 
+function cellClass<T>(column: CardTableColumn<T>, align: string): string {
+  return [TD, column.wrap === true ? '' : 'whitespace-nowrap', align, column.className ?? '']
+    .filter(Boolean)
+    .join(' ');
+}
+
 export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: CardTableProps<T>) {
   const align = (column: CardTableColumn<T>) =>
     column.center === true ? 'text-center' : 'text-left';
@@ -72,9 +78,7 @@ export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: Card
                     key={column.key}
                     label={columnLabel(column.header, column.label)}
                     kind={column.mobile ?? 'field'}
-                    className={`${TD} ${column.wrap === true ? '' : 'whitespace-nowrap'} ${align(column)} ${column.className ?? ''}`
-                      .replace(/s+/g, ' ')
-                      .trim()}
+                    className={cellClass(column, align(column))}
                   >
                     {column.render(row)}
                   </StackedCell>

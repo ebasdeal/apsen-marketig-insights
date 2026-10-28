@@ -7,10 +7,10 @@ import {
   STACK_ROW,
   STACK_TABLE,
   STACK_WRAP,
-  stackedCellClass,
   stackedValueClass,
   type StackedPriority,
 } from './stackedTable';
+import { actionCellClass, bodyCellClass, headCellClass } from './tableStyles';
 import { Toolbar } from './Toolbar';
 
 export interface TableColumn<T> {
@@ -34,22 +34,7 @@ interface TableProps<T> {
   toolbar?: ReactNode;
   footer?: ReactNode;
   rowClassName?: (row: T) => string;
-}
-
-const TH =
-  'whitespace-nowrap px-[14px] py-[10px] text-left text-[11.5px] font-semibold tracking-[.02em]';
-const TD = 'border-b border-apsen-bg px-[14px] py-[12px] align-middle text-[13px]';
-const NOWRAP = 'whitespace-nowrap';
-
-function cellClass<T>(column: TableColumn<T>): string {
-  return [
-    TD,
-    column.wrap === true ? '' : NOWRAP,
-    column.className ?? '',
-    stackedCellClass(column.mobile ?? 'field'),
-  ]
-    .filter(Boolean)
-    .join(' ');
+  compact?: boolean;
 }
 
 export function Table<T>({
@@ -62,8 +47,10 @@ export function Table<T>({
   toolbar,
   footer,
   rowClassName,
+  compact = false,
 }: TableProps<T>) {
   const total = columns.length + (actions === undefined ? 0 : 1);
+  const th = headCellClass(compact);
   return (
     <>
       {toolbar === undefined ? null : <Toolbar>{toolbar}</Toolbar>}
@@ -78,13 +65,13 @@ export function Table<T>({
                 <th
                   key={column.key}
                   scope="col"
-                  className={`${TH} ${column.headerClassName ?? 'text-apsen-muted'}`}
+                  className={`${th} ${column.headerClassName ?? 'text-apsen-muted'}`}
                 >
                   {column.header}
                 </th>
               ))}
               {actions === undefined ? null : (
-                <th scope="col" className={`${TH} text-apsen-muted`}>
+                <th scope="col" className={`${th} text-apsen-muted`}>
                   Ações
                 </th>
               )}
@@ -107,7 +94,7 @@ export function Table<T>({
                     <td
                       key={column.key}
                       data-label={columnLabel(column.header, column.label)}
-                      className={cellClass(column)}
+                      className={bodyCellClass(column, compact)}
                     >
                       <div className={stackedValueClass(column.mobile ?? 'field')}>
                         {column.render(row)}
@@ -115,7 +102,7 @@ export function Table<T>({
                     </td>
                   ))}
                   {actions === undefined ? null : (
-                    <td className={`${TD} ${NOWRAP} ${stackedCellClass('actions')}`}>
+                    <td className={actionCellClass(compact)}>
                       <ActionGroup>{actions(row)}</ActionGroup>
                     </td>
                   )}

@@ -21,7 +21,7 @@ interface PlanoItemRowProps {
   onExcluir: () => void;
 }
 
-const TD = 'border-b border-apsen-bg px-[14px] py-[12px] align-middle text-[13px]';
+const TD = 'border-b border-apsen-bg px-[10px] py-[12px] align-middle text-[13px]';
 const TD_CURTO = `${TD} whitespace-nowrap`;
 
 export function PlanoItemRow({

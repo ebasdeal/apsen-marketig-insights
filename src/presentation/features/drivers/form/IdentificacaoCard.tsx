@@ -35,9 +35,9 @@ const FIM_LABEL = (
   </>
 );
 
-function dicaFim(inicio: string): string {
+function dicaFim(inicio: string, fim: string): string {
   const padrao = dataFimMaxima(inicio);
-  return padrao === ''
+  return padrao === '' || fim !== ''
     ? 'Em branco = 1 ano após a data início.'
     : `Em branco = 1 ano após a data início (${formatDate(padrao)}).`;
 }
@@ -65,7 +65,7 @@ function DatasFields({ draft, update, errors, disabled }: Omit<CardProps, 'looku
       <FormField
         label={FIM_LABEL}
         tip={<DriverTooltip tip="fim" rotulo="Data Fim" />}
-        hint={dicaFim(draft.inicio)}
+        hint={dicaFim(draft.inicio, draft.fim)}
         error={erroFim}
       >
         <TextInput

@@ -45,7 +45,13 @@ const VIEWPORTS = [
   { width: 768, height: 1024 },
   { width: 1024, height: 768 },
   { width: 1440, height: 900 },
-  ...(process.env.EXTRA_WIDE === '1' ? [{ width: 1920, height: 1080 }] : []),
+  ...(process.env.DESKTOP_AUDIT === '1'
+    ? [
+        { width: 1280, height: 800 },
+        { width: 1366, height: 768 },
+        { width: 1536, height: 864 },
+      ]
+    : []),
 ];
 
 async function launch() {
@@ -89,7 +95,7 @@ async function measure(page) {
     return {
       page: root.scrollWidth <= window.innerWidth,
       main: main === null || main.scrollWidth <= main.clientWidth + 1,
-      inner: window.innerWidth >= 768 || scrollers.length === 0,
+      inner: (window.innerWidth >= 768 && window.innerWidth < 1280) || scrollers.length === 0,
       offenders: [...offenders, ...scrollers.slice(0, 2)],
     };
   });

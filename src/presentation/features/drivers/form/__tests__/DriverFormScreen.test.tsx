@@ -167,6 +167,11 @@ describe('DriverFormScreen — datas (DRV-01) e guarda de saída', () => {
     expect(
       screen.getByText('Em branco = 1 ano após a data início (01/07/2027).'),
     ).toBeInTheDocument();
+    await user.type(screen.getByLabelText(/^Data Fim/), '2026-08-31');
+    expect(
+      screen.queryByText('Em branco = 1 ano após a data início (01/07/2027).'),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Em branco = 1 ano após a data início.')).toBeInTheDocument();
   });
 
   it('formulário intocado não pede confirmação ao navegar; sujo pede', async () => {

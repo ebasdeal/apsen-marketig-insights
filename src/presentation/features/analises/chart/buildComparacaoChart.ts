@@ -18,6 +18,24 @@ export interface CoresGrafico {
   grid: string;
 }
 
+export interface DominioY {
+  min: number;
+  max: number;
+}
+
+const FOLGA_DOMINIO = 0.05;
+
+export function dominioY(comparacao: Comparacao): DominioY {
+  const valores = [
+    ...comparacao.linhas.flatMap((linha) => [linha.sem, linha.com]),
+    ...comparacao.incerteza.linhas.flatMap((faixa) => [faixa.min, faixa.max]),
+  ];
+  const min = Math.min(...valores);
+  const max = Math.max(...valores);
+  const folga = (max - min) * FOLGA_DOMINIO;
+  return { min: min - folga, max: max + folga };
+}
+
 export const TOKENS_GRAFICO = [
   '--color-apsen-blue',
   '--color-apsen-muted-2',
@@ -119,6 +137,7 @@ export function buildComparacaoChart(comparacao: Comparacao, cores: CoresGrafico
       })),
     ],
   };
+  const dominio = dominioY(comparacao);
   const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
@@ -131,6 +150,8 @@ export function buildComparacaoChart(comparacao: Comparacao, cores: CoresGrafico
     scales: {
       x: { grid: { display: false }, ticks: { font: { size: 11 }, color: cores.muted } },
       y: {
+        suggestedMin: dominio.min,
+        suggestedMax: dominio.max,
         ticks: { font: { size: 10 }, color: cores.muted, callback: tickMilhar },
         grid: { color: cores.grid },
       },

@@ -101,6 +101,7 @@ export function RestricoesTable({
       columns={COLUMNS}
       rows={itens}
       rowKey={(r) => r.id}
+      compact
       emptyText="Nenhum registro"
       actions={acoes}
       footer={footer}
