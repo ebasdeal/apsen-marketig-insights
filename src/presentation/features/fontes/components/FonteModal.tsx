@@ -2,7 +2,7 @@
 
 import type { FonteErrors } from '@domain/fontes/Fonte';
 import { FonteValidationError } from '@domain/fontes/errors';
-import { firstFonteError, validateFonteDraft } from '@domain/fontes/fonteRules';
+import { firstFonteError, FONTE_MESSAGES, validateFonteDraft } from '@domain/fontes/fonteRules';
 import { Button, ConfirmDialog, focusFirstInvalid, Modal } from '@presentation/components/ui';
 import {
   useCreateFonteMutation,
@@ -40,20 +40,18 @@ export function FonteModal({ mode, onClose }: FonteModalProps) {
   const update = useUpdateFonteMutation();
   const toast = useToast();
   const pending = create.isPending || update.isPending;
+  // Erro de um campo some assim que ele passa a ser válido (não espera o próximo envio).
+  const restantes =
+    mode.modo === 'config' || Object.keys(errors).length === 0
+      ? errors
+      : validateFonteDraft(form, { nova: true, nomesExistentes: [] });
+  const errosVisiveis = Object.fromEntries(
+    Object.entries(errors).filter(
+      ([campo, mensagem]) => campo in restantes || mensagem === FONTE_MESSAGES.nomeRepetido,
+    ),
+  ) as FonteErrors;
   const change = (patch: Partial<FonteFormState>) =>
     setForm((current) => ({ ...current, ...patch }));
-
-  // Erro de um campo some assim que ele passa a ser válido (não espera o próximo envio).
-  useEffect(() => {
-    if (mode.modo === 'config') return;
-    setErrors((atuais) => {
-      if (Object.keys(atuais).length === 0) return atuais;
-      const restantes = validateFonteDraft(form, { nova: true, nomesExistentes: [] });
-      return Object.fromEntries(
-        Object.entries(atuais).filter(([campo]) => campo in restantes),
-      ) as FonteErrors;
-    });
-  }, [form, mode.modo]);
 
   useEffect(() => {
     if (attempt > 0) focusFirstInvalid(bodyRef.current);
@@ -113,13 +111,13 @@ export function FonteModal({ mode, onClose }: FonteModalProps) {
       >
         <div ref={bodyRef} className="flex flex-col gap-[14px]">
           {mode.modo === 'nova' ? (
-            <FonteIdentificacao form={form} errors={errors} onChange={change} />
+            <FonteIdentificacao form={form} errors={errosVisiveis} onChange={change} />
           ) : null}
           <FonteModoField value={form.modo} onChange={(modo) => change({ modo })} />
           {form.modo === 'api' ? (
             <FonteApiConfig
               form={form}
-              errors={errors}
+              errors={errosVisiveis}
               token={token}
               onTokenChange={setToken}
               onChange={change}

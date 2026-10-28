@@ -11,7 +11,7 @@ import {
   useUnsavedChangesGuard,
 } from '@presentation/components/ui';
 import type { Route } from 'next';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { CheckIcon } from '../components/driverIcons';
 import { CoberturaCard } from './CoberturaCard';
 import { DynamicFieldsCard } from './DynamicFieldsCard';
@@ -71,18 +71,12 @@ export function DriverForm({
   });
 
   // Erro de um campo some assim que ele passa a ser válido (não espera o próximo envio).
-  useEffect(() => {
-    setErrors((atuais) => {
-      if (Object.keys(atuais).length === 0) {
-        return atuais;
-      }
-      const pendente = validarDraft(draft, campos?.campos ?? []);
-      return pendente !== null && pendente.campo in atuais ? atuais : {};
-    });
-  }, [draft, campos]);
+  const pendente =
+    Object.keys(errors).length === 0 ? null : validarDraft(draft, campos?.campos ?? []);
+  const errosVisiveis: FieldErrors = pendente !== null && pendente.campo in errors ? errors : {};
 
   const update: DraftUpdater = (fn) => setDraft((atual) => fn(atual));
-  const props = { draft, update, errors, disabled, lookups };
+  const props = { draft, update, errors: errosVisiveis, disabled, lookups };
 
   function limparTudo() {
     setDraft((atual) =>
