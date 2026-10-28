@@ -1,6 +1,6 @@
 export function PermissionCheck({ value }: { value: boolean }) {
   return value ? (
-    <span className="text-[15px] text-apsen-green">
+    <span className="text-[15px] text-apsen-green-fg">
       <span aria-hidden="true">✓</span>
       <span className="sr-only">Sim</span>
     </span>

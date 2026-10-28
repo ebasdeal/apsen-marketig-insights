@@ -18,11 +18,11 @@ describe('DashboardScreen', () => {
   it('CA-03: 4 cartões com hints e links', async () => {
     renderWithProviders(<DashboardScreen />);
     const pipeline = await screen.findByRole('article', { name: 'Drivers no pipeline: 14' });
-    expect(within(pipeline).getByText('2 pendentes')).toHaveClass('text-apsen-yellow');
+    expect(within(pipeline).getByText('2 pendentes')).toHaveClass('text-apsen-yellow-fg');
     expect(screen.getByRole('article', { name: 'Restrições ativas: 8' })).toBeInTheDocument();
     expect(screen.getByRole('article', { name: 'Itens no plano PLP-2026-07: 247' }));
     const analises = screen.getByRole('article', { name: 'Análises realizadas: 2' });
-    expect(within(analises).getByText('2 salvas')).toHaveClass('text-apsen-green');
+    expect(within(analises).getByText('2 salvas')).toHaveClass('text-apsen-green-fg');
     const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'));
     expect(hrefs).toEqual(
       expect.arrayContaining(['/admin/aprovacoes', '/restricoes', '/planos', '/analises']),

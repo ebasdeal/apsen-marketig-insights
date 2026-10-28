@@ -10,7 +10,7 @@ export function CiclosSummary({ total, ativos }: { total: number; ativos: number
   return (
     <p className="mb-[12px] text-[13px] text-apsen-muted">
       <strong>{ciclosLabel(total)}</strong> cadastrados ·{' '}
-      <span className="font-medium text-apsen-green">{ativosLabel(ativos)}</span>
+      <span className="font-medium text-apsen-green-fg">{ativosLabel(ativos)}</span>
     </p>
   );
 }

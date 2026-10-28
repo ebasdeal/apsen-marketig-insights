@@ -9,7 +9,7 @@ interface StatusDistributionRowProps {
 }
 
 const TONES: Record<DistributionTone, { bg: string; text: string }> = {
-  green: { bg: 'bg-apsen-green', text: 'text-apsen-green' },
+  green: { bg: 'bg-apsen-green', text: 'text-apsen-green-fg' },
   orange: { bg: 'bg-apsen-orange', text: 'text-apsen-orange' },
   red: { bg: 'bg-apsen-red', text: 'text-apsen-red' },
   muted: { bg: 'bg-apsen-muted', text: 'text-apsen-muted' },

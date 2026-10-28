@@ -29,7 +29,7 @@ describe('TiposScreen — CA-01 CA-03', () => {
       'true',
     );
     expect(await screen.findByText('47 de 47 tipos')).toBeInTheDocument();
-    expect(screen.getByText('45 ativos')).toHaveClass('text-apsen-green');
+    expect(screen.getByText('45 ativos')).toHaveClass('text-apsen-green-fg');
     expect(linhas()).toHaveLength(10);
     const tv = linhas()[0]!;
     expect(within(tv).getByText('continua_grp')).toHaveClass('font-mono', 'text-apsen-teal');

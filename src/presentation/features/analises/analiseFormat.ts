@@ -31,6 +31,6 @@ export function tickMilhar(valor: number | string): number | string {
   return typeof valor === 'number' && valor >= 1000 ? `${Math.round(valor / 1000)}k` : valor;
 }
 
-export function tomDelta(valor: number): 'text-apsen-green' | 'text-apsen-red' {
-  return valor >= 0 ? 'text-apsen-green' : 'text-apsen-red';
+export function tomDelta(valor: number): 'text-apsen-green-fg' | 'text-apsen-red' {
+  return valor >= 0 ? 'text-apsen-green-fg' : 'text-apsen-red';
 }

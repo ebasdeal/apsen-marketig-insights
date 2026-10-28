@@ -33,7 +33,7 @@ export function StatusField({
       </div>
       <div className="flex shrink-0 items-center gap-[9px]">
         <span
-          className={`text-[12px] font-medium ${checked ? 'text-apsen-green' : 'text-apsen-muted'}`}
+          className={`text-[12px] font-medium ${checked ? 'text-apsen-green-fg' : 'text-apsen-muted'}`}
         >
           {checked ? onLabel : offLabel}
         </span>

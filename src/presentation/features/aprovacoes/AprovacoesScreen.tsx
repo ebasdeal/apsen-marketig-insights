@@ -50,7 +50,7 @@ function Resumo({ data }: { data: ListAprovacoesResult }) {
       {pendentes === null ? null : (
         <>
           {' · '}
-          <span className="font-medium text-apsen-yellow">{pendentes}</span>
+          <span className="font-medium text-apsen-yellow-fg">{pendentes}</span>
         </>
       )}
     </>

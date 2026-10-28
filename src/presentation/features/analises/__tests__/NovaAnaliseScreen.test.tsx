@@ -76,8 +76,8 @@ describe('NovaAnaliseScreen', () => {
     await user.selectOptions(await screen.findByLabelText(/Ciclo/), 'PLP-2026-07');
     expect(await screen.findByText('Imunologia (2 SKUs)')).toHaveClass('text-apsen-pal-purple');
     expect(screen.getByText('18d estoque')).toHaveClass('text-apsen-red');
-    expect(screen.getByText('45d estoque')).toHaveClass('text-apsen-yellow');
-    expect(screen.getByText('90d estoque')).toHaveClass('text-apsen-green');
+    expect(screen.getByText('45d estoque')).toHaveClass('text-apsen-yellow-fg');
+    expect(screen.getByText('90d estoque')).toHaveClass('text-apsen-green-fg');
     expect(screen.queryByText('0d estoque')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: '✓ Selecionar todos' }));
     expect(

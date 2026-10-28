@@ -44,7 +44,7 @@ function StatusCell({
         aria-label={`Agente ${row.papel} ativo`}
       />
       <span
-        className={`text-[12px] font-medium ${row.ativo ? 'text-apsen-green' : 'text-apsen-muted'}`}
+        className={`text-[12px] font-medium ${row.ativo ? 'text-apsen-green-fg' : 'text-apsen-muted'}`}
       >
         {row.ativo ? 'Ativo' : 'Inativo'}
       </span>

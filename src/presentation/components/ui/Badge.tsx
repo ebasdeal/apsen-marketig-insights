@@ -15,8 +15,8 @@ const SIZES: Record<BadgeSize, string> = {
 
 const TONES: Record<BadgeTone, string> = {
   blue: 'bg-apsen-blue-bg text-apsen-blue before:bg-apsen-blue',
-  green: 'bg-apsen-green-bg text-apsen-green before:bg-apsen-green',
-  yellow: 'bg-apsen-yellow-bg text-apsen-yellow before:bg-apsen-yellow',
+  green: 'bg-apsen-green-bg text-apsen-green-fg before:bg-apsen-green',
+  yellow: 'bg-apsen-yellow-bg text-apsen-yellow-fg before:bg-apsen-yellow',
   red: 'bg-apsen-red-bg text-apsen-red before:bg-apsen-red',
   gray: 'bg-apsen-bg text-apsen-muted before:bg-apsen-muted-2',
   teal: 'bg-apsen-teal-bg text-apsen-teal before:bg-apsen-teal',

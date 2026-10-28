@@ -13,7 +13,7 @@ export function ImpactRow({ impacto }: { impacto: ImpactoOutput }) {
         style={{ width: `${impacto.largura}px` }}
       />
       <span
-        className={`min-w-[44px] text-right text-[13px] font-bold ${subiu ? 'text-apsen-green' : 'text-apsen-red'}`}
+        className={`min-w-[44px] text-right text-[13px] font-bold ${subiu ? 'text-apsen-green-fg' : 'text-apsen-red'}`}
       >
         {`${impacto.sinal}${impacto.impacto}%`}
       </span>

@@ -18,7 +18,11 @@ describe('StatusField', () => {
     const toggle = screen.getByRole('switch', { name: 'Ativo no Driver Form' });
     expect(toggle).toBeChecked();
     expect(toggle).toHaveAccessibleDescription(DESCRIPTION);
-    expect(screen.getByText('Ativo')).toHaveClass('text-[12px]', 'font-medium', 'text-apsen-green');
+    expect(screen.getByText('Ativo')).toHaveClass(
+      'text-[12px]',
+      'font-medium',
+      'text-apsen-green-fg',
+    );
     expect(screen.getByText('Ativo no Driver Form')).toHaveClass('text-[13px]', 'font-medium');
     expect(screen.getByText(DESCRIPTION)).toHaveClass('mt-[2px]', 'block', 'text-[11.5px]');
     await user.click(toggle);

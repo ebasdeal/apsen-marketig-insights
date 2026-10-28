@@ -4,14 +4,14 @@ import type { AmbienteTone } from '@domain/agentes/agenteRules';
 
 const PROVIDER_TONES: Record<Provedor, string> = {
   'azure-foundry': 'border-apsen-blue-light bg-apsen-kpi-blue text-apsen-blue',
-  anthropic: 'border-apsen-yellow-b bg-apsen-yellow-soft text-apsen-yellow',
-  openai: 'border-apsen-green-b bg-apsen-green-bg text-apsen-green',
+  anthropic: 'border-apsen-yellow-b bg-apsen-yellow-soft text-apsen-yellow-fg',
+  openai: 'border-apsen-green-b bg-apsen-green-bg text-apsen-green-fg',
 };
 
 const ENV_TONES: Record<AmbienteTone, string> = {
   red: 'border-apsen-red-b bg-apsen-red-bg text-apsen-red',
-  yellow: 'border-apsen-yellow-b bg-apsen-yellow-bg text-apsen-yellow',
-  green: 'border-apsen-green-b bg-apsen-green-bg text-apsen-green',
+  yellow: 'border-apsen-yellow-b bg-apsen-yellow-bg text-apsen-yellow-fg',
+  green: 'border-apsen-green-b bg-apsen-green-bg text-apsen-green-fg',
 };
 
 export function ProviderPill({ provedor }: { provedor: Provedor }) {
@@ -56,7 +56,7 @@ export function LastTestCell({ teste }: { teste: UltimoTeste }) {
       <div
         className={
           ok
-            ? 'text-[12.5px] font-medium text-apsen-green'
+            ? 'text-[12.5px] font-medium text-apsen-green-fg'
             : 'text-[12px] font-medium text-apsen-red'
         }
       >

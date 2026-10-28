@@ -26,6 +26,8 @@
   --color-apsen-yellow: #f4cf3d;
   --color-apsen-yellow-bg: #fdf4de;
   --color-apsen-yellow-b: #f4cf3d;
+  --color-apsen-green-fg: #0f7a3d;
+  --color-apsen-yellow-fg: #8a6a00;
   --color-apsen-red: #d63434;
   --color-apsen-red-bg: #fae9e9;
   --color-apsen-red-b: #d63434;
@@ -161,6 +163,8 @@ html.dark {
   --color-apsen-yellow: #f4cf3d;
   --color-apsen-yellow-bg: #3a3115;
   --color-apsen-yellow-b: #8a7420;
+  --color-apsen-green-fg: #3dd68c;
+  --color-apsen-yellow-fg: #f4cf3d;
   --color-apsen-red: #f06565;
   --color-apsen-red-bg: #3a1717;
   --color-apsen-red-b: #a33a3a;
