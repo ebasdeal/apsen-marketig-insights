@@ -54,6 +54,21 @@ export function PlanoItemDetalhe({ item }: { item: PlanoItemDetailOutput }) {
     }
   };
 
+  // PRG-PLN-11: só o Aprovado trava; Planejador e Admin reabrem o item para Em Revisão.
+  const reabrir = async () => {
+    try {
+      const { codigo } = await atualizar.mutateAsync({
+        id: item.id,
+        form: { ...item.form, status: 'revisao' },
+      });
+      setSalvo(true);
+      toast.show(`✅ Item ${codigo} reaberto para revisão.`);
+      router.push(PLANOS_ROUTE);
+    } catch (error) {
+      toast.show(mensagemDeFalha(error));
+    }
+  };
+
   return (
     <div ref={corpo}>
       <Breadcrumb
@@ -72,6 +87,16 @@ export function PlanoItemDetalhe({ item }: { item: PlanoItemDetailOutput }) {
             <Button variant="ghost" onClick={() => guard.confirmLeave(PLANOS_ROUTE)}>
               Cancelar
             </Button>
+            {item.status === 'aprovado' && podeEditar ? (
+              <Button
+                variant="outline"
+                size="sm"
+                loading={atualizar.isPending}
+                onClick={() => void reabrir()}
+              >
+                Reabrir para revisão
+              </Button>
+            ) : null}
             {somenteLeitura ? null : (
               <Button size="sm" loading={atualizar.isPending} onClick={() => void salvar()}>
                 Salvar Alterações

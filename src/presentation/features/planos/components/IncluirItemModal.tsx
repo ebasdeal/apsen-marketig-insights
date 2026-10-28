@@ -65,7 +65,7 @@ export default function IncluirItemModal({ onClose }: { onClose: () => void }) {
             <Button variant="ghost" size="sm" disabled={incluir.isPending} onClick={fechar}>
               Cancelar
             </Button>
-            <Button size="sm" loading={incluir.isPending} onClick={() => void salvar()}>
+            <Button escrita size="sm" loading={incluir.isPending} onClick={() => void salvar()}>
               Incluir Item
             </Button>
           </>

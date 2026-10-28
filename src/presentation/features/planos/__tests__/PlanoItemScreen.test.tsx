@@ -94,6 +94,29 @@ describe('PlanoItemScreen', () => {
     expect(screen.getByRole('button', { name: 'Cancelar' })).toBeInTheDocument();
   });
 
+  it('PRG-PLN-11: Planejador reabre item aprovado para Em Revisão; Área não vê o botão', async () => {
+    const aprovado = planoItemDetailFixture({ somenteLeitura: true, status: 'aprovado' });
+    const { user, useCases } = setup({ get: { execute: vi.fn().mockResolvedValue(aprovado) } });
+    await user.click(await screen.findByRole('button', { name: 'Reabrir para revisão' }));
+    expect(useCases.planos.atualizar.execute).toHaveBeenCalledWith(
+      aprovado.id,
+      expect.objectContaining({ status: 'revisao' }),
+    );
+  });
+
+  it('Área não reabre item aprovado', async () => {
+    loginAs('area');
+    setup({
+      get: {
+        execute: vi
+          .fn()
+          .mockResolvedValue(planoItemDetailFixture({ somenteLeitura: true, status: 'aprovado' })),
+      },
+    });
+    await screen.findByRole('spinbutton', { name: 'Qtd. Planejada' });
+    expect(screen.queryByRole('button', { name: 'Reabrir para revisão' })).not.toBeInTheDocument();
+  });
+
   it('perfis Área/Visualizador veem o detalhe só para leitura', async () => {
     loginAs('viewer');
     setup();

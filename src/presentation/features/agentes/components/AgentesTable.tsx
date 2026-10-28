@@ -64,8 +64,10 @@ function columns(
       header: 'Nome / Papel C4',
       render: (row) => (
         <>
-          <div className="text-[13px] font-medium">{row.papel}</div>
-          <div className="text-[11.5px] text-apsen-muted">{row.fontes}</div>
+          <div className="text-[13px] font-medium">{row.nome === '' ? row.papel : row.nome}</div>
+          <div className="text-[11.5px] text-apsen-muted">
+            {row.nome === '' ? row.fontes : `${row.papel} · ${row.fontes}`}
+          </div>
         </>
       ),
     },
