@@ -1,7 +1,8 @@
 'use client';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import type { Route } from 'next';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, type ReactNode } from 'react';
 import { ApsenLoader } from '../../components/ui/ApsenLoader';
 import { FullScreenLoader } from '../../components/ui/FullScreenLoader';
@@ -9,7 +10,7 @@ import { ErrorState } from '../../components/ui/StateViews';
 import { queryKeys } from '../../hooks/queryKeys';
 import { useUseCases } from '../../providers/UseCasesContext';
 import { useSessaoStore } from '../../stores/sessaoStore';
-import { SsoRedirect } from './SsoRedirect';
+import { LOGIN_ROUTE } from '../../navigation/routes';
 
 function currentPath(pathname: string): string {
   return `${pathname}${window.location.search}`;
@@ -17,6 +18,7 @@ function currentPath(pathname: string): string {
 
 export function AuthGate({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const useCases = useUseCases();
   const hidratado = useSessaoStore((state) => state.hidratado);
@@ -24,6 +26,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
   const atualizarUsuario = useSessaoStore((state) => state.atualizarUsuario);
   const saindo = useSessaoStore((state) => state.saindo);
   const semSessao = hidratado && sessao === null;
+  const irParaLogin = semSessao && !saindo;
 
   const me = useQuery({
     queryKey: queryKeys.auth.me(sessao?.usuario.id ?? ''),
@@ -40,6 +43,13 @@ export function AuthGate({ children }: { children: ReactNode }) {
   }, [semSessao, queryClient]);
 
   useEffect(() => {
+    if (irParaLogin) {
+      const retorno = encodeURIComponent(currentPath(pathname));
+      router.replace(`${LOGIN_ROUTE}?retorno=${retorno}` as Route);
+    }
+  }, [irParaLogin, pathname, router]);
+
+  useEffect(() => {
     if (me.data !== undefined) {
       atualizarUsuario(me.data);
     }
@@ -49,7 +59,7 @@ export function AuthGate({ children }: { children: ReactNode }) {
     return <FullScreenLoader label="Saindo…" />;
   }
   if (semSessao) {
-    return <SsoRedirect state={currentPath(pathname)} />;
+    return <FullScreenLoader label="Redirecionando para o login…" />;
   }
   if (!hidratado || sessao === null) {
     return <ApsenLoader variant="content" label="Verificando sua sessão…" />;

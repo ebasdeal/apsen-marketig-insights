@@ -1,6 +1,5 @@
-import { SsoNaoConfiguradoError } from '@domain/auth/AuthErrors';
 import { SESSOES } from '@test/fixtures/sessao';
-import { navigationState } from '@test/nextNavigation';
+import { navigationState, routerMock } from '@test/nextNavigation';
 import { createFakeUseCases, renderWithProviders } from '@test/renderWithProviders';
 import { logout } from '@test/resetStores';
 import { act, screen, waitFor } from '@testing-library/react';
@@ -18,48 +17,36 @@ function renderGate(useCases = createFakeUseCases()) {
 }
 
 describe('AuthGate', () => {
-  it('sem sessão redireciona ao provedor de identidade com a rota atual como state', async () => {
+  it('sem sessão manda para /entrar com a rota atual em retorno', async () => {
     logout();
     navigationState.pathname = '/drivers';
     const { useCases } = renderGate();
     await waitFor(() =>
-      expect(useCases.auth.iniciarLogin.execute).toHaveBeenCalledWith('/drivers'),
+      expect(routerMock.replace).toHaveBeenCalledWith('/entrar?retorno=%2Fdrivers'),
     );
     expect(screen.getByRole('status')).toHaveTextContent('Redirecionando para o login…');
     expect(screen.queryByText('área logada')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('Senha')).not.toBeInTheDocument();
+    expect(useCases.auth.iniciarLogin.execute).not.toHaveBeenCalled();
   });
 
-  it('preserva a query da rota no state', async () => {
+  it('preserva a query da rota no retorno', async () => {
     logout();
     navigationState.pathname = '/drivers';
     window.history.pushState({}, '', '/drivers?page=2');
-    const { useCases } = renderGate();
+    renderGate();
     await waitFor(() =>
-      expect(useCases.auth.iniciarLogin.execute).toHaveBeenCalledWith('/drivers?page=2'),
+      expect(routerMock.replace).toHaveBeenCalledWith(
+        `/entrar?retorno=${encodeURIComponent('/drivers?page=2')}`,
+      ),
     );
     window.history.pushState({}, '', '/');
   });
 
-  it('modo entra sem App Registration mostra o ErrorState e permite tentar de novo', async () => {
-    logout();
-    const execute = vi.fn(() => {
-      throw new SsoNaoConfiguradoError();
-    });
-    const { user } = renderGate(createFakeUseCases({ auth: { iniciarLogin: { execute } } }));
-    expect(
-      await screen.findByRole('heading', {
-        name: 'Login Microsoft ainda não configurado (App Registration do Entra ID pendente).',
-      }),
-    ).toBeInTheDocument();
-    await user.click(screen.getByRole('button', { name: 'Tentar novamente' }));
-    await waitFor(() => expect(execute).toHaveBeenCalledTimes(2));
-  });
-
   it('aguarda a reidratação antes de decidir', () => {
+    vi.spyOn(useSessaoStore.persist, 'rehydrate').mockResolvedValue(undefined);
     useSessaoStore.setState(INITIAL_SESSAO_STATE);
-    const { useCases } = renderGate();
-    expect(useCases.auth.iniciarLogin.execute).not.toHaveBeenCalled();
+    renderGate();
+    expect(routerMock.replace).not.toHaveBeenCalled();
   });
 
   it('valida /auth/me e mostra o conteúdo', async () => {
@@ -84,27 +71,27 @@ describe('AuthGate', () => {
     expect(await screen.findByText('área logada')).toBeInTheDocument();
   });
 
-  it('401 numa lista expira a sessão e volta ao provedor com a rota atual', async () => {
+  it('401 numa lista expira a sessão e volta ao /entrar com a rota atual', async () => {
     navigationState.pathname = '/admin/ciclos';
-    const { useCases } = renderGate();
+    renderGate();
     expect(await screen.findByText('área logada')).toBeInTheDocument();
     act(() => useSessaoStore.getState().expirar());
     await waitFor(() =>
-      expect(useCases.auth.iniciarLogin.execute).toHaveBeenCalledWith('/admin/ciclos'),
+      expect(routerMock.replace).toHaveBeenCalledWith('/entrar?retorno=%2Fadmin%2Fciclos'),
     );
     expect(screen.queryByText('área logada')).not.toBeInTheDocument();
   });
 
-  it('ao sair não reinicia o login: espera o logout do provedor', async () => {
-    const { useCases } = renderGate();
+  it('ao sair não vai ao login: espera o logout do provedor', async () => {
+    renderGate();
     expect(await screen.findByText('área logada')).toBeInTheDocument();
     act(() => useSessaoStore.getState().encerrar());
     expect(screen.getByRole('status')).toHaveTextContent('Saindo…');
     await act(async () => {
       await Promise.resolve();
     });
-    expect(useCases.auth.iniciarLogin.execute).not.toHaveBeenCalled();
+    expect(routerMock.replace).not.toHaveBeenCalled();
     act(() => useSessaoStore.getState().cancelarSaida());
-    await waitFor(() => expect(useCases.auth.iniciarLogin.execute).toHaveBeenCalled());
+    await waitFor(() => expect(routerMock.replace).toHaveBeenCalledWith('/entrar?retorno=%2F'));
   });
 });

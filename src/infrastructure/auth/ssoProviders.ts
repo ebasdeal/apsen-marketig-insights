@@ -7,6 +7,7 @@ export interface BrowserLocation {
 }
 
 export const CALLBACK_PATH = '/auth/callback';
+export const LOGIN_PATH = '/entrar';
 
 function browserLocation(): BrowserLocation {
   return window.location;
@@ -29,7 +30,9 @@ export class MockSsoProvider implements SsoProvider {
 
   redirecionarParaLogout(): void {
     const location = this.location();
-    const query = new URLSearchParams({ post_logout_redirect_uri: `${location.origin}/` });
+    const query = new URLSearchParams({
+      post_logout_redirect_uri: `${location.origin}${LOGIN_PATH}`,
+    });
     location.assign(`${this.apiUrl}/sso/logout?${query.toString()}`);
   }
 }

@@ -92,10 +92,10 @@ describe('MockSsoProvider', () => {
     expect(url.searchParams.get('state')).toBe('/drivers?q=a b');
   });
 
-  it('logout vai para o /sso/logout com volta para a raiz do app', () => {
+  it('logout vai para o /sso/logout com volta para a tela de login', () => {
     new MockSsoProvider(BASE, () => location).redirecionarParaLogout();
     expect(location.assign).toHaveBeenCalledWith(
-      `${BASE}/sso/logout?post_logout_redirect_uri=${encodeURIComponent('http://localhost:3000/')}`,
+      `${BASE}/sso/logout?post_logout_redirect_uri=${encodeURIComponent('http://localhost:3000/entrar')}`,
     );
   });
 

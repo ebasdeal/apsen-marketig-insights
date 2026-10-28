@@ -1,8 +1,11 @@
-import { DEFAULT_API_URL, InvalidEnvError, parseEnv, readProcessEnv } from '../env';
+import { DEFAULT_API_URL, InvalidEnvError, parseEnv, parseLoginEnv, readProcessEnv } from '../env';
 
 describe('parseEnv', () => {
   it('aponta para a API local e usa login simulado quando nada é informado', () => {
-    expect(parseEnv({})).toEqual({ apiUrl: DEFAULT_API_URL, authMode: 'simulado' });
+    expect(parseEnv({})).toEqual({
+      apiUrl: DEFAULT_API_URL,
+      authMode: 'simulado',
+    });
     expect(DEFAULT_API_URL).toBe('http://localhost:3001');
   });
 
@@ -11,6 +14,18 @@ describe('parseEnv', () => {
       apiUrl: DEFAULT_API_URL,
       authMode: 'simulado',
     });
+  });
+
+  it('lê ambiente e URL de suporte', () => {
+    const env = parseLoginEnv({
+      NEXT_PUBLIC_AMBIENTE: ' Homologação ',
+      NEXT_PUBLIC_SUPORTE_URL: 'https://apsen.service-now.com',
+    });
+    expect(env.ambiente).toBe('Homologação');
+    expect(env.suporteUrl).toBe('https://apsen.service-now.com');
+    expect(() => parseLoginEnv({ NEXT_PUBLIC_SUPORTE_URL: 'x' })).toThrow(
+      'NEXT_PUBLIC_SUPORTE_URL',
+    );
   });
 
   it('normaliza a URL informada', () => {
@@ -50,7 +65,10 @@ describe('readProcessEnv', () => {
   it('lê as variáveis públicas e o NODE_ENV', () => {
     process.env.NEXT_PUBLIC_API_URL = 'https://api.exemplo.com';
     process.env.NEXT_PUBLIC_AUTH_MODE = 'entra';
+    process.env.NEXT_PUBLIC_AMBIENTE = 'Produção';
     expect(readProcessEnv()).toEqual({
+      NEXT_PUBLIC_AMBIENTE: 'Produção',
+      NEXT_PUBLIC_SUPORTE_URL: process.env.NEXT_PUBLIC_SUPORTE_URL,
       NEXT_PUBLIC_API_URL: 'https://api.exemplo.com',
       NEXT_PUBLIC_AUTH_MODE: 'entra',
       NODE_ENV: process.env.NODE_ENV,

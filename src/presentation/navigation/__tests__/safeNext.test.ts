@@ -11,6 +11,7 @@ describe('safeNext', () => {
     ['/\\evil.com', '/'],
     ['https://evil.com', '/'],
     ['/auth/callback?code=x', '/'],
+    ['/entrar?retorno=%2Fdrivers', '/'],
   ])('%p → %p', (next, esperado) => {
     expect(safeNext(next)).toBe(esperado);
   });
