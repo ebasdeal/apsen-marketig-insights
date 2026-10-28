@@ -494,3 +494,7 @@ Todos em `src/presentation/components/ui/__tests__/`.
 | 7.5 Acessibilidade e responsividade | Combobox, radiogroup, `aria-pressed`, `meter`, `role="status"` nos skeletons, `FilterBar`/`FormGrid` colapsam em 800/560 px, `motion-safe`/`motion-reduce` nas animações. |
 | 7.6 Segurança                       | Nada de `dangerouslySetInnerHTML` (conteúdo rico por `ReactNode`).                                                                                                        |
 | Dependências                        | Nenhuma nova.                                                                                                                                                             |
+
+## Revisão de 28/10/2026 — células de tabela
+
+`Table` aplica `whitespace-nowrap` em todas as células por padrão (códigos, status, datas, "Linha 1"); colunas descritivas optam por quebra com `wrap: true` em `TableColumn` (`CardTableColumn` idem). Testes: `TableNowrap.test.tsx`, `tableCellsSource.test.ts`.

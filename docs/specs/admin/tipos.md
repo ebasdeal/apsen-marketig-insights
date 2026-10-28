@@ -375,3 +375,7 @@ Erros: inválido → `InvalidResponseError`; 404 no `GET /tipos/{id}` → `NotFo
 | §7.4 | Validação por campo e por linha, foco no primeiro inválido, toast; lag `min/max/step`; aviso de alterações não salvas.                                                                                                                |
 | §7.5 | Controles da tabela de parâmetros com `aria-label` por linha; `Table` com `caption`; tooltips acessíveis por teclado; tabela de parâmetros e catálogo com scroll horizontal em 360 px.                                                |
 | §7.6 | IDs UUID para tipos novos (RN-SEG-03); sem `console`; o JSON importado não é logado.                                                                                                                                                  |
+
+## Revisão de 28/10/2026 — auditoria (RN-FRM-04, RN-FRM-06)
+
+Criar, editar, ativar/desativar e importar tipos gravam `alteradoPor` e `alteradoEm`; o formulário de edição mostra "Última alteração por {nome} em {data hora}". Os casos de uso recebem `por` da sessão. O histórico completo em tela segue em PRG-DAD-04.

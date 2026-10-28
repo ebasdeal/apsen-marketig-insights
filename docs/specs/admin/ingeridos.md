@@ -184,3 +184,7 @@ Erros: inválido → `InvalidResponseError`; 404 → `NotFoundError('Driver inge
 | §7.3 | `staleTime` 30 s; remoção otimista com rollback e confirmação; invalida só `ingeridos.all`.                      |
 | §7.5 | `Table` com `caption`; botões de linha com nome incluindo o id; toolbar quebra linha e tabela rola em 360 px.    |
 | §7.6 | "Validado por" é abreviado como nos dados (sem e-mail); nada em `console`.                                       |
+
+## Revisão de 28/10/2026 — filtro de categoria
+
+O filtro lista as 10 categorias da RN-DRV-05 (Mídia, Comercial, Produto, Supply, Logística, Concorrência, Regulatório, Sazonalidade, Social, Macro), não só as 4 do protótipo. Fim `2099` não é rotulado "Permanente".

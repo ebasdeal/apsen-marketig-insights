@@ -237,3 +237,10 @@ Erros: inválido → `InvalidResponseError`; 404 no `PATCH` → `NotFoundError('
 | §7.4 | Erros no campo + foco + toast no modal; datas do filtro com `max`/`min` cruzados (fim ≥ início).                                                                                               |
 | §7.5 | Cards em lista semântica, botões com nome que inclui o código, filtros com rótulo, paginação com `aria-current`; grade dos cards cai para 2 colunas em 800 px e os filtros empilham em 360 px. |
 | §7.6 | Nomes de registrantes exibidos como no protótipo, sem e-mail; nada em `console`.                                                                                                               |
+
+## Revisão de 28/10/2026 — autoria e uso (RN-GOV-02, RN-TIP-05/06)
+
+- Toda decisão grava **quem** e **quando** (`aprovado_por/em`, `rejeitado_por/em`, `reaberto_por/em`; domínio `Aprovacao.decisao`), mostrado no card ("Aprovado por Ana P. em 28/10/2026 14:05"). Os casos de uso recebem `por` (usuário da sessão) e usam um relógio injetável.
+- "Em uso no Data Lake" vale só para drivers **aprovados** presentes na lista de ingeridos; rejeitado nunca é "em uso" (o id rejeitado DRV-2026-028 saiu de `APROV_INGERIDOS`).
+- Fim `2099-12-31` não é mais "Permanente": o período mostra a data (`31/12/2099`); a permanência vem do tipo.
+- Drivers registrados por Planejador/Admin nascem aprovados e por Área entram como pendentes (ver `registrar-driver.md`).

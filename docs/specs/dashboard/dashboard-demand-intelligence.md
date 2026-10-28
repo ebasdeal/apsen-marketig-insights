@@ -306,3 +306,11 @@ Decisão: em vez de ~25 contagens com `_limit=1`, a tela consome **um** endpoint
 - Cores não vêm da API: categoria/tipo → token `apsen-*` no front.
 - Módulo `dashboard` próprio: `DashboardRepository.overview()` → `HttpDashboardRepository` (zod) → `GetDashboardOverview`. Substitui a composição pelos repositórios dos outros módulos descrita acima. Invalida junto com `queryKeys.navegacao.badges()` após mutações dos outros módulos (prefixo `['dashboard']`).
 - "Atualizado em" = `atualizadoEm` formatado em pt-BR.
+
+## Revisão de 28/10/2026 — escopo do ciclo ativo (PRG-DSH-01)
+
+Estas regras substituem o texto anterior onde houver conflito.
+
+- Os totais de plano, pipeline de drivers, drivers por categoria e análises são do **ciclo ativo** (`GET /dashboard` do mock aplica o escopo; ver `mock-api/README.md`). Restrições não têm ciclo e mostram as ativas.
+- **Sem ciclo ativo** (`ciclo === null`): o subtítulo vira "Visão geral do ciclo ativo · Nenhum ciclo ativo", o cartão passa a "Itens no plano (sem ciclo ativo)", o painel de plano mostra "{n} itens · sem ciclo ativo" e aparece o alerta `SemCicloAtivo` ("Nenhum ciclo ativo." + link "Ver ciclos de planejamento" para `/admin/ciclos`; Planejador e Admin veem também "Ative um ciclo para começar o planejamento."). Nunca se renderiza "—" no lugar do ciclo.
+- Testes: `DashboardScreen.test.tsx` (sem ciclo ativo, por perfil).
