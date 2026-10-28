@@ -102,14 +102,14 @@ function columns(
       render: (row) => (
         <>
           <div
-            className="flex max-w-[150px] items-center gap-[5px] text-[12px] text-apsen-muted"
+            className="flex max-w-[100px] items-center gap-[5px] text-[12px] text-apsen-muted"
             title={row.secret}
           >
             <LockIcon size={11} strokeWidth={1.5} className="shrink-0" />
             <span className="truncate">{row.secret}</span>
           </div>
           <div
-            className="mt-[2px] max-w-[150px] truncate text-[10.5px] text-apsen-muted-2"
+            className="mt-[2px] max-w-[100px] truncate text-[10.5px] text-apsen-muted-2"
             title={row.vault}
           >
             vault: {row.vault}

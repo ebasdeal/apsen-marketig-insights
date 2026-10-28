@@ -40,7 +40,7 @@ export function EnvironmentPill({
 
 export function SchedulePill({ schedule }: { schedule: string }) {
   return (
-    <span className="inline-flex w-fit max-w-[84px] shrink-0 items-center rounded-[8px] bg-apsen-blue-bg px-[8px] py-[2px] text-[11.5px] font-semibold text-apsen-blue">
+    <span className="inline-flex w-fit shrink-0 items-center whitespace-nowrap rounded-[8px] bg-apsen-blue-bg px-[8px] py-[2px] text-[11.5px] font-semibold text-apsen-blue">
       {schedule}
     </span>
   );
