@@ -71,6 +71,7 @@ describe('AuthCallbackScreen', () => {
       const heading = await screen.findByRole('heading', { name: mensagem });
       expect(screen.getByRole('alert')).toBeInTheDocument();
       await waitFor(() => expect(heading).toHaveFocus());
+      expect(heading).toHaveClass('outline-none');
       expect(screen.queryByRole('complementary', { name: 'Menu lateral' })).not.toBeInTheDocument();
       await user.click(screen.getByRole('button', { name: 'Tentar novamente' }));
       expect(useCases.auth.iniciarLogin.execute).toHaveBeenCalledWith('/planos');
