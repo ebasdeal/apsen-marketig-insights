@@ -6,9 +6,12 @@ import { CATALOG_STALE_TIME, DEFAULT_STALE_TIME } from '../../providers/queryCli
 import { useUseCases } from '../../providers/UseCasesContext';
 import { retryExcetoNotFound } from '../retryExcetoNotFound';
 import { analisesKeys } from './analisesKeys';
+import { useAutoriaAnalises } from './useAutoriaAnalises';
 
-export function useAnalises(input: ListAnalisesInput) {
+export function useAnalises(filtro: ListAnalisesInput) {
   const { analises } = useUseCases();
+  const { escopo } = useAutoriaAnalises();
+  const input: ListAnalisesInput = escopo === undefined ? filtro : { ...filtro, criadoPor: escopo };
   return useQuery({
     queryKey: analisesKeys.list(input),
     queryFn: () => analises.list.execute(input),
@@ -28,9 +31,10 @@ export function useTotalAnalises() {
 
 export function useAnalise(id: string) {
   const { analises } = useUseCases();
+  const { escopo } = useAutoriaAnalises();
   return useQuery({
     queryKey: analisesKeys.detail(id),
-    queryFn: () => analises.get.execute(id),
+    queryFn: () => analises.get.execute(id, escopo),
     staleTime: DEFAULT_STALE_TIME,
     retry: retryExcetoNotFound,
   });

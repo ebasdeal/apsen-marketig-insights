@@ -18,7 +18,7 @@ export class ExecutarAnalise {
     private readonly esperar: Esperar,
   ) {}
 
-  async execute(form: NovaAnaliseForm): Promise<ExecutarAnaliseOutput> {
+  async execute(form: NovaAnaliseForm, criadoPor?: string): Promise<ExecutarAnaliseOutput> {
     validarNovaAnalise(form);
     const [configuracao, maiorCodigo] = await Promise.all([
       this.apoio.configuracao(),
@@ -31,6 +31,7 @@ export class ExecutarAnalise {
       this.gerarId(),
       proximoCodigoAnalise(maiorCodigo),
       this.now(),
+      criadoPor,
     );
     const criada = await this.repository.create(analise);
     return { id: criada.id };

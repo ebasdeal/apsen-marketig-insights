@@ -88,7 +88,7 @@ describe('AnaliseViewScreen', () => {
     await user.click(await screen.findByRole('button', { name: 'Salvar' }));
     expect(await screen.findByText('Análise salva! PDF disponível.')).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Exportar PDF' }));
-    expect(useCases.analises.exportarPdf.execute).toHaveBeenCalledWith('ANL-001');
+    expect(useCases.analises.exportarPdf.execute).not.toHaveBeenCalled();
     const dialog = await screen.findByRole('dialog', { name: 'Exportar Relatório PDF' });
     expect(within(dialog).getByRole('checkbox', { name: 'Interações com IA' })).not.toBeChecked();
     expect(
@@ -96,7 +96,16 @@ describe('AnaliseViewScreen', () => {
         .getAllByRole('checkbox')
         .filter((c) => (c as HTMLInputElement).checked),
     ).toHaveLength(4);
-    await user.click(within(dialog).getByRole('button', { name: 'Baixar PDF' }));
+    await user.click(within(dialog).getByRole('button', { name: 'Cancelar' }));
+    expect(useCases.analises.exportarPdf.execute).not.toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Exportar PDF' }));
+    await user.click(
+      within(await screen.findByRole('dialog', { name: 'Exportar Relatório PDF' })).getByRole(
+        'button',
+        { name: 'Baixar PDF' },
+      ),
+    );
+    expect(useCases.analises.exportarPdf.execute).toHaveBeenCalledWith('ANL-001');
     expect(await screen.findByText('📄 Relatório PDF gerado!')).toBeInTheDocument();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -117,6 +126,7 @@ describe('AnaliseViewScreen', () => {
       await screen.findByText('Não foi possível salvar. Tente novamente.'),
     ).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Exportar PDF' }));
+    await user.click(await screen.findByRole('button', { name: 'Baixar PDF' }));
     expect(await screen.findByText('Salve antes de emitir o relatório.')).toBeInTheDocument();
   });
 

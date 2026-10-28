@@ -29,7 +29,9 @@ describe('HttpAnaliseRepository', () => {
       pagina: 1,
       tamanho: 10,
     });
-    expect(calls[0]?.url).toBe(`${BASE}/analises?_page=1&_limit=10&q=bari&status=salva`);
+    expect(calls[0]?.url).toBe(
+      `${BASE}/analises?_page=1&_limit=10&_sort=codigo&_order=desc&q=bari&status=salva`,
+    );
     expect(new Headers(calls[0]?.init?.headers).get('Authorization')).toBe('Bearer tok');
     expect(page).toMatchObject({ total: 11, page: 1, limit: 10 });
     expect(page.items[0]).toMatchObject({
@@ -49,7 +51,7 @@ describe('HttpAnaliseRepository', () => {
       '/analises': { body: [], headers: { 'X-Total-Count': '0' } },
     });
     await repository.listPage({ busca: '  ', status: '', pagina: 2, tamanho: 10 });
-    expect(calls[0]?.url).toBe(`${BASE}/analises?_page=2&_limit=10`);
+    expect(calls[0]?.url).toBe(`${BASE}/analises?_page=2&_limit=10&_sort=codigo&_order=desc`);
   });
 
   it('sem X-Total-Count ou com item fora do contrato → InvalidResponseError', async () => {

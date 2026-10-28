@@ -42,6 +42,8 @@ export interface Analise {
   modeloInfo: string;
   historicoIa: InteracaoIa[];
   salvoEm: string | null;
+  // Quem criou (PRG-ANL-01: a Área só enxerga as próprias); ausente nas análises legadas.
+  criadoPor?: string;
 }
 
 export type AnalisePatch = Partial<Pick<Analise, 'status' | 'salvoEm' | 'historicoIa'>>;

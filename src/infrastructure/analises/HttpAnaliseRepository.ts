@@ -22,7 +22,12 @@ export class HttpAnaliseRepository implements AnaliseRepository {
       page: filtro.pagina,
       limit: filtro.tamanho,
       search: filtro.busca,
-      filters: { status: filtro.status },
+      sort: 'codigo',
+      order: 'desc',
+      filters: {
+        status: filtro.status,
+        ...(filtro.criadoPor === undefined ? {} : { criado_por: filtro.criadoPor }),
+      },
     });
     const { data, total } = await this.http.getPage(RECURSO, { query });
     return {

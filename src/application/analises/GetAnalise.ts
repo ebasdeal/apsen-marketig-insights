@@ -1,5 +1,6 @@
 import type { Analise, AnaliseStatus, DriverImpacto } from '@domain/analises/Analise';
 import { ANALISE_STATUS_LABEL } from '@domain/analises/analiseConstants';
+import { NotFoundError } from '@domain/shared/DomainError';
 import type { AnaliseRepository } from '@domain/analises/AnaliseRepository';
 import {
   larguraBarraImpacto,
@@ -59,7 +60,12 @@ export function comStatus(detail: AnaliseDetailOutput, status: AnaliseStatus): A
 export class GetAnalise {
   constructor(private readonly repository: AnaliseRepository) {}
 
-  async execute(id: string): Promise<AnaliseDetailOutput> {
-    return toAnaliseDetail(await this.repository.get(id));
+  // `criadoPor` restringe à autoria (Área): análise de outra pessoa é tratada como inexistente.
+  async execute(id: string, criadoPor?: string): Promise<AnaliseDetailOutput> {
+    const analise = await this.repository.get(id);
+    if (criadoPor !== undefined && analise.criadoPor !== criadoPor) {
+      throw new NotFoundError('Análise', id);
+    }
+    return toAnaliseDetail(analise);
   }
 }

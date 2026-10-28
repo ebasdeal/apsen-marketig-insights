@@ -344,3 +344,39 @@ describe('DocumentarInteracao e ResponderChat (CA-13 / RN-10 / RN-11)', () => {
     expect(esperar).toHaveBeenCalledWith(1400);
   });
 });
+
+describe('Autoria das análises (PRG-ANL-01)', () => {
+  it('lista repassa o escopo de autoria só quando informado', async () => {
+    const repository = fakeRepository();
+    await new ListAnalises(repository).execute({
+      busca: '',
+      status: '',
+      pagina: 1,
+      criadoPor: '3',
+    });
+    expect(repository.listPage).toHaveBeenCalledWith(expect.objectContaining({ criadoPor: '3' }));
+    await new ListAnalises(repository).execute({ busca: '', status: '', pagina: 1 });
+    expect(repository.listPage.mock.calls[1]?.[0]).not.toHaveProperty('criadoPor');
+  });
+
+  it('GetAnalise trata análise de outra pessoa como inexistente', async () => {
+    const repository = fakeRepository(buildAnalise({ criadoPor: '3' }));
+    await expect(new GetAnalise(repository).execute('ANL-001', '3')).resolves.toMatchObject({
+      id: 'ANL-001',
+    });
+    await expect(new GetAnalise(repository).execute('ANL-001', '9')).rejects.toThrow();
+    await expect(new GetAnalise(repository).execute('ANL-001')).resolves.toBeDefined();
+  });
+
+  it('ExecutarAnalise grava quem criou', async () => {
+    const repository = fakeRepository();
+    await new ExecutarAnalise(
+      repository,
+      fakeApoio(),
+      agora,
+      () => 'uuid',
+      async () => undefined,
+    ).execute(buildNovaAnaliseForm(), '3');
+    expect(repository.create).toHaveBeenCalledWith(expect.objectContaining({ criadoPor: '3' }));
+  });
+});

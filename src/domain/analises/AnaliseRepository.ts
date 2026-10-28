@@ -6,6 +6,7 @@ export interface AnaliseListFiltro {
   status: AnaliseStatus | '';
   pagina: number;
   tamanho: number;
+  criadoPor?: string;
 }
 
 export interface AnaliseContagemFiltro {

@@ -42,10 +42,19 @@ function AnaliseView({ analise }: { analise: AnaliseDetailOutput }) {
       onError: (error) => toast.show(mensagemFalhaAnalise(error), { tone: 'error' }),
     });
 
-  const onExportar = () =>
+  // Abrir ou cancelar o modal não muda nada; o status vira Relatório só ao confirmar o PDF.
+  const onExportar = () => setPdfAberto(true);
+
+  const onConfirmarPdf = () =>
     exportar.mutate(analise.id, {
-      onSuccess: () => setPdfAberto(true),
-      onError: (error) => toast.show(mensagemFalhaAnalise(error), { tone: 'error' }),
+      onSuccess: () => {
+        toast.show('📄 Relatório PDF gerado!', { tone: 'success' });
+        setPdfAberto(false);
+      },
+      onError: (error) => {
+        setPdfAberto(false);
+        toast.show(mensagemFalhaAnalise(error), { tone: 'error' });
+      },
     });
 
   return (
@@ -56,7 +65,7 @@ function AnaliseView({ analise }: { analise: AnaliseDetailOutput }) {
       <AnaliseHeader
         analise={analise}
         salvando={salvar.isPending}
-        exportando={exportar.isPending}
+        exportando={false}
         onSalvar={onSalvar}
         onExportar={onExportar}
       />
@@ -74,7 +83,14 @@ function AnaliseView({ analise }: { analise: AnaliseDetailOutput }) {
           />
         </aside>
       </div>
-      {pdfAberto ? <PdfExportModal open onClose={() => setPdfAberto(false)} /> : null}
+      {pdfAberto ? (
+        <PdfExportModal
+          open
+          pending={exportar.isPending}
+          onClose={() => setPdfAberto(false)}
+          onConfirm={onConfirmarPdf}
+        />
+      ) : null}
     </>
   );
 }

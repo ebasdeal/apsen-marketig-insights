@@ -13,6 +13,7 @@ import { useUseCases } from '../../providers/UseCasesContext';
 import { queryKeys } from '../queryKeys';
 import { dashboardKeys } from '../dashboard/dashboardKeys';
 import { analisesKeys } from './analisesKeys';
+import { useAutoriaAnalises } from './useAutoriaAnalises';
 
 interface Snapshot {
   anterior: AnaliseDetailOutput | undefined;
@@ -69,8 +70,9 @@ export function useExportarPdfMutation() {
 export function useExecutarAnaliseMutation() {
   const { analises } = useUseCases();
   const queryClient = useQueryClient();
+  const { usuarioId } = useAutoriaAnalises();
   return useMutation({
-    mutationFn: (form: NovaAnaliseForm) => analises.executar.execute(form),
+    mutationFn: (form: NovaAnaliseForm) => analises.executar.execute(form, usuarioId),
     onSuccess: () => invalidarAfetados(queryClient),
   });
 }

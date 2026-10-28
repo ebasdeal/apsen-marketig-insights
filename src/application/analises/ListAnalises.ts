@@ -26,6 +26,7 @@ export class ListAnalises {
       status: input.status,
       pagina,
       tamanho: ANALISES_POR_PAGINA,
+      ...(input.criadoPor === undefined ? {} : { criadoPor: input.criadoPor }),
     });
     return {
       itens: page.items.map(toAnaliseCard),

@@ -40,6 +40,7 @@ export const analiseDtoSchema = z.object({
   modelo_info: z.string().default(''),
   historico_ia: z.array(interacao).default([]),
   salvo_em: z.string().nullable().default(null),
+  criado_por: z.string().optional(),
 });
 
 export const analisesDtoSchema = z.array(analiseDtoSchema);

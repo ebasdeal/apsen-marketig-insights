@@ -91,6 +91,7 @@ function NovaAnaliseFormulario({ opcoes }: { opcoes: NovaAnaliseOpcoesOutput }) 
           Cancelar
         </Button>
         <Button
+          escrita
           variant="orange"
           size="sm"
           loading={executando}

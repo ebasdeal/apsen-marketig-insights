@@ -93,7 +93,7 @@ describe('queries de análises', () => {
     await waitFor(() => expect(total.result.current.data).toBe(2));
     await waitFor(() => expect(detalhe.result.current.data?.id).toBe('ANL-001'));
     await waitFor(() => expect(opcoes.result.current.isSuccess).toBe(true));
-    expect(useCases.analises.get.execute).toHaveBeenCalledWith('ANL-001');
+    expect(useCases.analises.get.execute).toHaveBeenCalledWith('ANL-001', undefined);
     expect(staleTimeOf(queryClient, analisesKeys.opcoes())).toBe(300_000);
   });
 
@@ -128,7 +128,7 @@ describe('mutações de análises (CA-15 / RN-13)', () => {
     vi.mocked(useCases.analises.contar.execute).mockResolvedValue(3);
     const { result } = renderHook(() => useExecutarAnaliseMutation(), { wrapper });
     await act(() => result.current.mutateAsync(buildNovaAnaliseForm()));
-    expect(useCases.analises.executar.execute).toHaveBeenCalledWith(buildNovaAnaliseForm());
+    expect(useCases.analises.executar.execute).toHaveBeenCalledWith(buildNovaAnaliseForm(), '1');
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ['analises'] });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ['dashboard'] });
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ['navegacao', 'badges'] });

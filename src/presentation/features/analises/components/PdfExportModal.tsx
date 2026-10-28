@@ -3,15 +3,20 @@
 import { PDF_SECOES } from '@domain/analises/analiseConstants';
 import { Button, Modal } from '@presentation/components/ui';
 import { useState } from 'react';
-import { useToast } from '../../../providers/ToastProvider';
 
 interface PdfExportModalProps {
   open: boolean;
   onClose: () => void;
+  onConfirm: () => void;
+  pending?: boolean;
 }
 
-export default function PdfExportModal({ open, onClose }: PdfExportModalProps) {
-  const toast = useToast();
+export default function PdfExportModal({
+  open,
+  onClose,
+  onConfirm,
+  pending = false,
+}: PdfExportModalProps) {
   const [marcadas, setMarcadas] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(PDF_SECOES.map((secao) => [secao.id, secao.marcada])),
   );
@@ -25,14 +30,7 @@ export default function PdfExportModal({ open, onClose }: PdfExportModalProps) {
           <Button variant="ghost" size="sm" onClick={onClose}>
             Cancelar
           </Button>
-          <Button
-            variant="orange"
-            size="sm"
-            onClick={() => {
-              toast.show('📄 Relatório PDF gerado!', { tone: 'success' });
-              onClose();
-            }}
-          >
+          <Button variant="orange" size="sm" loading={pending} onClick={onConfirm}>
             Baixar PDF
           </Button>
         </>

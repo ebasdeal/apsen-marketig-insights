@@ -190,6 +190,7 @@ describe('NovaAnaliseScreen', () => {
         drivers: ['DRV-1'],
         configModelo: { modo: 'auto' },
       }),
+      '1',
     );
     expect(
       await screen.findByText('Análise executada! Salve para emitir o relatório.'),

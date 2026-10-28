@@ -16,6 +16,7 @@ export interface ListAnalisesInput {
   busca: string;
   status: AnaliseStatus | '';
   pagina: number;
+  criadoPor?: string;
 }
 
 export interface AnaliseCardOutput {

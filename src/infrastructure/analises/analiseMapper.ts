@@ -40,6 +40,7 @@ export function toAnalise(dto: AnaliseApiDto): Analise {
       ts: item.ts ?? null,
     })),
     salvoEm: dto.salvo_em,
+    ...(dto.criado_por === undefined ? {} : { criadoPor: dto.criado_por }),
   };
 }
 
@@ -71,6 +72,7 @@ export function toAnaliseBody(analise: Analise) {
     modelo_info: analise.modeloInfo,
     historico_ia: analise.historicoIa.map(toInteracaoBody),
     salvo_em: analise.salvoEm,
+    ...(analise.criadoPor === undefined ? {} : { criado_por: analise.criadoPor }),
   };
 }
 

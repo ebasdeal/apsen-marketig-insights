@@ -83,6 +83,7 @@ export default function ChatPanel({ analiseId, ciclo, modelo, iniciais }: ChatPa
       </div>
       <div className="mt-[8px] flex gap-[6px]">
         <Button
+          escrita
           variant="ghost"
           size="sm"
           className="flex-1 justify-center text-[11.5px]"

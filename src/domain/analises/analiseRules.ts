@@ -59,6 +59,7 @@ export function novaAnalise(
   id: string,
   codigo: string,
   hoje: Date,
+  criadoPor?: string,
 ): Analise {
   return {
     id,
@@ -79,6 +80,7 @@ export function novaAnalise(
     modeloInfo: resultado.modeloInfo,
     historicoIa: [],
     salvoEm: null,
+    ...(criadoPor === undefined ? {} : { criadoPor }),
   };
 }
 
