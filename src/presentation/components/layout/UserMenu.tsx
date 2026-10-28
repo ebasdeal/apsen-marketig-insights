@@ -41,7 +41,16 @@ export function UserMenu() {
   }, [open]);
 
   if (usuario === undefined || perfil === undefined) {
-    return null;
+    return (
+      <div
+        aria-hidden
+        data-testid="user-menu-placeholder"
+        className="flex items-center gap-[10px] p-[2px] pr-[8px]"
+      >
+        <span className="size-[30px] animate-pulse rounded-full bg-apsen-border" />
+        <span className="h-[12px] w-[90px] animate-pulse rounded bg-apsen-border max-[560px]:hidden" />
+      </div>
+    );
   }
 
   const close = () => {

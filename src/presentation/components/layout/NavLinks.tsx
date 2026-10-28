@@ -46,19 +46,29 @@ export function NavLinks() {
         <DashboardIcon />
         {NAV_ROOT.label}
       </Link>
-      {perfil === undefined
-        ? null
-        : modules.map((module) => (
-            <NavModuleGroup
-              key={module.id}
-              module={module}
-              open={openModule === module.id}
-              onToggle={() => setAccordion(nextAccordion(openModule, module.id), pathname)}
-              activeScreenId={activeScreenId}
-              badges={badges}
-              nivel={perfil.nivel}
-            />
+      {perfil === undefined ? (
+        <div
+          aria-hidden
+          data-testid="nav-placeholder"
+          className="mx-[8px] mt-[8px] flex flex-col gap-[10px]"
+        >
+          {[0, 1, 2, 3].map((item) => (
+            <span key={item} className="mx-[13px] h-[14px] animate-pulse rounded bg-apsen-border" />
           ))}
+        </div>
+      ) : (
+        modules.map((module) => (
+          <NavModuleGroup
+            key={module.id}
+            module={module}
+            open={openModule === module.id}
+            onToggle={() => setAccordion(nextAccordion(openModule, module.id), pathname)}
+            activeScreenId={activeScreenId}
+            badges={badges}
+            nivel={perfil.nivel}
+          />
+        ))
+      )}
     </nav>
   );
 }

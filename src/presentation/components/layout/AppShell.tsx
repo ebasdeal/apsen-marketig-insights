@@ -1,4 +1,5 @@
 import { Suspense, type ReactNode } from 'react';
+import { AuthGate } from '../../features/auth/AuthGate';
 import { AccessGuard } from './AccessGuard';
 import { NavProvider } from './NavContext';
 import { ReadOnlyBanner } from './ReadOnlyBanner';
@@ -21,7 +22,9 @@ export function AppShell({ children }: AppShellProps) {
       <Topbar />
       <ShellMain>
         <ReadOnlyBanner />
-        <AccessGuard>{children}</AccessGuard>
+        <AuthGate>
+          <AccessGuard>{children}</AccessGuard>
+        </AuthGate>
       </ShellMain>
     </NavProvider>
   );

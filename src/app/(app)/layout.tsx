@@ -1,11 +1,7 @@
 import { AppShell } from '@presentation/components/layout/AppShell';
-import { AuthGate } from '@presentation/features/auth/AuthGate';
 import type { ReactNode } from 'react';
 
+// O quadro (sidebar + topbar) existe sempre; a sessão só é exigida dentro do AppShell, na área de conteúdo.
 export default function AppLayout({ children }: { children: ReactNode }) {
-  return (
-    <AuthGate>
-      <AppShell>{children}</AppShell>
-    </AuthGate>
-  );
+  return <AppShell>{children}</AppShell>;
 }

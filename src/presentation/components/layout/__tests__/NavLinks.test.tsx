@@ -76,6 +76,7 @@ describe('NavLinks', () => {
       [
         'Drivers de Demanda',
         'Administração DI',
+        'Controle de Acesso',
         'Análises',
         'Restrições & Alertas',
         'Planos de Produção',

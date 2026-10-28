@@ -1,7 +1,8 @@
 import { navigationState } from '@test/nextNavigation';
-import { renderWithProviders } from '@test/renderWithProviders';
-import { loginAs } from '@test/resetStores';
+import { createFakeUseCases, renderWithProviders } from '@test/renderWithProviders';
+import { loginAs, logout } from '@test/resetStores';
 import { screen } from '@testing-library/react';
+import { useSessaoStore } from '../../../stores/sessaoStore';
 import { AppShell } from '../AppShell';
 
 function renderShell() {
@@ -9,6 +10,20 @@ function renderShell() {
     <AppShell>
       <p>conteúdo da página</p>
     </AppShell>,
+    // /auth/me devolve quem está logado na sessão do teste
+    createFakeUseCases({
+      auth: {
+        sessaoAtual: {
+          execute: vi.fn(async () => {
+            const sessao = useSessaoStore.getState().sessao;
+            if (sessao === null) {
+              throw new Error('sem sessão');
+            }
+            return sessao.usuario;
+          }),
+        },
+      },
+    }),
   );
 }
 
@@ -51,7 +66,9 @@ describe('AppShell', () => {
     renderShell();
     expect(await screen.findByRole('heading', { name: 'Acesso Restrito' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Restrições & Alertas/ })).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /Controle de Acesso/ })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Controle de Acesso/ })).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Usuários', hidden: true })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Perfis de Acesso', hidden: true })).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Agentes de IA/ })).not.toBeInTheDocument();
   });
 
@@ -88,5 +105,15 @@ describe('AppShell', () => {
       </AppShell>,
     );
     expect(main.scrollTop).toBe(0);
+  });
+
+  it('mantém sidebar e topbar mesmo sem sessão, com placeholders no lugar do perfil', () => {
+    logout();
+    renderShell();
+    expect(screen.getByRole('complementary', { name: 'Menu lateral' })).toBeInTheDocument();
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-placeholder')).toBeInTheDocument();
+    expect(screen.getByTestId('user-menu-placeholder')).toBeInTheDocument();
+    expect(screen.queryByText('conteúdo da página')).not.toBeInTheDocument();
   });
 });
