@@ -20,7 +20,7 @@ export function FonteCard({ fonte, onConfigure, onRemove }: FonteCardProps) {
           <div className="mb-[3px] flex flex-wrap items-center gap-[10px]">
             <h2 className="text-[14px] font-semibold text-apsen-slate">{fonte.nome}</h2>
             <span
-              className={`${PILL} ${fonte.isApi ? 'bg-apsen-green-bg text-apsen-green' : 'bg-apsen-bg text-apsen-muted'}`}
+              className={`${PILL} ${fonte.isApi ? 'bg-apsen-green-bg text-apsen-green-fg' : 'bg-apsen-bg text-apsen-muted'}`}
             >
               {fonte.statusLabel}
             </span>

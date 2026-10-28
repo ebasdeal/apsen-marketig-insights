@@ -13,7 +13,7 @@ describe('StatusDistributionRow', () => {
     expect(fill.style.width).toBe('43%');
     expect(fill).toHaveClass('bg-apsen-green');
     expect(screen.getByText('43%')).toHaveClass('min-w-[28px]', 'text-[11px]', 'text-apsen-muted');
-    expect(screen.getByText('12')).toHaveClass('text-apsen-green', 'font-semibold');
+    expect(screen.getByText('12')).toHaveClass('text-apsen-green-fg', 'font-semibold');
     expect(container.querySelector('[aria-hidden="true"]')).toHaveClass(
       'size-[9px]',
       'rounded-full',

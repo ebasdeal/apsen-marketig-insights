@@ -2,7 +2,7 @@ import type { PlanoStatus } from '@domain/planos/PlanoItem';
 import type { PillColor } from '@presentation/components/ui';
 
 export const STATUS_COR: Record<PlanoStatus, string> = {
-  aprovado: 'text-apsen-green',
+  aprovado: 'text-apsen-green-fg',
   revisao: 'text-apsen-orange',
   bloqueado: 'text-apsen-red',
   pendente: 'text-apsen-muted',

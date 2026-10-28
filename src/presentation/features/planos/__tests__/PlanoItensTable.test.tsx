@@ -50,7 +50,7 @@ describe('PlanoItensTable', () => {
     expect(screen.getAllByText('● Imunologia')[0]).toBeInTheDocument();
     expect(screen.getAllByText('42.500')[0]).toBeInTheDocument();
     expect(screen.getAllByText('Blister 28cp · SKU 00312')[0]).toBeInTheDocument();
-    expect(screen.getByText('● Aprovado')).toHaveClass('text-apsen-green');
+    expect(screen.getByText('● Aprovado')).toHaveClass('text-apsen-green-fg');
     expect(screen.getByText('Itens do plano de produção')).toBeInTheDocument();
   });
 

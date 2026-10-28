@@ -27,7 +27,7 @@ export function UsuarioStatusCell({
           aria-label={`Usuário ${nome} ativo`}
         />
         <span
-          className={`text-[12px] font-medium ${ativo ? 'text-apsen-green' : 'text-apsen-muted'}`}
+          className={`text-[12px] font-medium ${ativo ? 'text-apsen-green-fg' : 'text-apsen-muted'}`}
         >
           {ativo ? 'Ativo' : 'Inativo'}
         </span>

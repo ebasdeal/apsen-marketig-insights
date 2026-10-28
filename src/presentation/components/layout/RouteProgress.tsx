@@ -110,8 +110,8 @@ export function RouteProgress() {
     >
       <div
         data-testid="route-progress-bar"
-        style={indeterminate ? undefined : { width: `${value}%` }}
-        className={`h-full bg-apsen-blue shadow-[0_0_8px_var(--color-apsen-blue)] transition-[width] duration-200 motion-reduce:transition-none ${indeterminate ? 'w-1/3 motion-safe:animate-[apsen-progress-indeterminate_1.1s_ease-in-out_infinite]' : ''}`}
+        style={indeterminate ? undefined : { transform: `scaleX(${value / 100})` }}
+        className={`h-full bg-apsen-blue shadow-[0_0_8px_var(--color-apsen-blue)] origin-left transition-transform duration-200 motion-reduce:transition-none ${indeterminate ? 'w-1/3 motion-safe:animate-[apsen-progress-indeterminate_1.1s_ease-in-out_infinite]' : 'w-full'}`}
       />
     </div>
   );

@@ -47,7 +47,7 @@ function TiposResumo({ data }: { data: ListTiposResult }) {
       <strong>
         {data.filtrados} de {data.total} tipos
       </strong>{' '}
-      cadastrados · <span className="font-medium text-apsen-green">{data.ativos} ativos</span>
+      cadastrados · <span className="font-medium text-apsen-green-fg">{data.ativos} ativos</span>
     </p>
   );
 }

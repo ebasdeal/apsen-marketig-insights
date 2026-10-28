@@ -87,7 +87,7 @@ describe('tons do IconButton', () => {
   it.each([
     ['red', ['hover:bg-apsen-red-bg', 'hover:text-apsen-red']],
     ['teal', ['hover:bg-apsen-teal-bg', 'hover:text-apsen-teal']],
-    ['green', ['text-apsen-green', 'hover:bg-apsen-blue-bg']],
+    ['green', ['text-apsen-green-fg', 'hover:bg-apsen-blue-bg']],
   ] as const)('aplica o tom %s', (tone, expected) => {
     render(<IconButton aria-label="Ação" tone={tone} />);
     expect(screen.getByRole('button', { name: 'Ação' })).toHaveClass(...expected);

@@ -26,8 +26,8 @@ export function tomDaFamilia(familia: string): TomFamilia {
 
 const ESTOQUE: Record<NivelEstoque, string> = {
   critico: 'text-apsen-red',
-  atencao: 'text-apsen-yellow',
-  ok: 'text-apsen-green',
+  atencao: 'text-apsen-yellow-fg',
+  ok: 'text-apsen-green-fg',
 };
 
 export function tomEstoque(nivel: NivelEstoque): string {

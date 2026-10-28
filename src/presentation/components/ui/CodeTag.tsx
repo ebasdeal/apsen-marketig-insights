@@ -10,7 +10,7 @@ const TONES: Record<CodeTagTone, string> = {
   red: 'text-apsen-red',
   purple: 'text-apsen-purple',
   orange: 'text-apsen-orange',
-  green: 'text-apsen-green',
+  green: 'text-apsen-green-fg',
   teal: 'text-apsen-teal',
   yellow: 'text-apsen-warning-fg',
 };
