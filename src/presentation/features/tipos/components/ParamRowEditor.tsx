@@ -2,7 +2,13 @@
 
 import type { ParamOrigem, ParamRow, ParamTipo } from '@domain/tipos/Tipo';
 import { EXEMPLO_ROW, PARAM_ORIGENS, PARAM_TIPOS } from '@domain/tipos/vocabulario';
-import { FormSelect, TextInput, type SelectOption } from '@presentation/components/ui';
+import {
+  FormSelect,
+  STACK_ROW,
+  StackedCell,
+  TextInput,
+  type SelectOption,
+} from '@presentation/components/ui';
 import { FieldControlContext } from '@presentation/components/ui/FormField';
 import type { ReactNode } from 'react';
 import type { TipoFormAction } from './tipoFormReducer';
@@ -47,8 +53,8 @@ export function ParamRowEditor({ row, numero, erro, fontes, dispatch }: ParamRow
   const update = (patch: Partial<Omit<ParamRow, 'key' | 'original'>>) =>
     dispatch({ type: 'updateRow', key: row.key, patch });
   return (
-    <tr className="[&:last-child>td]:border-b-0">
-      <td className={TD}>
+    <tr className={`[&:last-child>td]:border-b-0 ${STACK_ROW}`}>
+      <StackedCell kind="form" label="Nome (slug)" className={TD}>
         <TextInput
           value={row.nome}
           onChange={(nome) => update({ nome })}
@@ -62,8 +68,8 @@ export function ParamRowEditor({ row, numero, erro, fontes, dispatch }: ParamRow
             {erro}
           </span>
         )}
-      </td>
-      <td className={TD}>
+      </StackedCell>
+      <StackedCell kind="form" label="Label exibido" className={TD}>
         <TextInput
           value={row.label}
           onChange={(label) => update({ label })}
@@ -71,8 +77,8 @@ export function ParamRowEditor({ row, numero, erro, fontes, dispatch }: ParamRow
           aria-label={`Label do campo ${numero}`}
           className="text-[12px]!"
         />
-      </td>
-      <td className={TD}>
+      </StackedCell>
+      <StackedCell kind="form" label="Tipo" className={TD}>
         <FormSelect<ParamTipo>
           value={row.tipo}
           onChange={(tipo) => {
@@ -82,8 +88,8 @@ export function ParamRowEditor({ row, numero, erro, fontes, dispatch }: ParamRow
           aria-label={`Tipo do campo ${numero}`}
           className="w-full text-[12px]!"
         />
-      </td>
-      <td className={`${TD} text-center`}>
+      </StackedCell>
+      <StackedCell kind="form" label="Obrigatório" className={`${TD} text-center`}>
         <input
           type="checkbox"
           checked={row.obrigatorio}
@@ -91,8 +97,8 @@ export function ParamRowEditor({ row, numero, erro, fontes, dispatch }: ParamRow
           aria-label={`Campo ${numero} obrigatório`}
           className="accent-apsen-blue"
         />
-      </td>
-      <td className={TD}>
+      </StackedCell>
+      <StackedCell kind="form" label="Opções (select)" className={TD}>
         {row.tipo === 'select' ? (
           <div className="flex flex-col gap-[4px]">
             <FormSelect<ParamOrigem>
@@ -127,17 +133,17 @@ export function ParamRowEditor({ row, numero, erro, fontes, dispatch }: ParamRow
             )}
           </div>
         ) : null}
-      </td>
-      <td className={TD}>
+      </StackedCell>
+      <StackedCell kind="actions" className={TD}>
         <button
           type="button"
           aria-label={`Remover campo ${numero}`}
           onClick={() => dispatch({ type: 'removeRow', key: row.key })}
-          className="cursor-pointer rounded-[3px] border-0 bg-transparent px-[5px] py-[1px] text-[15px] leading-none text-apsen-muted-2 transition-colors hover:text-apsen-red focus-ring"
+          className="cursor-pointer rounded-[3px] border-0 bg-transparent px-[5px] py-[1px] text-[15px] max-md:min-h-[44px] max-md:min-w-[44px] leading-none text-apsen-muted-2 transition-colors hover:text-apsen-red focus-ring"
         >
           ×
         </button>
-      </td>
+      </StackedCell>
     </tr>
   );
 }

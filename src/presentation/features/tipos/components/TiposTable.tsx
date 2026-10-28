@@ -25,6 +25,8 @@ function columns(onToggle: TiposTableProps['onToggle']): TableColumn<TipoRowDto>
   return [
     {
       key: 'tipo',
+      mobile: 'title',
+      label: 'Tipo',
       wrap: true,
       header: <TipoSlugHeader />,
       render: (row) => (
@@ -46,17 +48,20 @@ function columns(onToggle: TiposTableProps['onToggle']): TableColumn<TipoRowDto>
     { key: 'dono', header: 'Dono de Área', className: 'text-[12.5px]!', render: (row) => row.dono },
     {
       key: 'feature',
+      label: 'Feature',
       header: <FeatureHeader />,
       render: (row) => <CodeTag tone={row.featureTone}>{row.feature}</CodeTag>,
     },
     {
       key: 'lag',
+      label: 'Lag',
       header: <LagHeader />,
       className: 'text-center font-mono text-[13px]',
       render: (row) => row.lagTxt,
     },
     {
       key: 'params',
+      label: 'Campos',
       header: <CamposHeader />,
       className: 'text-center text-[13px] font-semibold text-apsen-blue',
       render: (row) => row.params,

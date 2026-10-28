@@ -31,6 +31,7 @@ function columns(familia: string): CardTableColumn<FamiliaDriverRowDto>[] {
     { key: 'tipo', header: 'Tipo', render: (row) => <DriverTypeBadge badge={row.badge} /> },
     {
       key: 'titulo',
+      mobile: 'title',
       wrap: true,
       header: 'Título / Produto',
       render: (row) => (
@@ -42,6 +43,7 @@ function columns(familia: string): CardTableColumn<FamiliaDriverRowDto>[] {
     },
     {
       key: 'periodo',
+      mobile: 'hidden',
       header: 'Período',
       render: (row) => <span className="text-[12px] text-apsen-muted">{row.periodo}</span>,
     },

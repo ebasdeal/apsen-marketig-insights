@@ -13,7 +13,7 @@ export function Sidebar() {
           aria-hidden
           data-testid="nav-backdrop"
           onClick={close}
-          className="fixed inset-0 z-[25] hidden bg-apsen-overlay max-[800px]:block"
+          className="fixed inset-0 z-[25] hidden bg-apsen-overlay max-[1023px]:block"
         />
       ) : null}
       <aside

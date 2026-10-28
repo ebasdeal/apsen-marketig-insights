@@ -25,7 +25,7 @@ interface TabsProps<T extends string> {
 }
 
 const TAB =
-  '-mb-px cursor-pointer whitespace-nowrap border-0 border-b-2 bg-transparent px-[20px] py-[9px] text-[13px] transition-all focus-ring';
+  '-mb-px cursor-pointer whitespace-nowrap max-md:min-h-[44px] max-md:px-[12px] border-0 border-b-2 bg-transparent px-[20px] py-[9px] text-[13px] transition-all focus-ring';
 const ACTIVE: Record<TabsTone, string> = {
   blue: 'border-apsen-blue font-medium text-apsen-blue',
   red: 'border-apsen-red font-medium text-apsen-red',
@@ -72,7 +72,7 @@ export function Tabs<T extends string>({
       <div
         role="tablist"
         aria-label={label}
-        className="mb-[16px] flex border-b border-apsen-border"
+        className="mb-[16px] flex border-b border-apsen-border max-md:flex-wrap"
       >
         {items.map((item, index) => {
           const selected = item.value === value;

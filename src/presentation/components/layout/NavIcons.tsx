@@ -18,7 +18,7 @@ export function DashboardIcon() {
   );
 }
 
-export function CrumbChevronIcon() {
+export function CrumbChevronIcon({ className = '' }: { className?: string }) {
   return (
     <svg
       aria-hidden
@@ -26,7 +26,7 @@ export function CrumbChevronIcon() {
       fill="none"
       stroke="currentColor"
       strokeWidth={2}
-      className="size-[12px] opacity-40"
+      className={`size-[12px] opacity-40 ${className}`.trim()}
     >
       <polyline points="9 18 15 12 9 6" />
     </svg>

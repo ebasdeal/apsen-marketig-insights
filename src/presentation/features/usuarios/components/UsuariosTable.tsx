@@ -23,9 +23,15 @@ function columns(
   podeEscrever: boolean,
 ): TableColumn<UsuarioRowDto>[] {
   return [
-    { key: 'nome', header: 'Nome', render: (row) => <div className="font-medium">{row.nome}</div> },
+    {
+      key: 'nome',
+      mobile: 'title',
+      header: 'Nome',
+      render: (row) => <div className="font-medium">{row.nome}</div>,
+    },
     {
       key: 'email',
+      wrap: true,
       header: 'E-mail',
       render: (row) => <span className="text-[12px] text-apsen-muted">{row.email}</span>,
     },
@@ -36,29 +42,35 @@ function columns(
     },
     {
       key: 'area',
+      mobile: 'hidden',
       header: 'Área',
       render: (row) => <span className="text-[12px]">{row.area}</span>,
     },
     {
       key: 'registrar',
+      mobile: 'hidden',
       header: 'Pode registrar',
       className: CENTER,
       render: (row) => <PermissionCheck value={row.podeRegistrar} />,
     },
     {
       key: 'validar',
+      mobile: 'hidden',
       header: 'Pode validar',
       className: CENTER,
       render: (row) => <PermissionCheck value={row.podeValidar} />,
     },
     {
       key: 'admin',
+      mobile: 'hidden',
       header: 'Admin',
       className: CENTER,
       render: (row) => <PermissionCheck value={row.admin} />,
     },
     {
       key: 'acesso',
+      mobile: 'hidden',
+      wrap: true,
       header: 'Último acesso',
       render: (row) => <span className="text-[12px]">{row.ultimoAcesso}</span>,
     },
@@ -92,6 +104,7 @@ export function UsuariosTable({
       rows={rows}
       rowKey={(row) => row.id}
       emptyText="Nenhum usuário encontrado."
+      compact
       footer={footer}
       actions={(row) => (
         <>

@@ -21,7 +21,7 @@ describe('PerfisScreen', () => {
       screen.getAllByRole('columnheader').filter((th) => th.getAttribute('scope') === 'colgroup'),
     ).toHaveLength(3);
     expect(screen.getByText('(só suas cat.)')).toHaveClass('text-[11px]');
-    expect(screen.getAllByText('—')[0]).toHaveClass('text-apsen-muted-2');
+    expect(screen.getAllByText('—')[0]?.closest('td')).toHaveClass('text-apsen-muted-2');
   });
 
   it('CA-11 carregando, erro e vazio', async () => {

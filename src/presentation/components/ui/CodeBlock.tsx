@@ -13,7 +13,7 @@ export function CodeBlock({
     <pre
       tabIndex={0}
       aria-label={label}
-      className={`${maxHeightClassName} overflow-auto whitespace-pre rounded-apsen bg-apsen-code-bg p-[14px] font-mono text-[11.5px] leading-[1.5] text-apsen-code-fg focus-ring`}
+      className={`${maxHeightClassName} overflow-auto whitespace-pre rounded-apsen max-md:whitespace-pre-wrap max-md:break-words bg-apsen-code-bg p-[14px] font-mono text-[11.5px] leading-[1.5] text-apsen-code-fg focus-ring`}
     >
       {children}
     </pre>

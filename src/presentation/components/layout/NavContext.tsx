@@ -12,7 +12,7 @@ import {
 } from 'react';
 import { useSidebarStore } from '../../stores/sidebarStore';
 
-export const MOBILE_NAV_QUERY = '(width < 800px)';
+export const MOBILE_NAV_QUERY = '(width < 1024px)';
 
 export const SIDEBAR_ID = 'app-sidebar';
 

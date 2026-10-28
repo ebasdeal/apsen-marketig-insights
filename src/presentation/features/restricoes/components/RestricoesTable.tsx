@@ -25,6 +25,7 @@ const COLUMNS: readonly TableColumn<RestricaoItemOutput>[] = [
   },
   {
     key: 'desc',
+    mobile: 'title',
     wrap: true,
     header: 'Descrição',
     render: (r) => (
@@ -36,6 +37,7 @@ const COLUMNS: readonly TableColumn<RestricaoItemOutput>[] = [
   },
   {
     key: 'produto',
+    mobile: 'hidden',
     wrap: true,
     header: 'Produto / Linha',
     className: 'text-[12.5px]',
@@ -99,6 +101,7 @@ export function RestricoesTable({
       columns={COLUMNS}
       rows={itens}
       rowKey={(r) => r.id}
+      compact
       emptyText="Nenhum registro"
       actions={acoes}
       footer={footer}

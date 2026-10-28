@@ -30,6 +30,7 @@ const COLUMNS: TableColumn<IngeridoRowDto>[] = [
   },
   {
     key: 'produto',
+    mobile: 'title',
     wrap: true,
     header: 'Produto',
     render: (row) => (
@@ -47,10 +48,17 @@ const COLUMNS: TableColumn<IngeridoRowDto>[] = [
   { key: 'periodo', header: 'Período', className: 'text-[12px]!', render: (row) => row.periodo },
   {
     key: 'feature',
+    mobile: 'hidden',
     header: 'Feature',
     render: (row) => <CodeTag tone={row.featureTone}>{row.feature}</CodeTag>,
   },
-  { key: 'area', header: 'Área', className: 'text-[12px]!', render: (row) => row.area },
+  {
+    key: 'area',
+    mobile: 'hidden',
+    header: 'Área',
+    className: 'text-[12px]!',
+    render: (row) => row.area,
+  },
   {
     key: 'validadoPor',
     header: 'Validado por',

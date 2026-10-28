@@ -1,3 +1,13 @@
+import { StackedCell } from '@presentation/components/ui/StackedCell';
+import {
+  columnLabel,
+  STACK_BODY,
+  STACK_HEAD,
+  STACK_ROW,
+  STACK_TABLE,
+  STACK_WRAP,
+  type StackedPriority,
+} from '@presentation/components/ui/stackedTable';
 import type { ReactNode } from 'react';
 
 export interface CardTableColumn<T> {
@@ -7,6 +17,8 @@ export interface CardTableColumn<T> {
   center?: boolean;
   className?: string;
   wrap?: boolean;
+  mobile?: StackedPriority;
+  label?: string;
 }
 
 interface CardTableProps<T> {
@@ -21,14 +33,22 @@ const TH =
   'whitespace-nowrap border-b border-apsen-border px-[16px] py-[11px] text-[11px] font-semibold uppercase tracking-[.05em] text-apsen-muted';
 const TD = 'border-b border-apsen-bg px-[16px] py-[11px] align-middle text-[13px]';
 
+function cellClass<T>(column: CardTableColumn<T>, align: string): string {
+  return [TD, column.wrap === true ? '' : 'whitespace-nowrap', align, column.className ?? '']
+    .filter(Boolean)
+    .join(' ');
+}
+
 export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: CardTableProps<T>) {
   const align = (column: CardTableColumn<T>) =>
     column.center === true ? 'text-center' : 'text-left';
   return (
-    <div className="mb-[16px] overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm">
-      <table className="w-full min-w-[640px] border-collapse">
+    <div
+      className={`mb-[16px] relative overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm ${STACK_WRAP}`}
+    >
+      <table className={`w-full min-w-[640px] border-collapse ${STACK_TABLE}`}>
         <caption className="sr-only">{caption}</caption>
-        <thead>
+        <thead className={STACK_HEAD}>
           <tr>
             {columns.map((column) => (
               <th key={column.key} scope="col" className={`${TH} ${align(column)}`}>
@@ -37,7 +57,7 @@ export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: Card
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className={STACK_BODY}>
           {rows.length === 0 ? (
             <tr>
               <td
@@ -51,17 +71,17 @@ export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: Card
             rows.map((row) => (
               <tr
                 key={rowKey(row)}
-                className="hover:bg-apsen-row-hover [&:last-child>td]:border-b-0"
+                className={`hover:bg-apsen-row-hover [&:last-child>td]:border-b-0 ${STACK_ROW}`}
               >
                 {columns.map((column) => (
-                  <td
+                  <StackedCell
                     key={column.key}
-                    className={`${TD} ${column.wrap === true ? '' : 'whitespace-nowrap'} ${align(column)} ${column.className ?? ''}`
-                      .replace(/\s+/g, ' ')
-                      .trim()}
+                    label={columnLabel(column.header, column.label)}
+                    kind={column.mobile ?? 'field'}
+                    className={cellClass(column, align(column))}
                   >
                     {column.render(row)}
-                  </td>
+                  </StackedCell>
                 ))}
               </tr>
             ))

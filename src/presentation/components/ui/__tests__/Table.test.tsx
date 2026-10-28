@@ -82,7 +82,7 @@ describe('Table', () => {
     expect(headers[0]).toHaveClass('text-apsen-blue');
     expect(headers[1]).toHaveClass('text-apsen-muted');
     expect(within(table).getAllByRole('row')).toHaveLength(FAMILIES.length + 1);
-    expect(screen.getByText('6')).toHaveClass('font-semibold', 'px-[14px]');
+    expect(screen.getByText('6').closest('td')).toHaveClass('font-semibold', 'px-[14px]');
     const action = screen.getByRole('button', { name: 'Ver Atentah' });
     expect(action.parentElement).toHaveClass('flex', 'gap-[2px]');
     expect(table.parentElement).toHaveClass(

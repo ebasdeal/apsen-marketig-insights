@@ -17,7 +17,7 @@ export function ThemeToggle() {
       type="button"
       aria-label="Alternar tema"
       onClick={cycle}
-      className={buttonClasses('ghost', 'sm', 'min-w-[112px] justify-center')}
+      className={buttonClasses('ghost', 'sm', 'shrink-0 min-w-[112px] justify-center')}
     >
       {LABELS[preference]}
     </button>

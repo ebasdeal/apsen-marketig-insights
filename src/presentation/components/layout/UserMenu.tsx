@@ -74,7 +74,7 @@ export function UserMenu() {
         aria-controls={open ? menuId : undefined}
         aria-label={`Menu do usuário ${usuario.nome}`}
         onClick={() => setOpen((value) => !value)}
-        className="flex cursor-pointer items-center gap-[10px] rounded-apsen-pill p-[2px] pr-[8px] hover:bg-apsen-hover focus-ring"
+        className="flex cursor-pointer items-center gap-[10px] rounded-apsen-pill p-[2px] pr-[8px] max-md:min-h-[44px] max-md:min-w-[44px] max-md:justify-center hover:bg-apsen-hover focus-ring"
       >
         <span
           aria-hidden
