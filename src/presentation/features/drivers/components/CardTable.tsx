@@ -38,7 +38,7 @@ export function CardTable<T>({ caption, columns, rows, rowKey, emptyText }: Card
     column.center === true ? 'text-center' : 'text-left';
   return (
     <div
-      className={`mb-[16px] overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm ${STACK_WRAP}`}
+      className={`mb-[16px] relative overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm ${STACK_WRAP}`}
     >
       <table className={`w-full min-w-[640px] border-collapse ${STACK_TABLE}`}>
         <caption className="sr-only">{caption}</caption>

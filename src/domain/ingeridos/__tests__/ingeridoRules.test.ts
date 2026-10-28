@@ -1,4 +1,3 @@
-import { mockConfigOpcoes } from '@test/fixtures/mockDb';
 import { INGERIDO_FILTRO_VAZIO } from '../Ingerido';
 import {
   badgeVariant,

@@ -69,7 +69,7 @@ describe('componentes de estrutura', () => {
       'px-[16px]',
       'py-[14px]',
       'grid-cols-[1fr_auto_auto_auto_auto]',
-      'max-[800px]:grid-cols-2',
+      'max-[1023px]:grid-cols-2',
       'max-[560px]:grid-cols-1',
     );
     rerender(

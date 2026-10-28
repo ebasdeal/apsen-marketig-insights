@@ -8,8 +8,7 @@ import {
 } from '@presentation/components/ui';
 import { formatarDelta, formatarDeltaPct, formatarUnidades, tomDelta } from '../analiseFormat';
 
-const TH =
-  'whitespace-nowrap px-[10px] py-[8px] text-[11px] font-semibold uppercase tracking-[.05em]';
+const TH = 'px-[10px] py-[8px] text-[11px] font-semibold uppercase tracking-[.05em]';
 
 function Linha({
   linha,
@@ -50,10 +49,7 @@ function Linha({
       >
         {formatarDeltaPct(linha.deltaPct)}
       </StackedCell>
-      <StackedCell
-        label="Intervalo"
-        className={`${td} whitespace-nowrap text-right text-apsen-muted`}
-      >
+      <StackedCell label="Intervalo" className={`${td} text-right text-apsen-muted`}>
         {formatarUnidades(faixa.min)} – {formatarUnidades(faixa.max)}
       </StackedCell>
     </tr>
@@ -62,8 +58,8 @@ function Linha({
 
 export function ComparacaoTable({ comparacao }: { comparacao: Comparacao }) {
   return (
-    <div className="overflow-x-auto max-md:overflow-visible">
-      <table className={`w-full min-w-[640px] border-collapse text-[12.5px] ${STACK_TABLE}`}>
+    <div className="relative overflow-x-auto max-md:overflow-visible">
+      <table className={`w-full border-collapse text-[12.5px] ${STACK_TABLE}`}>
         <caption className="sr-only">Previsão mês a mês com e sem drivers</caption>
         <thead className={STACK_HEAD}>
           <tr className="border-b-2 border-apsen-border bg-apsen-bg">

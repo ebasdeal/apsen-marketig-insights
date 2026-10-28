@@ -46,7 +46,7 @@ export function ApprovalCard({ card, ...acoes }: ApprovalCardProps) {
         </Badge>
         <span className="ml-auto text-[12px] text-apsen-muted">{card.meta}</span>
       </div>
-      <div className="mb-[12px] grid grid-cols-[2fr_1fr_1fr_1fr] gap-[16px] max-[800px]:grid-cols-2">
+      <div className="mb-[12px] grid grid-cols-[2fr_1fr_1fr_1fr] gap-[16px] max-[1023px]:grid-cols-2 max-[560px]:grid-cols-1">
         <Campo label="Produto / Molécula">
           {card.produto}
           <br />

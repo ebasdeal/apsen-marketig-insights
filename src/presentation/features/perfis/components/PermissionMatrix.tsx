@@ -46,7 +46,7 @@ function CelulaView({ celula, label }: { celula: Celula; label: string }) {
 
 export function PermissionMatrix({ matriz }: { matriz: PermissoesMatrizDto }) {
   return (
-    <div className="overflow-x-auto max-md:overflow-visible">
+    <div className="relative overflow-x-auto max-md:overflow-visible">
       <table className={`w-full border-collapse ${STACK_TABLE}`}>
         <caption className="sr-only">Matriz de permissões por perfil</caption>
         <thead className={STACK_HEAD}>

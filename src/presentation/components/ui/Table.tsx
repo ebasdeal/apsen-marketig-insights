@@ -68,7 +68,7 @@ export function Table<T>({
     <>
       {toolbar === undefined ? null : <Toolbar>{toolbar}</Toolbar>}
       <div
-        className={`overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm ${STACK_WRAP}`}
+        className={`relative overflow-x-auto rounded-apsen-lg border border-apsen-border bg-apsen-white shadow-apsen-sm ${STACK_WRAP}`}
       >
         <table className={`w-full min-w-[560px] border-collapse ${STACK_TABLE}`}>
           <caption className="sr-only">{caption}</caption>

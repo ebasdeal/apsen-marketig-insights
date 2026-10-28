@@ -24,7 +24,7 @@ const HEADERS = ['Nome (slug)', 'Label exibido', 'Tipo', 'Obrigatório', 'Opçõ
 
 export function EditableParamsTable({ rows, errors, fontes, dispatch }: EditableParamsTableProps) {
   return (
-    <div className="mb-[10px] overflow-x-auto rounded-apsen border border-apsen-border max-md:overflow-visible max-md:border-0">
+    <div className="relative mb-[10px] overflow-x-auto rounded-apsen border border-apsen-border max-md:overflow-visible max-md:border-0">
       <table className={`w-full min-w-[640px] border-collapse text-[12.5px] ${STACK_TABLE}`}>
         <caption className="sr-only">Parâmetros do formulário</caption>
         <thead className={STACK_HEAD}>

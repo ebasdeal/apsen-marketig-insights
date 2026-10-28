@@ -43,7 +43,7 @@ export function PlanoItemCampos({
 }: PlanoItemCamposProps) {
   return (
     <>
-      <div className="grid grid-cols-2 gap-x-[16px] max-[800px]:grid-cols-1">
+      <div className="grid grid-cols-2 gap-x-[16px] max-[1023px]:grid-cols-1">
         <Card>
           <CardTitle>Identificação do Item</CardTitle>
           <div className={CAMPOS}>

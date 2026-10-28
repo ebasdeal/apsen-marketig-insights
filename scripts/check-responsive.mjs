@@ -39,11 +39,13 @@ const ROUTES = [
   '/acesso-negado',
 ];
 
+const ONLY = process.env.ROUTES?.split(',');
 const VIEWPORTS = [
   { width: 360, height: 740 },
   { width: 768, height: 1024 },
   { width: 1024, height: 768 },
   { width: 1440, height: 900 },
+  ...(process.env.EXTRA_WIDE === '1' ? [{ width: 1920, height: 1080 }] : []),
 ];
 
 async function launch() {
@@ -106,7 +108,7 @@ await login(page);
 let failures = 0;
 for (const viewport of viewports) {
   await page.setViewportSize(viewport);
-  for (const route of ROUTES) {
+  for (const route of ONLY ?? ROUTES) {
     await page.goto(`${APP}${route}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
     await page.waitForLoadState('networkidle').catch(() => undefined);
     await page.waitForTimeout(500);
@@ -115,7 +117,7 @@ for (const viewport of viewports) {
     if (!ok) failures += 1;
     await page.screenshot({ path: join(OUT, slug(route, viewport)), fullPage: false });
     console.log(
-      `${ok ? 'OK  ' : 'FAIL'} ${String(viewport.width).padStart(4)} ${route}${ok ? '' : ` ${result.offenders.join(' | ')}`}`,
+      `${ok ? 'OK  ' : 'FAIL'} ${String(viewport.width).padStart(4)} ${route}${ok ? '' : ` [page=${result.page} main=${result.main} inner=${result.inner}] ${result.offenders.join(' | ')}`}`,
     );
   }
 }
