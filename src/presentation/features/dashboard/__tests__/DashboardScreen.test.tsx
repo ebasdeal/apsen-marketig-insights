@@ -123,4 +123,16 @@ describe('DashboardScreen', () => {
     expect(banner).toHaveTextContent(`🔑 Você está como ${rotulo} —`);
     expect(banner).toHaveClass(classe);
   });
+
+  it('PRG-DSH-04: Área não vê Aguardando Aprovação e só linka rotas que abre', async () => {
+    loginAs('area');
+    renderWithProviders(<DashboardScreen />);
+    await screen.findByRole('article', { name: 'Drivers no pipeline: 14' });
+    expect(screen.queryByText('Aguardando Aprovação')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Revisar' })).not.toBeInTheDocument();
+    const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'));
+    expect(hrefs).toEqual(expect.arrayContaining(['/planos', '/analises']));
+    expect(hrefs).not.toContain('/admin/aprovacoes');
+    expect(hrefs).not.toContain('/restricoes');
+  });
 });

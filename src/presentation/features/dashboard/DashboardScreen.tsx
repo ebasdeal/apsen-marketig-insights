@@ -1,5 +1,6 @@
 'use client';
 
+import { podeAcessar } from '@domain/perfis/acesso';
 import { ApsenLoader, ErrorState, PageHeader } from '@presentation/components/ui';
 import { toUserMessage } from '../../format/errorMessage';
 import { useDashboardOverview } from '../../hooks/dashboard/useDashboard';
@@ -47,7 +48,7 @@ export function DashboardScreen() {
           {dados.ciclo === null ? (
             <SemCicloAtivo contexto="Os indicadores de plano, drivers e análises são do ciclo ativo." />
           ) : null}
-          <DashboardKpis dados={dados} />
+          <DashboardKpis dados={dados} nivel={nivel} />
           <div className={`${GRADE} mb-[16px]`}>
             <BarrasPanel
               title="Drivers por Categoria"
@@ -63,7 +64,9 @@ export function DashboardScreen() {
             />
           </div>
           <div className={GRADE}>
-            <PendentesPanel pendentes={dados.pendentes} />
+            {nivel !== undefined && podeAcessar(nivel, 3) ? (
+              <PendentesPanel pendentes={dados.pendentes} />
+            ) : null}
             <PlanoStatusPanel plano={dados.plano} ciclo={dados.ciclo} />
           </div>
         </>

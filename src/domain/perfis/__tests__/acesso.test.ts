@@ -37,7 +37,7 @@ describe('moduloVisivel', () => {
   const visiveis: Record<NivelAcesso, ModuloId[]> = {
     1: ['planos', 'relatorios'],
     2: ['drivers', 'analises', 'planos', 'relatorios'],
-    3: ['drivers', 'admin', 'analises', 'restricoes', 'planos', 'relatorios'],
+    3: ['drivers', 'admin', 'acesso', 'analises', 'restricoes', 'planos', 'relatorios'],
     4: MODULOS,
   };
 
@@ -49,7 +49,7 @@ describe('moduloVisivel', () => {
     expect(NIVEL_MINIMO_MODULO).toEqual({
       drivers: 2,
       admin: 3,
-      acesso: 4,
+      acesso: 3,
       agentes: 4,
       analises: 2,
       restricoes: 3,
@@ -64,6 +64,8 @@ describe('itemVisivel', () => {
     expect(itemVisivel(2, 'export')).toBe(false);
     expect(itemVisivel(3, 'export')).toBe(true);
     expect(itemVisivel(3, 'user-form')).toBe(false);
+    expect(itemVisivel(3, 'usuarios')).toBe(false);
+    expect(itemVisivel(3, 'perfis')).toBe(true);
     expect(itemVisivel(4, 'user-form')).toBe(true);
     expect(itemVisivel(1, 'lista')).toBe(true);
   });

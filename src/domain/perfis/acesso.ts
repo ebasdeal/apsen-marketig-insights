@@ -8,7 +8,7 @@ export type UpgradeNivel = 'area-ou-planejador' | 'planejador' | 'admin';
 export const NIVEL_MINIMO_MODULO: Record<ModuloId, NivelAcesso> = {
   drivers: 2,
   admin: 3,
-  acesso: 4,
+  acesso: 3,
   agentes: 4,
   analises: 2,
   restricoes: 3,
@@ -18,6 +18,7 @@ export const NIVEL_MINIMO_MODULO: Record<ModuloId, NivelAcesso> = {
 
 export const NIVEL_MINIMO_ITEM: Partial<Record<string, NivelAcesso>> = {
   export: 3,
+  usuarios: 4,
   'user-form': 4,
 };
 
