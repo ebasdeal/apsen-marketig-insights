@@ -2,6 +2,7 @@
 
 import type { AprovStatus } from '@domain/aprovacoes/Aprovacao';
 import { APROV_STATUS, APROV_TIPOS } from '@domain/aprovacoes/vocabulario';
+import { useDriverFormLookups } from '@presentation/hooks/drivers/useDriverFormLookups';
 import {
   FilterBar,
   FormField,
@@ -24,9 +25,17 @@ interface AprovacoesFiltersProps {
   onChange: (patch: Partial<Omit<AprovFiltrosValores, 'busca'>>) => void;
 }
 
-const TIPOS = APROV_TIPOS.map((tipo) => ({ value: tipo, label: tipo }));
+// O filtro nasce do catálogo de tipos; os rótulos legados da fila (APROV_TIPOS) seguem filtráveis.
+function opcoesDeTipo(catalogo: readonly string[]) {
+  return [...new Set([...catalogo, ...APROV_TIPOS])].map((tipo) => ({ value: tipo, label: tipo }));
+}
 
 export function AprovacoesFilters({ valores, onBusca, onChange }: AprovacoesFiltersProps) {
+  const lookups = useDriverFormLookups();
+  const tipos = opcoesDeTipo(
+    lookups.data?.categorias.flatMap((categoria) => categoria.tipos.map((tipo) => tipo.label)) ??
+      [],
+  );
   return (
     <FilterBar aria-label="Filtros da fila de aprovação">
       <FormField label="Busca">
@@ -64,7 +73,7 @@ export function AprovacoesFilters({ valores, onBusca, onChange }: AprovacoesFilt
             value={valores.tipo}
             onChange={(tipo) => onChange({ tipo })}
             placeholder="Todos os tipos"
-            options={TIPOS}
+            options={tipos}
           />
         </FormField>
       </div>

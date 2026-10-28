@@ -41,6 +41,7 @@ function useDecisaoMutation<TInput>(
   mutationFn: (input: TInput) => Promise<ToastDto>,
   decisaoDe: (input: TInput) => DecisaoInput,
 ) {
+  // A decisão registrada com sucesso é sempre um toast de sucesso, mesmo a rejeição (texto com ❌).
   const queryClient = useQueryClient();
   const toast = useToast();
   return useMutation<ToastDto, Error, TInput, QuerySnapshot>({
@@ -54,7 +55,7 @@ function useDecisaoMutation<TInput>(
       restoreSnapshot(queryClient, snapshot);
       toast.show(mensagemDeFalha(error));
     },
-    onSuccess: (result) => toast.show(result.toast),
+    onSuccess: (result) => toast.show(result.toast, { tone: 'success' }),
     onSettled: () =>
       Promise.all(AFETADAS.map((queryKey) => queryClient.invalidateQueries({ queryKey }))),
   });

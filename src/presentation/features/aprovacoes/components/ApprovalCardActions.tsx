@@ -33,6 +33,7 @@ export function ApprovalCardActions({
     return (
       <div className="flex items-center gap-[8px]">
         <Button
+          escrita
           variant="success"
           size="sm"
           aria-label={`Aprovar ${card.id}`}
@@ -42,6 +43,7 @@ export function ApprovalCardActions({
           Aprovar
         </Button>
         <Button
+          escrita
           variant="danger"
           size="sm"
           aria-label={`Rejeitar ${card.id}`}
@@ -66,6 +68,7 @@ export function ApprovalCardActions({
           </span>
         ) : (
           <Button
+            escrita
             variant="ghost"
             size="sm"
             dashed

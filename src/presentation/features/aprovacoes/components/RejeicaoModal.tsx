@@ -57,7 +57,13 @@ export function RejeicaoModal({ id, onClose }: RejeicaoModalProps) {
           <Button variant="ghost" size="sm" onClick={onClose}>
             Cancelar
           </Button>
-          <Button variant="danger" size="sm" loading={rejeitar.isPending} onClick={confirmar}>
+          <Button
+            escrita
+            variant="danger"
+            size="sm"
+            loading={rejeitar.isPending}
+            onClick={confirmar}
+          >
             Confirmar Rejeição
           </Button>
         </>
