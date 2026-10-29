@@ -1,17 +1,13 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
-import {
-  INITIAL_CAMPAIGN_FILTERS,
-  useCampaignFiltersStore,
-} from '@presentation/stores/campaignFiltersStore';
-import { useThemeStore } from '@presentation/stores/themeStore';
 import { navigationState, resetNavigationMock, routerMock } from './test/nextNavigation';
+import { resetStores } from './test/resetStores';
 
 vi.mock('next/navigation', () => ({
   useRouter: () => routerMock,
   usePathname: () => navigationState.pathname,
   useParams: () => navigationState.params,
-  useSearchParams: () => new URLSearchParams(),
+  useSearchParams: () => new URLSearchParams(navigationState.search),
   notFound: () => {
     throw new Error('NEXT_NOT_FOUND');
   },
@@ -35,8 +31,9 @@ beforeEach(() => {
   window.localStorage.clear();
   document.documentElement.classList.remove('dark');
   resetNavigationMock();
-  useCampaignFiltersStore.setState(INITIAL_CAMPAIGN_FILTERS);
-  useThemeStore.setState({ preference: 'system' });
+  resetStores();
+  window.localStorage.clear();
+  window.sessionStorage.clear();
 });
 
 afterEach(() => {

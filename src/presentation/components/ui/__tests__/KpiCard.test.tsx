@@ -3,7 +3,7 @@ import { KpiCard, type KpiTone } from '../KpiCard';
 
 const TONE_CASES: readonly (readonly [KpiTone, string, string])[] = [
   ['blue', 'bg-apsen-kpi-blue', 'text-apsen-blue'],
-  ['green', 'bg-apsen-kpi-green', 'text-apsen-green'],
+  ['green', 'bg-apsen-kpi-green', 'text-apsen-green-fg'],
   ['orange', 'bg-apsen-kpi-orange', 'text-apsen-orange'],
   ['red', 'bg-apsen-kpi-red', 'text-apsen-red'],
 ];
@@ -15,7 +15,7 @@ describe('KpiCard', () => {
     expect(card).toHaveClass('col-span-2', 'rounded-[10px]', 'px-[20px]', 'py-[18px]');
     expect(card).not.toHaveClass('cursor-pointer');
     const value = screen.getByText('3,00x');
-    const heading = screen.getByRole('heading', { level: 3, name: 'ROAS' });
+    const heading = screen.getByRole('heading', { level: 2, name: 'ROAS' });
     expect(value.nextElementSibling).toBe(heading);
     expect(value).toHaveClass('text-[26px]', 'font-extrabold', 'text-apsen-blue');
     expect(screen.getByText('no período')).toHaveClass('font-semibold', 'text-apsen-blue');
@@ -39,9 +39,9 @@ describe('KpiCard', () => {
   });
 
   it('navega quando recebe href', () => {
-    render(<KpiCard label="Campanhas" value="15" href="/campaigns" className="extra" />);
+    render(<KpiCard label="Campanhas" value="15" href="/acesso-negado" className="extra" />);
     const link = screen.getByRole('link', { name: 'Campanhas: 15' });
-    expect(link).toHaveAttribute('href', '/campaigns');
+    expect(link).toHaveAttribute('href', '/acesso-negado');
     expect(link).toHaveClass('extra', 'focus-ring');
     const card = screen.getByRole('article', { name: 'Campanhas: 15' });
     expect(card).toHaveClass('cursor-pointer', 'hover:shadow-apsen-hover');

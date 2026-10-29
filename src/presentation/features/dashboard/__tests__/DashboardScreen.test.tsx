@@ -1,113 +1,138 @@
-import type { UseCases } from '@presentation/providers/UseCasesContext';
-import { useCampaignFiltersStore } from '@presentation/stores/campaignFiltersStore';
-import { buildDashboard } from '@test/factories';
+import { buildDashboardOutput } from '@test/fixtures/dashboard';
+import { loginAs } from '@test/resetStores';
 import { createFakeUseCases, renderWithProviders } from '@test/renderWithProviders';
-import { screen, waitFor, within } from '@testing-library/react';
-import { DashboardScreen } from '../DashboardScreen';
-
-type Execute = UseCases['getDashboardSummary']['execute'];
-
-function setup(execute: Execute) {
-  const useCases = createFakeUseCases({ getDashboardSummary: { execute } });
-  return renderWithProviders(<DashboardScreen />, useCases);
-}
+import { screen, within } from '@testing-library/react';
+import { DashboardScreen, formatarAtualizadoEm } from '../DashboardScreen';
 
 describe('DashboardScreen', () => {
-  it('mostra loading enquanto carrega', () => {
-    setup(vi.fn(() => new Promise<never>(() => undefined)));
-    expect(screen.getByRole('status')).toHaveTextContent('Carregando indicadores…');
-    expect(screen.getByRole('heading', { level: 1, name: 'Dashboard' })).toBeInTheDocument();
-  });
-
-  it('mostra KPIs, canais e top campanhas', async () => {
-    setup(vi.fn().mockResolvedValue(buildDashboard()));
+  it('CA-01: título, ciclo ativo e horário da carga', async () => {
+    renderWithProviders(<DashboardScreen />);
+    expect(screen.getByRole('heading', { level: 1, name: 'Dashboard — Demand Intelligence' }));
+    expect(await screen.findByText('Visão geral do ciclo ativo · PLP-2026-07')).toBeInTheDocument();
     expect(
-      await screen.findByRole('region', { name: 'Investimento por canal' }),
+      screen.getByText(new Date('2026-10-27T13:05:00.000Z').toLocaleString('pt-BR')),
     ).toBeInTheDocument();
-    expect(screen.getByRole('article', { name: 'ROAS: 3,00x' })).toBeInTheDocument();
-    expect(screen.getByText('1 de 2 campanhas ativas')).toBeInTheDocument();
-    expect(screen.getByText('CTR 4,50%')).toBeInTheDocument();
-    expect(screen.getByRole('meter', { name: 'Google Ads' })).toBeInTheDocument();
-    expect(screen.getByText('Top Um')).toBeInTheDocument();
+    expect(formatarAtualizadoEm(undefined)).toBe('—');
   });
 
-  it('oferece links para o detalhe e para a lista de campanhas', async () => {
-    setup(vi.fn().mockResolvedValue(buildDashboard()));
-    expect(screen.queryByRole('link', { name: 'Ver todas as campanhas' })).not.toBeInTheDocument();
-    expect(await screen.findByRole('link', { name: 'Abrir campanha Top Dois' })).toHaveAttribute(
-      'href',
-      '/campaigns/cmp-2',
-    );
-    expect(screen.getByRole('link', { name: 'Ver todas as campanhas' })).toHaveAttribute(
-      'href',
-      '/campaigns',
+  it('CA-03: 4 cartões com hints e links', async () => {
+    renderWithProviders(<DashboardScreen />);
+    const pipeline = await screen.findByRole('article', { name: 'Drivers no pipeline: 14' });
+    expect(within(pipeline).getByText('2 pendentes')).toHaveClass('text-apsen-yellow-fg');
+    expect(screen.getByRole('article', { name: 'Restrições ativas: 8' })).toBeInTheDocument();
+    expect(screen.getByRole('article', { name: 'Itens no plano PLP-2026-07: 247' }));
+    const analises = screen.getByRole('article', { name: 'Análises realizadas: 2' });
+    expect(within(analises).getByText('2 salvas')).toHaveClass('text-apsen-green-fg');
+    const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'));
+    expect(hrefs).toEqual(
+      expect.arrayContaining(['/admin/aprovacoes', '/restricoes', '/planos', '/analises']),
     );
   });
 
-  it('mostra estado vazio', async () => {
-    setup(vi.fn().mockResolvedValue(buildDashboard({ campaignCount: 0 })));
-    expect(await screen.findByText('Sem campanhas no período')).toBeInTheDocument();
-    expect(screen.getByText('Escolha outro período para ver os indicadores.')).toBeInTheDocument();
-    expect(screen.queryByRole('region')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Ver todas as campanhas' })).not.toBeInTheDocument();
+  it('CA-04/05/06/07: barras, pendentes e plano', async () => {
+    renderWithProviders(<DashboardScreen />);
+    expect(await screen.findByRole('meter', { name: 'Concorrência' })).toHaveAttribute(
+      'aria-valuenow',
+      '0',
+    );
+    expect(screen.getByRole('meter', { name: 'Matéria-Prima' })).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: 'Revisar' })).toHaveLength(4);
+    expect(screen.getByText('Baricitinibe 2mg')).toBeInTheDocument();
+    expect(screen.getByText('+mais 2')).toBeInTheDocument();
+    expect(screen.getByText('43%')).toBeInTheDocument();
+    expect(screen.getByText('247 itens · PLP-2026-07')).toBeInTheDocument();
   });
 
-  it('mantém o período e o Atualizar no cabeçalho durante o carregamento', () => {
-    setup(vi.fn(() => new Promise<never>(() => undefined)));
-    const header = screen.getByRole('banner');
-    expect(within(header).getByRole('radiogroup', { name: 'Período' })).toBeInTheDocument();
-    expect(within(header).getByRole('button', { name: 'Atualizar' })).toBeDisabled();
-    expect(screen.getByText('Visão geral do desempenho das campanhas.')).toBeInTheDocument();
+  it('vazios por painel e plano sem itens', async () => {
+    const vazio = buildDashboardOutput({
+      cicloAtivo: null,
+      restricoes: { ativas: 0, criticas: 0, porTipo: [] },
+      aguardandoAprovacao: { total: 0, itens: [] },
+      plano: {
+        total: 0,
+        aprovados: 0,
+        porStatus: { aprovado: 0, revisao: 0, bloqueado: 0, pendente: 0 },
+      },
+    });
+    renderWithProviders(
+      <DashboardScreen />,
+      createFakeUseCases({
+        dashboard: { overview: { execute: vi.fn().mockResolvedValue(vazio) } },
+      }),
+    );
+    expect(await screen.findByText('✅ Nenhuma restrição ativa')).toBeInTheDocument();
+    expect(screen.getByText('✅ Nenhum driver pendente')).toBeInTheDocument();
+    expect(screen.getAllByText('—').length).toBeGreaterThanOrEqual(4);
+    expect(screen.getByText('0 itens · sem ciclo ativo')).toBeInTheDocument();
   });
 
-  it('mostra erro e permite tentar novamente', async () => {
+  it.each([
+    ['viewer', false],
+    ['planejador', true],
+  ] as const)('sem ciclo ativo (%s): estado claro com link para ciclos', async (perfil, dica) => {
+    loginAs(perfil);
+    const semCiclo = buildDashboardOutput({ cicloAtivo: null });
+    renderWithProviders(
+      <DashboardScreen />,
+      createFakeUseCases({
+        dashboard: { overview: { execute: vi.fn().mockResolvedValue(semCiclo) } },
+      }),
+    );
+    expect(await screen.findByText('Nenhum ciclo ativo.')).toBeInTheDocument();
+    expect(screen.getByText('Visão geral do ciclo ativo · Nenhum ciclo ativo')).toBeInTheDocument();
+    expect(
+      screen.getByRole('article', { name: 'Itens no plano (sem ciclo ativo): 247' }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Ver ciclos de planejamento' })).toHaveAttribute(
+      'href',
+      '/admin/ciclos',
+    );
+    expect(screen.queryByText(/Ative um ciclo/) !== null).toBe(dica);
+    expect(screen.queryByText(/·s*—/)).not.toBeInTheDocument();
+  });
+
+  it('CA-08: carregando, erro com Tentar novamente e recarga', async () => {
     const execute = vi
       .fn()
       .mockRejectedValueOnce(new Error('rede'))
-      .mockResolvedValue(buildDashboard());
-    const { user } = setup(execute);
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      'Não foi possível carregar os dados.',
+      .mockResolvedValue(buildDashboardOutput());
+    const { user } = renderWithProviders(
+      <DashboardScreen />,
+      createFakeUseCases({ dashboard: { overview: { execute } } }),
     );
-    await user.click(screen.getByRole('button', { name: 'Tentar novamente' }));
-    expect(await screen.findByText('Top Um')).toBeInTheDocument();
-  });
-
-  it('troca o período e refaz a consulta', async () => {
-    const execute = vi.fn().mockResolvedValue(buildDashboard());
-    const { user } = setup(execute);
-    await screen.findByText('Top Um');
-    await user.click(screen.getByRole('radio', { name: 'Período: Últimos 90 dias' }));
-    expect(useCampaignFiltersStore.getState().period).toBe('90d');
-    expect(screen.getByRole('radio', { name: 'Período: Últimos 90 dias' })).toHaveAttribute(
-      'aria-checked',
-      'true',
-    );
-    await waitFor(() =>
-      expect(execute).toHaveBeenLastCalledWith({
-        period: { start: expect.any(String), end: expect.any(String) },
-      }),
-    );
-  });
-
-  it('atualiza os dados pelo botão Atualizar', async () => {
-    let resolveRefetch: (value: ReturnType<typeof buildDashboard>) => void = () => undefined;
-    const execute = vi
-      .fn()
-      .mockResolvedValueOnce(buildDashboard())
-      .mockImplementationOnce(
-        () =>
-          new Promise((resolve) => {
-            resolveRefetch = resolve;
-          }),
-      );
-    const { user } = setup(execute);
-    await screen.findByText('Top Um');
-    await user.click(screen.getByRole('button', { name: 'Atualizar' }));
-    const busyButton = await screen.findByRole('button', { name: 'Atualizando…' });
-    expect(busyButton).toBeDisabled();
+    expect(screen.getByRole('status', { name: 'Carregando dashboard…' })).toBeInTheDocument();
+    await user.click(await screen.findByRole('button', { name: 'Tentar novamente' }));
+    expect(await screen.findByText('Drivers por Categoria')).toBeInTheDocument();
     expect(execute).toHaveBeenCalledTimes(2);
-    resolveRefetch(buildDashboard());
-    expect(await screen.findByRole('button', { name: 'Atualizar' })).toBeEnabled();
+  });
+
+  it('CA-02: banner por perfil; admin oculto', async () => {
+    renderWithProviders(<DashboardScreen />);
+    await screen.findByText('Drivers por Categoria');
+    expect(screen.queryByRole('note')).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ['planejador', 'Planejador', 'bg-apsen-kpi-blue'],
+    ['area', 'Área', 'bg-apsen-teal-soft'],
+    ['viewer', 'Visualizador', 'bg-apsen-bg'],
+  ] as const)('banner do perfil %s', async (perfil, rotulo, classe) => {
+    loginAs(perfil);
+    renderWithProviders(<DashboardScreen />);
+    const banner = await screen.findByRole('note');
+    expect(banner).toHaveTextContent(`🔑 Você está como ${rotulo} —`);
+    expect(banner).toHaveClass(classe);
+  });
+
+  it('PRG-DSH-04: Área não vê Aguardando Aprovação e só linka rotas que abre', async () => {
+    loginAs('area');
+    renderWithProviders(<DashboardScreen />);
+    await screen.findByRole('article', { name: 'Drivers no pipeline: 14' });
+    expect(screen.queryByText('Aguardando Aprovação')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Revisar' })).not.toBeInTheDocument();
+    const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href'));
+    expect(hrefs).toEqual(expect.arrayContaining(['/planos', '/analises']));
+    expect(hrefs).not.toContain('/admin/aprovacoes');
+    expect(hrefs).not.toContain('/restricoes');
   });
 });

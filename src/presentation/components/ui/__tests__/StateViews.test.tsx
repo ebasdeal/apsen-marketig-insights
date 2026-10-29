@@ -3,13 +3,13 @@ import { render, screen } from '@testing-library/react';
 import { EmptyState, ErrorState, InlineEmpty, LoadingState } from '../StateViews';
 
 describe('LoadingState', () => {
-  it('mostra rótulo padrão sem animação', () => {
+  it('mostra o loader da Apsen de conteúdo com rótulo padrão', () => {
     render(<LoadingState />);
     const status = screen.getByRole('status');
     expect(status).toHaveTextContent('Carregando…');
-    expect(status).toHaveClass('state-block');
-    expect(status.querySelector('.animate-spin')).toBeNull();
-    expect(screen.getByText('⟳')).toHaveAttribute('aria-hidden', 'true');
+    expect(status).toHaveAttribute('data-variant', 'content');
+    expect(screen.getByTestId('loader-logo')).toBeInTheDocument();
+    expect(screen.queryByText('⟳')).not.toBeInTheDocument();
   });
 
   it('mostra rótulo customizado', () => {

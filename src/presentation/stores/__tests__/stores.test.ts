@@ -1,56 +1,73 @@
+import { SESSOES } from '@test/fixtures/sessao';
 import {
-  INITIAL_CAMPAIGN_FILTERS,
-  hasActiveFilters,
-  useCampaignFiltersStore,
-} from '../campaignFiltersStore';
+  INITIAL_SESSAO_STATE,
+  SESSAO_STORAGE_KEY,
+  expirarSessao,
+  rehydrateSessao,
+  tokenAtual,
+  useSessaoStore,
+} from '../sessaoStore';
+import { INITIAL_SIDEBAR_STATE, useSidebarStore } from '../sidebarStore';
 import { THEME_STORAGE_KEY, rehydrateThemePreference, useThemeStore } from '../themeStore';
 
-describe('campaignFiltersStore', () => {
-  it('começa sem filtros, sem busca e na página 1', () => {
-    const { channel, status, period, search, page } = useCampaignFiltersStore.getState();
-    expect({ channel, status, period, search, page }).toEqual(INITIAL_CAMPAIGN_FILTERS);
-    expect(INITIAL_CAMPAIGN_FILTERS).toMatchObject({ search: '', page: 1 });
+describe('sessaoStore', () => {
+  beforeEach(() => {
+    useSessaoStore.setState(INITIAL_SESSAO_STATE);
+    window.sessionStorage.clear();
   });
 
-  it('atualiza e reseta filtros', () => {
-    const store = useCampaignFiltersStore.getState();
-    store.setChannel('tiktok');
-    store.setStatus('encerrada');
-    store.setPeriod('90d');
-    store.setSearch('alfa');
-    store.setPage(4);
-    expect(useCampaignFiltersStore.getState()).toMatchObject({
-      channel: 'tiktok',
-      status: 'encerrada',
-      period: '90d',
-      search: 'alfa',
-      page: 4,
-    });
-    useCampaignFiltersStore.getState().reset();
-    expect(useCampaignFiltersStore.getState()).toMatchObject(INITIAL_CAMPAIGN_FILTERS);
+  it('guarda só token e usuário no sessionStorage, nunca no localStorage', () => {
+    useSessaoStore.getState().iniciar(SESSOES.planejador);
+    expect(tokenAtual()).toBe('tok-planejador');
+    const stored = JSON.parse(window.sessionStorage.getItem(SESSAO_STORAGE_KEY) ?? 'null');
+    expect(stored.state).toEqual({ sessao: SESSOES.planejador });
+    expect(JSON.stringify({ ...window.localStorage })).not.toContain('tok-planejador');
   });
 
-  it('volta para a página 1 ao mudar qualquer filtro', () => {
-    const changes = [
-      () => useCampaignFiltersStore.getState().setChannel('meta'),
-      () => useCampaignFiltersStore.getState().setStatus('ativa'),
-      () => useCampaignFiltersStore.getState().setPeriod('ytd'),
-      () => useCampaignFiltersStore.getState().setSearch('x'),
-    ];
-    changes.forEach((change) => {
-      useCampaignFiltersStore.getState().setPage(3);
-      change();
-      expect(useCampaignFiltersStore.getState().page).toBe(1);
+  it('expirar e encerrar limpam a sessão', () => {
+    expirarSessao();
+    expect(useSessaoStore.getState().sessao).toBeNull();
+    useSessaoStore.getState().iniciar(SESSOES.admin);
+    expirarSessao();
+    expect(tokenAtual()).toBeUndefined();
+    useSessaoStore.getState().iniciar(SESSOES.admin);
+    useSessaoStore.getState().encerrar();
+    expect(useSessaoStore.getState().sessao).toBeNull();
+  });
+
+  it('atualiza o usuário só com sessão ativa', () => {
+    useSessaoStore.getState().atualizarUsuario(SESSOES.area.usuario);
+    expect(useSessaoStore.getState().sessao).toBeNull();
+    useSessaoStore.getState().iniciar(SESSOES.admin);
+    useSessaoStore.getState().atualizarUsuario({ ...SESSOES.admin.usuario, nome: 'Ana A.' });
+    expect(useSessaoStore.getState().sessao).toMatchObject({
+      token: 'tok-admin',
+      usuario: { nome: 'Ana A.' },
     });
   });
 
-  it('detecta filtros ativos', () => {
-    expect(hasActiveFilters(INITIAL_CAMPAIGN_FILTERS)).toBe(false);
-    expect(hasActiveFilters({ ...INITIAL_CAMPAIGN_FILTERS, channel: 'meta' })).toBe(true);
-    expect(hasActiveFilters({ ...INITIAL_CAMPAIGN_FILTERS, status: 'ativa' })).toBe(true);
-    expect(hasActiveFilters({ ...INITIAL_CAMPAIGN_FILTERS, period: 'ytd' })).toBe(true);
-    expect(hasActiveFilters({ ...INITIAL_CAMPAIGN_FILTERS, search: 'alfa' })).toBe(true);
-    expect(hasActiveFilters({ ...INITIAL_CAMPAIGN_FILTERS, search: '   ' })).toBe(false);
+  it('reidrata a sessão salva no F5 e marca como hidratado', async () => {
+    window.sessionStorage.setItem(
+      SESSAO_STORAGE_KEY,
+      JSON.stringify({ state: { sessao: SESSOES.area }, version: 0 }),
+    );
+    expect(useSessaoStore.getState().hidratado).toBe(false);
+    rehydrateSessao();
+    await vi.waitFor(() => expect(useSessaoStore.getState().hidratado).toBe(true));
+    expect(useSessaoStore.getState().sessao).toEqual(SESSOES.area);
+  });
+});
+
+describe('sidebarStore', () => {
+  it('guarda a escolha de abertura e do accordion', () => {
+    expect(useSidebarStore.getState()).toMatchObject(INITIAL_SIDEBAR_STATE);
+    useSidebarStore.getState().setOpenChoice(false);
+    useSidebarStore.getState().setAccordion('analises', '/');
+    expect(useSidebarStore.getState()).toMatchObject({
+      openChoice: false,
+      accordion: { module: 'analises', atPath: '/' },
+    });
+    expect(JSON.stringify({ ...window.localStorage })).not.toContain('analises');
   });
 });
 

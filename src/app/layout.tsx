@@ -1,5 +1,4 @@
 import { AppRoot } from '@main/AppRoot';
-import { AppShell } from '@presentation/components/layout/AppShell';
 import { themeInitScript } from '@presentation/theme/themeInitScript';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -14,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: { default: 'Marketing Insights', template: '%s · Marketing Insights' },
-  description: 'Desempenho de campanhas de marketing: KPIs, canais e campanhas.',
+  title: { default: 'Demand Intelligence', template: '%s · Demand Intelligence' },
+  description: 'Apsen · Demand Intelligence — Drivers de Demanda.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -25,9 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="font-sans">
-        <AppRoot>
-          <AppShell>{children}</AppShell>
-        </AppRoot>
+        <AppRoot>{children}</AppRoot>
       </body>
     </html>
   );

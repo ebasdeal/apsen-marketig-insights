@@ -7,6 +7,7 @@
 
   --color-apsen-blue: #0a13b6;
   --color-apsen-blue-d: #070d81;
+  --color-apsen-login: #0047bb;
   --color-apsen-blue-bg: #eef1fc;
   --color-apsen-blue-light: #ccdaf2;
   --color-apsen-teal: #0077be;
@@ -26,6 +27,8 @@
   --color-apsen-yellow: #f4cf3d;
   --color-apsen-yellow-bg: #fdf4de;
   --color-apsen-yellow-b: #f4cf3d;
+  --color-apsen-green-fg: #0f7a3d;
+  --color-apsen-yellow-fg: #8a6a00;
   --color-apsen-red: #d63434;
   --color-apsen-red-bg: #fae9e9;
   --color-apsen-red-b: #d63434;
@@ -46,6 +49,11 @@
   --color-apsen-warning-fg: #92400e;
   --color-apsen-success-fg: #14532d;
   --color-apsen-danger-fg: #991b1b;
+  --color-apsen-tip-bg: #1e293b;
+  --color-apsen-tip-fg: #cbd5e1;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
+  --color-apsen-avatar-muted: #6f6f6f;
 
   --color-apsen-kpi-blue: #eef3ff;
   --color-apsen-kpi-red: #fef2f2;
@@ -58,6 +66,55 @@
   --color-apsen-ch-email: #f59e0b;
   --color-apsen-ch-tiktok: #10b981;
   --color-apsen-ch-extra: #ef4444;
+
+  --color-apsen-cat-tv-bg: #eef2ff;
+  --color-apsen-cat-tv-b: #a5b4fc;
+  --color-apsen-cat-tv-fg: #4338ca;
+  --color-apsen-cat-digital-bg: #f0fdf4;
+  --color-apsen-cat-digital-b: #86efac;
+  --color-apsen-cat-digital-fg: #166534;
+  --color-apsen-cat-pdv-bg: #fffbeb;
+  --color-apsen-cat-pdv-b: #fcd34d;
+  --color-apsen-cat-pdv-fg: #92400e;
+  --color-apsen-cat-conc-bg: #ecfeff;
+  --color-apsen-cat-conc-b: #67e8f9;
+  --color-apsen-cat-conc-fg: #0e7490;
+  --color-apsen-cat-sazo-bg: #f0fdf4;
+  --color-apsen-cat-sazo-b: #6ee7b7;
+  --color-apsen-cat-sazo-fg: #065f46;
+  --color-apsen-cat-viral-bg: #fdf2f8;
+  --color-apsen-cat-viral-b: #f0abfc;
+  --color-apsen-cat-viral-fg: #86198f;
+  --color-apsen-danger-b-soft: #fca5a5;
+  --color-apsen-danger-ink: #7f1d1d;
+  --color-apsen-attention: #b45309;
+  --color-apsen-row-active: #fffbf5;
+  --color-apsen-pal-blue: #2563eb;
+  --color-apsen-pal-purple: #7c3aed;
+  --color-apsen-pal-cyan: #0891b2;
+  --color-apsen-pal-amber: #d97706;
+  --color-apsen-pal-emerald: #059669;
+  --color-apsen-pal-red: #dc2626;
+  --color-apsen-pal-lime: #65a30d;
+  --color-apsen-pal-slate: #64748b;
+  --color-apsen-purple-soft: #f3e8ff;
+  --color-apsen-purple-soft-b: #ddd6fe;
+  --color-apsen-blue-soft-b: #c7d7fa;
+  --color-apsen-teal-soft: #f0fdfa;
+  --color-apsen-teal-soft-b: #99f6e4;
+  --color-apsen-cyan-bg: #e0f2fe;
+  --color-apsen-cyan-b: #bae6fd;
+  --color-apsen-yellow-soft: #fff8ec;
+  --color-apsen-code-bg: #141414;
+  --color-apsen-code-fg: #7dd3fc;
+  --color-apsen-chart-fill: rgba(27, 78, 201, 0.08);
+  --color-apsen-chart-grid: rgba(0, 0, 0, 0.04);
+  /* drivers */
+  --color-apsen-star: #f59e0b;
+  /* /drivers */
+  /* admin-tipos */
+  --color-apsen-inline-border: #f1f5f9;
+  /* /admin-tipos */
 
   --spacing-sidebar: 252px;
   --spacing-topbar: 64px;
@@ -74,6 +131,7 @@
   --shadow-apsen-focus: 0 0 0 3px rgba(27, 78, 201, 0.1);
   --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.12);
   --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.18);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.28);
 
   --default-transition-duration: 140ms;
   --default-transition-timing-function: ease;
@@ -85,6 +143,7 @@ html {
 
 html.dark {
   color-scheme: dark;
+  --color-apsen-login: #1e3a8a;
   --color-apsen-blue: #7c87f5;
   --color-apsen-blue-d: #5a66e8;
   --color-apsen-blue-bg: #1b2050;
@@ -106,6 +165,8 @@ html.dark {
   --color-apsen-yellow: #f4cf3d;
   --color-apsen-yellow-bg: #3a3115;
   --color-apsen-yellow-b: #8a7420;
+  --color-apsen-green-fg: #3dd68c;
+  --color-apsen-yellow-fg: #f4cf3d;
   --color-apsen-red: #f06565;
   --color-apsen-red-bg: #3a1717;
   --color-apsen-red-b: #a33a3a;
@@ -125,16 +186,72 @@ html.dark {
   --color-apsen-warning-fg: #fcd34d;
   --color-apsen-success-fg: #86efac;
   --color-apsen-danger-fg: #fca5a5;
+  --color-apsen-tip-bg: #2b3446;
+  --color-apsen-tip-fg: #d5dbe5;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
+  --color-apsen-avatar-muted: #5c5c5c;
   --color-apsen-kpi-blue: #1b2050;
   --color-apsen-kpi-red: #3a1717;
   --color-apsen-kpi-green: #12301f;
   --color-apsen-kpi-orange: #3a2216;
+  --color-apsen-cat-tv-bg: #1e2148;
+  --color-apsen-cat-tv-b: #4b53a8;
+  --color-apsen-cat-tv-fg: #a5b4fc;
+  --color-apsen-cat-digital-bg: #12301f;
+  --color-apsen-cat-digital-b: #2e7d4f;
+  --color-apsen-cat-digital-fg: #86efac;
+  --color-apsen-cat-pdv-bg: #3a3115;
+  --color-apsen-cat-pdv-b: #8a7420;
+  --color-apsen-cat-pdv-fg: #fcd34d;
+  --color-apsen-cat-conc-bg: #0e2e36;
+  --color-apsen-cat-conc-b: #1f6b7a;
+  --color-apsen-cat-conc-fg: #67e8f9;
+  --color-apsen-cat-sazo-bg: #10302a;
+  --color-apsen-cat-sazo-b: #2a7a62;
+  --color-apsen-cat-sazo-fg: #6ee7b7;
+  --color-apsen-cat-viral-bg: #3a1630;
+  --color-apsen-cat-viral-b: #8a3f8f;
+  --color-apsen-cat-viral-fg: #f0abfc;
+  --color-apsen-danger-b-soft: #a33a3a;
+  --color-apsen-danger-ink: #fecaca;
+  --color-apsen-attention: #f59e0b;
+  --color-apsen-row-active: #241c14;
+  --color-apsen-pal-blue: #5b8def;
+  --color-apsen-pal-purple: #a78bfa;
+  --color-apsen-pal-cyan: #22b8d6;
+  --color-apsen-pal-amber: #f0a43a;
+  --color-apsen-pal-emerald: #34c08f;
+  --color-apsen-pal-red: #f06565;
+  --color-apsen-pal-lime: #8fc93a;
+  --color-apsen-pal-slate: #94a3b8;
+  --color-apsen-purple-soft: #2a1f4a;
+  --color-apsen-purple-soft-b: #5b45a8;
+  --color-apsen-blue-soft-b: #2e3680;
+  --color-apsen-teal-soft: #0e2a2a;
+  --color-apsen-teal-soft-b: #1f6b5e;
+  --color-apsen-cyan-bg: #0e2a3b;
+  --color-apsen-cyan-b: #1f5675;
+  --color-apsen-yellow-soft: #3a3115;
+  --color-apsen-code-bg: #0b0c0e;
+  --color-apsen-code-fg: #7dd3fc;
+  --color-apsen-chart-fill: rgba(124, 135, 245, 0.16);
+  --color-apsen-chart-grid: rgba(255, 255, 255, 0.06);
+  /* drivers */
+  --color-apsen-star: #f59e0b;
+  /* /drivers */
+  /* admin-tipos */
+  --color-apsen-inline-border: #262b33;
+  /* /admin-tipos */
   --shadow-apsen-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen: 0 4px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen-md: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-apsen-tab: 0 1px 3px rgba(0, 0, 0, 0.5);
   --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
+  --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
@@ -149,6 +266,46 @@ html.dark {
   }
 }
 
+@keyframes apsen-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes apsen-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes apsen-progress-indeterminate {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+@keyframes apsen-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @utility focus-ring {
   @apply focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-apsen-blue;
 }
@@ -158,7 +315,7 @@ html.dark {
 }
 
 @utility field-focus {
-  @apply outline-none focus:border-apsen-blue focus:shadow-apsen-focus;
+  @apply outline-none focus:border-apsen-blue focus:shadow-apsen-focus focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-apsen-blue;
 }
 
 @utility page-title {

@@ -1,7 +1,10 @@
 import { renderWithProviders } from '@test/renderWithProviders';
-import { campaignDetailsRoute } from '@presentation/navigation/routes';
+import { loginAs } from '@test/resetStores';
+import { screenHref } from '@presentation/navigation/screens';
+import type { Route } from 'next';
 import { render, screen } from '@testing-library/react';
 import { Button, ButtonLink } from '../Button';
+import { useSessaoStore } from '../../../stores/sessaoStore';
 import { buttonClasses, type ButtonVariant } from '../buttonClasses';
 
 const VARIANT_CASES: readonly (readonly [ButtonVariant, string])[] = [
@@ -9,7 +12,7 @@ const VARIANT_CASES: readonly (readonly [ButtonVariant, string])[] = [
   ['outline', 'hover:bg-apsen-blue-bg'],
   ['ghost', 'border-apsen-border'],
   ['danger', 'text-apsen-red'],
-  ['success', 'text-apsen-green'],
+  ['success', 'text-apsen-green-fg'],
   ['teal', 'hover:bg-apsen-teal-hover'],
   ['purple', 'hover:bg-apsen-purple-hover'],
   ['outline-teal', 'hover:bg-apsen-teal-bg'],
@@ -79,12 +82,80 @@ describe('ButtonLink', () => {
   });
 
   it('usa primary md por padrão', () => {
-    render(<ButtonLink href="/campaigns">Campanhas</ButtonLink>);
+    render(<ButtonLink href="/acesso-negado">Campanhas</ButtonLink>);
     expect(screen.getByRole('link', { name: 'Campanhas' })).toHaveClass('bg-apsen-blue');
   });
 
   it('aceita rota tipada dinâmica', () => {
-    render(<ButtonLink href={campaignDetailsRoute('cmp-2')}>Abrir</ButtonLink>);
-    expect(screen.getByRole('link', { name: 'Abrir' })).toHaveAttribute('href', '/campaigns/cmp-2');
+    render(<ButtonLink href={screenHref('form', { id: 'cmp-2' }) as Route}>Abrir</ButtonLink>);
+    expect(screen.getByRole('link', { name: 'Abrir' })).toHaveAttribute('href', '/drivers/cmp-2');
+  });
+});
+
+describe('variantes do protótipo', () => {
+  it.each([
+    ['orange', ['bg-apsen-orange', 'border-apsen-orange', 'text-white']],
+    ['red', ['bg-apsen-red', 'border-apsen-red', 'text-white']],
+  ] as const)('a variante %s é sólida e sem hover', (variant, expected) => {
+    render(<Button variant={variant}>Ação</Button>);
+    const button = screen.getByRole('button', { name: 'Ação' });
+    expect(button).toHaveClass(...expected);
+    expect(button.className).not.toMatch(/hover:/);
+  });
+
+  it('aplica o tamanho xs', () => {
+    expect(buttonClasses('ghost', 'xs')).toContain('px-[8px] py-[2px] text-[11px]');
+  });
+
+  it('aplica borda tracejada no Button e no ButtonLink', () => {
+    render(
+      <>
+        <Button variant="ghost" dashed>
+          Adicionar linha
+        </Button>
+        <ButtonLink href="/" variant="ghost" dashed>
+          Novo
+        </ButtonLink>
+      </>,
+    );
+    expect(screen.getByRole('button', { name: 'Adicionar linha' })).toHaveClass('border-dashed');
+    expect(screen.getByRole('link', { name: 'Novo' })).toHaveClass('border-dashed');
+  });
+
+  it('mostra Salvando… desabilitado e ocupado com loading', () => {
+    const onClick = vi.fn();
+    const { rerender } = render(
+      <Button loading onClick={onClick}>
+        Salvar
+      </Button>,
+    );
+    const button = screen.getByRole('button', { name: 'Salvando…' });
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('aria-busy', 'true');
+    rerender(
+      <Button loading loadingLabel="Enviando…">
+        Salvar
+      </Button>,
+    );
+    expect(screen.getByRole('button', { name: 'Enviando…' })).toBeDisabled();
+    rerender(<Button>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).not.toHaveAttribute('aria-busy');
+  });
+});
+
+describe('Button escrita (usuário inativo só visualiza)', () => {
+  it('fica desabilitado para usuário inativo e habilitado para ativo', () => {
+    useSessaoStore.setState((estado) =>
+      estado.sessao === null
+        ? estado
+        : { sessao: { ...estado.sessao, usuario: { ...estado.sessao.usuario, ativo: false } } },
+    );
+    const { rerender } = render(<Button escrita>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeDisabled();
+    rerender(<Button>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeEnabled();
+    loginAs('admin');
+    rerender(<Button escrita>Salvar</Button>);
+    expect(screen.getByRole('button', { name: 'Salvar' })).toBeEnabled();
   });
 });

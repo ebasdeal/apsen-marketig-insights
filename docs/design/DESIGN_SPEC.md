@@ -93,6 +93,10 @@ Substitui integralmente o arquivo atual. Os tokens `brand-*` (`#3b6ef5` etc.) n�
   --color-apsen-warning-fg: #92400e;
   --color-apsen-success-fg: #14532d;
   --color-apsen-danger-fg: #991b1b;
+  --color-apsen-tip-bg: #1e293b;
+  --color-apsen-tip-fg: #cbd5e1;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
 
   --color-apsen-kpi-blue: #eef3ff;
   --color-apsen-kpi-red: #fef2f2;
@@ -105,6 +109,49 @@ Substitui integralmente o arquivo atual. Os tokens `brand-*` (`#3b6ef5` etc.) n�
   --color-apsen-ch-email: #f59e0b;
   --color-apsen-ch-tiktok: #10b981;
   --color-apsen-ch-extra: #ef4444;
+
+  --color-apsen-cat-tv-bg: #eef2ff;
+  --color-apsen-cat-tv-b: #a5b4fc;
+  --color-apsen-cat-tv-fg: #4338ca;
+  --color-apsen-cat-digital-bg: #f0fdf4;
+  --color-apsen-cat-digital-b: #86efac;
+  --color-apsen-cat-digital-fg: #166534;
+  --color-apsen-cat-pdv-bg: #fffbeb;
+  --color-apsen-cat-pdv-b: #fcd34d;
+  --color-apsen-cat-pdv-fg: #92400e;
+  --color-apsen-cat-conc-bg: #ecfeff;
+  --color-apsen-cat-conc-b: #67e8f9;
+  --color-apsen-cat-conc-fg: #0e7490;
+  --color-apsen-cat-sazo-bg: #f0fdf4;
+  --color-apsen-cat-sazo-b: #6ee7b7;
+  --color-apsen-cat-sazo-fg: #065f46;
+  --color-apsen-cat-viral-bg: #fdf2f8;
+  --color-apsen-cat-viral-b: #f0abfc;
+  --color-apsen-cat-viral-fg: #86198f;
+  --color-apsen-danger-b-soft: #fca5a5;
+  --color-apsen-danger-ink: #7f1d1d;
+  --color-apsen-attention: #b45309;
+  --color-apsen-row-active: #fffbf5;
+  --color-apsen-pal-blue: #2563eb;
+  --color-apsen-pal-purple: #7c3aed;
+  --color-apsen-pal-cyan: #0891b2;
+  --color-apsen-pal-amber: #d97706;
+  --color-apsen-pal-emerald: #059669;
+  --color-apsen-pal-red: #dc2626;
+  --color-apsen-pal-lime: #65a30d;
+  --color-apsen-pal-slate: #64748b;
+  --color-apsen-purple-soft: #f3e8ff;
+  --color-apsen-purple-soft-b: #ddd6fe;
+  --color-apsen-blue-soft-b: #c7d7fa;
+  --color-apsen-teal-soft: #f0fdfa;
+  --color-apsen-teal-soft-b: #99f6e4;
+  --color-apsen-cyan-bg: #e0f2fe;
+  --color-apsen-cyan-b: #bae6fd;
+  --color-apsen-yellow-soft: #fff8ec;
+  --color-apsen-code-bg: #141414;
+  --color-apsen-code-fg: #7dd3fc;
+  --color-apsen-chart-fill: rgba(27, 78, 201, 0.08);
+  --color-apsen-chart-grid: rgba(0, 0, 0, 0.04);
 
   --spacing-sidebar: 252px;
   --spacing-topbar: 64px;
@@ -121,6 +168,7 @@ Substitui integralmente o arquivo atual. Os tokens `brand-*` (`#3b6ef5` etc.) n�
   --shadow-apsen-focus: 0 0 0 3px rgba(27, 78, 201, 0.1);
   --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.12);
   --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.18);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.28);
 
   --default-transition-duration: 140ms;
   --default-transition-timing-function: ease;
@@ -172,16 +220,65 @@ html.dark {
   --color-apsen-warning-fg: #fcd34d;
   --color-apsen-success-fg: #86efac;
   --color-apsen-danger-fg: #fca5a5;
+  --color-apsen-tip-bg: #2b3446;
+  --color-apsen-tip-fg: #d5dbe5;
+  --color-apsen-tip-strong: #f8fafc;
+  --color-apsen-tip-em: #7dd3fc;
   --color-apsen-kpi-blue: #1b2050;
   --color-apsen-kpi-red: #3a1717;
   --color-apsen-kpi-green: #12301f;
   --color-apsen-kpi-orange: #3a2216;
+  --color-apsen-cat-tv-bg: #1e2148;
+  --color-apsen-cat-tv-b: #4b53a8;
+  --color-apsen-cat-tv-fg: #a5b4fc;
+  --color-apsen-cat-digital-bg: #12301f;
+  --color-apsen-cat-digital-b: #2e7d4f;
+  --color-apsen-cat-digital-fg: #86efac;
+  --color-apsen-cat-pdv-bg: #3a3115;
+  --color-apsen-cat-pdv-b: #8a7420;
+  --color-apsen-cat-pdv-fg: #fcd34d;
+  --color-apsen-cat-conc-bg: #0e2e36;
+  --color-apsen-cat-conc-b: #1f6b7a;
+  --color-apsen-cat-conc-fg: #67e8f9;
+  --color-apsen-cat-sazo-bg: #10302a;
+  --color-apsen-cat-sazo-b: #2a7a62;
+  --color-apsen-cat-sazo-fg: #6ee7b7;
+  --color-apsen-cat-viral-bg: #3a1630;
+  --color-apsen-cat-viral-b: #8a3f8f;
+  --color-apsen-cat-viral-fg: #f0abfc;
+  --color-apsen-danger-b-soft: #a33a3a;
+  --color-apsen-danger-ink: #fecaca;
+  --color-apsen-attention: #f59e0b;
+  --color-apsen-row-active: #241c14;
+  --color-apsen-pal-blue: #5b8def;
+  --color-apsen-pal-purple: #a78bfa;
+  --color-apsen-pal-cyan: #22b8d6;
+  --color-apsen-pal-amber: #f0a43a;
+  --color-apsen-pal-emerald: #34c08f;
+  --color-apsen-pal-red: #f06565;
+  --color-apsen-pal-lime: #8fc93a;
+  --color-apsen-pal-slate: #94a3b8;
+  --color-apsen-purple-soft: #2a1f4a;
+  --color-apsen-purple-soft-b: #5b45a8;
+  --color-apsen-blue-soft-b: #2e3680;
+  --color-apsen-teal-soft: #0e2a2a;
+  --color-apsen-teal-soft-b: #1f6b5e;
+  --color-apsen-cyan-bg: #0e2a3b;
+  --color-apsen-cyan-b: #1f5675;
+  --color-apsen-yellow-soft: #3a3115;
+  --color-apsen-code-bg: #0b0c0e;
+  --color-apsen-code-fg: #7dd3fc;
+  --color-apsen-chart-fill: rgba(124, 135, 245, 0.16);
+  --color-apsen-chart-grid: rgba(255, 255, 255, 0.06);
   --shadow-apsen-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen: 0 4px 4px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen-md: 0 6px 10px 0 rgba(0, 0, 0, 0.4);
   --shadow-apsen-hover: 0 4px 16px rgba(0, 0, 0, 0.5);
   --shadow-apsen-tab: 0 1px 3px rgba(0, 0, 0, 0.5);
   --shadow-apsen-focus: 0 0 0 3px rgba(124, 135, 245, 0.25);
+  --shadow-apsen-dropdown: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --shadow-apsen-modal: 0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-apsen-tip: 0 8px 28px rgba(0, 0, 0, 0.6);
 }
 
 @layer base {
@@ -217,6 +314,35 @@ Notas do bloco:
 - `focus-ring` **[derivado]**: o protótipo não tem foco em botão ou link. É um contorno `outline` só em `:focus-visible`, que aparece apenas na navegação por teclado e não altera a comparação visual com o mouse. Em campos (`input`/`select`) vale o foco do protótipo, `field-focus` (borda azul + `0 0 0 3px rgba(27,78,201,.1)`, L172-173).
 - `surface` = `.card` do protótipo (L145-147).
 - O token `--spacing-sidebar` gera `w-sidebar`, `ml-sidebar`, `left-sidebar`, e `--spacing-topbar` gera `h-topbar`, `mt-topbar`.
+
+### 1.0 Conferência dos tokens com o protótipo (PBI 39010, 27/10/2026)
+
+Comparação automática das 38 variáveis do `:root` do protótipo (L17-33) com o `@theme` acima.
+
+| Protótipo                                                | Token                                        | Situação                                                                         |
+| -------------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
+| 29 cores (`--blue` … `--purple-b`)                       | `--color-apsen-*` de mesmo nome              | igual                                                                            |
+| `--sidebar-w: 252px`, `--topbar-h: 64px`                 | `--spacing-sidebar`, `--spacing-topbar`      | igual                                                                            |
+| `--radius`, `--radius-lg`, `--radius-pill` (8, 16, 24px) | `--radius-apsen`, `-lg`, `-pill`             | igual                                                                            |
+| `--shadow-sm`, `--shadow`, `--shadow-md`                 | `--shadow-apsen-sm`, `--shadow-apsen`, `-md` | igual                                                                            |
+| `--rolebar-h: 34px`                                      | —                                            | descartado (barra "Simular perfil", §0.1)                                        |
+| Fonte `'Inter', -apple-system, …`                        | `--font-sans` com `var(--font-inter)`        | igual (Inter via `next/font`)                                                    |
+| Tema escuro                                              | `html.dark`                                  | ajustado: `--shadow-apsen-dropdown` e `--shadow-apsen-modal` ganharam par escuro |
+
+Hex fora do `:root` do protótipo que ainda não são tokens ficam para as histórias que os usam: categorias de driver `.db-*` (Registrar Driver, Sprint 2), tooltip `#1e293b`/`#cbd5e1`/`#f8fafc`/`#7dd3fc` (PBI 39014) e role bar `#64748b`/`#334155` (descartada). Os tokens `ch-*` são categóricos e valem nos dois temas. Nenhum componente em `src/` usa hex ou paleta padrão do Tailwind (teste `designTokensSource.test.ts`).
+
+**Tokens do protótipo fora do `:root` (onda 1, [prototipo-ui-kit](../specs/platform/prototipo-ui-kit.md) RN-06).** Pares escuros [derivado], todos no `@theme` e em `html.dark`:
+
+| Grupo                | Tokens                                                                                                        | Uso                                                                       |
+| -------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Categorias de driver | `cat-{tv,digital,pdv,conc,sazo,viral}-{bg,b,fg}`                                                              | `CategoryTag` (`.db-*`, L410-423)                                         |
+| Restrições           | `danger-b-soft`, `danger-ink`, `attention`, `row-active`                                                      | borda/texto do banner, severidade "atenção", linha do ciclo ativo         |
+| Paleta categórica    | `pal-{blue,purple,cyan,amber,emerald,red,lime,slate}`                                                         | `ColorPill` (franquias, famílias, provedores; fallback `pal-slate`)       |
+| Banners e pills      | `purple-soft`, `purple-soft-b`, `blue-soft-b`, `teal-soft`, `teal-soft-b`, `cyan-bg`, `cyan-b`, `yellow-soft` | banners de perfil, pill de nível Franquia, relatórios, provedor anthropic |
+| Código               | `code-bg`, `code-fg`                                                                                          | `CodeBlock` (`.export-box`, L351-353)                                     |
+| Gráfico              | `chart-fill`, `chart-grid` (rgba)                                                                             | Chart.js lê do CSS em runtime para seguir o tema                          |
+
+O link "Plano MVP" (`#DCFCE7`) não é portado e não ganha token.
 
 ### 1.1 `src/app/layout.tsx` (único ajuste fora do CSS)
 
@@ -324,7 +450,7 @@ text-[10px] font-bold uppercase tracking-[.12em] text-apsen-muted-2 transition-a
 
 - Hover: não existe no protótipo. Estado `.active-mod`: definido no CSS, mas nunca aplicado. Não usar nenhum dos dois.
 - Seta: `<span aria-hidden className="ml-auto text-[9px] text-apsen-muted-2 transition-transform duration-[180ms]">▼</span>`, com `rotate-180` quando aberto.
-- `.mod-accent` (3x22px, radius 2px, cor do módulo, L76-79) existe no CSS, mas **não aparece no markup** do protótipo. Para ficar à risca com o que é renderizado, **não renderizar**.
+- `.mod-accent` (3x22px, radius 2px, L76-79) existe no CSS, mas **não aparece no markup do protótipo** (nenhum `class="mod-accent"` no HTML). Por fidelidade, os cabeçalhos de módulo **não** têm barra colorida (corrigido em 27/10/2026 após revisão visual do usuário).
 
 **Filhos** `.nav-children` (L80-81): abre e fecha sem animação (`max-height` sem transição). Renderizar condicionalmente: `{open ? <ul>…</ul> : null}`. O módulo que contém a rota atual começa aberto; o clique alterna.
 
@@ -445,6 +571,20 @@ export const NAV_MODULES: readonly NavModule[] = [
 
 ---
 
+### 2.6 Onda 0 — shell do Demand Intelligence (`prototipo-plataforma.md`, `login.md`)
+
+- **Textos**: logo "Demand / Intelligence"; rodapé "Apsen Farmacêutica / PLP Agent · Demand Intelligence"; trilha "Demand Intelligence › {crumb}" com o crumb de `navigation/screens.ts` ("Acesso Negado" quando a guarda bloqueia, "Página não encontrada" fora do registro).
+- **Módulos**: Dashboard + 8 módulos na ordem do protótipo (L542-681), visíveis pelo nível do perfil da sessão (`setRole`, L3716-3753). "Exportar JSON" exige nível 3 e "Novo Usuário" nível 4.
+- **Badges** calculados da API (`X-Total-Count`), inclusive os fixos do protótipo; contagem indisponível oculta só aquele badge; "A definir" mostra "em breve" (tom `soon`).
+- **Item ativo** decidido pela tela atual (`ni-{id}`), não por prefixo de rota. **Accordion**: um módulo aberto por vez; a tela atual abre o seu; Drivers começa aberto.
+- **Gaveta < 800 px**: começa fechada, overlay, Esc fecha e devolve o foco ao burger, abrir foca o primeiro link; `motion-reduce:transition-none`.
+- **Role bar**: continua fora do app (§0.1). O perfil vem do usuário autenticado por SSO.
+- **Menu do usuário** (topbar): avatar 30 px com a letra e a cor do perfil (`purple`/`blue`/`teal`/`avatar-muted`) + nome; menu com nome, e-mail, perfil e "Sair".
+- **Acesso Restrito** (L3153-3161): 🔒, `h1` "Acesso Restrito", "Seu perfil ({label}) não tem acesso a esta funcionalidade.", texto de upgrade por nível com `<strong>` e botão outline "← Voltar ao Dashboard".
+- **Toast** (substitui o do protótipo, §13.2): canto superior direito abaixo da topbar, 380 px, faixa de 4 px na cor do tom, ícone em círculo, título por tom, ✕, barra de progresso; 4 s (erro 6 s), pausa no hover/foco, pilha de 3.
+- **Carregamento** (§13.3): `RouteProgress` de 3 px `apsen-blue` no topo (após 120 ms; indeterminado em buscas iniciais), `BusyRegion` (opacidade 60 % + `aria-busy`) e o `ApsenLoader` (§3.40) como único visual de carregamento: `fullscreen` na sessão/login ("Verificando sua sessão…", "Redirecionando para o login…", "Entrando…"), `content` em `loading.tsx` e telas pendentes, `inline` dentro de cards, listas e menus.
+- **Token novo**: `--color-apsen-avatar-muted` `#6f6f6f` / escuro `#5c5c5c` (avatar do Visualizador; o `muted` clareia no escuro e o texto branco ficaria ilegível).
+
 ## 3. UI kit (`src/presentation/components/ui`)
 
 Cada componente tem sua tabela de classes e um markup de referência. Classes base reaproveitáveis ficam como constantes no próprio arquivo (sem comentários, conforme o `AGENTS.md`).
@@ -474,6 +614,8 @@ type ButtonSize = 'md' | 'sm';
 - `:focus`, `:active` e `:disabled` não existem no protótipo. O `disabled:opacity-[.35]` vem do único "desabilitado" visual que existe, a paginação (inline `opacity:.35`). O foco é o `focus-ring` [derivado].
 - O componente aceita `as="link"` (`next/link`) para links com cara de botão, ou exporta `buttonClasses(variant,size)` para usar em `<Link>`.
 - Variantes usadas nas telas: `ghost sm` ("Atualizar", "← Voltar", "Limpar filtros", tema), `outline md` ("Tentar novamente", "← Voltar ao Dashboard").
+- **Onda 1** ([prototipo-ui-kit](../specs/platform/prototipo-ui-kit.md)): variantes sólidas sem hover `orange` (`border-apsen-orange bg-apsen-orange text-white`, inline L2249) e `red` (`border-apsen-red bg-apsen-red text-white`, L2564); tamanho `xs` (`px-[8px] py-[2px] text-[11px]`, ação do `PendingItemRow`); `dashed` → `border-dashed` em `Button` e `ButtonLink`; `loading` → `disabled`, `aria-busy="true"` e o texto `loadingLabel` (padrão "Salvando…"), sem duplo envio (ARQUITETURA §7.3).
+- `IconButton`/`IconLink` `tone` (`.action-btn`, `.red`, `.teal`, L234-240): `blue` (padrão) `text-apsen-muted hover:bg-apsen-blue-bg hover:text-apsen-blue`; `red` `hover:bg-apsen-red-bg hover:text-apsen-red`; `teal` `hover:bg-apsen-teal-bg hover:text-apsen-teal`; `green` `text-apsen-green hover:bg-apsen-blue-bg` (L6464); todos `disabled:cursor-default disabled:opacity-[.3] disabled:hover:bg-transparent`.
 
 ```tsx
 <Button variant="ghost" size="sm" onClick={refetch}>
@@ -489,6 +631,8 @@ type ButtonSize = 'md' | 'sm';
 - `TextLink`, `IconLink` e `ButtonLink` são genéricos na rota: `<T extends string>(props: { href: Route<T> })`. Aceitam rotas estáticas (`CAMPAIGNS_ROUTE`) e dinâmicas tipadas (`campaignDetailsRoute(id)`), sem `<Link>` ad hoc nas features.
 
 ### 3.2 `StatusBadge` — `.badge` (L202-212)
+
+`Badge size`: `md` (padrão, com ponto), `lg` (borda, sem ponto) e, na onda 1, `xl` (L1818, "{n} pendentes" do cabeçalho de aprovações): `gap-[5px] px-[13px] py-[5px] text-[12.5px] font-medium` + o ponto do `md`, sem borda.
 
 | Status      | Variante do protótipo                                    | Classes                                                       |
 | ----------- | -------------------------------------------------------- | ------------------------------------------------------------- |
@@ -588,6 +732,8 @@ mb-[16px] flex items-center gap-[8px] border-b border-apsen-border pb-[12px] tex
 small: ml-auto text-[11px] font-normal text-apsen-muted
 ```
 
+`CardTitle step` (onda 1, L709, L2898): pílula antes do título `rounded-[6px] px-[10px] py-[2px] text-[11px] font-bold` + `stepTone` `blue` (`bg-apsen-blue-bg text-apsen-blue`, padrão) ou `orange` (`bg-apsen-orange-soft text-apsen-orange`).
+
 O `.card` não tem hover. O `mb-[16px]` faz parte do componente e **não é removido** dentro de grids. No protótipo, os grids de cards (`1fr 1fr; gap:16px`) somam o `gap` com o `margin-bottom` do `.card`. Para ficar à risca, o grid de cards usa só `gap-x-[16px]` e o espaçamento vertical vem do `mb-[16px]` (ver §4.1).
 
 ### 3.6 `Section` — painéis com rótulo
@@ -620,6 +766,8 @@ Cabeçalho com ação (variante `panel`): `mb-[12px] flex items-center justify-b
 ```
 
 O `h2` é mantido (semântica e testes), só com o visual novo.
+
+`tone` (onda 1): `muted` (padrão do `panel`) ou `orange` (padrão do `detail`); a prop explícita troca só a cor do título.
 
 ### 3.7 `PageHeader` — `.page-hdr` (L127-133)
 
@@ -722,18 +870,18 @@ A API e o ARIA atuais não mudam. A semântica de cor (vermelho acima de 100%) �
 
 ### 3.12 `StateViews`
 
-O protótipo não tem skeleton, spinner nem `@keyframes`. **Remover o `animate-spin`.**
+O carregamento usa o loader da Apsen (§3.40); não há skeletons.
 
 | Estado                                 | Origem                      | Markup                                                                                                                                                                                                                                                                                                                                                                                                      |
 | -------------------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `LoadingState`                         | `.empty` + `.ac-loading`    | `<div role="status" class="px-[24px] py-[48px] text-center text-apsen-muted"><div aria-hidden class="mb-[10px] text-[36px]">⟳</div><p class="text-[12.5px]">{label}</p></div>`                                                                                                                                                                                                                              |
+| `LoadingState`                         | wrapper do `ApsenLoader`    | `<ApsenLoader variant="content" label={label} />` (padrão "Carregando…"); mesma API (`label?`)                                                                                                                                                                                                                                                                                                              |
 | `ErrorState`                           | `.access-denied` (L404-407) | `<div role="alert" class="flex h-[60vh] flex-col items-center justify-center gap-[10px] text-center text-apsen-muted"><div aria-hidden class="mb-[8px] text-[44px]">⚠️</div><h3 class="text-[16px] font-semibold text-apsen-slate">Não foi possível carregar os dados</h3><p class="text-[13px]">{message}</p>{onRetry && <Button variant="outline" className="mt-[16px]">Tentar novamente</Button>}</div>` |
 | `EmptyState`                           | `.empty` (L356-359)         | `<div class="px-[24px] py-[48px] text-center text-apsen-muted"><div aria-hidden class="mb-[10px] text-[36px]">{icon ?? '📣'}</div><p class="mb-[4px] text-[13.5px] font-medium text-apsen-slate">{title}</p><small class="text-[12px]">{description}</small>{action && <Button variant="outline" size="sm" className="mt-[16px]">{actionLabel}</Button>}</div>`                                             |
 | `InlineEmpty` (novo, dentro de painel) | vazio do dashboard          | `<p class="p-[20px] text-center text-[13px] text-apsen-muted">{text}</p>`                                                                                                                                                                                                                                                                                                                                   |
 
 - No `ErrorState`, o texto "Tentar novamente" e o `role="alert"` são mantidos (os testes dependem deles). O `h3` com o título e o `p` com a mensagem saem do layout do protótipo (`access-denied`), que tem `h3` 16px/600.
 - No `EmptyState`, a prop nova é `icon?: string`.
-- `app/loading.tsx`, `app/error.tsx` e `app/not-found.tsx` usam esses mesmos componentes. O not-found usa ícone 🔍, `h3` "Página não encontrada" e `Button outline` "← Voltar ao Dashboard".
+- `app/loading.tsx` (e todo `loading.tsx` de segmento) renderiza `<ApsenLoader variant="content" />`; `app/error.tsx` e `app/not-found.tsx` usam esses mesmos componentes. O not-found usa ícone 🔍, `h3` "Página não encontrada" e `Button outline` "← Voltar ao Dashboard".
 
 ### 3.13 Tabela da lista — `table` + `.table-wrap` (L224-233)
 
@@ -764,6 +912,218 @@ Padrões de célula do protótipo:
 - `FormSelect`: `rounded-[6px] border border-apsen-border bg-apsen-white px-[11px] py-[8px] font-[inherit] text-[13.5px] text-apsen-slate transition-[border,box-shadow] duration-[140ms] field-focus` + largura (padrão `w-full`).
 - `ResultSummary`: `mb-[12px] flex items-center justify-between`, com o contador em `text-[13px] text-apsen-muted` (`aria-live="polite"`, número em `<strong>`) e, à direita, a ação opcional.
 - `Pagination`: `nav` "Paginação" com `mt-[4px] flex items-center justify-between border-t border-apsen-border py-[14px]`; info "Mostrando a–b de n" em `text-[13px] text-apsen-muted`; botões `size-[28px] rounded-full border text-[13px] focus-ring`, normal `border-apsen-border bg-apsen-white text-apsen-slate`, atual `border-apsen-blue bg-apsen-blue font-semibold text-white` com `aria-current="page"`, desabilitado `opacity-[.35]`; reticências `px-[4px] text-apsen-muted`. Os números vêm de `pageRange.ts`.
+- `Pagination` (onda 1): `info` opcional; seletor "Itens por página" (`FormSelect` `w-auto`, opções `pageSizeOptions`, padrão `PAGE_SIZES` 10/25/50) só com `onPageSizeChange`, à esquerda dos botões; mudar o tamanho chama só `onPageSizeChange` (a volta à página 1 é do `useUrlState`). `variant="centered"` (alias `layout="centered"`, `.pag` L381-388, L4219-4227): `nav` `flex flex-wrap items-center justify-center gap-[5px] pt-[16px] pb-[2px]`; info "Página X de Y" `mr-[6px] text-[12px] text-apsen-muted`; números `h-[30px] min-w-[30px] rounded-full border-0 bg-transparent text-[13px] text-apsen-muted hover:bg-apsen-blue-bg hover:text-apsen-blue`, atual `bg-apsen-blue font-semibold text-white`; ‹ › `rounded-[6px] px-[8px] text-[14px]`, desabilitados `opacity-[.35]`; reticências sem hover; com 1 página não renderiza (L4217).
+
+Seções §3.15 a §3.21: componentes base do Demand Intelligence (spec [ui-kit-base](../specs/platform/ui-kit-base.md), fase 6). Tons marcados [derivado] não existem no protótipo.
+
+### 3.15 `FormField`, `TextInput`, `TextArea` e `FormGrid` — `.form-*` (L157-175)
+
+| Parte                 | Classes                                                                                                                                                          |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| grupo (`.form-group`) | `flex flex-col gap-[5px]`; com `full`, `+ col-span-full`                                                                                                         |
+| rótulo                | `text-[11.5px] font-semibold uppercase tracking-[.04em] text-apsen-muted`, ligado ao controle por `htmlFor`                                                      |
+| obrigatório (`.req`)  | `<span aria-hidden="true" className="text-apsen-red"> *</span>` e `required` no controle                                                                         |
+| controle              | `FIELD_CONTROL` (`fieldClasses.ts`), o mesmo do `FormSelect`                                                                                                     |
+| input                 | `FIELD_CONTROL + w-full read-only:bg-apsen-bg read-only:text-apsen-muted aria-[invalid=true]:border-apsen-red-b`                                                 |
+| textarea              | input `+ min-h-[72px] resize-y`                                                                                                                                  |
+| dica                  | `mt-[2px] text-[11px] text-apsen-muted-2`, no `aria-describedby`                                                                                                 |
+| erro [derivado]       | `mt-[2px] text-[11px] text-apsen-red`, no `aria-describedby` e com `aria-invalid="true"`                                                                         |
+| grade                 | `mb-[16px] grid gap-[13px]` + `1`: `grid-cols-1`; `2`: `grid-cols-2 max-[560px]:grid-cols-1`; `3`: `grid-cols-3 max-[800px]:grid-cols-2 max-[560px]:grid-cols-1` |
+
+Onda 1: `FormGrid columns={4}` (`.fg-4`) `grid-cols-4 max-[800px]:grid-cols-2 max-[560px]:grid-cols-1`. `FormField` aceita `label: ReactNode` (ex.: `small` "(máx. 1 ano da data início)" `text-[11px] font-normal normal-case text-apsen-muted`, L733), `labelClassName` e `tip` (numa linha `flex items-center` ao lado do `<label>`, fora dele, para não entrar no nome acessível). `TextInput` repassa `min`, `max`, `step`, `inputMode`, `ref` e atributos nativos (`role`, `aria-*`, `onFocus`, `onKeyDown`, `autoComplete`). `FormSelect` aceita `groups` (`optgroup`, depois das opções soltas), `placeholder` (`<option value="">` no topo, emite `''`), `disabled` (`disabled:cursor-default disabled:bg-apsen-bg disabled:text-apsen-muted`), usa `id`/`aria-describedby`/`required`/`aria-invalid` do `FormField` e, fora dele, exige `aria-label`.
+
+### 3.16 `Modal` — `.modal-*` (L255-269)
+
+| Parte           | Classes                                                                                                                                                                    |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| overlay         | `fixed inset-0 z-[9000] flex items-center justify-center bg-apsen-overlay`; fecha com `mousedown` no próprio overlay                                                       |
+| caixa           | `role="dialog" aria-modal="true"`, `flex max-h-[90vh] max-w-[95vw] flex-col rounded-apsen-lg bg-apsen-white shadow-apsen-modal` + `w-[500px]` (`md`) ou `w-[680px]` (`lg`) |
+| cabeçalho       | `flex items-center justify-between border-b border-apsen-border px-[20px] pt-[16px] pb-[13px]`; `h3` `text-[14.5px] font-semibold`                                         |
+| fechar          | botão "Fechar" (`✕`) `rounded-[4px] px-[6px] py-[2px] text-[17px] leading-none text-apsen-muted hover:bg-apsen-bg hover:text-apsen-slate`                                  |
+| corpo           | `flex flex-col gap-[13px] overflow-y-auto px-[20px] py-[18px]`                                                                                                             |
+| rodapé          | `flex justify-end gap-[8px] border-t border-apsen-border px-[20px] py-[12px]`                                                                                              |
+| foco [derivado] | `useFocusTrap`: foca o primeiro focável, Tab e Shift+Tab circulam dentro, Esc fecha e o foco volta a quem abriu                                                            |
+
+### 3.17 `Table` genérica — mesmas classes do §3.13
+
+Recebe `columns` (`key`, `header`, `render`, `headerClassName?`, `className?`), `rows` já recortadas, `rowKey`, `emptyText` e `actions?` (coluna "Ações" com `ActionGroup`). Slots: `toolbar` (renderizado pelo `Toolbar`, §3.25, para o `SearchInput`) e `footer` (para a `Pagination`). Vazio: `td` com `colSpan` de todas as colunas. Não pagina nem filtra.
+
+### 3.18 `Tooltip` — `.tip-*` (L426-444)
+
+| Parte            | Classes                                                                                                                                                                                                                                   |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| wrapper          | `relative ml-[4px] inline-flex items-center align-middle`                                                                                                                                                                                 |
+| gatilho          | `button` com `aria-label`, `cursor-help text-apsen-muted-2 hover:text-apsen-blue focus-ring` e `InfoIcon` 14px                                                                                                                            |
+| balão            | `role="tooltip"`, `w-[290px] rounded-apsen bg-apsen-tip-bg px-[14px] py-[11px] text-[12px] leading-[1.65] text-apsen-tip-fg shadow-apsen-tip`, seta `before:border-b-apsen-tip-bg`; `strong` e `em` com os tokens `tip-strong` e `tip-em` |
+| abrir [derivado] | mouse e foco abrem; sair, blur e Esc fecham; o conteúdo é a descrição acessível do botão                                                                                                                                                  |
+
+Conteúdo rico por `ReactNode` (`strong`, `em`, `br`), sem `dangerouslySetInnerHTML`; pode ficar dentro de `th` e na prop `tip` do `FormField`.
+
+### 3.19 `Alert` — `.alert-*` (L291-296)
+
+Base `mb-[14px] flex items-start gap-[9px] rounded-apsen border px-[14px] py-[10px] text-[12.5px] leading-[1.6]` + `AlertCircleIcon` 14px (`aria-hidden`) e título opcional em `<strong>`.
+
+| Tom       | Classes                                                          | Papel    |
+| --------- | ---------------------------------------------------------------- | -------- |
+| `info`    | `border-apsen-blue-light bg-apsen-blue-bg text-apsen-blue`       | `status` |
+| `success` | `border-apsen-green-b bg-apsen-green-bg text-apsen-success-fg`   | `status` |
+| `warning` | `border-apsen-yellow-b bg-apsen-yellow-bg text-apsen-warning-fg` | `alert`  |
+| `error`   | `border-apsen-red-b bg-apsen-red-bg text-apsen-danger-fg`        | `alert`  |
+
+### 3.20 `Toggle` — `.toggle` (L272-279)
+
+`label` `relative inline-block h-[21px] w-[38px]`; `input type="checkbox" role="switch"` `peer absolute size-0 opacity-0`; trilho `rounded-[20px] bg-apsen-border peer-checked:bg-apsen-green` com bolinha `before:size-[15px] before:bg-white peer-checked:before:translate-x-[17px]`, transição de 180ms. Foco visível e desabilitado (`opacity-[.35]`) são [derivado].
+
+### 3.21 `Tabs` — `#tab-ativas`/`#tab-resolvidas` (L2590-2606)
+
+| Parte    | Classes                                                                                                                                                                      |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| tablist  | `mb-[16px] flex border-b border-apsen-border`                                                                                                                                |
+| aba      | `-mb-px border-b-2 px-[20px] py-[9px] text-[13px] focus-ring`; inativa `border-transparent text-apsen-muted`                                                                 |
+| ativa    | `blue`: `border-apsen-blue font-medium text-apsen-blue`; `red`: `border-apsen-red font-medium text-apsen-red`                                                                |
+| contador | `ml-[4px] rounded-[10px] px-[7px] py-[1px] text-[10px]`; ativo `bg-apsen-blue`/`bg-apsen-red font-bold text-white`; inativo `bg-apsen-border font-semibold text-apsen-muted` |
+| teclado  | WAI-ARIA: tabindex móvel, setas circulares, Home e End (`nextTabIndex`), ativação automática                                                                                 |
+
+Onda 1 (L2590-2606, L6418-6431): `TabItem.tone` vence o `tone` da lista; com `TabItem.countTone` o contador usa sempre esse tom (`red`/`blue`: `bg-apsen-{tom} font-bold text-white`; `gray`: `bg-apsen-border font-semibold text-apsen-muted`): Ativas vermelha com contador vermelho, Resolvidas azul com contador cinza.
+
+Seções §3.22 a §3.45: componentes genéricos do protótipo Demand Intelligence (spec [prototipo-ui-kit](../specs/platform/prototipo-ui-kit.md), onda 1). Os marcados [derivado] cobrem ARQUITETURA §7.
+
+### 3.22 `Breadcrumb` — inline L1644-1649, L2148-2153, L2885-2890
+
+`nav aria-label="Trilha da página"` `mb-[10px] flex flex-wrap items-center gap-[5px] text-[12.5px] text-apsen-muted`. Item com `href` = `TextLink` `table` (padrão) ou `crumb` (`linkVariant`); separador `ChevronRightIcon` `size-[11px]`; item sem `href` = atual, `font-medium text-apsen-slate` com `aria-current="page"`. Com `backHref`: `ButtonLink ghost sm` `mb-[16px]` com `backLabel` (padrão "← Voltar").
+
+### 3.23 `CardSectionLabel` — `.card-section-label` (L151-154)
+
+`h3` `mb-[13px] flex items-center gap-[6px] border-b-2 border-apsen-blue-bg pt-[12px] pb-[8px] text-[10.5px] font-bold uppercase tracking-[.08em] text-apsen-blue`.
+
+### 3.24 `FormActions` — `.form-actions` (L176-177)
+
+`flex flex-wrap justify-end gap-[8px] border-t border-apsen-border pt-[14px]` + `className`.
+
+### 3.25 `Toolbar` — `.toolbar` (L245-246)
+
+`mb-[13px] flex flex-wrap items-center gap-[8px]`; slot `right` em `ml-auto flex gap-[6px]`. É o slot `toolbar` da `Table`.
+
+### 3.26 `FilterBar` — inline L1830-1833
+
+`role="search"` + `aria-label`; `mb-[16px] grid items-end gap-[10px] rounded-apsen-lg border border-apsen-border bg-apsen-white px-[16px] py-[14px]` + `columnsClassName` (padrão `grid-cols-[1fr_auto_auto_auto_auto]`) + `max-[800px]:grid-cols-2 max-[560px]:grid-cols-1` [derivado].
+
+### 3.27 `StatusField` — `.status-field` (L282-288, L1789-1801)
+
+| Parte     | Classes                                                                                                                                                          |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| caixa     | `flex items-center justify-between gap-[14px] rounded-apsen border border-apsen-border bg-apsen-bg px-[14px] py-[11px]`                                          |
+| título    | `strong text-[13px] font-medium text-apsen-slate`                                                                                                                |
+| descrição | `mt-[2px] block text-[11.5px] text-apsen-muted`                                                                                                                  |
+| controle  | `flex shrink-0 items-center gap-[9px]`; etiqueta `text-[12px] font-medium` `text-apsen-green` (`onLabel`, "Ativo") ou `text-apsen-muted` (`offLabel`, "Inativo") |
+| `Toggle`  | `aria-label` = título, `aria-describedby` = descrição; controlado                                                                                                |
+
+### 3.28 `CodeBlock` — `.export-box` (L351-353)
+
+`pre` `max-h-[360px]` (`maxHeightClassName`) `overflow-auto whitespace-pre rounded-apsen bg-apsen-code-bg p-[14px] font-mono text-[11.5px] leading-[1.5] text-apsen-code-fg focus-ring`, `tabIndex={0}` e `aria-label` (rolagem por teclado).
+
+### 3.29 `NumberedList` — `.justif-item` (L470-471, L5268)
+
+`ol role="list"`; item `border-b border-apsen-bg py-[7px] text-[13px] leading-[1.6] last:border-b-0`; número "{n}." `mr-[6px] font-bold text-apsen-orange` com `aria-hidden`.
+
+### 3.30 `ChipMultiSelect` — `.chip` (L215-221, L1474-1492, L2201-2212)
+
+Rótulo igual ao `ChipGroup` (`hideLabel`, `tip` ao lado); lista `role="group"` `mt-[4px] flex flex-wrap gap-[5px]`; chip = classes do `ChipGroup` (`chipClasses.ts`) em `button aria-pressed`. `onChange` recebe a seleção na ordem das opções, sem duplicar. `disabled`: botões desabilitados, `cursor-default` e sem hover (modo visualizar).
+
+### 3.31 `ModeSelector` — botões-cartão L742-770 (`lg`), L2948-2955 (`md`), L3503-3511 (`sm`)
+
+| Parte   | Classes                                                                                                                                                             |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| grupo   | `role="radiogroup"` `flex gap-[8px]`                                                                                                                                |
+| opção   | `button role="radio"` `flex flex-1 cursor-pointer flex-col items-center gap-[3px] rounded-apsen border-2 font-[inherit] transition-all duration-[150ms] focus-ring` |
+| estados | inativa `border-apsen-border bg-apsen-white text-apsen-muted`; ativa `border-apsen-{blue,orange} bg-apsen-{blue,orange} text-white` (`accent`)                      |
+| `lg`    | `px-[16px] py-[12px] text-[13px] font-semibold`, ícone `text-[18px]`, descrição `text-[11px] font-normal opacity-[.85]`                                             |
+| `md`    | `px-[8px] py-[11px]`, rótulo `text-[12px] font-semibold`, descrição `text-[10px] opacity-[.85]`                                                                     |
+| `sm`    | `p-[10px] text-[12.5px] font-semibold`, ícone inline antes do rótulo, sem descrição                                                                                 |
+| teclado | tabindex móvel; setas, Home e End movem e selecionam (`nextTabIndex`); `disabled` não emite                                                                         |
+
+### 3.32 `RangeSlider` — `.range-row` (L336-338, L1498-1502, L2516-2520)
+
+Linha `flex items-center` + `blue`: `mt-[3px] gap-[10px]` / `purple`: `mt-[4px] gap-[12px]`; `input type="range"` `min-w-0 flex-1 accent-apsen-{accent}` com `aria-valuetext = format(value)`; valor `text-[15px] font-bold text-apsen-{accent}` + `min-w-[18px]` (`blue`) ou `min-w-[44px]` (`purple`). Emite `Number(value)`.
+
+### 3.33 `SelectableCard` — `.modelo-card` (L474-477, L5196-5202)
+
+`button role="radio"` `relative cursor-pointer rounded-[10px] border-2 border-apsen-border bg-apsen-bg p-[14px] text-left transition-all hover:border-apsen-orange focus-ring`; selecionado `border-apsen-orange bg-apsen-orange-soft`. Check `absolute top-[10px] right-[10px] size-[18px] rounded-full border-2 border-apsen-border bg-apsen-white text-[10px]` → selecionado `border-apsen-orange bg-apsen-orange text-white` "✓". Ícone `mb-[5px] text-[20px]`; título `mb-[3px] text-[13px] font-semibold text-apsen-slate`; descrição `text-[12px] leading-[1.5] text-apsen-muted`; tag `mt-[5px] inline-block rounded-[8px] border border-apsen-orange-b bg-apsen-orange-soft px-[7px] py-[1px] text-[10.5px] font-semibold text-apsen-orange`. Quem usa envolve em `role="radiogroup"`.
+
+### 3.34 `CheckboxCard` — L5152-5156 (`plain`), L5170-5175 (`muted`)
+
+`label` `flex cursor-pointer items-center gap-[10px] border border-apsen-border` (foco visível no cartão via `has-[:focus-visible]`); `plain` `mb-[5px] rounded-[6px] bg-apsen-white px-[12px] py-[9px]`; `muted` `mb-[6px] rounded-apsen bg-apsen-bg px-[12px] py-[10px]`. Checkbox `size-[15px] shrink-0 accent-apsen-orange`, nomeado pelo título e descrito pelo subtítulo; título `text-[13px] font-medium`, subtítulo `text-[11.5px] text-apsen-muted` (+ `mt-[2px]` no `muted`); `aside` à direita.
+
+### 3.35 `Autocomplete` — `.ac-*` (L495-510, L5726-5734, L7065-7149)
+
+| Parte                          | Classes / comportamento                                                                                                                                                                                                                                          |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| input                          | `TextInput` `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-autocomplete="list"`, `aria-activedescendant`, `autoComplete="off"`                                                                                                                       |
+| lista                          | `absolute top-full right-0 left-0 z-50 mt-[2px] max-h-[220px] overflow-y-auto rounded-apsen border border-apsen-border bg-apsen-white shadow-apsen-dropdown`, `ul role="listbox"`                                                                                |
+| item                           | `role="option"` `flex cursor-pointer items-center gap-[8px] border-b border-apsen-bg px-[12px] py-[9px] text-[13px] transition-[background] duration-100 last:border-b-0 hover:bg-apsen-blue-bg aria-selected:bg-apsen-blue-bg`                                  |
+| etiqueta                       | `ml-auto shrink-0 rounded-[8px] bg-apsen-bg px-[7px] py-[1px] text-[10px] font-semibold text-apsen-muted` (`itemTag` ou `item.tag`)                                                                                                                              |
+| carregando / vazio / bloqueado | carregando: `<ApsenLoader variant="inline" label={loadingText} />` (padrão "Consultando..."); vazio/bloqueado: `p-[12px] text-center text-[12.5px] text-apsen-muted` em `role="status"`: "Nenhum resultado. Você pode digitar um valor novo.", `disabledMessage` |
+| fonte                          | `flex items-center gap-[5px] border-t border-apsen-border bg-apsen-bg px-[12px] py-[6px] text-[10.5px] text-apsen-muted` + `PulseIcon` 10px: "{n} resultado(s) · Fonte: {sourceLabel}" ou, no vazio, "Fonte: {sourceLabel}"                                      |
+
+Abre no foco, ao digitar e com seta; com `disabledMessage` mostra só a mensagem e não busca. `search(term)` roda após `debounceMs` (padrão 300, ARQUITETURA §7.1; o protótipo usa 250), termo vazio também busca e respostas antigas são descartadas (`useAutocomplete`). Setas movem o destaque, Enter escolhe, Esc e clique fora fecham; o texto digitado é o valor (`allowFreeText`, padrão `true`; com `false`, sair sem escolher limpa).
+
+### 3.36 `ColorPill` — pills por família/franquia/provedor
+
+`outlined` (L6698-6699): `inline-flex w-fit items-center whitespace-nowrap rounded-[10px] border px-[9px] py-[2px] text-[11.5px] font-semibold` + `text-apsen-pal-{c} bg-apsen-pal-{c}/[9.4%] border-apsen-pal-{c}/[18.8%]` (os sufixos hex `18`/`30` do protótipo). `soft` (L7625): `rounded-[6px] px-[9px] py-[2px] text-[11px] font-bold` + `text-apsen-pal-{c} bg-apsen-pal-{c}/[8.2%]`. Cores `blue`, `purple`, `cyan`, `amber`, `emerald`, `red`, `lime`, `slate` (fallback).
+
+### 3.37 `CategoryTag` — `.db-*` (L345-346, L410-423)
+
+`inline-block rounded-[4px] border px-[8px] py-[2px] text-[10.5px] font-bold` + tom:
+
+| Tom                                             | Classes                                                                  |
+| ----------------------------------------------- | ------------------------------------------------------------------------ |
+| `tv`, `digital`, `pdv`, `conc`, `sazo`, `viral` | `bg-apsen-cat-{tom}-bg border-apsen-cat-{tom}-b text-apsen-cat-{tom}-fg` |
+| `campo`                                         | `bg-apsen-blue-bg border-apsen-blue-light text-apsen-blue`               |
+| `medico`, `canal`, `macro`                      | `bg-apsen-purple-bg border-apsen-purple-b text-apsen-purple`             |
+| `preco`                                         | `bg-apsen-red-bg border-apsen-red-b text-apsen-red`                      |
+| `supply`                                        | `bg-apsen-orange-bg border-apsen-orange-b text-apsen-orange`             |
+| `reg`                                           | `bg-apsen-teal-bg border-apsen-teal-light text-apsen-teal`               |
+| `outro`                                         | `bg-apsen-bg border-apsen-border text-apsen-muted`                       |
+
+### 3.38 `PendingItemRow` — `.dash-pend-item` (L4987-4992)
+
+`flex items-center gap-[10px] border-b border-apsen-bg py-[8px] text-[13px] last:border-b-0`; código `min-w-[95px] font-mono text-[11px] font-semibold text-apsen-blue`; corpo `min-w-0 flex-1` com título `text-[12.5px] font-medium` e subtítulo `text-[11.5px] text-apsen-muted`; ação `ButtonLink ghost xs` (`px-[8px] py-[2px] text-[11px]`) com `actionLabel`/`actionHref`.
+
+### 3.39 `StatusDistributionRow` — linhas de status do plano (L5005-5011)
+
+`mb-[10px] flex items-center gap-[10px]`; bolinha `size-[9px] shrink-0 rounded-full`; rótulo `min-w-0 flex-1 text-[13px]`; contagem `text-[13px] font-semibold`; trilho `role="meter"` `h-[5px] w-[70px] overflow-hidden rounded-[3px] bg-apsen-bg` com fill `h-full` em `pct%` (limitado a 0–100); percentual `min-w-[28px] text-right text-[11px] text-apsen-muted`. Tom `green`/`orange`/`red`/`muted` pinta bolinha, contagem e fill.
+
+### 3.40 `ApsenLoader` [derivado] — ARQUITETURA §7.2
+
+Único visual de carregamento do app (substitui os skeletons e o antigo "⟳ Carregando…"). Logo `/brand/apsen-logo.png` com `motion-safe:animate-pulse` (`dark:brightness-0 dark:invert`), spinner em anel `rounded-full border-apsen-blue-light border-t-apsen-blue motion-safe:animate-spin` e rótulo `font-medium text-apsen-muted`. Raiz `role="status" aria-live="polite" aria-label="{label}"`; `label` padrão "Carregando…". Test ids: `loader-logo`, `loader-spinner`.
+
+| `variant`    | Uso                                                      | Layout                                                                                         |
+| ------------ | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `fullscreen` | sessão e login (`AuthGate`, `SsoRedirect`, callback)     | `fixed inset-0 z-[9000] bg-apsen-bg`, coluna `gap-[18px]`; logo `h-[56px]`, spinner 28px, 13px |
+| `content`    | `loading.tsx`, fallbacks de `Suspense` e telas pendentes | `min-h-[60vh] w-full` centralizado, coluna `gap-[16px]`; logo `h-[48px]`, spinner 26px, 13px   |
+| `inline`     | dentro de cards, listas, selects e menus de autocomplete | linha `gap-[10px] py-[12px]` centralizada; logo `h-[24px]`, spinner 18px, rótulo 12px          |
+
+`FullScreenLoader` é um atalho de `variant="fullscreen"` e `LoadingState` de `variant="content"`. Trocas de página com `keepPreviousData` seguem com `BusyRegion`, e a navegação com `RouteProgress`.
+
+### 3.41 `ConfirmDialog` [derivado] — ARQUITETURA §7.3
+
+`Modal size="md"` nomeado pelo título; `message` (ou `description`) em `p text-[13px] text-apsen-slate-3`; rodapé `Button ghost sm` `cancelLabel` (padrão "Cancelar", foco inicial) + `Button sm` da ação (`tone` `danger` → `red`, padrão; `primary` → `primary`) com `loading` durante `pending` ("Salvando…"). Esc, overlay e ✕ só cancelam quando não está enviando. O `Modal` ganhou `initialFocusRef` para isso.
+
+### 3.42 `useUnsavedChangesGuard(dirty, options?)` [derivado] — ARQUITETURA §7.4
+
+Com `dirty`: `beforeunload` com `preventDefault`; listener de `click` em captura no documento intercepta `a[href]` internos (sem `target`, sem `download`, botão esquerdo, sem Ctrl/Meta/Shift/Alt, `href` diferente do atual) e abre o `ConfirmDialog` "Sair sem salvar?" / "Há alterações não salvas. Deseja sair mesmo assim?" / "Sair" (`title`, `message`, `confirmLabel`, `cancelLabel` sobrescrevem); confirmar → `router.push(href)`. Devolve `{ dialog, confirmLeave(href), confirmNavigation(href) }` (o mesmo método, para "Cancelar"/"← Voltar"; limpo, navega direto). Listeners removidos no cleanup.
+
+### 3.43 `focusFirstInvalid(container)` [derivado] — ARQUITETURA §7.4
+
+Foca o primeiro `[aria-invalid="true"]` do contêiner em ordem de DOM e devolve `true`; sem inválidos (ou contêiner `null`), `false`.
+
+### 3.44 `DetailField` — modais de detalhe (L4421-4441)
+
+`div` (`col-span-full` com `full`) com rótulo `mb-[3px] text-[10.5px] font-bold uppercase tracking-[.05em] text-apsen-muted` e valor `text-[13px]`.
+
+### 3.45 `CodeTag` — feature/slug/modelo em mono
+
+`code` `rounded-[4px] bg-apsen-bg px-[7px] py-[2px] font-mono text-[11px]` + `tone` `slate` (padrão), `muted`, `blue`, `red`, `purple`, `orange`, `green`, `teal` (`text-apsen-{tom}`) ou `yellow` (`text-apsen-warning-fg`, legível sobre o fundo claro).
 
 ---
 
@@ -912,7 +1272,7 @@ Abrir o protótipo e o app lado a lado em 1440x900, no tema claro. Cada item dev
 - [ ] `StatusBadge`: pílula com ponto de 5px, 11.5px/500, padding 3px/9px. Ativa verde (`#E7F1EA`/`#18A957`), Pausada laranja (`#FFF1EA`/`#DD7443`), Encerrada cinza (`#FAFAFA`/`#6F6F6F`, ponto `#8A8A8A`).
 - [ ] A barra de canal tem trilho de 7px `#FAFAFA` e radius 4px. O rótulo tem 110px. A maior barra ocupa 100%.
 - [ ] A barra de orçamento tem trilho de 7px `#E1E1E1`, fill azul e fica vermelha acima de 100%.
-- [ ] Os estados de carregamento, erro e vazio não têm spinner nem animação. O vazio tem ícone de 36px, título 13.5px/500 e padding 48px/24px. O erro usa o layout centralizado de 60vh com `h3` 16px/600.
+- [ ] O carregamento usa só o `ApsenLoader` (logo pulsando + spinner, `motion-safe`); erro e vazio não têm animação. O vazio tem ícone de 36px, título 13.5px/500 e padding 48px/24px. O erro usa o layout centralizado de 60vh com `h3` 16px/600.
 
 **Telas**
 

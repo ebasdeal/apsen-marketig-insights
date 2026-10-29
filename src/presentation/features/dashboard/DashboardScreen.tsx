@@ -1,81 +1,76 @@
 'use client';
 
-import { PERIOD_OPTIONS } from '@presentation/components/filterOptions';
-import {
-  Button,
-  ChipGroup,
-  EmptyState,
-  ErrorState,
-  LoadingState,
-  PageHeader,
-} from '@presentation/components/ui';
-import { toUserMessage } from '@presentation/format/errorMessage';
-import { useDashboardSummary } from '@presentation/hooks/useDashboardSummary';
-import { useCampaignFiltersStore } from '@presentation/stores/campaignFiltersStore';
-import { DashboardContent } from './components/DashboardContent';
+import { podeAcessar } from '@domain/perfis/acesso';
+import { ApsenLoader, ErrorState, PageHeader } from '@presentation/components/ui';
+import { toUserMessage } from '../../format/errorMessage';
+import { useDashboardOverview } from '../../hooks/dashboard/useDashboard';
+import { useSessao } from '../../hooks/useSessao';
+import { SemCicloAtivo } from '../ciclos/components/SemCicloAtivo';
+import { BarrasPanel } from './components/BarrasPanel';
+import { DashboardKpis } from './components/DashboardKpis';
+import { PendentesPanel } from './components/PendentesPanel';
+import { PerfilBanner } from './components/PerfilBanner';
+import { PlanoStatusPanel } from './components/PlanoStatusPanel';
+import { COR_CATEGORIA, COR_RESTRICAO } from './dashboardStyles';
 
-type DashboardQuery = ReturnType<typeof useDashboardSummary>;
+const GRADE = 'grid grid-cols-2 gap-x-[16px] max-[800px]:grid-cols-1';
 
-interface DashboardQueryProps {
-  query: DashboardQuery;
-}
-
-function RefreshButton({ query }: DashboardQueryProps) {
-  return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => void query.refetch()}
-      disabled={query.isFetching}
-      aria-busy={query.isFetching}
-    >
-      {query.isRefetching ? 'Atualizando…' : 'Atualizar'}
-    </Button>
-  );
-}
-
-function DashboardBody({ query }: DashboardQueryProps) {
-  if (query.isPending) {
-    return <LoadingState label="Carregando indicadores…" />;
-  }
-  if (query.isError) {
-    return <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />;
-  }
-  if (query.data.campaignCount === 0) {
-    return (
-      <EmptyState
-        title="Sem campanhas no período"
-        description="Escolha outro período para ver os indicadores."
-      />
-    );
-  }
-  return <DashboardContent summary={query.data} />;
+export function formatarAtualizadoEm(iso: string | undefined): string {
+  return iso === undefined ? '—' : new Date(iso).toLocaleString('pt-BR');
 }
 
 export function DashboardScreen() {
-  const period = useCampaignFiltersStore((state) => state.period);
-  const setPeriod = useCampaignFiltersStore((state) => state.setPeriod);
-  const query = useDashboardSummary(period);
-
+  const { nivel } = useSessao();
+  const query = useDashboardOverview();
+  const dados = query.data;
   return (
     <>
       <PageHeader
-        title="Dashboard"
-        description="Visão geral do desempenho das campanhas."
+        title="Dashboard — Demand Intelligence"
+        description={
+          dados === undefined || dados.ciclo !== null
+            ? `Visão geral do ciclo ativo${dados === undefined ? '' : ` · ${dados.ciclo}`}`
+            : 'Visão geral do ciclo ativo · Nenhum ciclo ativo'
+        }
         actions={
-          <>
-            <ChipGroup
-              label="Período"
-              options={PERIOD_OPTIONS}
-              selected={period}
-              onSelect={setPeriod}
-              hideLabel
-            />
-            <RefreshButton query={query} />
-          </>
+          <span aria-live="polite" className="text-[12px] text-apsen-muted">
+            Atualizado em <strong>{formatarAtualizadoEm(dados?.atualizadoEm)}</strong>
+          </span>
         }
       />
-      <DashboardBody query={query} />
+      <PerfilBanner nivel={nivel} />
+      {query.isPending ? <ApsenLoader variant="content" label="Carregando dashboard…" /> : null}
+      {query.isError ? (
+        <ErrorState message={toUserMessage(query.error)} onRetry={() => void query.refetch()} />
+      ) : null}
+      {dados === undefined || query.isError ? null : (
+        <>
+          {dados.ciclo === null ? (
+            <SemCicloAtivo contexto="Os indicadores de plano, drivers e análises são do ciclo ativo." />
+          ) : null}
+          <DashboardKpis dados={dados} nivel={nivel} />
+          <div className={`${GRADE} mb-[16px]`}>
+            <BarrasPanel
+              title="Drivers por Categoria"
+              barras={dados.categorias}
+              cores={COR_CATEGORIA}
+              vazio="Nenhum driver registrado"
+            />
+            <BarrasPanel
+              title="Restrições Ativas por Tipo"
+              barras={dados.restricoesPorTipo}
+              cores={COR_RESTRICAO}
+              vazio="✅ Nenhuma restrição ativa"
+            />
+          </div>
+          <div className={GRADE}>
+            {nivel !== undefined && podeAcessar(nivel, 3) ? (
+              <PendentesPanel pendentes={dados.pendentes} />
+            ) : null}
+            <PlanoStatusPanel plano={dados.plano} ciclo={dados.ciclo} />
+          </div>
+        </>
+      )}
     </>
   );
 }

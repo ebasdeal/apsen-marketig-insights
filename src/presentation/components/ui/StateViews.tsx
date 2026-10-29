@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { ApsenLoader } from './ApsenLoader';
 import { Button } from './Button';
 
 interface LoadingStateProps {
@@ -8,14 +9,7 @@ interface LoadingStateProps {
 }
 
 export function LoadingState({ label = 'Carregando…' }: LoadingStateProps) {
-  return (
-    <div role="status" className="state-block">
-      <div aria-hidden="true" className="mb-[10px] text-[36px]">
-        ⟳
-      </div>
-      <p className="text-[12.5px]">{label}</p>
-    </div>
-  );
+  return <ApsenLoader variant="content" label={label} />;
 }
 
 interface ErrorStateProps {

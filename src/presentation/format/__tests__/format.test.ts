@@ -1,4 +1,4 @@
-import { CampaignNotFoundError } from '@domain/shared/DomainError';
+import { NotFoundError } from '@domain/shared/DomainError';
 import { toUserMessage } from '../errorMessage';
 import {
   formatCompact,
@@ -40,7 +40,7 @@ describe('formatters', () => {
 
 describe('toUserMessage', () => {
   it('traduz erros conhecidos e genéricos', () => {
-    expect(toUserMessage(new CampaignNotFoundError('x'))).toBe('Campanha não encontrada.');
+    expect(toUserMessage(new NotFoundError('Driver', 'x'))).toBe('Driver não encontrado.');
     expect(toUserMessage(new Error('boom'))).toMatch(/Não foi possível carregar/);
   });
 });

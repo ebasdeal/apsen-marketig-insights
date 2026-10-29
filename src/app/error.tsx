@@ -1,18 +1,12 @@
 'use client';
 
-import { ErrorState } from '@presentation/components/ui';
+import { RouteError } from '@presentation/components/layout/RouteError';
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
   reset: () => void;
 }
 
-export default function ErrorPage({ reset }: ErrorPageProps) {
-  return (
-    <ErrorState
-      title="Algo deu errado"
-      message="Não foi possível exibir esta página. Tente novamente em instantes."
-      onRetry={reset}
-    />
-  );
+export default function ErrorPage(props: ErrorPageProps) {
+  return <RouteError {...props} />;
 }

@@ -1,5 +1,5 @@
-import { LoadingState } from '@presentation/components/ui';
+import { ApsenLoader } from '@presentation/components/ui';
 
 export default function Loading() {
-  return <LoadingState />;
+  return <ApsenLoader variant="content" />;
 }

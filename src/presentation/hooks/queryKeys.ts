@@ -1,9 +1,40 @@
-import type { ListCampaignsInput } from '@application/campaigns/dto';
-import type { GetDashboardSummaryInput } from '@application/dashboard/GetDashboardSummary';
+import { analisesKeys } from './analises/analisesKeys';
+import { ciclosKeys } from './ciclos/ciclosKeys';
+import { fontesKeys } from './fontes/fontesKeys';
+import { planosKeys } from './planos/planosKeys';
+import { restricoesKeys } from './restricoes/restricoesKeys';
+import { permissoesKeys, usuariosKeys } from './usuarios/usuariosKeys';
+import { agentesKeys } from './agentes/agentesKeys';
+import { catalogoKeys } from './catalogo/catalogoKeys';
+import { driversKeys } from './drivers/driversKeys';
+import { aprovacoesKeys } from './aprovacoes/aprovacoesKeys';
+import { ingeridosKeys } from './ingeridos/ingeridosKeys';
+import { tiposKeys } from './tipos/tiposKeys';
+import { dashboardKeys } from './dashboard/dashboardKeys';
 
 export const queryKeys = {
-  campaigns: ['campaigns'] as const,
-  campaignList: (input: ListCampaignsInput) => ['campaigns', 'list', input] as const,
-  campaignDetails: (id: string) => ['campaigns', 'details', id] as const,
-  dashboard: (input: GetDashboardSummaryInput) => ['dashboard', input] as const,
+  auth: {
+    me: (usuarioId: string) => ['auth', 'me', usuarioId] as const,
+  },
+  perfis: {
+    all: ['perfis'] as const,
+    list: () => ['perfis', 'list'] as const,
+  },
+  navegacao: {
+    badges: () => ['navegacao', 'badges'] as const,
+  },
+  analises: analisesKeys,
+  ciclos: ciclosKeys,
+  fontes: fontesKeys,
+  restricoes: restricoesKeys,
+  planos: planosKeys,
+  usuarios: usuariosKeys,
+  permissoes: permissoesKeys,
+  agentes: agentesKeys,
+  drivers: driversKeys,
+  catalogo: catalogoKeys,
+  tipos: tiposKeys,
+  aprovacoes: aprovacoesKeys,
+  ingeridos: ingeridosKeys,
+  dashboard: dashboardKeys,
 };

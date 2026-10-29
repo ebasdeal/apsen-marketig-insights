@@ -1,0 +1,118 @@
+'use client';
+
+import type { DriverFormLookupsDto } from '@application/drivers/dto';
+import type { Driver } from '@domain/drivers/Driver';
+import { isDraftSujo, limpar, type DriverDraft } from '@domain/drivers/draft';
+import { validarDraft, type DraftErro } from '@domain/drivers/validarDraft';
+import { Button, focusFirstInvalid, useUnsavedChangesGuard } from '@presentation/components/ui';
+import type { Route } from 'next';
+import { useRef, useState } from 'react';
+import { CheckIcon } from '../components/driverIcons';
+import { CoberturaCard } from './CoberturaCard';
+import { DynamicFieldsCard } from './DynamicFieldsCard';
+import type { DraftUpdater, FieldErrors, FormMode } from './formTypes';
+import { IdentificacaoCard } from './IdentificacaoCard';
+import { TipoDriverCard } from './TipoDriverCard';
+import { useDriverSubmit } from './useDriverSubmit';
+
+interface DriverFormProps {
+  mode: FormMode;
+  lookups: DriverFormLookupsDto;
+  inicial: DriverDraft;
+  original: Driver | undefined;
+  destino: Route;
+  // Edição bloqueada (usuário inativo ou driver de outra área): campos desabilitados, sem salvar.
+  somenteLeitura?: boolean;
+}
+
+const GUARD = {
+  title: 'Sair sem salvar?',
+  message: 'As alterações deste driver serão perdidas.',
+  confirmLabel: 'Sair sem salvar',
+  cancelLabel: 'Continuar editando',
+};
+
+function errosDe(erro: DraftErro): FieldErrors {
+  return { [erro.campo]: erro.campo === 'fim' ? '' : erro.mensagem };
+}
+
+export function DriverForm({
+  mode,
+  lookups,
+  inicial,
+  original,
+  destino,
+  somenteLeitura = false,
+}: DriverFormProps) {
+  const [baseline] = useState(inicial);
+  const [draft, setDraft] = useState(baseline);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [versao, setVersao] = useState(0);
+  const [salvo, setSalvo] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const disabled = mode === 'view' || somenteLeitura;
+  const campos = lookups.camposPorTipo[draft.tipo];
+  const guard = useUnsavedChangesGuard(!disabled && !salvo && isDraftSujo(draft, baseline), GUARD);
+  const { submit, pending } = useDriverSubmit({
+    mode,
+    lookups,
+    original,
+    destino,
+    onSaved: () => setSalvo(true),
+    onInvalid: (erro) => {
+      setErrors(errosDe(erro));
+      requestAnimationFrame(() => focusFirstInvalid(formRef.current));
+    },
+  });
+
+  // Erro de um campo some assim que ele passa a ser válido (não espera o próximo envio).
+  const pendente =
+    Object.keys(errors).length === 0 ? null : validarDraft(draft, campos?.campos ?? []);
+  const errosVisiveis: FieldErrors = pendente !== null && pendente.campo in errors ? errors : {};
+
+  const update: DraftUpdater = (fn) => setDraft((atual) => fn(atual));
+  const props = { draft, update, errors: errosVisiveis, disabled, lookups };
+
+  function limparTudo() {
+    setDraft((atual) =>
+      limpar(atual, {
+        intensidades: lookups.intensidades,
+        canaisDefault: lookups.config.canaisDefault,
+      }),
+    );
+    setErrors({});
+    setVersao((v) => v + 1);
+  }
+
+  const acoes = disabled ? null : (
+    <div className="sticky -bottom-[22px] z-10 -mx-[24px] -mb-[22px] flex flex-wrap justify-end gap-[8px] border-t border-apsen-border bg-apsen-bg px-[24px] py-[12px]">
+      <Button variant="ghost" onClick={limparTudo} disabled={pending}>
+        Limpar
+      </Button>
+      <Button type="submit" loading={pending}>
+        <CheckIcon />
+        {mode === 'edit' ? 'Salvar alterações' : 'Adicionar Registro'}
+      </Button>
+    </div>
+  );
+
+  return (
+    <form
+      ref={formRef}
+      noValidate
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (!pending) void submit(draft, campos?.campos ?? []);
+      }}
+    >
+      <IdentificacaoCard key={`id-${versao}-${draft.modo}`} {...props} />
+      <TipoDriverCard {...props} tipoOriginal={original?.tipo ?? ''} />
+      {draft.tipo !== '' && campos !== undefined ? (
+        <DynamicFieldsCard key={`dyn-${draft.tipo}`} {...props} config={campos} />
+      ) : null}
+      <CoberturaCard {...props} />
+      {acoes}
+      {guard.dialog}
+    </form>
+  );
+}
